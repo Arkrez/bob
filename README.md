@@ -1,19 +1,31 @@
-# Bob — Quadruped Robot
+# Bob — Motorcycle Chain Maintenance Robot
 
-Bob is a custom quadruped robotics project built to explore legged locomotion, inverse kinematics, gait generation, ROS 2, simulation, and embedded hardware control.
+Bob is a custom quadruped robot being built to solve a specific maintenance problem: **lubricating a motorcycle drive chain**.
 
-The project is being developed from the ground up, with the same control concepts intended to work in simulation and on the physical robot.
+The robotics stack is not the end goal by itself. ROS 2, inverse kinematics, gait generation, computer vision, simulation, and embedded control are the technologies being developed to give Bob the mobility and control needed to perform that real-world task.
 
 <img width="1215" height="749" alt="Bob quadruped robot" src="https://github.com/user-attachments/assets/0fdad499-c6f1-402a-a0a8-6c3416fa759d" />
 
-## Project Goals
+## Problem Statement
 
-- Build a fully controllable four-legged robot
-- Develop custom inverse kinematics and walking gaits
-- Use ROS 2 for communication between robot subsystems
-- Test movement safely in Webots before running it on hardware
-- Bridge high-level ROS 2 commands to the physical servo controller
-- Experiment with camera input and voice-controlled behaviors
+Motorcycle drive chains require regular lubrication. Bob's mission is to turn that maintenance task into a robotics problem: build a robot capable of getting itself into the correct position around a motorcycle and ultimately applying lubricant to the drive chain.
+
+That requires solving several smaller engineering problems, including locomotion, positioning, perception, joint control, and reliable interaction with real hardware.
+
+## Engineering Approach
+
+Bob uses a quadruped platform because the project requires a robot that can move and position itself around a motorcycle while carrying the hardware needed to perform the maintenance task.
+
+The current development work focuses on the capabilities that support that mission:
+
+- Reliable quadruped locomotion
+- Custom inverse kinematics
+- Gait generation and coordinated leg movement
+- ROS 2 communication between robot subsystems
+- Webots simulation before testing motions on hardware
+- Servo control through a Pimoroni Servo 2040
+- Camera / vision integration for future perception and positioning
+- Voice-control experiments for human interaction
 
 ## Hardware
 
@@ -122,6 +134,6 @@ Current work includes:
 
 ## Current Status
 
-Bob is an active work-in-progress. The project currently contains working ROS 2 control infrastructure, a Servo 2040 hardware bridge, a Webots robot/world, camera integration, and ongoing locomotion / gait development.
+Bob is an active work-in-progress. The project currently contains ROS 2 control infrastructure, a Servo 2040 hardware bridge, a Webots robot/world, camera integration, and ongoing locomotion and gait development.
 
-The immediate focus is making simulated walking reliable and then transferring the same motion logic to the physical quadruped.
+The current focus is building the mobility and control foundation. Those capabilities will then be used to tackle the mission-specific work: positioning Bob around the motorcycle, identifying the drive-chain area, and integrating the mechanism that applies chain lubricant.
