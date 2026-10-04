@@ -1,0 +1,9 @@
+[01m[K/workspace/src/quadruped_control/src/Nodes/Servo2040BridgeNode.cpp:[m[K In lambda function:
+[01m[K/workspace/src/quadruped_control/src/Nodes/Servo2040BridgeNode.cpp:93:25:[m[K [01;31m[Kerror: [m[K‘[01m[Ksuccess[m[K’ was not declared in this scope; did you mean ‘[01m[Keaccess[m[K’?
+   93 |                         [01;31m[Ksuccess[m[K,
+      |                         [01;31m[K^~~~~~~[m[K
+      |                         [32m[Keaccess[m[K
+gmake[2]: *** [CMakeFiles/quadruped.dir/build.make:118: CMakeFiles/quadruped.dir/src/Nodes/Servo2040BridgeNode.cpp.o] Error 1
+gmake[2]: *** Waiting for unfinished jobs....
+gmake[1]: *** [CMakeFiles/Makefile2:227: CMakeFiles/quadruped.dir/all] Error 2
+gmake: *** [Makefile:146: all] Error 2

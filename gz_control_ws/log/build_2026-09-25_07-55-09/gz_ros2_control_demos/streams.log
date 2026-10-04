@@ -1,0 +1,92 @@
+[0.110s] Invoking command in '/workspace/gz_control_ws/build/gz_ros2_control_demos': AMENT_PREFIX_PATH=/workspace/gz_control_ws/install/gz_ros2_control:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspace/gz_control_ws/install/gz_ros2_control:/workspace/install/voice_control:/workspace/install/quadruped_sim:/workspace/install/quadruped_control:/workspace/install/audio_common:/workspace/install/audio_common_msgs:/opt/ros/humble LD_LIBRARY_PATH=/workspace/gz_control_ws/install/gz_ros2_control/lib:${LD_LIBRARY_PATH} /usr/bin/cmake --build /workspace/gz_control_ws/build/gz_ros2_control_demos -- -j12 -l12
+[0.547s] [35m[1mConsolidate compiler generated dependencies of target example_velocity[0m
+[0.548s] [35m[1mConsolidate compiler generated dependencies of target example_diff_drive[0m
+[0.549s] [35m[1mConsolidate compiler generated dependencies of target example_effort[0m
+[0.563s] [35m[1mConsolidate compiler generated dependencies of target example_position[0m
+[0.567s] [35m[1mConsolidate compiler generated dependencies of target example_tricycle_drive[0m
+[0.568s] [35m[1mConsolidate compiler generated dependencies of target example_ackermann_drive[0m
+[0.575s] [35m[1mConsolidate compiler generated dependencies of target gz_custom_hardware_plugins[0m
+[0.578s] [35m[1mConsolidate compiler generated dependencies of target example_gripper[0m
+[0.957s] [ 12%] Built target example_diff_drive
+[0.962s] [ 25%] Built target example_tricycle_drive
+[0.966s] [ 50%] Built target example_ackermann_drive
+[0.967s] [ 50%] Built target example_gripper
+[0.977s] [ 62%] Built target example_effort
+[1.064s] [ 75%] Built target example_position
+[1.093s] [ 87%] Built target example_velocity
+[1.153s] [100%] Built target gz_custom_hardware_plugins
+[1.215s] Invoked command in '/workspace/gz_control_ws/build/gz_ros2_control_demos' returned '0': AMENT_PREFIX_PATH=/workspace/gz_control_ws/install/gz_ros2_control:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspace/gz_control_ws/install/gz_ros2_control:/workspace/install/voice_control:/workspace/install/quadruped_sim:/workspace/install/quadruped_control:/workspace/install/audio_common:/workspace/install/audio_common_msgs:/opt/ros/humble LD_LIBRARY_PATH=/workspace/gz_control_ws/install/gz_ros2_control/lib:${LD_LIBRARY_PATH} /usr/bin/cmake --build /workspace/gz_control_ws/build/gz_ros2_control_demos -- -j12 -l12
+[1.221s] Invoking command in '/workspace/gz_control_ws/build/gz_ros2_control_demos': AMENT_PREFIX_PATH=/workspace/gz_control_ws/install/gz_ros2_control:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspace/gz_control_ws/install/gz_ros2_control:/workspace/install/voice_control:/workspace/install/quadruped_sim:/workspace/install/quadruped_control:/workspace/install/audio_common:/workspace/install/audio_common_msgs:/opt/ros/humble LD_LIBRARY_PATH=/workspace/gz_control_ws/install/gz_ros2_control/lib:${LD_LIBRARY_PATH} /usr/bin/cmake --install /workspace/gz_control_ws/build/gz_ros2_control_demos
+[1.290s] -- Install configuration: ""
+[1.294s] -- Execute custom install script
+[1.302s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/ackermann_drive_example.launch.py
+[1.302s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/cart_example_effort.launch.py
+[1.303s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/cart_example_ft_sensor.launch.py
+[1.304s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/cart_example_position.launch.py
+[1.304s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/cart_example_velocity.launch.py
+[1.305s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/cart_example_velocity_custom_plugin.launch.py
+[1.306s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/diff_drive_example.launch.py
+[1.306s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/diff_drive_example_namespaced.launch.py
+[1.307s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/gripper_mimic_joint_example_effort.launch.py
+[1.307s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/gripper_mimic_joint_example_effort.launch.xml
+[1.308s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/gripper_mimic_joint_example_position.launch.py
+[1.308s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/gripper_mimic_joint_example_position.launch.xml
+[1.309s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/mecanum_drive_example.launch.py
+[1.310s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/pendulum_example_effort.launch.py
+[1.310s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/pendulum_example_position.launch.py
+[1.311s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/tricycle_drive_example.launch.py
+[1.312s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//config/ackermann_drive_controller.yaml
+[1.312s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//config/cart_controller_effort.yaml
+[1.313s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//config/cart_controller_ft_sensor.yaml
+[1.313s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//config/cart_controller_position.yaml
+[1.314s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//config/cart_controller_velocity.yaml
+[1.315s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//config/diff_drive_controller.yaml
+[1.315s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//config/gripper_controller_effort.yaml
+[1.316s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//config/gripper_controller_position.yaml
+[1.316s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//config/mecanum_drive_controller.yaml
+[1.317s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//config/tricycle_drive_controller.yaml
+[1.318s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_ackermann_drive.xacro.urdf
+[1.318s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_cart_effort.xacro.urdf
+[1.319s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_cart_ft_sensor.xacro.urdf
+[1.319s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_cart_position.xacro.urdf
+[1.320s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_cart_velocity.xacro.urdf
+[1.320s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_cart_velocity_custom_plugin.xacro.urdf
+[1.321s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_diff_drive.xacro.urdf
+[1.321s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_gripper_mimic_joint_effort.xacro.urdf
+[1.322s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_gripper_mimic_joint_position.xacro.urdf
+[1.322s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_mecanum_drive.xacro.urdf
+[1.323s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_pendulum_effort.xacro.urdf
+[1.324s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_pendulum_position.xacro.urdf
+[1.324s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_tricycle_drive.xacro.urdf
+[1.325s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//worlds/empty_ft_sensor.sdf
+[1.327s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/lib/gz_ros2_control_demos/example_position
+[1.327s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/lib/gz_ros2_control_demos/example_velocity
+[1.328s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/lib/gz_ros2_control_demos/example_effort
+[1.329s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/lib/gz_ros2_control_demos/example_diff_drive
+[1.329s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/lib/gz_ros2_control_demos/example_tricycle_drive
+[1.331s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/lib/gz_ros2_control_demos/example_ackermann_drive
+[1.331s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/lib/gz_ros2_control_demos/example_gripper
+[1.332s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/environment/library_path.sh
+[1.332s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/environment/library_path.dsv
+[1.333s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//gz_custom_hardware_plugins.xml
+[1.334s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/ament_index/resource_index/package_run_dependencies/gz_ros2_control_demos
+[1.335s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/ament_index/resource_index/parent_prefix_path/gz_ros2_control_demos
+[1.335s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/environment/ament_prefix_path.sh
+[1.336s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/environment/ament_prefix_path.dsv
+[1.337s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/environment/path.sh
+[1.337s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/environment/path.dsv
+[1.338s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/local_setup.bash
+[1.339s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/local_setup.sh
+[1.339s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/local_setup.zsh
+[1.340s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/local_setup.dsv
+[1.343s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/package.dsv
+[1.391s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/ament_index/resource_index/packages/gz_ros2_control_demos
+[1.392s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/ament_index/resource_index/gz_ros2_control__pluginlib__plugin/gz_ros2_control_demos
+[1.393s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/cmake/ament_cmake_export_targets-extras.cmake
+[1.393s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/cmake/gz_ros2_control_demosConfig.cmake
+[1.394s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/cmake/gz_ros2_control_demosConfig-version.cmake
+[1.395s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/package.xml
+[1.399s] -- Up-to-date: /workspace/gz_control_ws/install/gz_ros2_control_demos/lib/libgz_custom_hardware_plugins.so
+[1.401s] -- Up-to-date: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/cmake/export_gz_custom_hardware_pluginsExport.cmake
+[1.403s] -- Up-to-date: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/cmake/export_gz_custom_hardware_pluginsExport-noconfig.cmake
+[1.408s] Invoked command in '/workspace/gz_control_ws/build/gz_ros2_control_demos' returned '0': AMENT_PREFIX_PATH=/workspace/gz_control_ws/install/gz_ros2_control:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspace/gz_control_ws/install/gz_ros2_control:/workspace/install/voice_control:/workspace/install/quadruped_sim:/workspace/install/quadruped_control:/workspace/install/audio_common:/workspace/install/audio_common_msgs:/opt/ros/humble LD_LIBRARY_PATH=/workspace/gz_control_ws/install/gz_ros2_control/lib:${LD_LIBRARY_PATH} /usr/bin/cmake --install /workspace/gz_control_ws/build/gz_ros2_control_demos

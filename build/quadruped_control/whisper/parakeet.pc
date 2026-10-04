@@ -1,0 +1,10 @@
+prefix=/workspace/install/quadruped_control
+exec_prefix=${prefix}
+libdir=/workspace/install/quadruped_control/lib
+includedir=/workspace/install/quadruped_control/include
+
+Name: parakeet
+Description: Port of NVIDIA's Parakeet model in C/C++
+Version: 1.9.3-dev
+Libs: -L${libdir} -lggml -lggml-base -lparakeet
+Cflags: -I${includedir}

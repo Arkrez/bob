@@ -1,0 +1,25 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 100  # Hz
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    leg_position_controller:
+      type: position_controllers/JointGroupPositionController
+
+leg_position_controller:
+  ros__parameters:
+    joints:
+      - joint1_leg0
+      - joint3_leg0
+      - joint4_leg0
+      - joint1_leg1
+      - joint3_leg1
+      - joint4_leg1
+      - joint1_leg2
+      - joint3_leg2
+      - joint4_leg2
+      - joint1_leg3
+      - joint3_leg3
+      - joint4_leg3

@@ -1,0 +1,1 @@
+/workspace/build/voice_control/ament_cmake_core/voice_controlConfig.cmake

@@ -1,0 +1,1 @@
+/workspace/build/audio_common_msgs/ament_cmake_core/audio_common_msgsConfig-version.cmake

@@ -1,0 +1,414 @@
+[0.365s] DEBUG:colcon:Command line arguments: ['/usr/bin/colcon', 'build', '--packages-select', 'quadruped_control', '--symlink-install', '--cmake-args', '-DBUILD_TESTING=OFF']
+[0.367s] DEBUG:colcon:Parsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=True, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=12, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=['quadruped_control'], packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, cmake_args=['-DBUILD_TESTING=OFF'], cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, meson_args=[], ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, mixin_files=None, mixin=None, verb_parser=<colcon_mixin.mixin.mixin_argument.MixinArgumentDecorator object at 0x7ffffe238d30>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0x7ffffe2387c0>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0x7ffffe2387c0>>, mixin_verb=('build',))
+[0.539s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[0.541s] INFO:colcon.colcon_metadata.package_discovery.colcon_meta:Using configuration from '/root/.colcon/metadata/default/Gazebo.meta'
+[0.543s] INFO:colcon.colcon_metadata.package_discovery.colcon_meta:Using configuration from '/root/.colcon/metadata/default/fastdds.meta'
+[0.544s] INFO:colcon.colcon_metadata.package_discovery.colcon_meta:Using configuration from '/root/.colcon/metadata/default/fastrtps.meta'
+[0.545s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[0.545s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[0.546s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[0.546s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) discover
+[0.547s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[0.547s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/workspace'
+[0.552s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ignore', 'ignore_ament_install']
+[0.554s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore'
+[0.556s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore_ament_install'
+[0.559s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_pkg']
+[0.559s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_pkg'
+[0.559s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_meta']
+[0.560s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_meta'
+[0.561s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ros']
+[0.561s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ros'
+[0.572s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['cmake', 'meson', 'python']
+[0.572s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'cmake'
+[0.572s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'meson'
+[0.574s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python'
+[0.574s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['python_setup_py']
+[0.574s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python_setup_py'
+[0.575s] Level 1:colcon.colcon_core.package_identification:_identify(Quadruped_textures) by extensions ['ignore', 'ignore_ament_install']
+[0.575s] Level 1:colcon.colcon_core.package_identification:_identify(Quadruped_textures) by extension 'ignore'
+[0.575s] Level 1:colcon.colcon_core.package_identification:_identify(Quadruped_textures) by extension 'ignore_ament_install'
+[0.575s] Level 1:colcon.colcon_core.package_identification:_identify(Quadruped_textures) by extensions ['colcon_pkg']
+[0.575s] Level 1:colcon.colcon_core.package_identification:_identify(Quadruped_textures) by extension 'colcon_pkg'
+[0.576s] Level 1:colcon.colcon_core.package_identification:_identify(Quadruped_textures) by extensions ['colcon_meta']
+[0.576s] Level 1:colcon.colcon_core.package_identification:_identify(Quadruped_textures) by extension 'colcon_meta'
+[0.576s] Level 1:colcon.colcon_core.package_identification:_identify(Quadruped_textures) by extensions ['ros']
+[0.576s] Level 1:colcon.colcon_core.package_identification:_identify(Quadruped_textures) by extension 'ros'
+[0.577s] Level 1:colcon.colcon_core.package_identification:_identify(Quadruped_textures) by extensions ['cmake', 'meson', 'python']
+[0.577s] Level 1:colcon.colcon_core.package_identification:_identify(Quadruped_textures) by extension 'cmake'
+[0.577s] Level 1:colcon.colcon_core.package_identification:_identify(Quadruped_textures) by extension 'meson'
+[0.578s] Level 1:colcon.colcon_core.package_identification:_identify(Quadruped_textures) by extension 'python'
+[0.578s] Level 1:colcon.colcon_core.package_identification:_identify(Quadruped_textures) by extensions ['python_setup_py']
+[0.578s] Level 1:colcon.colcon_core.package_identification:_identify(Quadruped_textures) by extension 'python_setup_py'
+[0.579s] Level 1:colcon.colcon_core.package_identification:_identify(audio_common) by extensions ['ignore', 'ignore_ament_install']
+[0.579s] Level 1:colcon.colcon_core.package_identification:_identify(audio_common) by extension 'ignore'
+[0.579s] Level 1:colcon.colcon_core.package_identification:_identify(audio_common) by extension 'ignore_ament_install'
+[0.580s] Level 1:colcon.colcon_core.package_identification:_identify(audio_common) by extensions ['colcon_pkg']
+[0.580s] Level 1:colcon.colcon_core.package_identification:_identify(audio_common) by extension 'colcon_pkg'
+[0.580s] Level 1:colcon.colcon_core.package_identification:_identify(audio_common) by extensions ['colcon_meta']
+[0.580s] Level 1:colcon.colcon_core.package_identification:_identify(audio_common) by extension 'colcon_meta'
+[0.580s] Level 1:colcon.colcon_core.package_identification:_identify(audio_common) by extensions ['ros']
+[0.581s] Level 1:colcon.colcon_core.package_identification:_identify(audio_common) by extension 'ros'
+[0.581s] Level 1:colcon.colcon_core.package_identification:_identify(audio_common) by extensions ['cmake', 'meson', 'python']
+[0.581s] Level 1:colcon.colcon_core.package_identification:_identify(audio_common) by extension 'cmake'
+[0.582s] Level 1:colcon.colcon_core.package_identification:_identify(audio_common) by extension 'meson'
+[0.583s] Level 1:colcon.colcon_core.package_identification:_identify(audio_common) by extension 'python'
+[0.583s] Level 1:colcon.colcon_core.package_identification:_identify(audio_common) by extensions ['python_setup_py']
+[0.583s] Level 1:colcon.colcon_core.package_identification:_identify(audio_common) by extension 'python_setup_py'
+[0.584s] Level 1:colcon.colcon_core.package_identification:_identify(audio_common/audio_common) by extensions ['ignore', 'ignore_ament_install']
+[0.584s] Level 1:colcon.colcon_core.package_identification:_identify(audio_common/audio_common) by extension 'ignore'
+[0.584s] Level 1:colcon.colcon_core.package_identification:_identify(audio_common/audio_common) by extension 'ignore_ament_install'
+[0.584s] Level 1:colcon.colcon_core.package_identification:_identify(audio_common/audio_common) by extensions ['colcon_pkg']
+[0.584s] Level 1:colcon.colcon_core.package_identification:_identify(audio_common/audio_common) by extension 'colcon_pkg'
+[0.584s] Level 1:colcon.colcon_core.package_identification:_identify(audio_common/audio_common) by extensions ['colcon_meta']
+[0.584s] Level 1:colcon.colcon_core.package_identification:_identify(audio_common/audio_common) by extension 'colcon_meta'
+[0.584s] Level 1:colcon.colcon_core.package_identification:_identify(audio_common/audio_common) by extensions ['ros']
+[0.584s] Level 1:colcon.colcon_core.package_identification:_identify(audio_common/audio_common) by extension 'ros'
+[0.591s] DEBUG:colcon.colcon_core.package_identification:Package 'audio_common/audio_common' with type 'ros.ament_cmake' and name 'audio_common'
+[0.592s] Level 1:colcon.colcon_core.package_identification:_identify(audio_common/audio_common_msgs) by extensions ['ignore', 'ignore_ament_install']
+[0.592s] Level 1:colcon.colcon_core.package_identification:_identify(audio_common/audio_common_msgs) by extension 'ignore'
+[0.593s] Level 1:colcon.colcon_core.package_identification:_identify(audio_common/audio_common_msgs) by extension 'ignore_ament_install'
+[0.593s] Level 1:colcon.colcon_core.package_identification:_identify(audio_common/audio_common_msgs) by extensions ['colcon_pkg']
+[0.593s] Level 1:colcon.colcon_core.package_identification:_identify(audio_common/audio_common_msgs) by extension 'colcon_pkg'
+[0.593s] Level 1:colcon.colcon_core.package_identification:_identify(audio_common/audio_common_msgs) by extensions ['colcon_meta']
+[0.593s] Level 1:colcon.colcon_core.package_identification:_identify(audio_common/audio_common_msgs) by extension 'colcon_meta'
+[0.594s] Level 1:colcon.colcon_core.package_identification:_identify(audio_common/audio_common_msgs) by extensions ['ros']
+[0.594s] Level 1:colcon.colcon_core.package_identification:_identify(audio_common/audio_common_msgs) by extension 'ros'
+[0.596s] DEBUG:colcon.colcon_core.package_identification:Package 'audio_common/audio_common_msgs' with type 'ros.ament_cmake' and name 'audio_common_msgs'
+[0.597s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extensions ['ignore', 'ignore_ament_install']
+[0.597s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extension 'ignore'
+[0.597s] Level 1:colcon.colcon_core.package_identification:_identify(build) ignored
+[0.598s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws) by extensions ['ignore', 'ignore_ament_install']
+[0.599s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws) by extension 'ignore'
+[0.599s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws) by extension 'ignore_ament_install'
+[0.600s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws) by extensions ['colcon_pkg']
+[0.601s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws) by extension 'colcon_pkg'
+[0.601s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws) by extensions ['colcon_meta']
+[0.601s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws) by extension 'colcon_meta'
+[0.601s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws) by extensions ['ros']
+[0.601s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws) by extension 'ros'
+[0.602s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws) by extensions ['cmake', 'meson', 'python']
+[0.603s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws) by extension 'cmake'
+[0.603s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws) by extension 'meson'
+[0.604s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws) by extension 'python'
+[0.605s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws) by extensions ['python_setup_py']
+[0.605s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws) by extension 'python_setup_py'
+[0.606s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/build) by extensions ['ignore', 'ignore_ament_install']
+[0.606s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/build) by extension 'ignore'
+[0.606s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/build) ignored
+[0.607s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/install) by extensions ['ignore', 'ignore_ament_install']
+[0.607s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/install) by extension 'ignore'
+[0.607s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/install) ignored
+[0.608s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/log) by extensions ['ignore', 'ignore_ament_install']
+[0.608s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/log) by extension 'ignore'
+[0.608s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/log) ignored
+[0.608s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src) by extensions ['ignore', 'ignore_ament_install']
+[0.608s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src) by extension 'ignore'
+[0.609s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src) by extension 'ignore_ament_install'
+[0.609s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src) by extensions ['colcon_pkg']
+[0.609s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src) by extension 'colcon_pkg'
+[0.609s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src) by extensions ['colcon_meta']
+[0.609s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src) by extension 'colcon_meta'
+[0.609s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src) by extensions ['ros']
+[0.609s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src) by extension 'ros'
+[0.610s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src) by extensions ['cmake', 'meson', 'python']
+[0.610s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src) by extension 'cmake'
+[0.610s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src) by extension 'meson'
+[0.611s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src) by extension 'python'
+[0.611s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src) by extensions ['python_setup_py']
+[0.611s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src) by extension 'python_setup_py'
+[0.612s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control) by extensions ['ignore', 'ignore_ament_install']
+[0.612s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control) by extension 'ignore'
+[0.612s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control) by extension 'ignore_ament_install'
+[0.613s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control) by extensions ['colcon_pkg']
+[0.613s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control) by extension 'colcon_pkg'
+[0.613s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control) by extensions ['colcon_meta']
+[0.613s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control) by extension 'colcon_meta'
+[0.613s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control) by extensions ['ros']
+[0.613s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control) by extension 'ros'
+[0.614s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control) by extensions ['cmake', 'meson', 'python']
+[0.614s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control) by extension 'cmake'
+[0.614s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control) by extension 'meson'
+[0.616s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control) by extension 'python'
+[0.616s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control) by extensions ['python_setup_py']
+[0.617s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control) by extension 'python_setup_py'
+[0.617s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/Dockerfile) by extensions ['ignore', 'ignore_ament_install']
+[0.617s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/Dockerfile) by extension 'ignore'
+[0.617s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/Dockerfile) by extension 'ignore_ament_install'
+[0.617s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/Dockerfile) by extensions ['colcon_pkg']
+[0.617s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/Dockerfile) by extension 'colcon_pkg'
+[0.618s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/Dockerfile) by extensions ['colcon_meta']
+[0.618s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/Dockerfile) by extension 'colcon_meta'
+[0.618s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/Dockerfile) by extensions ['ros']
+[0.618s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/Dockerfile) by extension 'ros'
+[0.618s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/Dockerfile) by extensions ['cmake', 'meson', 'python']
+[0.618s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/Dockerfile) by extension 'cmake'
+[0.619s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/Dockerfile) by extension 'meson'
+[0.620s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/Dockerfile) by extension 'python'
+[0.620s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/Dockerfile) by extensions ['python_setup_py']
+[0.620s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/Dockerfile) by extension 'python_setup_py'
+[0.621s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/doc) by extensions ['ignore', 'ignore_ament_install']
+[0.621s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/doc) by extension 'ignore'
+[0.621s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/doc) by extension 'ignore_ament_install'
+[0.621s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/doc) by extensions ['colcon_pkg']
+[0.621s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/doc) by extension 'colcon_pkg'
+[0.621s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/doc) by extensions ['colcon_meta']
+[0.622s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/doc) by extension 'colcon_meta'
+[0.622s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/doc) by extensions ['ros']
+[0.622s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/doc) by extension 'ros'
+[0.622s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/doc) by extensions ['cmake', 'meson', 'python']
+[0.622s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/doc) by extension 'cmake'
+[0.622s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/doc) by extension 'meson'
+[0.623s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/doc) by extension 'python'
+[0.623s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/doc) by extensions ['python_setup_py']
+[0.624s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/doc) by extension 'python_setup_py'
+[0.624s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/doc/img) by extensions ['ignore', 'ignore_ament_install']
+[0.624s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/doc/img) by extension 'ignore'
+[0.624s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/doc/img) by extension 'ignore_ament_install'
+[0.625s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/doc/img) by extensions ['colcon_pkg']
+[0.625s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/doc/img) by extension 'colcon_pkg'
+[0.625s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/doc/img) by extensions ['colcon_meta']
+[0.625s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/doc/img) by extension 'colcon_meta'
+[0.625s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/doc/img) by extensions ['ros']
+[0.625s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/doc/img) by extension 'ros'
+[0.625s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/doc/img) by extensions ['cmake', 'meson', 'python']
+[0.625s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/doc/img) by extension 'cmake'
+[0.626s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/doc/img) by extension 'meson'
+[0.627s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/doc/img) by extension 'python'
+[0.627s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/doc/img) by extensions ['python_setup_py']
+[0.627s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/doc/img) by extension 'python_setup_py'
+[0.627s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/gz_ros2_control) by extensions ['ignore', 'ignore_ament_install']
+[0.627s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/gz_ros2_control) by extension 'ignore'
+[0.628s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/gz_ros2_control) by extension 'ignore_ament_install'
+[0.628s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/gz_ros2_control) by extensions ['colcon_pkg']
+[0.628s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/gz_ros2_control) by extension 'colcon_pkg'
+[0.628s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/gz_ros2_control) by extensions ['colcon_meta']
+[0.628s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/gz_ros2_control) by extension 'colcon_meta'
+[0.628s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/gz_ros2_control) by extensions ['ros']
+[0.628s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/gz_ros2_control) by extension 'ros'
+[0.634s] DEBUG:colcon.colcon_core.package_identification:Package 'gz_control_ws/src/gz_ros2_control/gz_ros2_control' with type 'ros.ament_cmake' and name 'gz_ros2_control'
+[0.635s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/gz_ros2_control_demos) by extensions ['ignore', 'ignore_ament_install']
+[0.635s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/gz_ros2_control_demos) by extension 'ignore'
+[0.635s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/gz_ros2_control_demos) by extension 'ignore_ament_install'
+[0.635s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/gz_ros2_control_demos) by extensions ['colcon_pkg']
+[0.636s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/gz_ros2_control_demos) by extension 'colcon_pkg'
+[0.636s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/gz_ros2_control_demos) by extensions ['colcon_meta']
+[0.636s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/gz_ros2_control_demos) by extension 'colcon_meta'
+[0.636s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/gz_ros2_control_demos) by extensions ['ros']
+[0.636s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/gz_ros2_control_demos) by extension 'ros'
+[0.640s] DEBUG:colcon.colcon_core.package_identification:Package 'gz_control_ws/src/gz_ros2_control/gz_ros2_control_demos' with type 'ros.ament_cmake' and name 'gz_ros2_control_demos'
+[0.640s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/gz_ros2_control_tests) by extensions ['ignore', 'ignore_ament_install']
+[0.640s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/gz_ros2_control_tests) by extension 'ignore'
+[0.640s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/gz_ros2_control_tests) by extension 'ignore_ament_install'
+[0.641s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/gz_ros2_control_tests) by extensions ['colcon_pkg']
+[0.641s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/gz_ros2_control_tests) by extension 'colcon_pkg'
+[0.641s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/gz_ros2_control_tests) by extensions ['colcon_meta']
+[0.641s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/gz_ros2_control_tests) by extension 'colcon_meta'
+[0.641s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/gz_ros2_control_tests) by extensions ['ros']
+[0.641s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/gz_ros2_control_tests) by extension 'ros'
+[0.642s] DEBUG:colcon.colcon_core.package_identification:Package 'gz_control_ws/src/gz_ros2_control/gz_ros2_control_tests' with type 'ros.ament_cmake' and name 'gz_ros2_control_tests'
+[0.643s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/ign_ros2_control) by extensions ['ignore', 'ignore_ament_install']
+[0.643s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/ign_ros2_control) by extension 'ignore'
+[0.643s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/ign_ros2_control) by extension 'ignore_ament_install'
+[0.643s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/ign_ros2_control) by extensions ['colcon_pkg']
+[0.643s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/ign_ros2_control) by extension 'colcon_pkg'
+[0.643s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/ign_ros2_control) by extensions ['colcon_meta']
+[0.644s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/ign_ros2_control) by extension 'colcon_meta'
+[0.644s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/ign_ros2_control) by extensions ['ros']
+[0.644s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/ign_ros2_control) by extension 'ros'
+[0.644s] DEBUG:colcon.colcon_core.package_identification:Package 'gz_control_ws/src/gz_ros2_control/ign_ros2_control' with type 'ros.ament_cmake' and name 'ign_ros2_control'
+[0.645s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/ign_ros2_control_demos) by extensions ['ignore', 'ignore_ament_install']
+[0.645s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/ign_ros2_control_demos) by extension 'ignore'
+[0.645s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/ign_ros2_control_demos) by extension 'ignore_ament_install'
+[0.645s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/ign_ros2_control_demos) by extensions ['colcon_pkg']
+[0.646s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/ign_ros2_control_demos) by extension 'colcon_pkg'
+[0.646s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/ign_ros2_control_demos) by extensions ['colcon_meta']
+[0.646s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/ign_ros2_control_demos) by extension 'colcon_meta'
+[0.646s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/ign_ros2_control_demos) by extensions ['ros']
+[0.646s] Level 1:colcon.colcon_core.package_identification:_identify(gz_control_ws/src/gz_ros2_control/ign_ros2_control_demos) by extension 'ros'
+[0.647s] DEBUG:colcon.colcon_core.package_identification:Package 'gz_control_ws/src/gz_ros2_control/ign_ros2_control_demos' with type 'ros.ament_cmake' and name 'ign_ros2_control_demos'
+[0.647s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extensions ['ignore', 'ignore_ament_install']
+[0.647s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extension 'ignore'
+[0.647s] Level 1:colcon.colcon_core.package_identification:_identify(install) ignored
+[0.648s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extensions ['ignore', 'ignore_ament_install']
+[0.648s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extension 'ignore'
+[0.648s] Level 1:colcon.colcon_core.package_identification:_identify(log) ignored
+[0.648s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ignore', 'ignore_ament_install']
+[0.648s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore'
+[0.648s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore_ament_install'
+[0.649s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_pkg']
+[0.649s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_pkg'
+[0.649s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_meta']
+[0.649s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_meta'
+[0.649s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ros']
+[0.649s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ros'
+[0.649s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['cmake', 'meson', 'python']
+[0.649s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'cmake'
+[0.649s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'meson'
+[0.650s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python'
+[0.650s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['python_setup_py']
+[0.651s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python_setup_py'
+[0.651s] Level 1:colcon.colcon_core.package_identification:_identify(src/quadruped_control) by extensions ['ignore', 'ignore_ament_install']
+[0.651s] Level 1:colcon.colcon_core.package_identification:_identify(src/quadruped_control) by extension 'ignore'
+[0.651s] Level 1:colcon.colcon_core.package_identification:_identify(src/quadruped_control) by extension 'ignore_ament_install'
+[0.651s] Level 1:colcon.colcon_core.package_identification:_identify(src/quadruped_control) by extensions ['colcon_pkg']
+[0.651s] Level 1:colcon.colcon_core.package_identification:_identify(src/quadruped_control) by extension 'colcon_pkg'
+[0.651s] Level 1:colcon.colcon_core.package_identification:_identify(src/quadruped_control) by extensions ['colcon_meta']
+[0.652s] Level 1:colcon.colcon_core.package_identification:_identify(src/quadruped_control) by extension 'colcon_meta'
+[0.652s] Level 1:colcon.colcon_core.package_identification:_identify(src/quadruped_control) by extensions ['ros']
+[0.652s] Level 1:colcon.colcon_core.package_identification:_identify(src/quadruped_control) by extension 'ros'
+[0.653s] DEBUG:colcon.colcon_core.package_identification:Package 'src/quadruped_control' with type 'ros.ament_cmake' and name 'quadruped_control'
+[0.654s] Level 1:colcon.colcon_core.package_identification:_identify(src/quadruped_sim) by extensions ['ignore', 'ignore_ament_install']
+[0.654s] Level 1:colcon.colcon_core.package_identification:_identify(src/quadruped_sim) by extension 'ignore'
+[0.654s] Level 1:colcon.colcon_core.package_identification:_identify(src/quadruped_sim) by extension 'ignore_ament_install'
+[0.654s] Level 1:colcon.colcon_core.package_identification:_identify(src/quadruped_sim) by extensions ['colcon_pkg']
+[0.654s] Level 1:colcon.colcon_core.package_identification:_identify(src/quadruped_sim) by extension 'colcon_pkg'
+[0.654s] Level 1:colcon.colcon_core.package_identification:_identify(src/quadruped_sim) by extensions ['colcon_meta']
+[0.654s] Level 1:colcon.colcon_core.package_identification:_identify(src/quadruped_sim) by extension 'colcon_meta'
+[0.655s] Level 1:colcon.colcon_core.package_identification:_identify(src/quadruped_sim) by extensions ['ros']
+[0.655s] Level 1:colcon.colcon_core.package_identification:_identify(src/quadruped_sim) by extension 'ros'
+[0.655s] DEBUG:colcon.colcon_core.package_identification:Package 'src/quadruped_sim' with type 'ros.ament_cmake' and name 'quadruped_sim'
+[0.656s] Level 1:colcon.colcon_core.package_identification:_identify(voice_control) by extensions ['ignore', 'ignore_ament_install']
+[0.656s] Level 1:colcon.colcon_core.package_identification:_identify(voice_control) by extension 'ignore'
+[0.656s] Level 1:colcon.colcon_core.package_identification:_identify(voice_control) by extension 'ignore_ament_install'
+[0.656s] Level 1:colcon.colcon_core.package_identification:_identify(voice_control) by extensions ['colcon_pkg']
+[0.656s] Level 1:colcon.colcon_core.package_identification:_identify(voice_control) by extension 'colcon_pkg'
+[0.656s] Level 1:colcon.colcon_core.package_identification:_identify(voice_control) by extensions ['colcon_meta']
+[0.657s] Level 1:colcon.colcon_core.package_identification:_identify(voice_control) by extension 'colcon_meta'
+[0.657s] Level 1:colcon.colcon_core.package_identification:_identify(voice_control) by extensions ['ros']
+[0.657s] Level 1:colcon.colcon_core.package_identification:_identify(voice_control) by extension 'ros'
+[0.658s] DEBUG:colcon.colcon_core.package_identification:Package 'voice_control' with type 'ros.ament_cmake' and name 'voice_control'
+[0.658s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped) by extensions ['ignore', 'ignore_ament_install']
+[0.658s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped) by extension 'ignore'
+[0.658s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped) by extension 'ignore_ament_install'
+[0.658s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped) by extensions ['colcon_pkg']
+[0.659s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped) by extension 'colcon_pkg'
+[0.659s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped) by extensions ['colcon_meta']
+[0.659s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped) by extension 'colcon_meta'
+[0.659s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped) by extensions ['ros']
+[0.659s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped) by extension 'ros'
+[0.659s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped) by extensions ['cmake', 'meson', 'python']
+[0.659s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped) by extension 'cmake'
+[0.660s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped) by extension 'meson'
+[0.661s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped) by extension 'python'
+[0.661s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped) by extensions ['python_setup_py']
+[0.661s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped) by extension 'python_setup_py'
+[0.662s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/protos) by extensions ['ignore', 'ignore_ament_install']
+[0.662s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/protos) by extension 'ignore'
+[0.662s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/protos) by extension 'ignore_ament_install'
+[0.662s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/protos) by extensions ['colcon_pkg']
+[0.663s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/protos) by extension 'colcon_pkg'
+[0.663s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/protos) by extensions ['colcon_meta']
+[0.663s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/protos) by extension 'colcon_meta'
+[0.663s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/protos) by extensions ['ros']
+[0.663s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/protos) by extension 'ros'
+[0.663s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/protos) by extensions ['cmake', 'meson', 'python']
+[0.663s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/protos) by extension 'cmake'
+[0.663s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/protos) by extension 'meson'
+[0.665s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/protos) by extension 'python'
+[0.665s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/protos) by extensions ['python_setup_py']
+[0.665s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/protos) by extension 'python_setup_py'
+[0.666s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/protos/Quadruped_textures) by extensions ['ignore', 'ignore_ament_install']
+[0.667s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/protos/Quadruped_textures) by extension 'ignore'
+[0.667s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/protos/Quadruped_textures) by extension 'ignore_ament_install'
+[0.668s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/protos/Quadruped_textures) by extensions ['colcon_pkg']
+[0.668s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/protos/Quadruped_textures) by extension 'colcon_pkg'
+[0.668s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/protos/Quadruped_textures) by extensions ['colcon_meta']
+[0.668s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/protos/Quadruped_textures) by extension 'colcon_meta'
+[0.668s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/protos/Quadruped_textures) by extensions ['ros']
+[0.668s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/protos/Quadruped_textures) by extension 'ros'
+[0.669s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/protos/Quadruped_textures) by extensions ['cmake', 'meson', 'python']
+[0.670s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/protos/Quadruped_textures) by extension 'cmake'
+[0.670s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/protos/Quadruped_textures) by extension 'meson'
+[0.671s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/protos/Quadruped_textures) by extension 'python'
+[0.671s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/protos/Quadruped_textures) by extensions ['python_setup_py']
+[0.672s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/protos/Quadruped_textures) by extension 'python_setup_py'
+[0.673s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/worlds) by extensions ['ignore', 'ignore_ament_install']
+[0.673s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/worlds) by extension 'ignore'
+[0.673s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/worlds) by extension 'ignore_ament_install'
+[0.674s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/worlds) by extensions ['colcon_pkg']
+[0.674s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/worlds) by extension 'colcon_pkg'
+[0.674s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/worlds) by extensions ['colcon_meta']
+[0.674s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/worlds) by extension 'colcon_meta'
+[0.674s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/worlds) by extensions ['ros']
+[0.674s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/worlds) by extension 'ros'
+[0.675s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/worlds) by extensions ['cmake', 'meson', 'python']
+[0.675s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/worlds) by extension 'cmake'
+[0.675s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/worlds) by extension 'meson'
+[0.677s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/worlds) by extension 'python'
+[0.677s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/worlds) by extensions ['python_setup_py']
+[0.677s] Level 1:colcon.colcon_core.package_identification:_identify(webots_quadruped/worlds) by extension 'python_setup_py'
+[0.678s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[0.678s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) discover
+[0.678s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) using defaults
+[0.678s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) discover
+[0.678s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) using defaults
+[0.698s] INFO:colcon.colcon_core.package_selection:Skipping not selected package 'audio_common_msgs' in 'audio_common/audio_common_msgs'
+[0.699s] INFO:colcon.colcon_core.package_selection:Skipping not selected package 'gz_ros2_control' in 'gz_control_ws/src/gz_ros2_control/gz_ros2_control'
+[0.699s] INFO:colcon.colcon_core.package_selection:Skipping not selected package 'audio_common' in 'audio_common/audio_common'
+[0.699s] INFO:colcon.colcon_core.package_selection:Skipping not selected package 'gz_ros2_control_demos' in 'gz_control_ws/src/gz_ros2_control/gz_ros2_control_demos'
+[0.699s] INFO:colcon.colcon_core.package_selection:Skipping not selected package 'ign_ros2_control' in 'gz_control_ws/src/gz_ros2_control/ign_ros2_control'
+[0.699s] INFO:colcon.colcon_core.package_selection:Skipping not selected package 'quadruped_sim' in 'src/quadruped_sim'
+[0.699s] INFO:colcon.colcon_core.package_selection:Skipping not selected package 'voice_control' in 'voice_control'
+[0.699s] INFO:colcon.colcon_core.package_selection:Skipping not selected package 'ign_ros2_control_demos' in 'gz_control_ws/src/gz_ros2_control/ign_ros2_control_demos'
+[0.699s] INFO:colcon.colcon_core.package_selection:Skipping not selected package 'gz_ros2_control_tests' in 'gz_control_ws/src/gz_ros2_control/gz_ros2_control_tests'
+[0.700s] Level 5:colcon.colcon_core.verb:set package 'quadruped_control' build argument 'cmake_args' from command line to '['-DBUILD_TESTING=OFF']'
+[0.700s] Level 5:colcon.colcon_core.verb:set package 'quadruped_control' build argument 'cmake_target' from command line to 'None'
+[0.700s] Level 5:colcon.colcon_core.verb:set package 'quadruped_control' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.700s] Level 5:colcon.colcon_core.verb:set package 'quadruped_control' build argument 'cmake_clean_cache' from command line to 'False'
+[0.700s] Level 5:colcon.colcon_core.verb:set package 'quadruped_control' build argument 'cmake_clean_first' from command line to 'False'
+[0.700s] Level 5:colcon.colcon_core.verb:set package 'quadruped_control' build argument 'cmake_force_configure' from command line to 'False'
+[0.700s] Level 5:colcon.colcon_core.verb:set package 'quadruped_control' build argument 'meson_args' from command line to '[]'
+[0.700s] Level 5:colcon.colcon_core.verb:set package 'quadruped_control' build argument 'ament_cmake_args' from command line to 'None'
+[0.701s] Level 5:colcon.colcon_core.verb:set package 'quadruped_control' build argument 'catkin_cmake_args' from command line to 'None'
+[0.701s] Level 5:colcon.colcon_core.verb:set package 'quadruped_control' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.701s] DEBUG:colcon.colcon_core.verb:Building package 'quadruped_control' with the following arguments: {'ament_cmake_args': None, 'build_base': '/workspace/build/quadruped_control', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': ['-DBUILD_TESTING=OFF'], 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/workspace/install/quadruped_control', 'merge_install': False, 'meson_args': [], 'path': '/workspace/src/quadruped_control', 'symlink_install': True, 'test_result_base': None}
+[0.701s] INFO:colcon.colcon_core.executor:Executing jobs using 'parallel' executor
+[0.705s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete
+[0.706s] INFO:colcon.colcon_ros.task.ament_cmake.build:Building ROS package in '/workspace/src/quadruped_control' with build type 'ament_cmake'
+[0.707s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/workspace/src/quadruped_control'
+[0.708s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[0.708s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.709s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.835s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/workspace/build/quadruped_control': CMAKE_PREFIX_PATH=/workspace/install/audio_common_msgs:/workspace/install/quadruped_control:/workspace/install/voice_control:/workspace/install/quadruped_sim:/workspace/install/audio_common:/opt/ros/humble LD_LIBRARY_PATH=/workspace/install/audio_common_msgs/lib:/workspace/install/audio_common/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib /usr/bin/cmake --build /workspace/build/quadruped_control -- -j12 -l12
+[13.097s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/workspace/build/quadruped_control' returned '2': CMAKE_PREFIX_PATH=/workspace/install/audio_common_msgs:/workspace/install/quadruped_control:/workspace/install/voice_control:/workspace/install/quadruped_sim:/workspace/install/audio_common:/opt/ros/humble LD_LIBRARY_PATH=/workspace/install/audio_common_msgs/lib:/workspace/install/audio_common/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib /usr/bin/cmake --build /workspace/build/quadruped_control -- -j12 -l12
+[13.099s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(quadruped_control)
+[13.101s] Level 1:colcon.colcon_core.environment:checking '/workspace/install/quadruped_control' for CMake module files
+[13.104s] Level 1:colcon.colcon_core.environment:checking '/workspace/install/quadruped_control' for CMake config files
+[13.105s] Level 1:colcon.colcon_core.shell:create_environment_hook('quadruped_control', 'cmake_prefix_path')
+[13.105s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/install/quadruped_control/share/quadruped_control/hook/cmake_prefix_path.ps1'
+[13.106s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/workspace/install/quadruped_control/share/quadruped_control/hook/cmake_prefix_path.dsv'
+[13.107s] INFO:colcon.colcon_core.shell:Creating environment hook '/workspace/install/quadruped_control/share/quadruped_control/hook/cmake_prefix_path.sh'
+[13.109s] Level 1:colcon.colcon_core.environment:checking '/workspace/install/quadruped_control/libggml-cpu.so.0.22.0'
+[13.109s] Level 1:colcon.colcon_core.environment:checking '/workspace/install/quadruped_control/libggml-base.so.0.22.0'
+[13.109s] Level 1:colcon.colcon_core.environment:checking '/workspace/install/quadruped_control/lib'
+[13.110s] Level 1:colcon.colcon_core.environment:checking '/workspace/install/quadruped_control/bin'
+[13.110s] Level 1:colcon.colcon_core.environment:checking '/workspace/install/quadruped_control/lib/pkgconfig/quadruped_control.pc'
+[13.111s] Level 1:colcon.colcon_core.environment:checking '/workspace/install/quadruped_control/lib/python3.10/site-packages'
+[13.111s] Level 1:colcon.colcon_core.environment:checking '/workspace/install/quadruped_control/bin'
+[13.111s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/install/quadruped_control/share/quadruped_control/package.ps1'
+[13.113s] INFO:colcon.colcon_core.shell:Creating package descriptor '/workspace/install/quadruped_control/share/quadruped_control/package.dsv'
+[13.114s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/install/quadruped_control/share/quadruped_control/package.sh'
+[13.115s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/install/quadruped_control/share/quadruped_control/package.bash'
+[13.116s] INFO:colcon.colcon_core.shell:Creating package script '/workspace/install/quadruped_control/share/quadruped_control/package.zsh'
+[13.117s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/workspace/install/quadruped_control/share/colcon-core/packages/quadruped_control)
+[13.118s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:closing loop
+[13.119s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:loop closed
+[13.119s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete finished with '2'
+[13.120s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[13.127s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.notify_send': Could not find 'notify-send'
+[13.127s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[13.127s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[13.127s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify2'
+[13.133s] DEBUG:colcon.colcon_notification.desktop_notification.notify2:Failed to initialize notify2: org.freedesktop.DBus.Error.Spawn.ExecFailed: /usr/bin/dbus-launch terminated abnormally without any error message
+[13.134s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[13.134s] INFO:colcon.colcon_core.shell:Creating prefix script '/workspace/install/local_setup.ps1'
+[13.136s] INFO:colcon.colcon_core.shell:Creating prefix util module '/workspace/install/_local_setup_util_ps1.py'
+[13.140s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/workspace/install/setup.ps1'
+[13.145s] INFO:colcon.colcon_core.shell:Creating prefix script '/workspace/install/local_setup.sh'
+[13.146s] INFO:colcon.colcon_core.shell:Creating prefix util module '/workspace/install/_local_setup_util_sh.py'
+[13.147s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/workspace/install/setup.sh'
+[13.150s] INFO:colcon.colcon_core.shell:Creating prefix script '/workspace/install/local_setup.bash'
+[13.151s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/workspace/install/setup.bash'
+[13.154s] INFO:colcon.colcon_core.shell:Creating prefix script '/workspace/install/local_setup.zsh'
+[13.155s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/workspace/install/setup.zsh'

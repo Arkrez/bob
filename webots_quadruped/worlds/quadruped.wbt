@@ -1,0 +1,879 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+IMPORTABLE EXTERNPROTO "../protos/Quadruped.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/BlanketFabric.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.139319878129254 -0.0005528522344612788 0.990247275135083 3.1494719516147747
+  position 1.2985294529602038 0.07420851727930139 0.05359702327378341
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+Robot {
+  translation -0.0225745 0.0384036 -0.0430098
+  rotation 0.0622177297286183 -0.028328913536004304 0.9976604766980028 -0.1181853071795862
+  children [
+    Shape {
+      appearance DEF body_grey PBRAppearance {
+        baseColor 0.5 0.5 0.5
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.1524 0.1524 0.0381
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position -0.6
+        axis 0 0 1
+        anchor 0.0762 0.0762 0
+      }
+      device [
+        RotationalMotor {
+          name "joint1_leg0"
+          maxVelocity 3
+          minPosition -1.5707963267948966
+          maxPosition 1.5707963267948966
+          maxTorque 2
+        }
+        PositionSensor {
+          name "joint1_leg0_sensor"
+        }
+      ]
+      endPoint Solid {
+        translation 0.0762 0.0762 0
+        rotation 0 0 -1 0.6000000000000003
+        children [
+          Pose {
+            translation 0 0.0254 0
+            children [
+              Shape {
+                appearance DEF leg_orange PBRAppearance {
+                  baseColor 0.5 0.5 0.5
+                  roughness 1
+                  metalness 0
+                }
+                geometry Box {
+                  size 0.0254 0.0508 0.0254
+                }
+              }
+            ]
+          }
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              position 1.2740906315714258
+              anchor 0 0.0508 0
+            }
+            device [
+              RotationalMotor {
+                name "joint3_leg0"
+                maxVelocity 3
+                minPosition -1.5707963267948966
+                maxPosition 1.5707963267948966
+                maxTorque 2
+              }
+              PositionSensor {
+                name "joint3_leg0_sensor"
+              }
+            ]
+            endPoint Solid {
+              translation 0 0.0508 0
+              rotation 1 0 0 1.2740906315714258
+              children [
+                Pose {
+                  translation 0 0 -0.03175
+                  children [
+                    Shape {
+                      appearance USE leg_orange
+                      geometry Box {
+                        size 0.0254 0.0254 0.0635
+                      }
+                    }
+                  ]
+                }
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                    position -0.9424777795178108
+                    anchor 0 0 -0.0635
+                  }
+                  device [
+                    RotationalMotor {
+                      name "joint4_leg0"
+                      maxVelocity 3
+                      minPosition -1.5707963267948966
+                      maxPosition 1.5707963267948966
+                      maxTorque 2
+                    }
+                    PositionSensor {
+                      name "joint4_leg0_sensor"
+                    }
+                  ]
+                  endPoint Solid {
+                    translation 0 0 -0.0635
+                    rotation -0.9999999999999999 0 0 0.9424777795178109
+                    children [
+                      Pose {
+                        translation 0 0 -0.0254
+                        children [
+                          Shape {
+                            appearance USE leg_orange
+                            geometry Box {
+                              size 0.0254 0.0254 0.0508
+                            }
+                          }
+                        ]
+                      }
+                      Solid {
+                        translation 0 0 -0.0508
+                        children [
+                          Pose {
+                            translation 0 0 0.0127
+                            children [
+                              Shape {
+                                appearance DEF foot_black PBRAppearance {
+                                  baseColor 0.5 0.5 0.5
+                                  roughness 1
+                                  metalness 0
+                                }
+                                geometry Sphere {
+                                  radius 0.0127
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                        name "leg0_foot"
+                        boundingObject Pose {
+                          translation 0 0 0.0127
+                          children [
+                            Sphere {
+                              radius 0.0127
+                            }
+                          ]
+                        }
+                        physics Physics {
+                          density -1
+                          mass 0.01
+                          centerOfMass [
+                            0 0 0.0127
+                          ]
+                          inertiaMatrix [
+                            6.4516e-07 6.4516e-07 6.4516e-07
+                            0 0 0
+                          ]
+                        }
+                      }
+                    ]
+                    name "leg0_link3"
+                    boundingObject Pose {
+                      translation 0 0 -0.0254
+                      children [
+                        Box {
+                          size 0.0254 0.0254 0.0508
+                        }
+                      ]
+                    }
+                    physics Physics {
+                      density -1
+                      mass 0.03
+                      centerOfMass [
+                        0 0 -0.0254
+                      ]
+                      inertiaMatrix [
+                        8.0645e-06 8.0645e-06 3.2258e-06
+                        0 0 0
+                      ]
+                    }
+                  }
+                }
+              ]
+              name "leg0_link2"
+              boundingObject Pose {
+                translation 0 0 -0.03175
+                children [
+                  Box {
+                    size 0.0254 0.0254 0.0635
+                  }
+                ]
+              }
+              physics Physics {
+                density -1
+                mass 0.03
+                centerOfMass [
+                  0 0 -0.03175
+                ]
+                inertiaMatrix [
+                  1.169352e-05 1.169352e-05 3.2258e-06
+                  0 0 0
+                ]
+              }
+            }
+          }
+        ]
+        name "leg0_link1"
+        boundingObject Pose {
+          translation 0 0.0254 0
+          children [
+            Box {
+              size 0.0254 0.0508 0.0254
+            }
+          ]
+        }
+        physics Physics {
+          density -1
+          mass 0.03
+          centerOfMass [
+            0 0.0254 0
+          ]
+          inertiaMatrix [
+            8.0645e-06 3.2258e-06 8.0645e-06
+            0 0 0
+          ]
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 2.329799064579805e-10
+        axis 0 0 1
+        anchor 0.0762 -0.0762 0
+      }
+      device [
+        RotationalMotor {
+          name "joint1_leg1"
+          maxVelocity 3
+          minPosition -1.5707963267948966
+          maxPosition 1.5707963267948966
+          maxTorque 2
+        }
+        PositionSensor {
+          name "joint1_leg1_sensor"
+        }
+      ]
+      endPoint Solid {
+        translation 0.0762 -0.0762 0
+        children [
+          Pose {
+            translation 0 -0.0254 0
+            children [
+              Shape {
+                appearance USE leg_orange
+                geometry Box {
+                  size 0.0254 0.0508 0.0254
+                }
+              }
+            ]
+          }
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              position -1.2217304427105369
+              anchor 0 -0.0508 0
+            }
+            device [
+              RotationalMotor {
+                name "joint3_leg1"
+                maxVelocity 3
+                minPosition -1.5707963267948966
+                maxPosition 1.5707963267948966
+                maxTorque 2
+              }
+              PositionSensor {
+                name "joint3_leg1_sensor"
+              }
+            ]
+            endPoint Solid {
+              translation 0 -0.0508 0
+              rotation -1 0 0 1.2217304427105369
+              children [
+                Pose {
+                  translation 0 0 -0.03175
+                  children [
+                    Shape {
+                      appearance USE leg_orange
+                      geometry Box {
+                        size 0.0254 0.0254 0.0635
+                      }
+                    }
+                  ]
+                }
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                    position 0.9424777939036125
+                    anchor 0 0 -0.0635
+                  }
+                  device [
+                    RotationalMotor {
+                      name "joint4_leg1"
+                      maxVelocity 3
+                      minPosition -1.5707963267948966
+                      maxPosition 1.5707963267948966
+                      maxTorque 2
+                    }
+                    PositionSensor {
+                      name "joint4_leg1_sensor"
+                    }
+                  ]
+                  endPoint Solid {
+                    translation 0 0 -0.0635
+                    rotation 1 0 0 0.9424777939036126
+                    children [
+                      Pose {
+                        translation 0 0 -0.0254
+                        children [
+                          Shape {
+                            appearance USE leg_orange
+                            geometry Box {
+                              size 0.0254 0.0254 0.0508
+                            }
+                          }
+                        ]
+                      }
+                      Solid {
+                        translation 0 0 -0.0508
+                        children [
+                          Pose {
+                            translation 0 0 0.0127
+                            children [
+                              Shape {
+                                appearance USE foot_black
+                                geometry Sphere {
+                                  radius 0.0127
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                        name "leg1_foot"
+                        boundingObject Pose {
+                          translation 0 0 0.0127
+                          children [
+                            Sphere {
+                              radius 0.0127
+                            }
+                          ]
+                        }
+                        physics Physics {
+                          density -1
+                          mass 0.01
+                          centerOfMass [
+                            0 0 0.0127
+                          ]
+                          inertiaMatrix [
+                            6.4516e-07 6.4516e-07 6.4516e-07
+                            0 0 0
+                          ]
+                        }
+                      }
+                    ]
+                    name "leg1_link3"
+                    boundingObject Pose {
+                      translation 0 0 -0.0254
+                      children [
+                        Box {
+                          size 0.0254 0.0254 0.0508
+                        }
+                      ]
+                    }
+                    physics Physics {
+                      density -1
+                      mass 0.03
+                      centerOfMass [
+                        0 0 -0.0254
+                      ]
+                      inertiaMatrix [
+                        8.0645e-06 8.0645e-06 3.2258e-06
+                        0 0 0
+                      ]
+                    }
+                  }
+                }
+              ]
+              name "leg1_link2"
+              boundingObject Pose {
+                translation 0 0 -0.03175
+                children [
+                  Box {
+                    size 0.0254 0.0254 0.0635
+                  }
+                ]
+              }
+              physics Physics {
+                density -1
+                mass 0.03
+                centerOfMass [
+                  0 0 -0.03175
+                ]
+                inertiaMatrix [
+                  1.169352e-05 1.169352e-05 3.2258e-06
+                  0 0 0
+                ]
+              }
+            }
+          }
+        ]
+        name "leg1_link1"
+        boundingObject Pose {
+          translation 0 -0.0254 0
+          children [
+            Box {
+              size 0.0254 0.0508 0.0254
+            }
+          ]
+        }
+        physics Physics {
+          density -1
+          mass 0.03
+          centerOfMass [
+            0 -0.0254 0
+          ]
+          inertiaMatrix [
+            8.0645e-06 3.2258e-06 8.0645e-06
+            0 0 0
+          ]
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 6.609689852325957e-08
+        axis 0 0 1
+        anchor -0.0762 0.0762 0
+      }
+      device [
+        RotationalMotor {
+          name "joint1_leg2"
+          maxVelocity 3
+          minPosition -1.5707963267948966
+          maxPosition 1.5707963267948966
+          maxTorque 2
+        }
+        PositionSensor {
+          name "joint1_leg2_sensor"
+        }
+      ]
+      endPoint Solid {
+        translation -0.0762 0.0762 0
+        rotation 0 0 1 6.664001874625056e-08
+        children [
+          Pose {
+            translation 0 0.0254 0
+            children [
+              Shape {
+                appearance USE leg_orange
+                geometry Box {
+                  size 0.0254 0.0508 0.0254
+                }
+              }
+            ]
+          }
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              position 1.274090319655749
+              anchor 0 0.0508 0
+            }
+            device [
+              RotationalMotor {
+                name "joint3_leg2"
+                maxVelocity 3
+                minPosition -1.5707963267948966
+                maxPosition 1.5707963267948966
+                maxTorque 2
+              }
+              PositionSensor {
+                name "joint3_leg2_sensor"
+              }
+            ]
+            endPoint Solid {
+              translation 0 0.0508 0
+              rotation 1 0 0 1.2740903196557487
+              children [
+                Pose {
+                  translation 0 0 -0.03175
+                  children [
+                    Shape {
+                      appearance USE leg_orange
+                      geometry Box {
+                        size 0.0254 0.0254 0.0635
+                      }
+                    }
+                  ]
+                }
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                    position -0.9424777995508391
+                    anchor 0 0 -0.0635
+                  }
+                  device [
+                    RotationalMotor {
+                      name "joint4_leg2"
+                      maxVelocity 3
+                      minPosition -1.5707963267948966
+                      maxPosition 1.5707963267948966
+                      maxTorque 2
+                    }
+                    PositionSensor {
+                      name "joint4_leg2_sensor"
+                    }
+                  ]
+                  endPoint Solid {
+                    translation 0 0 -0.0635
+                    rotation -1 0 0 0.9424777995508391
+                    children [
+                      Pose {
+                        translation 0 0 -0.0254
+                        children [
+                          Shape {
+                            appearance USE leg_orange
+                            geometry Box {
+                              size 0.0254 0.0254 0.0508
+                            }
+                          }
+                        ]
+                      }
+                      Solid {
+                        translation 0 0 -0.0508
+                        children [
+                          Pose {
+                            translation 0 0 0.0127
+                            children [
+                              Shape {
+                                appearance USE foot_black
+                                geometry Sphere {
+                                  radius 0.0127
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                        name "leg2_foot"
+                        boundingObject Pose {
+                          translation 0 0 0.0127
+                          children [
+                            Sphere {
+                              radius 0.0127
+                            }
+                          ]
+                        }
+                        physics Physics {
+                          density -1
+                          mass 0.01
+                          centerOfMass [
+                            0 0 0.0127
+                          ]
+                          inertiaMatrix [
+                            6.4516e-07 6.4516e-07 6.4516e-07
+                            0 0 0
+                          ]
+                        }
+                      }
+                    ]
+                    name "leg2_link3"
+                    boundingObject Pose {
+                      translation 0 0 -0.0254
+                      children [
+                        Box {
+                          size 0.0254 0.0254 0.0508
+                        }
+                      ]
+                    }
+                    physics Physics {
+                      density -1
+                      mass 0.03
+                      centerOfMass [
+                        0 0 -0.0254
+                      ]
+                      inertiaMatrix [
+                        8.0645e-06 8.0645e-06 3.2258e-06
+                        0 0 0
+                      ]
+                    }
+                  }
+                }
+              ]
+              name "leg2_link2"
+              boundingObject Pose {
+                translation 0 0 -0.03175
+                children [
+                  Box {
+                    size 0.0254 0.0254 0.0635
+                  }
+                ]
+              }
+              physics Physics {
+                density -1
+                mass 0.03
+                centerOfMass [
+                  0 0 -0.03175
+                ]
+                inertiaMatrix [
+                  1.169352e-05 1.169352e-05 3.2258e-06
+                  0 0 0
+                ]
+              }
+            }
+          }
+        ]
+        name "leg2_link1"
+        boundingObject Pose {
+          translation 0 0.0254 0
+          children [
+            Box {
+              size 0.0254 0.0508 0.0254
+            }
+          ]
+        }
+        physics Physics {
+          density -1
+          mass 0.03
+          centerOfMass [
+            0 0.0254 0
+          ]
+          inertiaMatrix [
+            8.0645e-06 3.2258e-06 8.0645e-06
+            0 0 0
+          ]
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 1.104137502025077e-06
+        axis 0 0 1
+        anchor -0.0762 -0.0762 0
+      }
+      device [
+        RotationalMotor {
+          name "joint1_leg3"
+          maxVelocity 3
+          minPosition -1.5707963267948966
+          maxPosition 1.5707963267948966
+          maxTorque 2
+        }
+        PositionSensor {
+          name "joint1_leg3_sensor"
+        }
+      ]
+      endPoint Solid {
+        translation -0.0762 -0.0762 0
+        rotation 0 0 1 1.104295689681121e-06
+        children [
+          Pose {
+            translation 0 -0.0254 0
+            children [
+              Shape {
+                appearance USE leg_orange
+                geometry Box {
+                  size 0.0254 0.0508 0.0254
+                }
+              }
+            ]
+          }
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              position -1.2217307468150147
+              anchor 0 -0.0508 0
+            }
+            device [
+              RotationalMotor {
+                name "joint3_leg3"
+                maxVelocity 3
+                minPosition -1.5707963267948966
+                maxPosition 1.5707963267948966
+                maxTorque 2
+              }
+              PositionSensor {
+                name "joint3_leg3_sensor"
+              }
+            ]
+            endPoint Solid {
+              translation 0 -0.0508 0
+              rotation -1 0 0 1.221730746815015
+              children [
+                Pose {
+                  translation 0 0 -0.03175
+                  children [
+                    Shape {
+                      appearance USE leg_orange
+                      geometry Box {
+                        size 0.0254 0.0254 0.0635
+                      }
+                    }
+                  ]
+                }
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                    position 0.9424777884186524
+                    anchor 0 0 -0.0635
+                  }
+                  device [
+                    RotationalMotor {
+                      name "joint4_leg3"
+                      maxVelocity 3
+                      minPosition -1.5707963267948966
+                      maxPosition 1.5707963267948966
+                      maxTorque 2
+                    }
+                    PositionSensor {
+                      name "joint4_leg3_sensor"
+                    }
+                  ]
+                  endPoint Solid {
+                    translation 0 0 -0.0635
+                    rotation 0.9999999999999999 0 0 0.9424777884186523
+                    children [
+                      Pose {
+                        translation 0 0 -0.0254
+                        children [
+                          Shape {
+                            appearance USE leg_orange
+                            geometry Box {
+                              size 0.0254 0.0254 0.0508
+                            }
+                          }
+                        ]
+                      }
+                      Solid {
+                        translation 0 0 -0.0508
+                        children [
+                          Pose {
+                            translation 0 0 0.0127
+                            children [
+                              Shape {
+                                appearance USE foot_black
+                                geometry Sphere {
+                                  radius 0.0127
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                        name "leg3_foot"
+                        boundingObject Pose {
+                          translation 0 0 0.0127
+                          children [
+                            Sphere {
+                              radius 0.0127
+                            }
+                          ]
+                        }
+                        physics Physics {
+                          density -1
+                          mass 0.01
+                          centerOfMass [
+                            0 0 0.0127
+                          ]
+                          inertiaMatrix [
+                            6.4516e-07 6.4516e-07 6.4516e-07
+                            0 0 0
+                          ]
+                        }
+                      }
+                    ]
+                    name "leg3_link3"
+                    boundingObject Pose {
+                      translation 0 0 -0.0254
+                      children [
+                        Box {
+                          size 0.0254 0.0254 0.0508
+                        }
+                      ]
+                    }
+                    physics Physics {
+                      density -1
+                      mass 0.03
+                      centerOfMass [
+                        0 0 -0.0254
+                      ]
+                      inertiaMatrix [
+                        8.0645e-06 8.0645e-06 3.2258e-06
+                        0 0 0
+                      ]
+                    }
+                  }
+                }
+              ]
+              name "leg3_link2"
+              boundingObject Pose {
+                translation 0 0 -0.03175
+                children [
+                  Box {
+                    size 0.0254 0.0254 0.0635
+                  }
+                ]
+              }
+              physics Physics {
+                density -1
+                mass 0.03
+                centerOfMass [
+                  0 0 -0.03175
+                ]
+                inertiaMatrix [
+                  1.169352e-05 1.169352e-05 3.2258e-06
+                  0 0 0
+                ]
+              }
+            }
+          }
+        ]
+        name "leg3_link1"
+        boundingObject Pose {
+          translation 0 -0.0254 0
+          children [
+            Box {
+              size 0.0254 0.0508 0.0254
+            }
+          ]
+        }
+        physics Physics {
+          density -1
+          mass 0.03
+          centerOfMass [
+            0 -0.0254 0
+          ]
+          inertiaMatrix [
+            8.0645e-06 3.2258e-06 8.0645e-06
+            0 0 0
+          ]
+        }
+      }
+    }
+  ]
+  name "Quadruped"
+  boundingObject Box {
+    size 0.1524 0.1524 0.0381
+  }
+  physics Physics {
+    density -1
+    mass 0.6
+    centerOfMass [
+      0 0 0
+    ]
+    inertiaMatrix [
+      0.001233868 0.001233868 0.002322576
+      0 0 0
+    ]
+  }
+  controller "<extern>"
+}
+Solid {
+  translation 0 0 -0.21
+  children [
+    Shape {
+      appearance BlanketFabric {
+      }
+      geometry Plane {
+        size 100 100
+      }
+    }
+  ]
+  boundingObject Box {
+    size 100 100 0.05
+  }
+}

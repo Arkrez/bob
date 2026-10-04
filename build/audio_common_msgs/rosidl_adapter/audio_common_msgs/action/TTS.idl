@@ -1,0 +1,28 @@
+// generated from rosidl_adapter/resource/action.idl.em
+// with input from audio_common_msgs/action/TTS.action
+// generated code does not contain a copyright notice
+
+#include "audio_common_msgs/msg/AudioStamped.idl"
+
+module audio_common_msgs {
+  module action {
+    struct TTS_Goal {
+      string text;
+
+      @default (value="en")
+      string language;
+
+      @default (value=1.0)
+      float volume;
+
+      @default (value=1.0)
+      float rate;
+    };
+    struct TTS_Result {
+      string text;
+    };
+    struct TTS_Feedback {
+      audio_common_msgs::msg::AudioStamped audio;
+    };
+  };
+};

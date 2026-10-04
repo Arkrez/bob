@@ -1,0 +1,1 @@
+/workspace/build/audio_common_msgs/rosidl_generator_c/audio_common_msgs/msg/rosidl_generator_c__visibility_control.h

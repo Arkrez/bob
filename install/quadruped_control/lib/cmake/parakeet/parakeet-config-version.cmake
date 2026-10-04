@@ -1,0 +1,1 @@
+/workspace/build/quadruped_control/whisper/parakeet-config-version.cmake

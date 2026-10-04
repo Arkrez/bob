@@ -1,0 +1,326 @@
+[0.000000] (-) TimerEvent: {}
+[0.001652] (-) JobUnselected: {'identifier': 'audio_common'}
+[0.001869] (-) JobUnselected: {'identifier': 'audio_common_msgs'}
+[0.003236] (-) JobUnselected: {'identifier': 'gz_ros2_control'}
+[0.003622] (-) JobUnselected: {'identifier': 'gz_ros2_control_demos'}
+[0.003841] (-) JobUnselected: {'identifier': 'gz_ros2_control_tests'}
+[0.003943] (-) JobUnselected: {'identifier': 'ign_ros2_control'}
+[0.004029] (-) JobUnselected: {'identifier': 'ign_ros2_control_demos'}
+[0.004097] (-) JobUnselected: {'identifier': 'quadruped_sim'}
+[0.004335] (-) JobUnselected: {'identifier': 'voice_control'}
+[0.004391] (quadruped_control) JobQueued: {'identifier': 'quadruped_control', 'dependencies': OrderedDict([('audio_common_msgs', '/workspace/install/audio_common_msgs')])}
+[0.005386] (quadruped_control) JobStarted: {'identifier': 'quadruped_control'}
+[0.098361] (-) TimerEvent: {}
+[0.109344] (quadruped_control) JobProgress: {'identifier': 'quadruped_control', 'progress': 'cmake'}
+[0.114928] (quadruped_control) JobProgress: {'identifier': 'quadruped_control', 'progress': 'build'}
+[0.118736] (quadruped_control) Command: {'cmd': ['/usr/bin/cmake', '--build', '/workspace/build/quadruped_control', '--', '-j12', '-l12'], 'cwd': '/workspace/build/quadruped_control', 'env': OrderedDict([('HOSTNAME', 'docker-desktop'), ('GIT_ASKPASS', '/vscode/vscode-server/bin/linux-x64/04c0d99f4fb0d8afe6ce4f0c58e31e183ac3e4b1/extensions/git/dist/askpass.sh'), ('SHLVL', '2'), ('LIBGL_ALWAYS_SOFTWARE', '1'), ('LD_LIBRARY_PATH', '/workspace/install/audio_common_msgs/lib:/workspace/install/audio_common/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('BROWSER', '/vscode/vscode-server/bin/linux-x64/04c0d99f4fb0d8afe6ce4f0c58e31e183ac3e4b1/bin/helpers/browser.sh'), ('HOME', '/root'), ('OLDPWD', '/workspace'), ('TERM_PROGRAM_VERSION', '1.139.1'), ('VSCODE_IPC_HOOK_CLI', '/tmp/vscode-ipc-fa6fb7ff-3795-4a61-ac50-d69bae7eabb3.sock'), ('ROS_PYTHON_VERSION', '3'), ('VSCODE_GIT_ASKPASS_MAIN', '/vscode/vscode-server/bin/linux-x64/04c0d99f4fb0d8afe6ce4f0c58e31e183ac3e4b1/extensions/git/dist/askpass-main.js'), ('VSCODE_GIT_ASKPASS_NODE', '/vscode/vscode-server/bin/linux-x64/04c0d99f4fb0d8afe6ce4f0c58e31e183ac3e4b1/node'), ('VSCODE_PYTHON_AUTOACTIVATE_GUARD', '1'), ('COLORTERM', 'truecolor'), ('REMOTE_CONTAINERS', 'true'), ('COLCON_PREFIX_PATH', '/workspace/install'), ('ROS_DISTRO', 'humble'), ('REMOTE_CONTAINERS_IPC', '/tmp/vscode-remote-containers-ipc-c0198022-32dd-4300-9aa2-0e6705b6185f.sock'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm-256color'), ('ROS_LOCALHOST_ONLY', '0'), ('UV_USE_IO_URING', '0'), ('QT_X11_NO_MITSHM', '1'), ('PATH', '/root/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand:/root/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli:/vscode/vscode-server/bin/linux-x64/04c0d99f4fb0d8afe6ce4f0c58e31e183ac3e4b1/bin/remote-cli:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'), ('REMOTE_CONTAINERS_SOCKETS', '["/tmp/vscode-ssh-auth-c0198022-32dd-4300-9aa2-0e6705b6185f.sock","/root/.gnupg/S.gpg-agent"]'), ('DISPLAY', 'host.docker.internal:0'), ('LANG', 'C.UTF-8'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('QT_XCB_GL_INTEGRATION', 'none'), ('VSCODE_GIT_IPC_HANDLE', '/tmp/vscode-git-2ddeeb9305.sock'), ('TERM_PROGRAM', 'vscode'), ('SSH_AUTH_SOCK', '/tmp/vscode-ssh-auth-c0198022-32dd-4300-9aa2-0e6705b6185f.sock'), ('AMENT_PREFIX_PATH', '/workspace/install/quadruped_control:/workspace/install/voice_control:/workspace/install/quadruped_sim:/workspace/install/audio_common:/workspace/install/audio_common_msgs:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('VSCODE_GIT_ASKPASS_EXTRA_ARGS', ''), ('PWD', '/workspace/build/quadruped_control'), ('LC_ALL', 'C.UTF-8'), ('COPILOT_DEBUG_NONCE', '7f76d34c619d9ae39aa0d2d418fbdd0b'), ('PYTHONPATH', '/workspace/install/audio_common_msgs/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('CMAKE_PREFIX_PATH', '/workspace/install/audio_common_msgs:/workspace/install/quadruped_control:/workspace/install/voice_control:/workspace/install/quadruped_sim:/workspace/install/audio_common:/opt/ros/humble')]), 'shell': False}
+[0.198542] (-) TimerEvent: {}
+[0.299233] (-) TimerEvent: {}
+[0.402881] (-) TimerEvent: {}
+[0.507128] (-) TimerEvent: {}
+[0.608535] (-) TimerEvent: {}
+[0.709836] (-) TimerEvent: {}
+[0.779491] (quadruped_control) StdoutLine: {'line': b'[ 26%] Built target ggml-base\n'}
+[0.809939] (-) TimerEvent: {}
+[0.910472] (-) TimerEvent: {}
+[1.013500] (-) TimerEvent: {}
+[1.092533] (quadruped_control) StdoutLine: {'line': b'[ 65%] Built target ggml-cpu\n'}
+[1.116154] (-) TimerEvent: {}
+[1.217421] (-) TimerEvent: {}
+[1.318007] (-) TimerEvent: {}
+[1.356981] (quadruped_control) StdoutLine: {'line': b'[ 73%] Built target ggml\n'}
+[1.418158] (-) TimerEvent: {}
+[1.518716] (-) TimerEvent: {}
+[1.623097] (-) TimerEvent: {}
+[1.658001] (quadruped_control) StdoutLine: {'line': b'[ 78%] Built target whisper\n'}
+[1.723074] (-) TimerEvent: {}
+[1.823759] (-) TimerEvent: {}
+[1.825576] (quadruped_control) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target quadruped\x1b[0m\n'}
+[1.923914] (-) TimerEvent: {}
+[2.024845] (-) TimerEvent: {}
+[2.127249] (-) TimerEvent: {}
+[2.171924] (quadruped_control) StderrLine: {'line': b"gmake[2]: Warning: File '/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp' has modification time 24783 s in the future\n"}
+[2.228255] (-) TimerEvent: {}
+[2.245281] (quadruped_control) StdoutLine: {'line': b'[ 84%] \x1b[32mBuilding CXX object CMakeFiles/quadruped.dir/src/Nodes/Servo2040BridgeNode.cpp.o\x1b[0m\n'}
+[2.247546] (quadruped_control) StdoutLine: {'line': b'[ 84%] \x1b[32mBuilding CXX object CMakeFiles/quadruped.dir/src/Nodes/QuadrupedControllerNode.cpp.o\x1b[0m\n'}
+[2.251354] (quadruped_control) StdoutLine: {'line': b'[ 86%] \x1b[32mBuilding CXX object CMakeFiles/quadruped.dir/src/quadruped.cpp.o\x1b[0m\n'}
+[2.328791] (-) TimerEvent: {}
+[2.429784] (-) TimerEvent: {}
+[2.531276] (-) TimerEvent: {}
+[2.632365] (-) TimerEvent: {}
+[2.733244] (-) TimerEvent: {}
+[2.834873] (-) TimerEvent: {}
+[2.936070] (-) TimerEvent: {}
+[3.036820] (-) TimerEvent: {}
+[3.138271] (-) TimerEvent: {}
+[3.239543] (-) TimerEvent: {}
+[3.340353] (-) TimerEvent: {}
+[3.441577] (-) TimerEvent: {}
+[3.542275] (-) TimerEvent: {}
+[3.645276] (-) TimerEvent: {}
+[3.746204] (-) TimerEvent: {}
+[3.847513] (-) TimerEvent: {}
+[3.948046] (-) TimerEvent: {}
+[4.050306] (-) TimerEvent: {}
+[4.150831] (-) TimerEvent: {}
+[4.252028] (-) TimerEvent: {}
+[4.353567] (-) TimerEvent: {}
+[4.454336] (-) TimerEvent: {}
+[4.556045] (-) TimerEvent: {}
+[4.657561] (-) TimerEvent: {}
+[4.760738] (-) TimerEvent: {}
+[4.861902] (-) TimerEvent: {}
+[4.965796] (-) TimerEvent: {}
+[5.069513] (-) TimerEvent: {}
+[5.170502] (-) TimerEvent: {}
+[5.271060] (-) TimerEvent: {}
+[5.372326] (-) TimerEvent: {}
+[5.472864] (-) TimerEvent: {}
+[5.573869] (-) TimerEvent: {}
+[5.674862] (-) TimerEvent: {}
+[5.777606] (-) TimerEvent: {}
+[5.878075] (-) TimerEvent: {}
+[5.978592] (-) TimerEvent: {}
+[6.079298] (-) TimerEvent: {}
+[6.180193] (-) TimerEvent: {}
+[6.273412] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:\x1b[m\x1b[K In lambda function:\n'}
+[6.276903] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:444:28:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kcall of overloaded \xe2\x80\x98\x1b[01m\x1b[Kfinite(double&)\x1b[m\x1b[K\xe2\x80\x99 is ambiguous\n'}
+[6.277435] (quadruped_control) StderrLine: {'line': b'  444 |                 if (!\x1b[01;31m\x1b[Kfinite(x)\x1b[m\x1b[K || !finite(y) || !finite(z))\n'}
+[6.277720] (quadruped_control) StderrLine: {'line': b'      |                      \x1b[01;31m\x1b[K~~~~~~^~~\x1b[m\x1b[K\n'}
+[6.277973] (quadruped_control) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/usr/include/features.h:486\x1b[m\x1b[K,\n'}
+[6.278245] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h:39\x1b[m\x1b[K,\n'}
+[6.278507] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h:586\x1b[m\x1b[K,\n'}
+[6.279273] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/utility:68\x1b[m\x1b[K,\n'}
+[6.279839] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/algorithm:60\x1b[m\x1b[K,\n'}
+[6.280654] (-) TimerEvent: {}
+[6.281122] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1\x1b[m\x1b[K:\n'}
+[6.281834] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/x86_64-linux-gnu/bits/mathcalls.h:183:1:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kint finite(double)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[6.282535] (quadruped_control) StderrLine: {'line': b'  183 | \x1b[01;36m\x1b[K__MATHDECL_ALIAS\x1b[m\x1b[K (int,finite,, (_Mdouble_ __value), finite)\n'}
+[6.283559] (quadruped_control) StderrLine: {'line': b'      | \x1b[01;36m\x1b[K^~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[6.284057] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:134:6:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kbool {anonymous}::finite(double)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[6.284791] (quadruped_control) StderrLine: {'line': b'  134 | bool \x1b[01;36m\x1b[Kfinite\x1b[m\x1b[K(double value)\n'}
+[6.285129] (quadruped_control) StderrLine: {'line': b'      |      \x1b[01;36m\x1b[K^~~~~~\x1b[m\x1b[K\n'}
+[6.285406] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:444:42:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kcall of overloaded \xe2\x80\x98\x1b[01m\x1b[Kfinite(double&)\x1b[m\x1b[K\xe2\x80\x99 is ambiguous\n'}
+[6.285777] (quadruped_control) StderrLine: {'line': b'  444 |   if (!finite(x) || !\x1b[01;31m\x1b[Kfinite(y)\x1b[m\x1b[K || !finite(z))\n'}
+[6.286430] (quadruped_control) StderrLine: {'line': b'      |                      \x1b[01;31m\x1b[K~~~~~~^~~\x1b[m\x1b[K\n'}
+[6.286643] (quadruped_control) StderrLine: {'line': b'\n'}
+[6.286910] (quadruped_control) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/usr/include/features.h:486\x1b[m\x1b[K,\n'}
+[6.287501] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h:39\x1b[m\x1b[K,\n'}
+[6.287794] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h:586\x1b[m\x1b[K,\n'}
+[6.288119] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/utility:68\x1b[m\x1b[K,\n'}
+[6.288680] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/algorithm:60\x1b[m\x1b[K,\n'}
+[6.288946] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1\x1b[m\x1b[K:\n'}
+[6.289303] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/x86_64-linux-gnu/bits/mathcalls.h:183:1:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kint finite(double)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[6.289488] (quadruped_control) StderrLine: {'line': b'  183 | \x1b[01;36m\x1b[K__MATHDECL_ALIAS\x1b[m\x1b[K (int,finite,, (_Mdouble_ __value), finite)\n'}
+[6.289792] (quadruped_control) StderrLine: {'line': b'      | \x1b[01;36m\x1b[K^~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[6.290427] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:134:6:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kbool {anonymous}::finite(double)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[6.291068] (quadruped_control) StderrLine: {'line': b'  134 | bool \x1b[01;36m\x1b[Kfinite\x1b[m\x1b[K(double value)\n'}
+[6.291737] (quadruped_control) StderrLine: {'line': b'      |      \x1b[01;36m\x1b[K^~~~~~\x1b[m\x1b[K\n'}
+[6.292502] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:444:56:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kcall of overloaded \xe2\x80\x98\x1b[01m\x1b[Kfinite(double&)\x1b[m\x1b[K\xe2\x80\x99 is ambiguous\n'}
+[6.292785] (quadruped_control) StderrLine: {'line': b'  444 | finite(x) || !finite(y) || !\x1b[01;31m\x1b[Kfinite(z)\x1b[m\x1b[K)\n'}
+[6.293326] (quadruped_control) StderrLine: {'line': b'      |                             \x1b[01;31m\x1b[K~~~~~~^~~\x1b[m\x1b[K\n'}
+[6.294004] (quadruped_control) StderrLine: {'line': b'\n'}
+[6.295051] (quadruped_control) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/usr/include/features.h:486\x1b[m\x1b[K,\n'}
+[6.295702] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h:39\x1b[m\x1b[K,\n'}
+[6.296574] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h:586\x1b[m\x1b[K,\n'}
+[6.297414] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/utility:68\x1b[m\x1b[K,\n'}
+[6.298047] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/algorithm:60\x1b[m\x1b[K,\n'}
+[6.298714] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1\x1b[m\x1b[K:\n'}
+[6.299910] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/x86_64-linux-gnu/bits/mathcalls.h:183:1:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kint finite(double)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[6.300629] (quadruped_control) StderrLine: {'line': b'  183 | \x1b[01;36m\x1b[K__MATHDECL_ALIAS\x1b[m\x1b[K (int,finite,, (_Mdouble_ __value), finite)\n'}
+[6.301157] (quadruped_control) StderrLine: {'line': b'      | \x1b[01;36m\x1b[K^~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[6.301631] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:134:6:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kbool {anonymous}::finite(double)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[6.302188] (quadruped_control) StderrLine: {'line': b'  134 | bool \x1b[01;36m\x1b[Kfinite\x1b[m\x1b[K(double value)\n'}
+[6.303012] (quadruped_control) StderrLine: {'line': b'      |      \x1b[01;36m\x1b[K^~~~~~\x1b[m\x1b[K\n'}
+[6.303907] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:\x1b[m\x1b[K In lambda function:\n'}
+[6.304401] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:685:28:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kcall of overloaded \xe2\x80\x98\x1b[01m\x1b[Kfinite(double&)\x1b[m\x1b[K\xe2\x80\x99 is ambiguous\n'}
+[6.305130] (quadruped_control) StderrLine: {'line': b'  685 |                 if (!\x1b[01;31m\x1b[Kfinite(x)\x1b[m\x1b[K || !finite(y) || !finite(z))\n'}
+[6.305627] (quadruped_control) StderrLine: {'line': b'      |                      \x1b[01;31m\x1b[K~~~~~~^~~\x1b[m\x1b[K\n'}
+[6.306133] (quadruped_control) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/usr/include/features.h:486\x1b[m\x1b[K,\n'}
+[6.306641] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h:39\x1b[m\x1b[K,\n'}
+[6.307717] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h:586\x1b[m\x1b[K,\n'}
+[6.314735] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/utility:68\x1b[m\x1b[K,\n'}
+[6.315308] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/algorithm:60\x1b[m\x1b[K,\n'}
+[6.315909] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1\x1b[m\x1b[K:\n'}
+[6.316179] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/x86_64-linux-gnu/bits/mathcalls.h:183:1:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kint finite(double)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[6.316852] (quadruped_control) StderrLine: {'line': b'  183 | \x1b[01;36m\x1b[K__MATHDECL_ALIAS\x1b[m\x1b[K (int,finite,, (_Mdouble_ __value), finite)\n'}
+[6.317190] (quadruped_control) StderrLine: {'line': b'      | \x1b[01;36m\x1b[K^~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[6.317432] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:134:6:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kbool {anonymous}::finite(double)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[6.317664] (quadruped_control) StderrLine: {'line': b'  134 | bool \x1b[01;36m\x1b[Kfinite\x1b[m\x1b[K(double value)\n'}
+[6.317890] (quadruped_control) StderrLine: {'line': b'      |      \x1b[01;36m\x1b[K^~~~~~\x1b[m\x1b[K\n'}
+[6.318141] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:685:42:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kcall of overloaded \xe2\x80\x98\x1b[01m\x1b[Kfinite(double&)\x1b[m\x1b[K\xe2\x80\x99 is ambiguous\n'}
+[6.318383] (quadruped_control) StderrLine: {'line': b'  685 |   if (!finite(x) || !\x1b[01;31m\x1b[Kfinite(y)\x1b[m\x1b[K || !finite(z))\n'}
+[6.318616] (quadruped_control) StderrLine: {'line': b'      |                      \x1b[01;31m\x1b[K~~~~~~^~~\x1b[m\x1b[K\n'}
+[6.318984] (quadruped_control) StderrLine: {'line': b'\n'}
+[6.319336] (quadruped_control) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/usr/include/features.h:486\x1b[m\x1b[K,\n'}
+[6.319576] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h:39\x1b[m\x1b[K,\n'}
+[6.319799] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h:586\x1b[m\x1b[K,\n'}
+[6.320154] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/utility:68\x1b[m\x1b[K,\n'}
+[6.320392] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/algorithm:60\x1b[m\x1b[K,\n'}
+[6.321127] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1\x1b[m\x1b[K:\n'}
+[6.321530] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/x86_64-linux-gnu/bits/mathcalls.h:183:1:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kint finite(double)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[6.321895] (quadruped_control) StderrLine: {'line': b'  183 | \x1b[01;36m\x1b[K__MATHDECL_ALIAS\x1b[m\x1b[K (int,finite,, (_Mdouble_ __value), finite)\n'}
+[6.322324] (quadruped_control) StderrLine: {'line': b'      | \x1b[01;36m\x1b[K^~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[6.324336] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:134:6:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kbool {anonymous}::finite(double)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[6.324617] (quadruped_control) StderrLine: {'line': b'  134 | bool \x1b[01;36m\x1b[Kfinite\x1b[m\x1b[K(double value)\n'}
+[6.324878] (quadruped_control) StderrLine: {'line': b'      |      \x1b[01;36m\x1b[K^~~~~~\x1b[m\x1b[K\n'}
+[6.325551] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:685:56:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kcall of overloaded \xe2\x80\x98\x1b[01m\x1b[Kfinite(double&)\x1b[m\x1b[K\xe2\x80\x99 is ambiguous\n'}
+[6.325930] (quadruped_control) StderrLine: {'line': b'  685 | finite(x) || !finite(y) || !\x1b[01;31m\x1b[Kfinite(z)\x1b[m\x1b[K)\n'}
+[6.326320] (quadruped_control) StderrLine: {'line': b'      |                             \x1b[01;31m\x1b[K~~~~~~^~~\x1b[m\x1b[K\n'}
+[6.326607] (quadruped_control) StderrLine: {'line': b'\n'}
+[6.326824] (quadruped_control) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/usr/include/features.h:486\x1b[m\x1b[K,\n'}
+[6.327055] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h:39\x1b[m\x1b[K,\n'}
+[6.327365] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h:586\x1b[m\x1b[K,\n'}
+[6.327626] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/utility:68\x1b[m\x1b[K,\n'}
+[6.329293] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/algorithm:60\x1b[m\x1b[K,\n'}
+[6.329607] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1\x1b[m\x1b[K:\n'}
+[6.329890] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/x86_64-linux-gnu/bits/mathcalls.h:183:1:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kint finite(double)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[6.330296] (quadruped_control) StderrLine: {'line': b'  183 | \x1b[01;36m\x1b[K__MATHDECL_ALIAS\x1b[m\x1b[K (int,finite,, (_Mdouble_ __value), finite)\n'}
+[6.330509] (quadruped_control) StderrLine: {'line': b'      | \x1b[01;36m\x1b[K^~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[6.330797] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:134:6:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kbool {anonymous}::finite(double)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[6.331062] (quadruped_control) StderrLine: {'line': b'  134 | bool \x1b[01;36m\x1b[Kfinite\x1b[m\x1b[K(double value)\n'}
+[6.331407] (quadruped_control) StderrLine: {'line': b'      |      \x1b[01;36m\x1b[K^~~~~~\x1b[m\x1b[K\n'}
+[6.331702] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[KJointAngles QuadrupedControllerNode::solveIK(int, double, double, double)\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[6.331938] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1569:16:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kcall of overloaded \xe2\x80\x98\x1b[01m\x1b[Kfinite(double&)\x1b[m\x1b[K\xe2\x80\x99 is ambiguous\n'}
+[6.332186] (quadruped_control) StderrLine: {'line': b' 1569 |         !\x1b[01;31m\x1b[Kfinite(x)\x1b[m\x1b[K ||\n'}
+[6.332413] (quadruped_control) StderrLine: {'line': b'      |          \x1b[01;31m\x1b[K~~~~~~^~~\x1b[m\x1b[K\n'}
+[6.332609] (quadruped_control) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/usr/include/features.h:486\x1b[m\x1b[K,\n'}
+[6.333023] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h:39\x1b[m\x1b[K,\n'}
+[6.333362] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h:586\x1b[m\x1b[K,\n'}
+[6.338207] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/utility:68\x1b[m\x1b[K,\n'}
+[6.339014] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/algorithm:60\x1b[m\x1b[K,\n'}
+[6.339357] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1\x1b[m\x1b[K:\n'}
+[6.340055] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/x86_64-linux-gnu/bits/mathcalls.h:183:1:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kint finite(double)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[6.340689] (quadruped_control) StderrLine: {'line': b'  183 | \x1b[01;36m\x1b[K__MATHDECL_ALIAS\x1b[m\x1b[K (int,finite,, (_Mdouble_ __value), finite)\n'}
+[6.341079] (quadruped_control) StderrLine: {'line': b'      | \x1b[01;36m\x1b[K^~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[6.341677] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:134:6:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kbool {anonymous}::finite(double)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[6.341937] (quadruped_control) StderrLine: {'line': b'  134 | bool \x1b[01;36m\x1b[Kfinite\x1b[m\x1b[K(double value)\n'}
+[6.342288] (quadruped_control) StderrLine: {'line': b'      |      \x1b[01;36m\x1b[K^~~~~~\x1b[m\x1b[K\n'}
+[6.342521] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1570:16:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kcall of overloaded \xe2\x80\x98\x1b[01m\x1b[Kfinite(double&)\x1b[m\x1b[K\xe2\x80\x99 is ambiguous\n'}
+[6.343030] (quadruped_control) StderrLine: {'line': b' 1570 |         !\x1b[01;31m\x1b[Kfinite(y)\x1b[m\x1b[K ||\n'}
+[6.345252] (quadruped_control) StderrLine: {'line': b'      |          \x1b[01;31m\x1b[K~~~~~~^~~\x1b[m\x1b[K\n'}
+[6.346102] (quadruped_control) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/usr/include/features.h:486\x1b[m\x1b[K,\n'}
+[6.350010] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h:39\x1b[m\x1b[K,\n'}
+[6.350723] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h:586\x1b[m\x1b[K,\n'}
+[6.351038] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/utility:68\x1b[m\x1b[K,\n'}
+[6.351334] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/algorithm:60\x1b[m\x1b[K,\n'}
+[6.352047] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1\x1b[m\x1b[K:\n'}
+[6.352550] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/x86_64-linux-gnu/bits/mathcalls.h:183:1:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kint finite(double)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[6.352943] (quadruped_control) StderrLine: {'line': b'  183 | \x1b[01;36m\x1b[K__MATHDECL_ALIAS\x1b[m\x1b[K (int,finite,, (_Mdouble_ __value), finite)\n'}
+[6.353694] (quadruped_control) StderrLine: {'line': b'      | \x1b[01;36m\x1b[K^~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[6.354335] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:134:6:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kbool {anonymous}::finite(double)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[6.354960] (quadruped_control) StderrLine: {'line': b'  134 | bool \x1b[01;36m\x1b[Kfinite\x1b[m\x1b[K(double value)\n'}
+[6.356707] (quadruped_control) StderrLine: {'line': b'      |      \x1b[01;36m\x1b[K^~~~~~\x1b[m\x1b[K\n'}
+[6.357402] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1571:16:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kcall of overloaded \xe2\x80\x98\x1b[01m\x1b[Kfinite(double&)\x1b[m\x1b[K\xe2\x80\x99 is ambiguous\n'}
+[6.359116] (quadruped_control) StderrLine: {'line': b' 1571 |         !\x1b[01;31m\x1b[Kfinite(z)\x1b[m\x1b[K)\n'}
+[6.361521] (quadruped_control) StderrLine: {'line': b'      |          \x1b[01;31m\x1b[K~~~~~~^~~\x1b[m\x1b[K\n'}
+[6.364110] (quadruped_control) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/usr/include/features.h:486\x1b[m\x1b[K,\n'}
+[6.364526] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h:39\x1b[m\x1b[K,\n'}
+[6.365217] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h:586\x1b[m\x1b[K,\n'}
+[6.365569] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/utility:68\x1b[m\x1b[K,\n'}
+[6.365866] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/algorithm:60\x1b[m\x1b[K,\n'}
+[6.366158] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1\x1b[m\x1b[K:\n'}
+[6.366585] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/x86_64-linux-gnu/bits/mathcalls.h:183:1:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kint finite(double)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[6.367013] (quadruped_control) StderrLine: {'line': b'  183 | \x1b[01;36m\x1b[K__MATHDECL_ALIAS\x1b[m\x1b[K (int,finite,, (_Mdouble_ __value), finite)\n'}
+[6.368731] (quadruped_control) StderrLine: {'line': b'      | \x1b[01;36m\x1b[K^~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[6.369245] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:134:6:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kbool {anonymous}::finite(double)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[6.369753] (quadruped_control) StderrLine: {'line': b'  134 | bool \x1b[01;36m\x1b[Kfinite\x1b[m\x1b[K(double value)\n'}
+[6.370134] (quadruped_control) StderrLine: {'line': b'      |      \x1b[01;36m\x1b[K^~~~~~\x1b[m\x1b[K\n'}
+[6.370390] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1728:28:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kcall of overloaded \xe2\x80\x98\x1b[01m\x1b[Kfinite(const double&)\x1b[m\x1b[K\xe2\x80\x99 is ambiguous\n'}
+[6.370641] (quadruped_control) StderrLine: {'line': b' 1728 |                     !\x1b[01;31m\x1b[Kfinite(cartesianError)\x1b[m\x1b[K ||\n'}
+[6.370922] (quadruped_control) StderrLine: {'line': b'      |                      \x1b[01;31m\x1b[K~~~~~~^~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[6.371396] (quadruped_control) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/usr/include/features.h:486\x1b[m\x1b[K,\n'}
+[6.374317] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h:39\x1b[m\x1b[K,\n'}
+[6.378436] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h:586\x1b[m\x1b[K,\n'}
+[6.382478] (-) TimerEvent: {}
+[6.382706] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/utility:68\x1b[m\x1b[K,\n'}
+[6.383242] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/algorithm:60\x1b[m\x1b[K,\n'}
+[6.383515] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1\x1b[m\x1b[K:\n'}
+[6.383789] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/x86_64-linux-gnu/bits/mathcalls.h:183:1:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kint finite(double)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[6.384067] (quadruped_control) StderrLine: {'line': b'  183 | \x1b[01;36m\x1b[K__MATHDECL_ALIAS\x1b[m\x1b[K (int,finite,, (_Mdouble_ __value), finite)\n'}
+[6.384664] (quadruped_control) StderrLine: {'line': b'      | \x1b[01;36m\x1b[K^~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[6.385263] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:134:6:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kbool {anonymous}::finite(double)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[6.385908] (quadruped_control) StderrLine: {'line': b'  134 | bool \x1b[01;36m\x1b[Kfinite\x1b[m\x1b[K(double value)\n'}
+[6.386279] (quadruped_control) StderrLine: {'line': b'      |      \x1b[01;36m\x1b[K^~~~~~\x1b[m\x1b[K\n'}
+[6.386846] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:\x1b[m\x1b[K In lambda function:\n'}
+[6.387139] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1884:24:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kcall of overloaded \xe2\x80\x98\x1b[01m\x1b[Kfinite(const double&)\x1b[m\x1b[K\xe2\x80\x99 is ambiguous\n'}
+[6.389987] (quadruped_control) StderrLine: {'line': b' 1884 |             if (!\x1b[01;31m\x1b[Kfinite(errorSquared)\x1b[m\x1b[K)\n'}
+[6.391534] (quadruped_control) StderrLine: {'line': b'      |                  \x1b[01;31m\x1b[K~~~~~~^~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[6.395151] (quadruped_control) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/usr/include/features.h:486\x1b[m\x1b[K,\n'}
+[6.395737] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h:39\x1b[m\x1b[K,\n'}
+[6.396408] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h:586\x1b[m\x1b[K,\n'}
+[6.401372] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/utility:68\x1b[m\x1b[K,\n'}
+[6.402107] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/usr/include/c++/11/algorithm:60\x1b[m\x1b[K,\n'}
+[6.402748] (quadruped_control) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1\x1b[m\x1b[K:\n'}
+[6.403309] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/usr/include/x86_64-linux-gnu/bits/mathcalls.h:183:1:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kint finite(double)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[6.403827] (quadruped_control) StderrLine: {'line': b'  183 | \x1b[01;36m\x1b[K__MATHDECL_ALIAS\x1b[m\x1b[K (int,finite,, (_Mdouble_ __value), finite)\n'}
+[6.404537] (quadruped_control) StderrLine: {'line': b'      | \x1b[01;36m\x1b[K^~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[6.404900] (quadruped_control) StderrLine: {'line': b'\x1b[01m\x1b[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:134:6:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Kbool {anonymous}::finite(double)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[6.405228] (quadruped_control) StderrLine: {'line': b'  134 | bool \x1b[01;36m\x1b[Kfinite\x1b[m\x1b[K(double value)\n'}
+[6.405645] (quadruped_control) StderrLine: {'line': b'      |      \x1b[01;36m\x1b[K^~~~~~\x1b[m\x1b[K\n'}
+[6.482662] (-) TimerEvent: {}
+[6.583320] (-) TimerEvent: {}
+[6.683873] (-) TimerEvent: {}
+[6.785196] (-) TimerEvent: {}
+[6.886231] (-) TimerEvent: {}
+[6.989192] (-) TimerEvent: {}
+[7.089721] (-) TimerEvent: {}
+[7.191177] (-) TimerEvent: {}
+[7.291647] (-) TimerEvent: {}
+[7.392185] (-) TimerEvent: {}
+[7.494517] (-) TimerEvent: {}
+[7.596189] (-) TimerEvent: {}
+[7.696751] (-) TimerEvent: {}
+[7.798283] (-) TimerEvent: {}
+[7.898760] (-) TimerEvent: {}
+[7.999803] (-) TimerEvent: {}
+[8.101181] (-) TimerEvent: {}
+[8.202466] (-) TimerEvent: {}
+[8.295714] (quadruped_control) StderrLine: {'line': b'gmake[2]: *** [CMakeFiles/quadruped.dir/build.make:104: CMakeFiles/quadruped.dir/src/Nodes/QuadrupedControllerNode.cpp.o] Error 1\n'}
+[8.296294] (quadruped_control) StderrLine: {'line': b'gmake[2]: *** Waiting for unfinished jobs....\n'}
+[8.302523] (-) TimerEvent: {}
+[8.402869] (-) TimerEvent: {}
+[8.503319] (-) TimerEvent: {}
+[8.604002] (-) TimerEvent: {}
+[8.706228] (-) TimerEvent: {}
+[8.806699] (-) TimerEvent: {}
+[8.910478] (-) TimerEvent: {}
+[9.010929] (-) TimerEvent: {}
+[9.111382] (-) TimerEvent: {}
+[9.211853] (-) TimerEvent: {}
+[9.312573] (-) TimerEvent: {}
+[9.413408] (-) TimerEvent: {}
+[9.514010] (-) TimerEvent: {}
+[9.615496] (-) TimerEvent: {}
+[9.715996] (-) TimerEvent: {}
+[9.816561] (-) TimerEvent: {}
+[9.920188] (-) TimerEvent: {}
+[10.020682] (-) TimerEvent: {}
+[10.122185] (-) TimerEvent: {}
+[10.222670] (-) TimerEvent: {}
+[10.323202] (-) TimerEvent: {}
+[10.426186] (-) TimerEvent: {}
+[10.526657] (-) TimerEvent: {}
+[10.627075] (-) TimerEvent: {}
+[10.732195] (-) TimerEvent: {}
+[10.832601] (-) TimerEvent: {}
+[10.933022] (-) TimerEvent: {}
+[11.034301] (-) TimerEvent: {}
+[11.135230] (-) TimerEvent: {}
+[11.235685] (-) TimerEvent: {}
+[11.337189] (-) TimerEvent: {}
+[11.441437] (-) TimerEvent: {}
+[11.543195] (-) TimerEvent: {}
+[11.644180] (-) TimerEvent: {}
+[11.744718] (-) TimerEvent: {}
+[11.846231] (-) TimerEvent: {}
+[11.946733] (-) TimerEvent: {}
+[12.047170] (-) TimerEvent: {}
+[12.148573] (-) TimerEvent: {}
+[12.250197] (-) TimerEvent: {}
+[12.352460] (-) TimerEvent: {}
+[12.382226] (quadruped_control) StderrLine: {'line': b'gmake[1]: *** [CMakeFiles/Makefile2:227: CMakeFiles/quadruped.dir/all] Error 2\n'}
+[12.383314] (quadruped_control) StderrLine: {'line': b'gmake: *** [Makefile:146: all] Error 2\n'}
+[12.391110] (quadruped_control) CommandEnded: {'returncode': 2}
+[12.412845] (quadruped_control) JobEnded: {'identifier': 'quadruped_control', 'rc': 2}
+[12.416037] (-) EventReactorShutdown: {}

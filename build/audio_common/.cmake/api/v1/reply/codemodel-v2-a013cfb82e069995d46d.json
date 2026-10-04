@@ -1,0 +1,115 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-597bdf2bb0f283a582b6.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6
+					]
+				}
+			],
+			"name" : "",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "audio_common",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "audio_capturer_node::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-audio_capturer_node-e5ee30f480dfdca73343.json",
+					"name" : "audio_capturer_node",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "audio_common_lib::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-audio_common_lib-b7cdb6b9430ee424d27d.json",
+					"name" : "audio_common_lib",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "audio_common_uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-audio_common_uninstall-1213030b4b6f036effa5.json",
+					"name" : "audio_common_uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "audio_player_node::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-audio_player_node-5824d6b764db1f6ed78f.json",
+					"name" : "audio_player_node",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "music_node::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-music_node-8aeef8cc1d657c734a9e.json",
+					"name" : "music_node",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "tts_node::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-tts_node-33b613a5bb0a3daaa8d7.json",
+					"name" : "tts_node",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uninstall-21af13865f7069cb4372.json",
+					"name" : "uninstall",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/workspace/build/audio_common",
+		"source" : "/workspace/audio_common/audio_common"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

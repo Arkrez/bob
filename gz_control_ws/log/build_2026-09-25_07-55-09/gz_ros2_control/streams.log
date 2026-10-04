@@ -1,0 +1,40 @@
+[0.061s] Invoking command in '/workspace/gz_control_ws/build/gz_ros2_control': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /workspace/gz_control_ws/build/gz_ros2_control -- -j12 -l12
+[0.425s] [35m[1mConsolidate compiler generated dependencies of target gz_hardware_plugins[0m
+[0.426s] [35m[1mConsolidate compiler generated dependencies of target gz_ros2_control-system[0m
+[0.435s] [35m[1mConsolidate compiler generated dependencies of target ign_ros2_control-system[0m
+[0.807s] [ 50%] Built target gz_ros2_control-system
+[0.808s] [ 66%] Built target gz_hardware_plugins
+[0.814s] [100%] Built target ign_ros2_control-system
+[0.876s] Invoked command in '/workspace/gz_control_ws/build/gz_ros2_control' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /workspace/gz_control_ws/build/gz_ros2_control -- -j12 -l12
+[0.943s] Invoking command in '/workspace/gz_control_ws/build/gz_ros2_control': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /workspace/gz_control_ws/build/gz_ros2_control
+[1.002s] -- Install configuration: ""
+[1.007s] -- Execute custom install script
+[1.009s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control/lib/libgz_hardware_plugins.so
+[1.015s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control/include/gz_ros2_control/gz_ros2_control_plugin.hpp
+[1.016s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control/include/gz_ros2_control/gz_system.hpp
+[1.016s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control/include/gz_ros2_control/gz_system_interface.hpp
+[1.017s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control/share/gz_ros2_control/environment/library_path.sh
+[1.017s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control/share/gz_ros2_control/environment/library_path.dsv
+[1.019s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control/lib/libgz_ros2_control-system.so
+[1.019s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control/lib/libign_ros2_control-system.so
+[1.020s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control/share/gz_ros2_control//gz_hardware_plugins.xml
+[1.021s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control/share/gz_ros2_control/environment/gz_ros2_control.dsv
+[1.021s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control/share/ament_index/resource_index/package_run_dependencies/gz_ros2_control
+[1.022s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control/share/ament_index/resource_index/parent_prefix_path/gz_ros2_control
+[1.022s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control/share/gz_ros2_control/environment/ament_prefix_path.sh
+[1.023s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control/share/gz_ros2_control/environment/ament_prefix_path.dsv
+[1.024s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control/share/gz_ros2_control/environment/path.sh
+[1.024s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control/share/gz_ros2_control/environment/path.dsv
+[1.025s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control/share/gz_ros2_control/local_setup.bash
+[1.026s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control/share/gz_ros2_control/local_setup.sh
+[1.026s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control/share/gz_ros2_control/local_setup.zsh
+[1.027s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control/share/gz_ros2_control/local_setup.dsv
+[1.029s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control/share/gz_ros2_control/package.dsv
+[1.076s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control/share/ament_index/resource_index/packages/gz_ros2_control
+[1.076s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control/share/ament_index/resource_index/gz_ros2_control__pluginlib__plugin/gz_ros2_control
+[1.077s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control/share/gz_ros2_control/cmake/ament_cmake_export_include_directories-extras.cmake
+[1.078s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control/share/gz_ros2_control/cmake/ament_cmake_export_libraries-extras.cmake
+[1.079s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control/share/gz_ros2_control/cmake/gz_ros2_controlConfig.cmake
+[1.079s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control/share/gz_ros2_control/cmake/gz_ros2_controlConfig-version.cmake
+[1.080s] -- Up-to-date symlink: /workspace/gz_control_ws/install/gz_ros2_control/share/gz_ros2_control/package.xml
+[1.087s] Invoked command in '/workspace/gz_control_ws/build/gz_ros2_control' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /workspace/gz_control_ws/build/gz_ros2_control

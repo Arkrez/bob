@@ -1,0 +1,53 @@
+[0.110s] Invoking command in '/workspace/gz_control_ws/build/ign_ros2_control_demos': AMENT_PREFIX_PATH=/workspace/gz_control_ws/install/gz_ros2_control_demos:/workspace/gz_control_ws/install/gz_ros2_control:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspace/gz_control_ws/install/gz_ros2_control_demos:/workspace/gz_control_ws/install/gz_ros2_control:/workspace/install/voice_control:/workspace/install/quadruped_sim:/workspace/install/quadruped_control:/workspace/install/audio_common:/workspace/install/audio_common_msgs:/opt/ros/humble LD_LIBRARY_PATH=/workspace/gz_control_ws/install/gz_ros2_control_demos/lib:/workspace/gz_control_ws/install/gz_ros2_control/lib:${LD_LIBRARY_PATH} /usr/bin/cmake --build /workspace/gz_control_ws/build/ign_ros2_control_demos -- -j12 -l12
+[0.518s] [35m[1mConsolidate compiler generated dependencies of target example_tricycle_drive[0m
+[0.520s] [35m[1mConsolidate compiler generated dependencies of target example_gripper[0m
+[0.521s] [35m[1mConsolidate compiler generated dependencies of target example_position[0m
+[0.523s] [35m[1mConsolidate compiler generated dependencies of target example_velocity[0m
+[0.526s] [35m[1mConsolidate compiler generated dependencies of target example_diff_drive[0m
+[0.533s] [35m[1mConsolidate compiler generated dependencies of target example_ackermann_drive[0m
+[0.548s] [35m[1mConsolidate compiler generated dependencies of target example_effort[0m
+[0.819s] [ 28%] Built target example_velocity
+[0.820s] [ 28%] Built target example_gripper
+[0.824s] [ 42%] Built target example_position
+[0.850s] [ 57%] Built target example_ackermann_drive
+[0.854s] [ 71%] Built target example_tricycle_drive
+[0.862s] [ 85%] Built target example_diff_drive
+[0.875s] [100%] Built target example_effort
+[0.935s] Invoked command in '/workspace/gz_control_ws/build/ign_ros2_control_demos' returned '0': AMENT_PREFIX_PATH=/workspace/gz_control_ws/install/gz_ros2_control_demos:/workspace/gz_control_ws/install/gz_ros2_control:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspace/gz_control_ws/install/gz_ros2_control_demos:/workspace/gz_control_ws/install/gz_ros2_control:/workspace/install/voice_control:/workspace/install/quadruped_sim:/workspace/install/quadruped_control:/workspace/install/audio_common:/workspace/install/audio_common_msgs:/opt/ros/humble LD_LIBRARY_PATH=/workspace/gz_control_ws/install/gz_ros2_control_demos/lib:/workspace/gz_control_ws/install/gz_ros2_control/lib:${LD_LIBRARY_PATH} /usr/bin/cmake --build /workspace/gz_control_ws/build/ign_ros2_control_demos -- -j12 -l12
+[0.941s] Invoking command in '/workspace/gz_control_ws/build/ign_ros2_control_demos': AMENT_PREFIX_PATH=/workspace/gz_control_ws/install/gz_ros2_control_demos:/workspace/gz_control_ws/install/gz_ros2_control:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspace/gz_control_ws/install/gz_ros2_control_demos:/workspace/gz_control_ws/install/gz_ros2_control:/workspace/install/voice_control:/workspace/install/quadruped_sim:/workspace/install/quadruped_control:/workspace/install/audio_common:/workspace/install/audio_common_msgs:/opt/ros/humble LD_LIBRARY_PATH=/workspace/gz_control_ws/install/gz_ros2_control_demos/lib:/workspace/gz_control_ws/install/gz_ros2_control/lib:${LD_LIBRARY_PATH} /usr/bin/cmake --install /workspace/gz_control_ws/build/ign_ros2_control_demos
+[1.013s] -- Install configuration: ""
+[1.017s] -- Execute custom install script
+[1.025s] -- Up-to-date symlink: /workspace/gz_control_ws/install/ign_ros2_control_demos/share/ign_ros2_control_demos//launch/ackermann_drive_example.launch.py
+[1.025s] -- Up-to-date symlink: /workspace/gz_control_ws/install/ign_ros2_control_demos/share/ign_ros2_control_demos//launch/cart_example_effort.launch.py
+[1.026s] -- Up-to-date symlink: /workspace/gz_control_ws/install/ign_ros2_control_demos/share/ign_ros2_control_demos//launch/cart_example_position.launch.py
+[1.027s] -- Up-to-date symlink: /workspace/gz_control_ws/install/ign_ros2_control_demos/share/ign_ros2_control_demos//launch/cart_example_velocity.launch.py
+[1.028s] -- Up-to-date symlink: /workspace/gz_control_ws/install/ign_ros2_control_demos/share/ign_ros2_control_demos//launch/diff_drive_example.launch.py
+[1.029s] -- Up-to-date symlink: /workspace/gz_control_ws/install/ign_ros2_control_demos/share/ign_ros2_control_demos//launch/diff_drive_example_namespaced.launch.py
+[1.029s] -- Up-to-date symlink: /workspace/gz_control_ws/install/ign_ros2_control_demos/share/ign_ros2_control_demos//launch/gripper_mimic_joint_example.launch.py
+[1.030s] -- Up-to-date symlink: /workspace/gz_control_ws/install/ign_ros2_control_demos/share/ign_ros2_control_demos//launch/pendulum_example_effort.launch.py
+[1.030s] -- Up-to-date symlink: /workspace/gz_control_ws/install/ign_ros2_control_demos/share/ign_ros2_control_demos//launch/pendulum_example_position.launch.py
+[1.031s] -- Up-to-date symlink: /workspace/gz_control_ws/install/ign_ros2_control_demos/share/ign_ros2_control_demos//launch/tricycle_drive_example.launch.py
+[1.032s] -- Up-to-date symlink: /workspace/gz_control_ws/install/ign_ros2_control_demos/share/ign_ros2_control_demos//urdf/test_cart_position.xacro.urdf
+[1.033s] -- Up-to-date symlink: /workspace/gz_control_ws/install/ign_ros2_control_demos/lib/ign_ros2_control_demos/example_position
+[1.033s] -- Up-to-date symlink: /workspace/gz_control_ws/install/ign_ros2_control_demos/lib/ign_ros2_control_demos/example_velocity
+[1.034s] -- Up-to-date symlink: /workspace/gz_control_ws/install/ign_ros2_control_demos/lib/ign_ros2_control_demos/example_effort
+[1.034s] -- Up-to-date symlink: /workspace/gz_control_ws/install/ign_ros2_control_demos/lib/ign_ros2_control_demos/example_diff_drive
+[1.035s] -- Up-to-date symlink: /workspace/gz_control_ws/install/ign_ros2_control_demos/lib/ign_ros2_control_demos/example_tricycle_drive
+[1.035s] -- Up-to-date symlink: /workspace/gz_control_ws/install/ign_ros2_control_demos/lib/ign_ros2_control_demos/example_ackermann_drive
+[1.036s] -- Up-to-date symlink: /workspace/gz_control_ws/install/ign_ros2_control_demos/lib/ign_ros2_control_demos/example_gripper
+[1.036s] -- Up-to-date symlink: /workspace/gz_control_ws/install/ign_ros2_control_demos/share/ament_index/resource_index/package_run_dependencies/ign_ros2_control_demos
+[1.037s] -- Up-to-date symlink: /workspace/gz_control_ws/install/ign_ros2_control_demos/share/ament_index/resource_index/parent_prefix_path/ign_ros2_control_demos
+[1.038s] -- Up-to-date symlink: /workspace/gz_control_ws/install/ign_ros2_control_demos/share/ign_ros2_control_demos/environment/ament_prefix_path.sh
+[1.039s] -- Up-to-date symlink: /workspace/gz_control_ws/install/ign_ros2_control_demos/share/ign_ros2_control_demos/environment/ament_prefix_path.dsv
+[1.039s] -- Up-to-date symlink: /workspace/gz_control_ws/install/ign_ros2_control_demos/share/ign_ros2_control_demos/environment/path.sh
+[1.040s] -- Up-to-date symlink: /workspace/gz_control_ws/install/ign_ros2_control_demos/share/ign_ros2_control_demos/environment/path.dsv
+[1.041s] -- Up-to-date symlink: /workspace/gz_control_ws/install/ign_ros2_control_demos/share/ign_ros2_control_demos/local_setup.bash
+[1.041s] -- Up-to-date symlink: /workspace/gz_control_ws/install/ign_ros2_control_demos/share/ign_ros2_control_demos/local_setup.sh
+[1.042s] -- Up-to-date symlink: /workspace/gz_control_ws/install/ign_ros2_control_demos/share/ign_ros2_control_demos/local_setup.zsh
+[1.042s] -- Up-to-date symlink: /workspace/gz_control_ws/install/ign_ros2_control_demos/share/ign_ros2_control_demos/local_setup.dsv
+[1.045s] -- Symlinking: /workspace/gz_control_ws/install/ign_ros2_control_demos/share/ign_ros2_control_demos/package.dsv
+[1.095s] -- Up-to-date symlink: /workspace/gz_control_ws/install/ign_ros2_control_demos/share/ament_index/resource_index/packages/ign_ros2_control_demos
+[1.095s] -- Up-to-date symlink: /workspace/gz_control_ws/install/ign_ros2_control_demos/share/ign_ros2_control_demos/cmake/ign_ros2_control_demosConfig.cmake
+[1.096s] -- Up-to-date symlink: /workspace/gz_control_ws/install/ign_ros2_control_demos/share/ign_ros2_control_demos/cmake/ign_ros2_control_demosConfig-version.cmake
+[1.098s] -- Up-to-date symlink: /workspace/gz_control_ws/install/ign_ros2_control_demos/share/ign_ros2_control_demos/package.xml
+[1.104s] Invoked command in '/workspace/gz_control_ws/build/ign_ros2_control_demos' returned '0': AMENT_PREFIX_PATH=/workspace/gz_control_ws/install/gz_ros2_control_demos:/workspace/gz_control_ws/install/gz_ros2_control:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspace/gz_control_ws/install/gz_ros2_control_demos:/workspace/gz_control_ws/install/gz_ros2_control:/workspace/install/voice_control:/workspace/install/quadruped_sim:/workspace/install/quadruped_control:/workspace/install/audio_common:/workspace/install/audio_common_msgs:/opt/ros/humble LD_LIBRARY_PATH=/workspace/gz_control_ws/install/gz_ros2_control_demos/lib:/workspace/gz_control_ws/install/gz_ros2_control/lib:${LD_LIBRARY_PATH} /usr/bin/cmake --install /workspace/gz_control_ws/build/ign_ros2_control_demos

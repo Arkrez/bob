@@ -1,0 +1,35 @@
+-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake: 1.3.14 (/opt/ros/humble/share/ament_cmake/cmake)
+-- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+-- Override CMake install command with custom implementation using symlinks instead of copying resources
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /workspace/gz_control_ws/build/ign_ros2_control
+-- Install configuration: ""
+-- Execute custom install script
+-- Symlinking: /workspace/gz_control_ws/install/ign_ros2_control/share/ament_index/resource_index/package_run_dependencies/ign_ros2_control
+-- Symlinking: /workspace/gz_control_ws/install/ign_ros2_control/share/ament_index/resource_index/parent_prefix_path/ign_ros2_control
+-- Symlinking: /workspace/gz_control_ws/install/ign_ros2_control/share/ign_ros2_control/environment/ament_prefix_path.sh
+-- Symlinking: /workspace/gz_control_ws/install/ign_ros2_control/share/ign_ros2_control/environment/ament_prefix_path.dsv
+-- Symlinking: /workspace/gz_control_ws/install/ign_ros2_control/share/ign_ros2_control/environment/path.sh
+-- Symlinking: /workspace/gz_control_ws/install/ign_ros2_control/share/ign_ros2_control/environment/path.dsv
+-- Symlinking: /workspace/gz_control_ws/install/ign_ros2_control/share/ign_ros2_control/local_setup.bash
+-- Symlinking: /workspace/gz_control_ws/install/ign_ros2_control/share/ign_ros2_control/local_setup.sh
+-- Symlinking: /workspace/gz_control_ws/install/ign_ros2_control/share/ign_ros2_control/local_setup.zsh
+-- Symlinking: /workspace/gz_control_ws/install/ign_ros2_control/share/ign_ros2_control/local_setup.dsv
+-- Symlinking: /workspace/gz_control_ws/install/ign_ros2_control/share/ign_ros2_control/package.dsv
+-- Symlinking: /workspace/gz_control_ws/install/ign_ros2_control/share/ament_index/resource_index/packages/ign_ros2_control
+-- Symlinking: /workspace/gz_control_ws/install/ign_ros2_control/share/ign_ros2_control/cmake/ign_ros2_controlConfig.cmake
+-- Symlinking: /workspace/gz_control_ws/install/ign_ros2_control/share/ign_ros2_control/cmake/ign_ros2_controlConfig-version.cmake
+-- Symlinking: /workspace/gz_control_ws/install/ign_ros2_control/share/ign_ros2_control/package.xml

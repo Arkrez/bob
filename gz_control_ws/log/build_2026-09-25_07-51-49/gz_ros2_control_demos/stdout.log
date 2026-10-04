@@ -1,0 +1,386 @@
+-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake: 1.3.14 (/opt/ros/humble/share/ament_cmake/cmake)
+-- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+-- Override CMake install command with custom implementation using symlinks instead of copying resources
+-- Found geometry_msgs: 4.9.2 (/opt/ros/humble/share/geometry_msgs/cmake)
+-- Found rosidl_generator_c: 3.1.9 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+-- Found rosidl_adapter: 3.1.9 (/opt/ros/humble/share/rosidl_adapter/cmake)
+-- Found rosidl_generator_cpp: 3.1.9 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found pluginlib: 5.1.4 (/opt/ros/humble/share/pluginlib/cmake)
+-- Found rclcpp: 16.0.19 (/opt/ros/humble/share/rclcpp/cmake)
+-- Found rmw_implementation_cmake: 6.1.3 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+-- Found rmw_fastrtps_cpp: 6.2.10 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+-- Found TinyXML2 via Config file: TinyXML2_DIR-NOTFOUND
+-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+-- Found TinyXML2 via Config file: TinyXML2_DIR-NOTFOUND
+-- Found FastRTPS: /opt/ros/humble/include  
+-- Found TinyXML2 via Config file: TinyXML2_DIR-NOTFOUND
+-- Found TinyXML2 via Config file: TinyXML2_DIR-NOTFOUND
+-- Using RMW implementation 'rmw_fastrtps_cpp' as default
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE  
+-- Found rclcpp_action: 16.0.19 (/opt/ros/humble/share/rclcpp_action/cmake)
+-- Found rclcpp_lifecycle: 16.0.19 (/opt/ros/humble/share/rclcpp_lifecycle/cmake)
+-- Found control_msgs: 4.9.0 (/opt/ros/humble/share/control_msgs/cmake)
+-- Found control_toolbox: 3.7.1 (/opt/ros/humble/share/control_toolbox/cmake)
+-- Found gz_ros2_control: 0.7.21 (/workspace/gz_control_ws/install/gz_ros2_control/share/gz_ros2_control/cmake)
+-- Found hardware_interface: 2.54.2 (/opt/ros/humble/share/hardware_interface/cmake)
+-- Looking for gz-sim8 -- found version 8.15.0
+-- Searching for dependencies of gz-sim8
+-- Looking for sdformat14 -- found version 14.9.0
+-- Searching for dependencies of sdformat14
+-- Checking for module 'tinyxml2'
+--   Found tinyxml2, version 9.0.0
+-- Looking for gz-math7 -- found version 7.7.0
+-- Searching for dependencies of gz-math7
+-- Looking for gz-utils2 -- found version 2.2.1
+-- Searching for dependencies of gz-utils2
+-- Looking for gz-utils2 -- found version 2.2.1
+-- Searching for dependencies of gz-utils2
+-- Searching for <gz-utils2> component [cli]
+-- Looking for gz-utils2-cli -- found version 2.2.1
+-- Searching for dependencies of gz-utils2-cli
+-- Looking for gz-plugin2 -- found version 2.0.4
+-- Searching for dependencies of gz-plugin2
+-- Looking for gz-utils2 -- found version 2.2.1
+-- Searching for <gz-plugin2> component [loader]
+-- Looking for gz-plugin2-loader -- found version 2.0.4
+-- Searching for dependencies of gz-plugin2-loader
+-- Searching for <gz-plugin2> component [register]
+-- Looking for gz-plugin2-register -- found version 2.0.4
+-- Searching for dependencies of gz-plugin2-register
+-- Looking for gz-transport13 -- found version 13.6.0
+-- Searching for dependencies of gz-transport13
+-- Found Protobuf: /usr/lib/x86_64-linux-gnu/libprotobuf.so (found version "3.12.4") 
+-- Config-file not installed for ZeroMQ -- checking for pkg-config
+-- Checking for module 'libzmq >= 4'
+--   Found libzmq , version 4.3.4
+-- Found ZeroMQ: TRUE (Required is at least version "4") 
+-- Checking for module 'uuid'
+--   Found uuid, version 2.37.2
+-- Found UUID: TRUE  
+-- Looking for gz-utils2 -- found version 2.2.1
+-- Looking for gz-msgs10 -- found version 10.4.0
+-- Searching for dependencies of gz-msgs10
+-- Looking for gz-utils2 -- found version 2.2.1
+-- Looking for gz-math7 -- found version 7.7.0
+-- Searching for <gz-transport13> component [log]
+-- Looking for gz-transport13-log -- found version 13.6.0
+-- Searching for dependencies of gz-transport13-log
+-- Searching for <gz-transport13> component [parameters]
+-- Looking for gz-transport13-parameters -- found version 13.6.0
+-- Searching for dependencies of gz-transport13-parameters
+-- Looking for gz-msgs10 -- found version 10.4.0
+-- Looking for gz-common5 -- found version 5.9.0
+-- Searching for dependencies of gz-common5
+-- Looking for gz-utils2 -- found version 2.2.1
+-- Looking for dlfcn.h - found
+-- Looking for libdl - found
+-- Found DL: TRUE  
+-- Searching for <gz-common5> component [av]
+-- Looking for gz-common5-av -- found version 5.9.0
+-- Searching for dependencies of gz-common5-av
+-- Checking for module 'libswscale'
+--   Found libswscale, version 5.9.100
+-- Found SWSCALE: TRUE  
+-- Checking for module 'libavdevice >= 56.4.100'
+--   Found libavdevice , version 58.13.100
+-- Found AVDEVICE: TRUE (Required is at least version "56.4.100") 
+-- Checking for module 'libavformat'
+--   Found libavformat, version 58.76.100
+-- Found AVFORMAT: TRUE  
+-- Checking for module 'libavcodec'
+--   Found libavcodec, version 58.134.100
+-- Found AVCODEC: TRUE  
+-- Checking for module 'libavutil'
+--   Found libavutil, version 56.70.100
+-- Found AVUTIL: TRUE  
+-- Searching for <gz-common5> component [events]
+-- Looking for gz-common5-events -- found version 5.9.0
+-- Searching for dependencies of gz-common5-events
+-- Looking for gz-math7 -- found version 7.7.0
+-- Searching for <gz-common5> component [graphics]
+-- Looking for gz-common5-graphics -- found version 5.9.0
+-- Searching for dependencies of gz-common5-graphics
+-- Looking for gz-math7 -- found version 7.7.0
+-- Found GzAssimp: TRUE (found version "5.2.0") 
+-- Searching for <gz-common5> component [io]
+-- Looking for gz-common5-io -- found version 5.9.0
+-- Searching for dependencies of gz-common5-io
+-- Searching for <gz-common5> component [profiler]
+-- Looking for gz-common5-profiler -- found version 5.9.0
+-- Searching for dependencies of gz-common5-profiler
+-- Looking for gz-fuel_tools9 -- found version 9.1.1
+-- Searching for dependencies of gz-fuel_tools9
+-- Found CURL: /usr/lib/x86_64-linux-gnu/libcurl.so (found version "7.81.0")  
+-- Checking for module 'jsoncpp'
+--   Found jsoncpp, version 1.9.5
+-- Found JSONCPP: TRUE  
+-- Checking for module 'libzip'
+--   Found libzip, version 1.7.3
+-- Found ZIP: TRUE  
+-- Looking for gz-utils2 -- found version 2.2.1
+-- Looking for gz-common5 -- found version 5.9.0
+-- Searching for dependencies of gz-common5
+-- Looking for gz-utils2 -- found version 2.2.1
+-- Looking for dlfcn.h - found
+-- Looking for libdl - found
+-- Searching for <gz-common5> component [testing]
+-- Looking for gz-common5-testing -- found version 5.9.0
+-- Searching for dependencies of gz-common5-testing
+-- Looking for gz-math7 -- found version 7.7.0
+-- Looking for gz-msgs10 -- found version 10.4.0
+-- Looking for gz-gui8 -- found version 8.4.0
+-- Searching for dependencies of gz-gui8
+-- Looking for gz-utils2 -- found version 2.2.1
+-- Looking for gz-math7 -- found version 7.7.0
+-- Looking for gz-common5 -- found version 5.9.0
+-- Looking for gz-plugin2 -- found version 2.0.4
+-- Looking for gz-transport13 -- found version 13.6.0
+-- Looking for gz-rendering8 -- found version 8.2.3
+-- Searching for dependencies of gz-rendering8
+-- Looking for gz-math7 -- found version 7.7.0
+-- Searching for dependencies of gz-math7
+-- Looking for gz-utils2 -- found version 2.2.1
+-- Searching for <gz-math7> component [eigen3]
+-- Looking for gz-math7-eigen3 -- found version 7.7.0
+-- Searching for dependencies of gz-math7-eigen3
+-- Looking for gz-common5 -- found version 5.9.0
+-- Searching for dependencies of gz-common5
+-- Looking for gz-utils2 -- found version 2.2.1
+-- Looking for dlfcn.h - found
+-- Looking for libdl - found
+-- Searching for <gz-common5> component [graphics]
+-- Searching for <gz-common5> component [events]
+-- Searching for <gz-common5> component [geospatial]
+-- Looking for gz-common5-geospatial -- found version 5.9.0
+-- Searching for dependencies of gz-common5-geospatial
+-- Looking for gz-math7 -- found version 7.7.0
+-- Looking for gz-common5 -- found version 5.9.0
+-- Looking for gz-plugin2 -- found version 2.0.4
+-- Searching for dependencies of gz-plugin2
+-- Looking for gz-utils2 -- found version 2.2.1
+-- Searching for <gz-plugin2> component [all]
+-- Looking for all libraries of gz-plugin2 -- found version 2.0.4
+-- Looking for gz-plugin2 -- found version 2.0.4
+-- Looking for gz-utils2 -- found version 2.2.1
+-- Found OpenGL: /usr/lib/x86_64-linux-gnu/libOpenGL.so  found components: OpenGL 
+-- Looking for gz-msgs10 -- found version 10.4.0
+-- Looking for gz-physics7 -- found version 7.8.0
+-- Searching for dependencies of gz-physics7
+-- Looking for gz-common5 -- found version 5.9.0
+-- Looking for gz-math7 -- found version 7.7.0
+-- Looking for gz-plugin2 -- found version 2.0.4
+-- Looking for gz-utils2 -- found version 2.2.1
+-- Searching for <gz-physics7> component [heightmap]
+-- Looking for gz-physics7-heightmap -- found version 7.8.0
+-- Searching for dependencies of gz-physics7-heightmap
+-- Looking for gz-common5 -- found version 5.9.0
+-- Searching for <gz-physics7> component [mesh]
+-- Looking for gz-physics7-mesh -- found version 7.8.0
+-- Searching for dependencies of gz-physics7-mesh
+-- Looking for gz-common5 -- found version 5.9.0
+-- Searching for <gz-physics7> component [sdf]
+-- Looking for gz-physics7-sdf -- found version 7.8.0
+-- Searching for dependencies of gz-physics7-sdf
+-- Looking for sdformat14 -- found version 14.9.0
+-- Looking for gz-sensors8 -- found version 8.2.2
+-- Searching for dependencies of gz-sensors8
+-- Looking for gz-math7 -- found version 7.7.0
+-- Looking for gz-common5 -- found version 5.9.0
+-- Looking for gz-transport13 -- found version 13.6.0
+-- Looking for gz-rendering8 -- found version 8.2.3
+-- Looking for gz-msgs10 -- found version 10.4.0
+-- Looking for sdformat14 -- found version 14.9.0
+-- Searching for <gz-sensors8> component [air_pressure]
+-- Looking for gz-sensors8-air_pressure -- found version 8.2.2
+-- Searching for dependencies of gz-sensors8-air_pressure
+-- Searching for <gz-sensors8> component [air_speed]
+-- Looking for gz-sensors8-air_speed -- found version 8.2.2
+-- Searching for dependencies of gz-sensors8-air_speed
+-- Searching for <gz-sensors8> component [altimeter]
+-- Looking for gz-sensors8-altimeter -- found version 8.2.2
+-- Searching for dependencies of gz-sensors8-altimeter
+-- Searching for <gz-sensors8> component [imu]
+-- Looking for gz-sensors8-imu -- found version 8.2.2
+-- Searching for dependencies of gz-sensors8-imu
+-- Searching for <gz-sensors8> component [force_torque]
+-- Looking for gz-sensors8-force_torque -- found version 8.2.2
+-- Searching for dependencies of gz-sensors8-force_torque
+-- Searching for <gz-sensors8> component [logical_camera]
+-- Looking for gz-sensors8-logical_camera -- found version 8.2.2
+-- Searching for dependencies of gz-sensors8-logical_camera
+-- Searching for <gz-sensors8> component [magnetometer]
+-- Looking for gz-sensors8-magnetometer -- found version 8.2.2
+-- Searching for dependencies of gz-sensors8-magnetometer
+-- Searching for <gz-sensors8> component [navsat]
+-- Looking for gz-sensors8-navsat -- found version 8.2.2
+-- Searching for dependencies of gz-sensors8-navsat
+-- Searching for <gz-sensors8> component [dvl]
+-- Looking for gz-sensors8-dvl -- found version 8.2.2
+-- Searching for dependencies of gz-sensors8-dvl
+-- Looking for gz-sensors8 -- found version 8.2.2
+-- Searching for dependencies of gz-sensors8
+-- Looking for gz-math7 -- found version 7.7.0
+-- Looking for gz-common5 -- found version 5.9.0
+-- Looking for gz-transport13 -- found version 13.6.0
+-- Looking for gz-rendering8 -- found version 8.2.3
+-- Looking for gz-msgs10 -- found version 10.4.0
+-- Looking for sdformat14 -- found version 14.9.0
+-- Searching for <gz-sensors8> component [rendering]
+-- Looking for gz-sensors8-rendering -- found version 8.2.2
+-- Searching for dependencies of gz-sensors8-rendering
+-- Searching for <gz-sensors8> component [rendering]
+-- Searching for <gz-sensors8> component [lidar]
+-- Looking for gz-sensors8-lidar -- found version 8.2.2
+-- Searching for dependencies of gz-sensors8-lidar
+-- Looking for gz-sensors8 -- found version 8.2.2
+-- Searching for <gz-sensors8> component [gpu_lidar]
+-- Looking for gz-sensors8-gpu_lidar -- found version 8.2.2
+-- Searching for dependencies of gz-sensors8-gpu_lidar
+-- Looking for gz-sensors8 -- found version 8.2.2
+-- Searching for <gz-sensors8> component [camera]
+-- Looking for gz-sensors8-camera -- found version 8.2.2
+-- Searching for dependencies of gz-sensors8-camera
+-- Looking for gz-sensors8 -- found version 8.2.2
+-- Searching for <gz-sensors8> component [boundingbox_camera]
+-- Looking for gz-sensors8-boundingbox_camera -- found version 8.2.2
+-- Searching for dependencies of gz-sensors8-boundingbox_camera
+-- Searching for <gz-sensors8> component [segmentation_camera]
+-- Looking for gz-sensors8-segmentation_camera -- found version 8.2.2
+-- Searching for dependencies of gz-sensors8-segmentation_camera
+-- Searching for <gz-sensors8> component [depth_camera]
+-- Looking for gz-sensors8-depth_camera -- found version 8.2.2
+-- Searching for dependencies of gz-sensors8-depth_camera
+-- Looking for gz-sensors8 -- found version 8.2.2
+-- Searching for <gz-sensors8> component [rgbd_camera]
+-- Looking for gz-sensors8-rgbd_camera -- found version 8.2.2
+-- Searching for dependencies of gz-sensors8-rgbd_camera
+-- Looking for gz-sensors8 -- found version 8.2.2
+-- Searching for <gz-sensors8> component [thermal_camera]
+-- Looking for gz-sensors8-thermal_camera -- found version 8.2.2
+-- Searching for dependencies of gz-sensors8-thermal_camera
+-- Looking for gz-sensors8 -- found version 8.2.2
+-- Searching for <gz-sensors8> component [wide_angle_camera]
+-- Looking for gz-sensors8-wide_angle_camera -- found version 8.2.2
+-- Searching for dependencies of gz-sensors8-wide_angle_camera
+-- Looking for gz-rendering8 -- found version 8.2.3
+-- Looking for gz-math7 -- found version 7.7.0
+-- Looking for gz-utils2 -- found version 2.2.1
+-- Compiling against Gazebo harmonic
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /workspace/gz_control_ws/build/gz_ros2_control_demos
+[  6%] [32mBuilding CXX object CMakeFiles/example_diff_drive.dir/examples/example_diff_drive.cpp.o[0m
+[ 12%] [32mBuilding CXX object CMakeFiles/example_position.dir/examples/example_position.cpp.o[0m
+[ 18%] [32mBuilding CXX object CMakeFiles/example_ackermann_drive.dir/examples/example_ackermann_drive.cpp.o[0m
+[ 25%] [32mBuilding CXX object CMakeFiles/example_tricycle_drive.dir/examples/example_tricycle_drive.cpp.o[0m
+[ 31%] [32mBuilding CXX object CMakeFiles/example_velocity.dir/examples/example_position.cpp.o[0m
+[ 37%] [32mBuilding CXX object CMakeFiles/example_gripper.dir/examples/example_gripper.cpp.o[0m
+[ 43%] [32mBuilding CXX object CMakeFiles/example_effort.dir/examples/example_position.cpp.o[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/gz_custom_hardware_plugins.dir/src/gz_custom_system.cpp.o[0m
+[ 56%] [32m[1mLinking CXX executable example_ackermann_drive[0m
+[ 62%] [32m[1mLinking CXX executable example_diff_drive[0m
+[ 68%] [32m[1mLinking CXX executable example_tricycle_drive[0m
+[ 75%] [32m[1mLinking CXX executable example_gripper[0m
+[ 81%] [32m[1mLinking CXX executable example_position[0m
+[ 87%] [32m[1mLinking CXX executable example_effort[0m
+[ 93%] [32m[1mLinking CXX executable example_velocity[0m
+[ 93%] Built target example_ackermann_drive
+[ 93%] Built target example_diff_drive
+[ 93%] Built target example_tricycle_drive
+[ 93%] Built target example_gripper
+[ 93%] Built target example_position
+[ 93%] Built target example_effort
+[ 93%] Built target example_velocity
+[100%] [32m[1mLinking CXX shared library libgz_custom_hardware_plugins.so[0m
+[100%] Built target gz_custom_hardware_plugins
+-- Install configuration: ""
+-- Execute custom install script
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/ackermann_drive_example.launch.py
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/cart_example_effort.launch.py
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/cart_example_ft_sensor.launch.py
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/cart_example_position.launch.py
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/cart_example_velocity.launch.py
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/cart_example_velocity_custom_plugin.launch.py
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/diff_drive_example.launch.py
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/diff_drive_example_namespaced.launch.py
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/gripper_mimic_joint_example_effort.launch.py
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/gripper_mimic_joint_example_effort.launch.xml
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/gripper_mimic_joint_example_position.launch.py
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/gripper_mimic_joint_example_position.launch.xml
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/mecanum_drive_example.launch.py
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/pendulum_example_effort.launch.py
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/pendulum_example_position.launch.py
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/tricycle_drive_example.launch.py
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//config/ackermann_drive_controller.yaml
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//config/cart_controller_effort.yaml
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//config/cart_controller_ft_sensor.yaml
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//config/cart_controller_position.yaml
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//config/cart_controller_velocity.yaml
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//config/diff_drive_controller.yaml
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//config/gripper_controller_effort.yaml
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//config/gripper_controller_position.yaml
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//config/mecanum_drive_controller.yaml
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//config/tricycle_drive_controller.yaml
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_ackermann_drive.xacro.urdf
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_cart_effort.xacro.urdf
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_cart_ft_sensor.xacro.urdf
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_cart_position.xacro.urdf
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_cart_velocity.xacro.urdf
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_cart_velocity_custom_plugin.xacro.urdf
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_diff_drive.xacro.urdf
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_gripper_mimic_joint_effort.xacro.urdf
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_gripper_mimic_joint_position.xacro.urdf
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_mecanum_drive.xacro.urdf
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_pendulum_effort.xacro.urdf
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_pendulum_position.xacro.urdf
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_tricycle_drive.xacro.urdf
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//worlds/empty_ft_sensor.sdf
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/lib/gz_ros2_control_demos/example_position
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/lib/gz_ros2_control_demos/example_velocity
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/lib/gz_ros2_control_demos/example_effort
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/lib/gz_ros2_control_demos/example_diff_drive
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/lib/gz_ros2_control_demos/example_tricycle_drive
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/lib/gz_ros2_control_demos/example_ackermann_drive
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/lib/gz_ros2_control_demos/example_gripper
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/environment/library_path.sh
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/environment/library_path.dsv
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//gz_custom_hardware_plugins.xml
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/ament_index/resource_index/package_run_dependencies/gz_ros2_control_demos
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/ament_index/resource_index/parent_prefix_path/gz_ros2_control_demos
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/environment/ament_prefix_path.sh
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/environment/ament_prefix_path.dsv
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/environment/path.sh
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/environment/path.dsv
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/local_setup.bash
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/local_setup.sh
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/local_setup.zsh
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/local_setup.dsv
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/package.dsv
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/ament_index/resource_index/packages/gz_ros2_control_demos
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/ament_index/resource_index/gz_ros2_control__pluginlib__plugin/gz_ros2_control_demos
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/cmake/ament_cmake_export_targets-extras.cmake
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/cmake/gz_ros2_control_demosConfig.cmake
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/cmake/gz_ros2_control_demosConfig-version.cmake
+-- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/package.xml
+-- Installing: /workspace/gz_control_ws/install/gz_ros2_control_demos/lib/libgz_custom_hardware_plugins.so
+-- Set runtime path of "/workspace/gz_control_ws/install/gz_ros2_control_demos/lib/libgz_custom_hardware_plugins.so" to ""
+-- Installing: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/cmake/export_gz_custom_hardware_pluginsExport.cmake
+-- Installing: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/cmake/export_gz_custom_hardware_pluginsExport-noconfig.cmake

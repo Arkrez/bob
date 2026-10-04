@@ -1,0 +1,11 @@
+[01m[K/workspace/src/quadruped_control/src/Nodes/Servo2040BridgeNode.cpp:[m[K In lambda function:
+[01m[K/workspace/src/quadruped_control/src/Nodes/Servo2040BridgeNode.cpp:93:21:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K,[m[K’ or ‘[01m[K;[m[K’ before ‘[01m[KpublishStatus[m[K’
+   93 |                     [01;31m[KpublishStatus[m[K(
+      |                     [01;31m[K^~~~~~~~~~~~~[m[K
+[01m[K/workspace/src/quadruped_control/src/Nodes/Servo2040BridgeNode.cpp:91:32:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Ksuccess[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+   91 |                     const bool [01;35m[Ksuccess[m[K = true
+      |                                [01;35m[K^~~~~~~[m[K
+gmake[2]: *** [CMakeFiles/quadruped.dir/build.make:118: CMakeFiles/quadruped.dir/src/Nodes/Servo2040BridgeNode.cpp.o] Error 1
+gmake[2]: *** Waiting for unfinished jobs....
+gmake[1]: *** [CMakeFiles/Makefile2:227: CMakeFiles/quadruped.dir/all] Error 2
+gmake: *** [Makefile:146: all] Error 2

@@ -1,0 +1,188 @@
+[0.124s] Invoking command in '/workspace/build/quadruped_control': CMAKE_PREFIX_PATH=/workspace/install/audio_common_msgs:/workspace/install/quadruped_control:/workspace/install/voice_control:/workspace/install/quadruped_sim:/workspace/install/audio_common:/opt/ros/humble LD_LIBRARY_PATH=/workspace/install/audio_common_msgs/lib:/workspace/install/audio_common/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib /usr/bin/cmake --build /workspace/build/quadruped_control -- -j12 -l12
+[0.777s] [ 26%] Built target ggml-base
+[1.088s] [ 65%] Built target ggml-cpu
+[1.352s] [ 73%] Built target ggml
+[1.656s] [ 78%] Built target whisper
+[1.821s] [35m[1mConsolidate compiler generated dependencies of target quadruped[0m
+[2.170s] gmake[2]: Warning: File '/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp' has modification time 24783 s in the future
+[2.242s] [ 84%] [32mBuilding CXX object CMakeFiles/quadruped.dir/src/Nodes/Servo2040BridgeNode.cpp.o[0m
+[2.242s] [ 84%] [32mBuilding CXX object CMakeFiles/quadruped.dir/src/Nodes/QuadrupedControllerNode.cpp.o[0m
+[2.247s] [ 86%] [32mBuilding CXX object CMakeFiles/quadruped.dir/src/quadruped.cpp.o[0m
+[6.271s] [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:[m[K In lambda function:
+[6.272s] [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:444:28:[m[K [01;31m[Kerror: [m[Kcall of overloaded ‘[01m[Kfinite(double&)[m[K’ is ambiguous
+[6.272s]   444 |                 if (![01;31m[Kfinite(x)[m[K || !finite(y) || !finite(z))
+[6.272s]       |                      [01;31m[K~~~~~~^~~[m[K
+[6.273s] In file included from [01m[K/usr/include/features.h:486[m[K,
+[6.273s]                  from [01m[K/usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h:39[m[K,
+[6.274s]                  from [01m[K/usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h:586[m[K,
+[6.274s]                  from [01m[K/usr/include/c++/11/utility:68[m[K,
+[6.275s]                  from [01m[K/usr/include/c++/11/algorithm:60[m[K,
+[6.276s]                  from [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1[m[K:
+[6.277s] [01m[K/usr/include/x86_64-linux-gnu/bits/mathcalls.h:183:1:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kint finite(double)[m[K’
+[6.278s]   183 | [01;36m[K__MATHDECL_ALIAS[m[K (int,finite,, (_Mdouble_ __value), finite)
+[6.278s]       | [01;36m[K^~~~~~~~~~~~~~~~[m[K
+[6.279s] [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:134:6:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool {anonymous}::finite(double)[m[K’
+[6.280s]   134 | bool [01;36m[Kfinite[m[K(double value)
+[6.280s]       |      [01;36m[K^~~~~~[m[K
+[6.280s] [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:444:42:[m[K [01;31m[Kerror: [m[Kcall of overloaded ‘[01m[Kfinite(double&)[m[K’ is ambiguous
+[6.281s]   444 |   if (!finite(x) || ![01;31m[Kfinite(y)[m[K || !finite(z))
+[6.281s]       |                      [01;31m[K~~~~~~^~~[m[K
+[6.281s] 
+[6.282s] In file included from [01m[K/usr/include/features.h:486[m[K,
+[6.282s]                  from [01m[K/usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h:39[m[K,
+[6.282s]                  from [01m[K/usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h:586[m[K,
+[6.283s]                  from [01m[K/usr/include/c++/11/utility:68[m[K,
+[6.283s]                  from [01m[K/usr/include/c++/11/algorithm:60[m[K,
+[6.284s]                  from [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1[m[K:
+[6.284s] [01m[K/usr/include/x86_64-linux-gnu/bits/mathcalls.h:183:1:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kint finite(double)[m[K’
+[6.284s]   183 | [01;36m[K__MATHDECL_ALIAS[m[K (int,finite,, (_Mdouble_ __value), finite)
+[6.285s]       | [01;36m[K^~~~~~~~~~~~~~~~[m[K
+[6.285s] [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:134:6:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool {anonymous}::finite(double)[m[K’
+[6.286s]   134 | bool [01;36m[Kfinite[m[K(double value)
+[6.287s]       |      [01;36m[K^~~~~~[m[K
+[6.287s] [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:444:56:[m[K [01;31m[Kerror: [m[Kcall of overloaded ‘[01m[Kfinite(double&)[m[K’ is ambiguous
+[6.288s]   444 | finite(x) || !finite(y) || ![01;31m[Kfinite(z)[m[K)
+[6.288s]       |                             [01;31m[K~~~~~~^~~[m[K
+[6.289s] 
+[6.290s] In file included from [01m[K/usr/include/features.h:486[m[K,
+[6.291s]                  from [01m[K/usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h:39[m[K,
+[6.292s]                  from [01m[K/usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h:586[m[K,
+[6.292s]                  from [01m[K/usr/include/c++/11/utility:68[m[K,
+[6.293s]                  from [01m[K/usr/include/c++/11/algorithm:60[m[K,
+[6.294s]                  from [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1[m[K:
+[6.295s] [01m[K/usr/include/x86_64-linux-gnu/bits/mathcalls.h:183:1:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kint finite(double)[m[K’
+[6.295s]   183 | [01;36m[K__MATHDECL_ALIAS[m[K (int,finite,, (_Mdouble_ __value), finite)
+[6.296s]       | [01;36m[K^~~~~~~~~~~~~~~~[m[K
+[6.296s] [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:134:6:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool {anonymous}::finite(double)[m[K’
+[6.297s]   134 | bool [01;36m[Kfinite[m[K(double value)
+[6.298s]       |      [01;36m[K^~~~~~[m[K
+[6.299s] [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:[m[K In lambda function:
+[6.299s] [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:685:28:[m[K [01;31m[Kerror: [m[Kcall of overloaded ‘[01m[Kfinite(double&)[m[K’ is ambiguous
+[6.300s]   685 |                 if (![01;31m[Kfinite(x)[m[K || !finite(y) || !finite(z))
+[6.300s]       |                      [01;31m[K~~~~~~^~~[m[K
+[6.301s] In file included from [01m[K/usr/include/features.h:486[m[K,
+[6.302s]                  from [01m[K/usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h:39[m[K,
+[6.309s]                  from [01m[K/usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h:586[m[K,
+[6.309s]                  from [01m[K/usr/include/c++/11/utility:68[m[K,
+[6.310s]                  from [01m[K/usr/include/c++/11/algorithm:60[m[K,
+[6.311s]                  from [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1[m[K:
+[6.311s] [01m[K/usr/include/x86_64-linux-gnu/bits/mathcalls.h:183:1:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kint finite(double)[m[K’
+[6.312s]   183 | [01;36m[K__MATHDECL_ALIAS[m[K (int,finite,, (_Mdouble_ __value), finite)
+[6.312s]       | [01;36m[K^~~~~~~~~~~~~~~~[m[K
+[6.312s] [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:134:6:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool {anonymous}::finite(double)[m[K’
+[6.312s]   134 | bool [01;36m[Kfinite[m[K(double value)
+[6.313s]       |      [01;36m[K^~~~~~[m[K
+[6.313s] [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:685:42:[m[K [01;31m[Kerror: [m[Kcall of overloaded ‘[01m[Kfinite(double&)[m[K’ is ambiguous
+[6.313s]   685 |   if (!finite(x) || ![01;31m[Kfinite(y)[m[K || !finite(z))
+[6.313s]       |                      [01;31m[K~~~~~~^~~[m[K
+[6.314s] 
+[6.314s] In file included from [01m[K/usr/include/features.h:486[m[K,
+[6.314s]                  from [01m[K/usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h:39[m[K,
+[6.315s]                  from [01m[K/usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h:586[m[K,
+[6.315s]                  from [01m[K/usr/include/c++/11/utility:68[m[K,
+[6.315s]                  from [01m[K/usr/include/c++/11/algorithm:60[m[K,
+[6.316s]                  from [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1[m[K:
+[6.316s] [01m[K/usr/include/x86_64-linux-gnu/bits/mathcalls.h:183:1:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kint finite(double)[m[K’
+[6.317s]   183 | [01;36m[K__MATHDECL_ALIAS[m[K (int,finite,, (_Mdouble_ __value), finite)
+[6.319s]       | [01;36m[K^~~~~~~~~~~~~~~~[m[K
+[6.319s] [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:134:6:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool {anonymous}::finite(double)[m[K’
+[6.319s]   134 | bool [01;36m[Kfinite[m[K(double value)
+[6.320s]       |      [01;36m[K^~~~~~[m[K
+[6.320s] [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:685:56:[m[K [01;31m[Kerror: [m[Kcall of overloaded ‘[01m[Kfinite(double&)[m[K’ is ambiguous
+[6.321s]   685 | finite(x) || !finite(y) || ![01;31m[Kfinite(z)[m[K)
+[6.321s]       |                             [01;31m[K~~~~~~^~~[m[K
+[6.321s] 
+[6.321s] In file included from [01m[K/usr/include/features.h:486[m[K,
+[6.322s]                  from [01m[K/usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h:39[m[K,
+[6.322s]                  from [01m[K/usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h:586[m[K,
+[6.324s]                  from [01m[K/usr/include/c++/11/utility:68[m[K,
+[6.324s]                  from [01m[K/usr/include/c++/11/algorithm:60[m[K,
+[6.324s]                  from [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1[m[K:
+[6.325s] [01m[K/usr/include/x86_64-linux-gnu/bits/mathcalls.h:183:1:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kint finite(double)[m[K’
+[6.325s]   183 | [01;36m[K__MATHDECL_ALIAS[m[K (int,finite,, (_Mdouble_ __value), finite)
+[6.325s]       | [01;36m[K^~~~~~~~~~~~~~~~[m[K
+[6.325s] [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:134:6:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool {anonymous}::finite(double)[m[K’
+[6.326s]   134 | bool [01;36m[Kfinite[m[K(double value)
+[6.326s]       |      [01;36m[K^~~~~~[m[K
+[6.326s] [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:[m[K In member function ‘[01m[KJointAngles QuadrupedControllerNode::solveIK(int, double, double, double)[m[K’:
+[6.327s] [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1569:16:[m[K [01;31m[Kerror: [m[Kcall of overloaded ‘[01m[Kfinite(double&)[m[K’ is ambiguous
+[6.327s]  1569 |         ![01;31m[Kfinite(x)[m[K ||
+[6.327s]       |          [01;31m[K~~~~~~^~~[m[K
+[6.327s] In file included from [01m[K/usr/include/features.h:486[m[K,
+[6.328s]                  from [01m[K/usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h:39[m[K,
+[6.333s]                  from [01m[K/usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h:586[m[K,
+[6.333s]                  from [01m[K/usr/include/c++/11/utility:68[m[K,
+[6.334s]                  from [01m[K/usr/include/c++/11/algorithm:60[m[K,
+[6.334s]                  from [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1[m[K:
+[6.335s] [01m[K/usr/include/x86_64-linux-gnu/bits/mathcalls.h:183:1:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kint finite(double)[m[K’
+[6.335s]   183 | [01;36m[K__MATHDECL_ALIAS[m[K (int,finite,, (_Mdouble_ __value), finite)
+[6.336s]       | [01;36m[K^~~~~~~~~~~~~~~~[m[K
+[6.336s] [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:134:6:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool {anonymous}::finite(double)[m[K’
+[6.337s]   134 | bool [01;36m[Kfinite[m[K(double value)
+[6.337s]       |      [01;36m[K^~~~~~[m[K
+[6.337s] [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1570:16:[m[K [01;31m[Kerror: [m[Kcall of overloaded ‘[01m[Kfinite(double&)[m[K’ is ambiguous
+[6.339s]  1570 |         ![01;31m[Kfinite(y)[m[K ||
+[6.340s]       |          [01;31m[K~~~~~~^~~[m[K
+[6.344s] In file included from [01m[K/usr/include/features.h:486[m[K,
+[6.345s]                  from [01m[K/usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h:39[m[K,
+[6.345s]                  from [01m[K/usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h:586[m[K,
+[6.346s]                  from [01m[K/usr/include/c++/11/utility:68[m[K,
+[6.346s]                  from [01m[K/usr/include/c++/11/algorithm:60[m[K,
+[6.347s]                  from [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1[m[K:
+[6.347s] [01m[K/usr/include/x86_64-linux-gnu/bits/mathcalls.h:183:1:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kint finite(double)[m[K’
+[6.348s]   183 | [01;36m[K__MATHDECL_ALIAS[m[K (int,finite,, (_Mdouble_ __value), finite)
+[6.349s]       | [01;36m[K^~~~~~~~~~~~~~~~[m[K
+[6.349s] [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:134:6:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool {anonymous}::finite(double)[m[K’
+[6.350s]   134 | bool [01;36m[Kfinite[m[K(double value)
+[6.352s]       |      [01;36m[K^~~~~~[m[K
+[6.353s] [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1571:16:[m[K [01;31m[Kerror: [m[Kcall of overloaded ‘[01m[Kfinite(double&)[m[K’ is ambiguous
+[6.356s]  1571 |         ![01;31m[Kfinite(z)[m[K)
+[6.357s]       |          [01;31m[K~~~~~~^~~[m[K
+[6.359s] In file included from [01m[K/usr/include/features.h:486[m[K,
+[6.360s]                  from [01m[K/usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h:39[m[K,
+[6.360s]                  from [01m[K/usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h:586[m[K,
+[6.360s]                  from [01m[K/usr/include/c++/11/utility:68[m[K,
+[6.361s]                  from [01m[K/usr/include/c++/11/algorithm:60[m[K,
+[6.361s]                  from [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1[m[K:
+[6.361s] [01m[K/usr/include/x86_64-linux-gnu/bits/mathcalls.h:183:1:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kint finite(double)[m[K’
+[6.363s]   183 | [01;36m[K__MATHDECL_ALIAS[m[K (int,finite,, (_Mdouble_ __value), finite)
+[6.364s]       | [01;36m[K^~~~~~~~~~~~~~~~[m[K
+[6.364s] [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:134:6:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool {anonymous}::finite(double)[m[K’
+[6.364s]   134 | bool [01;36m[Kfinite[m[K(double value)
+[6.365s]       |      [01;36m[K^~~~~~[m[K
+[6.365s] [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1728:28:[m[K [01;31m[Kerror: [m[Kcall of overloaded ‘[01m[Kfinite(const double&)[m[K’ is ambiguous
+[6.365s]  1728 |                     ![01;31m[Kfinite(cartesianError)[m[K ||
+[6.366s]       |                      [01;31m[K~~~~~~^~~~~~~~~~~~~~~~[m[K
+[6.368s] In file included from [01m[K/usr/include/features.h:486[m[K,
+[6.372s]                  from [01m[K/usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h:39[m[K,
+[6.377s]                  from [01m[K/usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h:586[m[K,
+[6.378s]                  from [01m[K/usr/include/c++/11/utility:68[m[K,
+[6.378s]                  from [01m[K/usr/include/c++/11/algorithm:60[m[K,
+[6.378s]                  from [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1[m[K:
+[6.378s] [01m[K/usr/include/x86_64-linux-gnu/bits/mathcalls.h:183:1:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kint finite(double)[m[K’
+[6.379s]   183 | [01;36m[K__MATHDECL_ALIAS[m[K (int,finite,, (_Mdouble_ __value), finite)
+[6.380s]       | [01;36m[K^~~~~~~~~~~~~~~~[m[K
+[6.380s] [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:134:6:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool {anonymous}::finite(double)[m[K’
+[6.381s]   134 | bool [01;36m[Kfinite[m[K(double value)
+[6.381s]       |      [01;36m[K^~~~~~[m[K
+[6.382s] [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:[m[K In lambda function:
+[6.383s] [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1884:24:[m[K [01;31m[Kerror: [m[Kcall of overloaded ‘[01m[Kfinite(const double&)[m[K’ is ambiguous
+[6.386s]  1884 |             if (![01;31m[Kfinite(errorSquared)[m[K)
+[6.389s]       |                  [01;31m[K~~~~~~^~~~~~~~~~~~~~[m[K
+[6.390s] In file included from [01m[K/usr/include/features.h:486[m[K,
+[6.391s]                  from [01m[K/usr/include/x86_64-linux-gnu/c++/11/bits/os_defines.h:39[m[K,
+[6.396s]                  from [01m[K/usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h:586[m[K,
+[6.396s]                  from [01m[K/usr/include/c++/11/utility:68[m[K,
+[6.397s]                  from [01m[K/usr/include/c++/11/algorithm:60[m[K,
+[6.398s]                  from [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1[m[K:
+[6.398s] [01m[K/usr/include/x86_64-linux-gnu/bits/mathcalls.h:183:1:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kint finite(double)[m[K’
+[6.399s]   183 | [01;36m[K__MATHDECL_ALIAS[m[K (int,finite,, (_Mdouble_ __value), finite)
+[6.399s]       | [01;36m[K^~~~~~~~~~~~~~~~[m[K
+[6.400s] [01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:134:6:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Kbool {anonymous}::finite(double)[m[K’
+[6.400s]   134 | bool [01;36m[Kfinite[m[K(double value)
+[6.400s]       |      [01;36m[K^~~~~~[m[K
+[8.291s] gmake[2]: *** [CMakeFiles/quadruped.dir/build.make:104: CMakeFiles/quadruped.dir/src/Nodes/QuadrupedControllerNode.cpp.o] Error 1
+[8.295s] gmake[2]: *** Waiting for unfinished jobs....
+[12.377s] gmake[1]: *** [CMakeFiles/Makefile2:227: CMakeFiles/quadruped.dir/all] Error 2
+[12.378s] gmake: *** [Makefile:146: all] Error 2
+[12.386s] Invoked command in '/workspace/build/quadruped_control' returned '2': CMAKE_PREFIX_PATH=/workspace/install/audio_common_msgs:/workspace/install/quadruped_control:/workspace/install/voice_control:/workspace/install/quadruped_sim:/workspace/install/audio_common:/opt/ros/humble LD_LIBRARY_PATH=/workspace/install/audio_common_msgs/lib:/workspace/install/audio_common/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib /usr/bin/cmake --build /workspace/build/quadruped_control -- -j12 -l12

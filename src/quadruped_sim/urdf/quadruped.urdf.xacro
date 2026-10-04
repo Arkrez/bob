@@ -1,0 +1,682 @@
+<?xml version="1.0"?>
+
+<robot
+  name="quadruped"
+  xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- ============================================================
+       SYNCHRONIZED KDL / WEBOTS MODEL
+
+       Leg numbering:
+
+         0 = FRONT LEFT
+         1 = FRONT RIGHT
+         2 = BACK LEFT
+         3 = BACK RIGHT
+
+       Coordinate convention:
+
+         +X = forward
+         +Y = left
+         +Z = up
+       ============================================================ -->
+
+  <xacro:property name="inch" value="0.0254"/>
+
+  <xacro:property
+    name="deg"
+    value="${3.141592653589793 / 180.0}"/>
+
+
+  <!-- BODY -->
+
+  <xacro:property
+    name="body_length"
+    value="${6.0 * inch}"/>
+
+  <xacro:property
+    name="body_width"
+    value="${6.0 * inch}"/>
+
+  <xacro:property
+    name="body_height"
+    value="${1.5 * inch}"/>
+
+
+  <!-- KDL GEOMETRY -->
+
+  <xacro:property
+    name="hip_height"
+    value="${4.5 * inch}"/>
+
+  <xacro:property
+    name="j1_to_j3"
+    value="${2.0 * inch}"/>
+
+  <xacro:property
+    name="j3_to_j4"
+    value="${2.5 * inch}"/>
+
+  <xacro:property
+    name="j4_to_foot"
+    value="${2.0 * inch}"/>
+
+
+  <xacro:property
+    name="hip_x"
+    value="${body_length / 2.0}"/>
+
+  <xacro:property
+    name="hip_y"
+    value="${body_width / 2.0}"/>
+
+
+  <xacro:property
+    name="link_width"
+    value="${1.0 * inch}"/>
+
+  <xacro:property
+    name="foot_radius"
+    value="${0.5 * inch}"/>
+
+
+  <!-- JOINT LIMITS -->
+
+  <xacro:property
+    name="joint_limit_deg"
+    value="90.0"/>
+
+  <xacro:property
+    name="joint_effort"
+    value="2.0"/>
+
+  <xacro:property
+    name="joint_velocity"
+    value="3.0"/>
+
+
+  <!-- MASSES -->
+
+  <xacro:property
+    name="body_mass"
+    value="0.6"/>
+
+  <xacro:property
+    name="link_mass"
+    value="0.03"/>
+
+  <xacro:property
+    name="foot_mass"
+    value="0.01"/>
+
+
+  <!-- MATERIALS -->
+
+  <material name="body_grey">
+    <color rgba="0.25 0.25 0.28 1"/>
+  </material>
+
+  <material name="leg_orange">
+    <color rgba="0.85 0.45 0.1 1"/>
+  </material>
+
+  <material name="foot_black">
+    <color rgba="0.05 0.05 0.05 1"/>
+  </material>
+
+
+  <!-- INERTIA HELPERS -->
+
+  <xacro:macro
+    name="box_inertia"
+    params="mass x y z cx:=0 cy:=0 cz:=0">
+
+    <inertial>
+
+      <origin
+        xyz="${cx} ${cy} ${cz}"
+        rpy="0 0 0"/>
+
+      <mass value="${mass}"/>
+
+      <inertia
+        ixx="${mass * (y*y + z*z) / 12.0}"
+        ixy="0"
+        ixz="0"
+        iyy="${mass * (x*x + z*z) / 12.0}"
+        iyz="0"
+        izz="${mass * (x*x + y*y) / 12.0}"/>
+
+    </inertial>
+
+  </xacro:macro>
+
+
+  <xacro:macro
+    name="sphere_inertia"
+    params="mass radius cx:=0 cy:=0 cz:=0">
+
+    <inertial>
+
+      <origin
+        xyz="${cx} ${cy} ${cz}"
+        rpy="0 0 0"/>
+
+      <mass value="${mass}"/>
+
+      <inertia
+        ixx="${0.4 * mass * radius * radius}"
+        ixy="0"
+        ixz="0"
+        iyy="${0.4 * mass * radius * radius}"
+        iyz="0"
+        izz="${0.4 * mass * radius * radius}"/>
+
+    </inertial>
+
+  </xacro:macro>
+
+
+  <!-- BASE LINK -->
+
+  <link name="base_link">
+
+    <visual>
+
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0"/>
+
+      <geometry>
+
+        <box
+          size="${body_length}
+                ${body_width}
+                ${body_height}"/>
+
+      </geometry>
+
+      <material name="body_grey"/>
+
+    </visual>
+
+
+    <collision>
+
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0"/>
+
+      <geometry>
+
+        <box
+          size="${body_length}
+                ${body_width}
+                ${body_height}"/>
+
+      </geometry>
+
+    </collision>
+
+
+    <xacro:box_inertia
+      mass="${body_mass}"
+      x="${body_length}"
+      y="${body_width}"
+      z="${body_height}"/>
+
+  </link>
+
+
+  <!-- LEG MACRO -->
+
+  <xacro:macro
+    name="leg"
+    params="i mount_x mount_y outward_y">
+
+
+    <!-- JOINT 1 -->
+
+    <joint
+      name="joint1_leg${i}"
+      type="revolute">
+
+      <parent link="base_link"/>
+
+      <child link="leg${i}_link1"/>
+
+      <origin
+        xyz="${mount_x} ${mount_y} 0"
+        rpy="0 0 0"/>
+
+      <axis xyz="0 0 1"/>
+
+      <limit
+        lower="${-joint_limit_deg * deg}"
+        upper="${joint_limit_deg * deg}"
+        effort="${joint_effort}"
+        velocity="${joint_velocity}"/>
+
+    </joint>
+
+
+    <!-- LINK 1 -->
+
+    <link name="leg${i}_link1">
+
+      <visual>
+
+        <origin
+          xyz="0 ${outward_y / 2.0} 0"
+          rpy="0 0 0"/>
+
+        <geometry>
+
+          <box
+            size="${link_width}
+                  ${j1_to_j3}
+                  ${link_width}"/>
+
+        </geometry>
+
+        <material name="leg_orange"/>
+
+      </visual>
+
+
+      <collision>
+
+        <origin
+          xyz="0 ${outward_y / 2.0} 0"
+          rpy="0 0 0"/>
+
+        <geometry>
+
+          <box
+            size="${link_width}
+                  ${j1_to_j3}
+                  ${link_width}"/>
+
+        </geometry>
+
+      </collision>
+
+
+      <xacro:box_inertia
+        mass="${link_mass}"
+        x="${link_width}"
+        y="${j1_to_j3}"
+        z="${link_width}"
+        cy="${outward_y / 2.0}"/>
+
+    </link>
+
+
+    <!-- JOINT 3 -->
+
+    <joint
+      name="joint3_leg${i}"
+      type="revolute">
+
+      <parent link="leg${i}_link1"/>
+
+      <child link="leg${i}_link2"/>
+
+      <origin
+        xyz="0 ${outward_y} 0"
+        rpy="0 0 0"/>
+
+      <axis xyz="1 0 0"/>
+
+      <limit
+        lower="${-joint_limit_deg * deg}"
+        upper="${joint_limit_deg * deg}"
+        effort="${joint_effort}"
+        velocity="${joint_velocity}"/>
+
+    </joint>
+
+
+    <!-- LINK 2 -->
+
+    <link name="leg${i}_link2">
+
+      <visual>
+
+        <origin
+          xyz="0 0 ${-j3_to_j4 / 2.0}"
+          rpy="0 0 0"/>
+
+        <geometry>
+
+          <box
+            size="${link_width}
+                  ${link_width}
+                  ${j3_to_j4}"/>
+
+        </geometry>
+
+        <material name="leg_orange"/>
+
+      </visual>
+
+
+      <collision>
+
+        <origin
+          xyz="0 0 ${-j3_to_j4 / 2.0}"
+          rpy="0 0 0"/>
+
+        <geometry>
+
+          <box
+            size="${link_width}
+                  ${link_width}
+                  ${j3_to_j4}"/>
+
+        </geometry>
+
+      </collision>
+
+
+      <xacro:box_inertia
+        mass="${link_mass}"
+        x="${link_width}"
+        y="${link_width}"
+        z="${j3_to_j4}"
+        cz="${-j3_to_j4 / 2.0}"/>
+
+    </link>
+
+
+    <!-- JOINT 4 -->
+
+    <joint
+      name="joint4_leg${i}"
+      type="revolute">
+
+      <parent link="leg${i}_link2"/>
+
+      <child link="leg${i}_link3"/>
+
+      <origin
+        xyz="0 0 ${-j3_to_j4}"
+        rpy="0 0 0"/>
+
+      <axis xyz="1 0 0"/>
+
+      <limit
+        lower="${-joint_limit_deg * deg}"
+        upper="${joint_limit_deg * deg}"
+        effort="${joint_effort}"
+        velocity="${joint_velocity}"/>
+
+    </joint>
+
+
+    <!-- LINK 3 -->
+
+    <link name="leg${i}_link3">
+
+      <visual>
+
+        <origin
+          xyz="0 0 ${-j4_to_foot / 2.0}"
+          rpy="0 0 0"/>
+
+        <geometry>
+
+          <box
+            size="${link_width}
+                  ${link_width}
+                  ${j4_to_foot}"/>
+
+        </geometry>
+
+        <material name="leg_orange"/>
+
+      </visual>
+
+
+      <collision>
+
+        <origin
+          xyz="0 0 ${-j4_to_foot / 2.0}"
+          rpy="0 0 0"/>
+
+        <geometry>
+
+          <box
+            size="${link_width}
+                  ${link_width}
+                  ${j4_to_foot}"/>
+
+        </geometry>
+
+      </collision>
+
+
+      <xacro:box_inertia
+        mass="${link_mass}"
+        x="${link_width}"
+        y="${link_width}"
+        z="${j4_to_foot}"
+        cz="${-j4_to_foot / 2.0}"/>
+
+    </link>
+
+
+    <!-- FOOT -->
+
+    <joint
+      name="leg${i}_foot_fixed"
+      type="fixed">
+
+      <parent link="leg${i}_link3"/>
+
+      <child link="leg${i}_foot"/>
+
+      <origin
+        xyz="0 0 ${-j4_to_foot}"
+        rpy="0 0 0"/>
+
+    </joint>
+
+
+    <link name="leg${i}_foot">
+
+      <visual>
+
+        <origin
+          xyz="0 0 ${foot_radius}"
+          rpy="0 0 0"/>
+
+        <geometry>
+
+          <sphere
+            radius="${foot_radius}"/>
+
+        </geometry>
+
+        <material name="foot_black"/>
+
+      </visual>
+
+
+      <collision>
+
+        <origin
+          xyz="0 0 ${foot_radius}"
+          rpy="0 0 0"/>
+
+        <geometry>
+
+          <sphere
+            radius="${foot_radius}"/>
+
+        </geometry>
+
+      </collision>
+
+
+      <xacro:sphere_inertia
+        mass="${foot_mass}"
+        radius="${foot_radius}"
+        cz="${foot_radius}"/>
+
+    </link>
+
+  </xacro:macro>
+
+
+  <!-- ============================================================
+       LEG POSITIONS
+
+                   +X FORWARD
+
+              0 FL       1 FR
+
+              2 BL       3 BR
+
+                   -X BACK
+       ============================================================ -->
+
+
+  <!-- 0 FRONT LEFT -->
+
+  <xacro:leg
+    i="0"
+    mount_x="${hip_x}"
+    mount_y="${hip_y}"
+    outward_y="${j1_to_j3}"/>
+
+
+  <!-- 1 FRONT RIGHT -->
+
+  <xacro:leg
+    i="1"
+    mount_x="${hip_x}"
+    mount_y="${-hip_y}"
+    outward_y="${-j1_to_j3}"/>
+
+
+  <!-- 2 BACK LEFT -->
+
+  <xacro:leg
+    i="2"
+    mount_x="${-hip_x}"
+    mount_y="${hip_y}"
+    outward_y="${j1_to_j3}"/>
+
+
+  <!-- 3 BACK RIGHT -->
+
+  <xacro:leg
+    i="3"
+    mount_x="${-hip_x}"
+    mount_y="${-hip_y}"
+    outward_y="${-j1_to_j3}"/>
+
+
+  <!-- WEBOTS PLUGIN -->
+
+  <webots>
+
+    <plugin
+      type="webots_ros2_control::Ros2Control"/>
+
+  </webots>
+
+
+  <!-- CONTROLLED JOINT MACRO -->
+
+  <xacro:macro
+    name="controlled_joint"
+    params="joint_name">
+
+    <joint name="${joint_name}">
+
+      <command_interface name="position">
+
+        <param name="min">
+          ${-joint_limit_deg * deg}
+        </param>
+
+        <param name="max">
+          ${joint_limit_deg * deg}
+        </param>
+
+      </command_interface>
+
+      <state_interface name="position"/>
+
+      <state_interface name="velocity"/>
+
+    </joint>
+
+  </xacro:macro>
+
+
+  <!-- ROS2 CONTROL -->
+
+  <ros2_control
+    name="WebotsControl"
+    type="system">
+
+    <hardware>
+
+      <plugin>webots_ros2_control::Ros2ControlSystem</plugin>
+
+    </hardware>
+
+
+    <!-- LEG 0 FL -->
+
+    <xacro:controlled_joint
+      joint_name="joint1_leg0"/>
+
+    <xacro:controlled_joint
+      joint_name="joint3_leg0"/>
+
+    <xacro:controlled_joint
+      joint_name="joint4_leg0"/>
+
+
+    <!-- LEG 1 FR -->
+
+    <xacro:controlled_joint
+      joint_name="joint1_leg1"/>
+
+    <xacro:controlled_joint
+      joint_name="joint3_leg1"/>
+
+    <xacro:controlled_joint
+      joint_name="joint4_leg1"/>
+
+
+    <!-- LEG 2 BL -->
+
+    <xacro:controlled_joint
+      joint_name="joint1_leg2"/>
+
+    <xacro:controlled_joint
+      joint_name="joint3_leg2"/>
+
+    <xacro:controlled_joint
+      joint_name="joint4_leg2"/>
+
+
+    <!-- LEG 3 BR -->
+
+    <xacro:controlled_joint
+      joint_name="joint1_leg3"/>
+
+    <xacro:controlled_joint
+      joint_name="joint3_leg3"/>
+
+    <xacro:controlled_joint
+      joint_name="joint4_leg3"/>
+
+  </ros2_control>
+
+</robot>

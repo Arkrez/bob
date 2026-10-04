@@ -1,0 +1,8 @@
+[ 26%] Built target ggml-base
+[ 65%] Built target ggml-cpu
+[ 73%] Built target ggml
+[ 78%] Built target whisper
+[35m[1mConsolidate compiler generated dependencies of target quadruped[0m
+[ 84%] [32mBuilding CXX object CMakeFiles/quadruped.dir/src/Nodes/Servo2040BridgeNode.cpp.o[0m
+[ 84%] [32mBuilding CXX object CMakeFiles/quadruped.dir/src/Nodes/QuadrupedControllerNode.cpp.o[0m
+[ 86%] [32mBuilding CXX object CMakeFiles/quadruped.dir/src/quadruped.cpp.o[0m

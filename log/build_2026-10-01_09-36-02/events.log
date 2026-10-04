@@ -1,0 +1,752 @@
+[0.000000] (-) TimerEvent: {}
+[0.001859] (-) JobUnselected: {'identifier': 'quadruped_sim'}
+[0.002075] (quadruped_control) JobQueued: {'identifier': 'quadruped_control', 'dependencies': OrderedDict()}
+[0.003768] (quadruped_control) JobStarted: {'identifier': 'quadruped_control'}
+[0.063348] (quadruped_control) JobProgress: {'identifier': 'quadruped_control', 'progress': 'cmake'}
+[0.074515] (quadruped_control) Command: {'cmd': ['/usr/bin/cmake', '/workspace/src/quadruped_control', '-DBUILD_TESTING=OFF', '-DAMENT_CMAKE_SYMLINK_INSTALL=1', '-DCMAKE_INSTALL_PREFIX=/workspace/install/quadruped_control'], 'cwd': '/workspace/build/quadruped_control', 'env': OrderedDict([('HOSTNAME', 'docker-desktop'), ('GIT_ASKPASS', '/vscode/vscode-server/bin/linux-x64/04c0d99f4fb0d8afe6ce4f0c58e31e183ac3e4b1/extensions/git/dist/askpass.sh'), ('SHLVL', '2'), ('LIBGL_ALWAYS_SOFTWARE', '1'), ('LD_LIBRARY_PATH', '/workspace/install/audio_common/lib:/workspace/install/audio_common_msgs/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('BROWSER', '/vscode/vscode-server/bin/linux-x64/04c0d99f4fb0d8afe6ce4f0c58e31e183ac3e4b1/bin/helpers/browser.sh'), ('HOME', '/root'), ('OLDPWD', '/workspace'), ('TERM_PROGRAM_VERSION', '1.139.1'), ('VSCODE_IPC_HOOK_CLI', '/tmp/vscode-ipc-fa6fb7ff-3795-4a61-ac50-d69bae7eabb3.sock'), ('ROS_PYTHON_VERSION', '3'), ('VSCODE_GIT_ASKPASS_MAIN', '/vscode/vscode-server/bin/linux-x64/04c0d99f4fb0d8afe6ce4f0c58e31e183ac3e4b1/extensions/git/dist/askpass-main.js'), ('VSCODE_GIT_ASKPASS_NODE', '/vscode/vscode-server/bin/linux-x64/04c0d99f4fb0d8afe6ce4f0c58e31e183ac3e4b1/node'), ('VSCODE_PYTHON_AUTOACTIVATE_GUARD', '1'), ('COLORTERM', 'truecolor'), ('REMOTE_CONTAINERS', 'true'), ('COLCON_PREFIX_PATH', '/workspace/install'), ('ROS_DISTRO', 'humble'), ('REMOTE_CONTAINERS_IPC', '/tmp/vscode-remote-containers-ipc-c0198022-32dd-4300-9aa2-0e6705b6185f.sock'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm-256color'), ('ROS_LOCALHOST_ONLY', '0'), ('UV_USE_IO_URING', '0'), ('QT_X11_NO_MITSHM', '1'), ('PATH', '/root/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand:/root/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli:/vscode/vscode-server/bin/linux-x64/04c0d99f4fb0d8afe6ce4f0c58e31e183ac3e4b1/bin/remote-cli:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'), ('REMOTE_CONTAINERS_SOCKETS', '["/tmp/vscode-ssh-auth-c0198022-32dd-4300-9aa2-0e6705b6185f.sock","/root/.gnupg/S.gpg-agent"]'), ('DISPLAY', 'host.docker.internal:0'), ('LANG', 'C.UTF-8'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('QT_XCB_GL_INTEGRATION', 'none'), ('VSCODE_GIT_IPC_HANDLE', '/tmp/vscode-git-2ddeeb9305.sock'), ('TERM_PROGRAM', 'vscode'), ('SSH_AUTH_SOCK', '/tmp/vscode-ssh-auth-c0198022-32dd-4300-9aa2-0e6705b6185f.sock'), ('AMENT_PREFIX_PATH', '/workspace/install/quadruped_control:/workspace/install/voice_control:/workspace/install/quadruped_sim:/workspace/install/audio_common:/workspace/install/audio_common_msgs:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('VSCODE_GIT_ASKPASS_EXTRA_ARGS', ''), ('PWD', '/workspace/build/quadruped_control'), ('LC_ALL', 'C.UTF-8'), ('COPILOT_DEBUG_NONCE', '7f76d34c619d9ae39aa0d2d418fbdd0b'), ('PYTHONPATH', '/workspace/install/audio_common_msgs/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('CMAKE_PREFIX_PATH', '/workspace/install/quadruped_control:/workspace/install/voice_control:/workspace/install/quadruped_sim:/workspace/install/audio_common:/workspace/install/audio_common_msgs:/opt/ros/humble')]), 'shell': False}
+[0.098677] (-) TimerEvent: {}
+[0.199220] (-) TimerEvent: {}
+[0.300474] (-) TimerEvent: {}
+[0.401843] (-) TimerEvent: {}
+[0.503224] (-) TimerEvent: {}
+[0.604479] (-) TimerEvent: {}
+[0.651942] (quadruped_control) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[0.707118] (-) TimerEvent: {}
+[0.807591] (-) TimerEvent: {}
+[0.909391] (-) TimerEvent: {}
+[1.009965] (-) TimerEvent: {}
+[1.113820] (-) TimerEvent: {}
+[1.165473] (quadruped_control) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[1.202463] (quadruped_control) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[1.214034] (-) TimerEvent: {}
+[1.314831] (-) TimerEvent: {}
+[1.419647] (-) TimerEvent: {}
+[1.520710] (-) TimerEvent: {}
+[1.624725] (-) TimerEvent: {}
+[1.725938] (-) TimerEvent: {}
+[1.827229] (-) TimerEvent: {}
+[1.893012] (quadruped_control) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[1.911214] (quadruped_control) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[1.912815] (quadruped_control) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[1.913115] (quadruped_control) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[1.918021] (quadruped_control) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[1.927302] (-) TimerEvent: {}
+[2.028724] (-) TimerEvent: {}
+[2.130037] (-) TimerEvent: {}
+[2.230965] (-) TimerEvent: {}
+[2.332958] (-) TimerEvent: {}
+[2.433939] (-) TimerEvent: {}
+[2.535985] (-) TimerEvent: {}
+[2.561080] (quadruped_control) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[2.580031] (quadruped_control) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[2.580683] (quadruped_control) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[2.581220] (quadruped_control) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[2.596145] (quadruped_control) StdoutLine: {'line': b'-- Found ament_cmake: 1.3.14 (/opt/ros/humble/share/ament_cmake/cmake)\n'}
+[2.636194] (-) TimerEvent: {}
+[2.737191] (-) TimerEvent: {}
+[2.839875] (-) TimerEvent: {}
+[2.941562] (-) TimerEvent: {}
+[3.042953] (-) TimerEvent: {}
+[3.144046] (-) TimerEvent: {}
+[3.244508] (-) TimerEvent: {}
+[3.346774] (-) TimerEvent: {}
+[3.380874] (quadruped_control) StdoutLine: {'line': b'-- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter \n'}
+[3.446915] (-) TimerEvent: {}
+[3.549000] (-) TimerEvent: {}
+[3.568913] (quadruped_control) StdoutLine: {'line': b'-- Override CMake install command with custom implementation using symlinks instead of copying resources\n'}
+[3.649181] (-) TimerEvent: {}
+[3.708395] (quadruped_control) StdoutLine: {'line': b'-- Found rclcpp: 16.0.19 (/opt/ros/humble/share/rclcpp/cmake)\n'}
+[3.751701] (-) TimerEvent: {}
+[3.852137] (-) TimerEvent: {}
+[3.856318] (quadruped_control) StdoutLine: {'line': b'-- Found rosidl_generator_c: 3.1.9 (/opt/ros/humble/share/rosidl_generator_c/cmake)\n'}
+[3.901505] (quadruped_control) StdoutLine: {'line': b'-- Found rosidl_adapter: 3.1.9 (/opt/ros/humble/share/rosidl_adapter/cmake)\n'}
+[3.928684] (quadruped_control) StdoutLine: {'line': b'-- Found rosidl_generator_cpp: 3.1.9 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)\n'}
+[3.952274] (-) TimerEvent: {}
+[3.956175] (quadruped_control) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[4.012656] (quadruped_control) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[4.052535] (-) TimerEvent: {}
+[4.147386] (quadruped_control) StdoutLine: {'line': b'-- Found rmw_implementation_cmake: 6.1.3 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)\n'}
+[4.152652] (-) TimerEvent: {}
+[4.156588] (quadruped_control) StdoutLine: {'line': b'-- Found rmw_fastrtps_cpp: 6.2.10 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)\n'}
+[4.253193] (-) TimerEvent: {}
+[4.354578] (-) TimerEvent: {}
+[4.455547] (-) TimerEvent: {}
+[4.556814] (-) TimerEvent: {}
+[4.660696] (-) TimerEvent: {}
+[4.761964] (-) TimerEvent: {}
+[4.862431] (-) TimerEvent: {}
+[4.910878] (quadruped_control) StdoutLine: {'line': b'-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  \n'}
+[4.962624] (-) TimerEvent: {}
+[4.971618] (quadruped_control) StdoutLine: {'line': b'-- Found FastRTPS: /opt/ros/humble/include  \n'}
+[5.062074] (quadruped_control) StdoutLine: {'line': b"-- Using RMW implementation 'rmw_fastrtps_cpp' as default\n"}
+[5.062915] (-) TimerEvent: {}
+[5.109138] (quadruped_control) StdoutLine: {'line': b'-- Looking for pthread.h\n'}
+[5.163316] (-) TimerEvent: {}
+[5.263854] (-) TimerEvent: {}
+[5.365094] (-) TimerEvent: {}
+[5.467698] (-) TimerEvent: {}
+[5.568560] (-) TimerEvent: {}
+[5.669306] (-) TimerEvent: {}
+[5.770358] (-) TimerEvent: {}
+[5.793210] (quadruped_control) StdoutLine: {'line': b'-- Looking for pthread.h - found\n'}
+[5.801224] (quadruped_control) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD\n'}
+[5.870406] (-) TimerEvent: {}
+[5.973696] (-) TimerEvent: {}
+[6.074362] (-) TimerEvent: {}
+[6.179036] (-) TimerEvent: {}
+[6.279492] (-) TimerEvent: {}
+[6.382710] (-) TimerEvent: {}
+[6.483146] (-) TimerEvent: {}
+[6.520170] (quadruped_control) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success\n'}
+[6.523267] (quadruped_control) StdoutLine: {'line': b'-- Found Threads: TRUE  \n'}
+[6.583717] (-) TimerEvent: {}
+[6.650628] (quadruped_control) StdoutLine: {'line': b'-- Found audio_common_msgs: 4.0.10 (/workspace/install/audio_common_msgs/share/audio_common_msgs/cmake)\n'}
+[6.684686] (-) TimerEvent: {}
+[6.736468] (quadruped_control) StdoutLine: {'line': b'-- Found orocos_kdl_vendor: 0.2.5 (/opt/ros/humble/share/orocos_kdl_vendor/cmake)\n'}
+[6.770224] (quadruped_control) StdoutLine: {'line': b'-- Found eigen3_cmake_module: 0.1.1 (/opt/ros/humble/share/eigen3_cmake_module/cmake)\n'}
+[6.771892] (quadruped_control) StdoutLine: {'line': b'-- Found Eigen3: TRUE (found version "3.4.0") \n'}
+[6.772256] (quadruped_control) StdoutLine: {'line': b'-- Ensuring Eigen3 include directory is part of orocos-kdl CMake target\n'}
+[6.781705] (quadruped_control) StdoutLine: {'line': b'-- Found sensor_msgs: 4.9.2 (/opt/ros/humble/share/sensor_msgs/cmake)\n'}
+[6.784771] (-) TimerEvent: {}
+[6.831324] (quadruped_control) StdoutLine: {'line': b'-- Found cv_bridge: 3.2.1 (/opt/ros/humble/share/cv_bridge/cmake)\n'}
+[6.852632] (quadruped_control) StdoutLine: {'line': b'-- Found OpenCV: /usr (found version "4.5.4") \n'}
+[6.859271] (quadruped_control) StdoutLine: {'line': b'-- whisper.cpp version: 1.9.3-dev\n'}
+[6.886158] (-) TimerEvent: {}
+[6.897059] (quadruped_control) StdoutLine: {'line': b'-- Found Git: /usr/bin/git (found version "2.34.1") \n'}
+[6.986384] (-) TimerEvent: {}
+[7.088173] (-) TimerEvent: {}
+[7.151746] (quadruped_control) StdoutLine: {'line': b'-- The ASM compiler identification is GNU\n'}
+[7.154554] (quadruped_control) StdoutLine: {'line': b'-- Found assembler: /usr/bin/cc\n'}
+[7.188279] (-) TimerEvent: {}
+[7.288710] (-) TimerEvent: {}
+[7.320611] (quadruped_control) StdoutLine: {'line': b'-- Warning: ccache not found - consider installing it for faster compilation or disable this warning with GGML_CCACHE=OFF\n'}
+[7.388839] (-) TimerEvent: {}
+[7.449319] (quadruped_control) StdoutLine: {'line': b'-- CMAKE_SYSTEM_PROCESSOR: x86_64\n'}
+[7.449998] (quadruped_control) StdoutLine: {'line': b'-- GGML_SYSTEM_ARCH: x86\n'}
+[7.489140] (-) TimerEvent: {}
+[7.589676] (-) TimerEvent: {}
+[7.691707] (-) TimerEvent: {}
+[7.793121] (-) TimerEvent: {}
+[7.895693] (-) TimerEvent: {}
+[7.996804] (-) TimerEvent: {}
+[8.098877] (-) TimerEvent: {}
+[8.199285] (-) TimerEvent: {}
+[8.301696] (-) TimerEvent: {}
+[8.402124] (-) TimerEvent: {}
+[8.502561] (-) TimerEvent: {}
+[8.603796] (-) TimerEvent: {}
+[8.705207] (-) TimerEvent: {}
+[8.805674] (-) TimerEvent: {}
+[8.907139] (-) TimerEvent: {}
+[9.007694] (-) TimerEvent: {}
+[9.110880] (-) TimerEvent: {}
+[9.211333] (-) TimerEvent: {}
+[9.311862] (-) TimerEvent: {}
+[9.413667] (-) TimerEvent: {}
+[9.414071] (quadruped_control) StdoutLine: {'line': b'-- Found OpenMP_C: -fopenmp (found version "4.5") \n'}
+[9.513861] (-) TimerEvent: {}
+[9.614703] (-) TimerEvent: {}
+[9.717836] (-) TimerEvent: {}
+[9.818351] (-) TimerEvent: {}
+[9.919077] (-) TimerEvent: {}
+[10.019469] (-) TimerEvent: {}
+[10.119662] (quadruped_control) StdoutLine: {'line': b'-- Found OpenMP_CXX: -fopenmp (found version "4.5") \n'}
+[10.121991] (-) TimerEvent: {}
+[10.122492] (quadruped_control) StdoutLine: {'line': b'-- Found OpenMP: TRUE (found version "4.5")  \n'}
+[10.133724] (quadruped_control) StdoutLine: {'line': b'-- Including CPU backend\n'}
+[10.137871] (quadruped_control) StdoutLine: {'line': b'-- x86 detected\n'}
+[10.139306] (quadruped_control) StdoutLine: {'line': b'-- Adding CPU backend variant ggml-cpu: -march=native \n'}
+[10.182187] (quadruped_control) StdoutLine: {'line': b'-- ggml version: 0.22.0\n'}
+[10.185768] (quadruped_control) StdoutLine: {'line': b'-- ggml commit:  97811330-dirty\n'}
+[10.222017] (-) TimerEvent: {}
+[10.322706] (-) TimerEvent: {}
+[10.423973] (-) TimerEvent: {}
+[10.428477] (quadruped_control) StdoutLine: {'line': b'-- Configuring done\n'}
+[10.524553] (-) TimerEvent: {}
+[10.598006] (quadruped_control) StdoutLine: {'line': b'-- Generating done\n'}
+[10.624633] (-) TimerEvent: {}
+[10.670444] (quadruped_control) StdoutLine: {'line': b'-- Build files have been written to: /workspace/build/quadruped_control\n'}
+[10.694807] (quadruped_control) CommandEnded: {'returncode': 0}
+[10.696444] (quadruped_control) JobProgress: {'identifier': 'quadruped_control', 'progress': 'build'}
+[10.698224] (quadruped_control) Command: {'cmd': ['/usr/bin/cmake', '--build', '/workspace/build/quadruped_control', '--', '-j12', '-l12'], 'cwd': '/workspace/build/quadruped_control', 'env': OrderedDict([('HOSTNAME', 'docker-desktop'), ('GIT_ASKPASS', '/vscode/vscode-server/bin/linux-x64/04c0d99f4fb0d8afe6ce4f0c58e31e183ac3e4b1/extensions/git/dist/askpass.sh'), ('SHLVL', '2'), ('LIBGL_ALWAYS_SOFTWARE', '1'), ('LD_LIBRARY_PATH', '/workspace/install/audio_common/lib:/workspace/install/audio_common_msgs/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('BROWSER', '/vscode/vscode-server/bin/linux-x64/04c0d99f4fb0d8afe6ce4f0c58e31e183ac3e4b1/bin/helpers/browser.sh'), ('HOME', '/root'), ('OLDPWD', '/workspace'), ('TERM_PROGRAM_VERSION', '1.139.1'), ('VSCODE_IPC_HOOK_CLI', '/tmp/vscode-ipc-fa6fb7ff-3795-4a61-ac50-d69bae7eabb3.sock'), ('ROS_PYTHON_VERSION', '3'), ('VSCODE_GIT_ASKPASS_MAIN', '/vscode/vscode-server/bin/linux-x64/04c0d99f4fb0d8afe6ce4f0c58e31e183ac3e4b1/extensions/git/dist/askpass-main.js'), ('VSCODE_GIT_ASKPASS_NODE', '/vscode/vscode-server/bin/linux-x64/04c0d99f4fb0d8afe6ce4f0c58e31e183ac3e4b1/node'), ('VSCODE_PYTHON_AUTOACTIVATE_GUARD', '1'), ('COLORTERM', 'truecolor'), ('REMOTE_CONTAINERS', 'true'), ('COLCON_PREFIX_PATH', '/workspace/install'), ('ROS_DISTRO', 'humble'), ('REMOTE_CONTAINERS_IPC', '/tmp/vscode-remote-containers-ipc-c0198022-32dd-4300-9aa2-0e6705b6185f.sock'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm-256color'), ('ROS_LOCALHOST_ONLY', '0'), ('UV_USE_IO_URING', '0'), ('QT_X11_NO_MITSHM', '1'), ('PATH', '/root/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand:/root/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli:/vscode/vscode-server/bin/linux-x64/04c0d99f4fb0d8afe6ce4f0c58e31e183ac3e4b1/bin/remote-cli:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'), ('REMOTE_CONTAINERS_SOCKETS', '["/tmp/vscode-ssh-auth-c0198022-32dd-4300-9aa2-0e6705b6185f.sock","/root/.gnupg/S.gpg-agent"]'), ('DISPLAY', 'host.docker.internal:0'), ('LANG', 'C.UTF-8'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('QT_XCB_GL_INTEGRATION', 'none'), ('VSCODE_GIT_IPC_HANDLE', '/tmp/vscode-git-2ddeeb9305.sock'), ('TERM_PROGRAM', 'vscode'), ('SSH_AUTH_SOCK', '/tmp/vscode-ssh-auth-c0198022-32dd-4300-9aa2-0e6705b6185f.sock'), ('AMENT_PREFIX_PATH', '/workspace/install/quadruped_control:/workspace/install/voice_control:/workspace/install/quadruped_sim:/workspace/install/audio_common:/workspace/install/audio_common_msgs:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('VSCODE_GIT_ASKPASS_EXTRA_ARGS', ''), ('PWD', '/workspace/build/quadruped_control'), ('LC_ALL', 'C.UTF-8'), ('COPILOT_DEBUG_NONCE', '7f76d34c619d9ae39aa0d2d418fbdd0b'), ('PYTHONPATH', '/workspace/install/audio_common_msgs/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('CMAKE_PREFIX_PATH', '/workspace/install/quadruped_control:/workspace/install/voice_control:/workspace/install/quadruped_sim:/workspace/install/audio_common:/workspace/install/audio_common_msgs:/opt/ros/humble')]), 'shell': False}
+[10.724645] (-) TimerEvent: {}
+[10.825990] (-) TimerEvent: {}
+[10.935004] (-) TimerEvent: {}
+[11.035528] (-) TimerEvent: {}
+[11.136116] (-) TimerEvent: {}
+[11.240699] (-) TimerEvent: {}
+[11.342955] (-) TimerEvent: {}
+[11.402366] (quadruped_control) StdoutLine: {'line': b'[  2%] \x1b[32mBuilding C object whisper/ggml/src/CMakeFiles/ggml-base.dir/ggml.c.o\x1b[0m\n'}
+[11.408094] (quadruped_control) StdoutLine: {'line': b'[  7%] \x1b[32mBuilding C object whisper/ggml/src/CMakeFiles/ggml-base.dir/ggml-alloc.c.o\x1b[0m\n'}
+[11.410502] (quadruped_control) StdoutLine: {'line': b'[  7%] \x1b[32mBuilding CXX object whisper/ggml/src/CMakeFiles/ggml-base.dir/ggml.cpp.o\x1b[0m\n'}
+[11.415459] (quadruped_control) StdoutLine: {'line': b'[ 10%] \x1b[32mBuilding CXX object whisper/ggml/src/CMakeFiles/ggml-base.dir/ggml-backend.cpp.o\x1b[0m\n'}
+[11.432711] (quadruped_control) StdoutLine: {'line': b'[ 18%] \x1b[32mBuilding CXX object whisper/ggml/src/CMakeFiles/ggml-base.dir/ggml-backend-meta.cpp.o\x1b[0m\n'}
+[11.436528] (quadruped_control) StdoutLine: {'line': b'[ 21%] \x1b[32mBuilding CXX object whisper/ggml/src/CMakeFiles/ggml-base.dir/ggml-threading.cpp.o\x1b[0m\n'}
+[11.443270] (-) TimerEvent: {}
+[11.450394] (quadruped_control) StdoutLine: {'line': b'[ 21%] \x1b[32mBuilding C object whisper/ggml/src/CMakeFiles/ggml-base.dir/ggml-quants.c.o\x1b[0m\n'}
+[11.453144] (quadruped_control) StdoutLine: {'line': b'[ 21%] \x1b[32mBuilding CXX object whisper/ggml/src/CMakeFiles/ggml-base.dir/gguf.cpp.o\x1b[0m\n'}
+[11.457534] (quadruped_control) StdoutLine: {'line': b'[ 23%] \x1b[32mBuilding CXX object whisper/ggml/src/CMakeFiles/ggml-base.dir/ggml-opt.cpp.o\x1b[0m\n'}
+[11.543836] (-) TimerEvent: {}
+[11.646549] (-) TimerEvent: {}
+[11.749093] (-) TimerEvent: {}
+[11.850545] (-) TimerEvent: {}
+[11.952661] (-) TimerEvent: {}
+[12.055536] (-) TimerEvent: {}
+[12.176494] (-) TimerEvent: {}
+[12.307777] (-) TimerEvent: {}
+[12.417143] (-) TimerEvent: {}
+[12.611026] (-) TimerEvent: {}
+[12.716751] (-) TimerEvent: {}
+[12.823934] (-) TimerEvent: {}
+[12.936326] (-) TimerEvent: {}
+[13.041155] (-) TimerEvent: {}
+[13.146984] (-) TimerEvent: {}
+[13.249328] (-) TimerEvent: {}
+[13.350806] (-) TimerEvent: {}
+[13.452911] (-) TimerEvent: {}
+[13.554478] (-) TimerEvent: {}
+[13.655999] (-) TimerEvent: {}
+[13.757859] (-) TimerEvent: {}
+[13.858647] (-) TimerEvent: {}
+[13.960327] (-) TimerEvent: {}
+[14.065657] (-) TimerEvent: {}
+[14.166766] (-) TimerEvent: {}
+[14.267424] (-) TimerEvent: {}
+[14.368430] (-) TimerEvent: {}
+[14.473444] (-) TimerEvent: {}
+[14.577339] (-) TimerEvent: {}
+[14.678026] (-) TimerEvent: {}
+[14.779696] (-) TimerEvent: {}
+[14.880703] (-) TimerEvent: {}
+[14.981529] (-) TimerEvent: {}
+[15.082723] (-) TimerEvent: {}
+[15.184956] (-) TimerEvent: {}
+[15.285967] (-) TimerEvent: {}
+[15.386776] (-) TimerEvent: {}
+[15.487704] (-) TimerEvent: {}
+[15.588870] (-) TimerEvent: {}
+[15.689722] (-) TimerEvent: {}
+[15.790715] (-) TimerEvent: {}
+[15.891336] (-) TimerEvent: {}
+[15.992584] (-) TimerEvent: {}
+[16.093710] (-) TimerEvent: {}
+[16.195070] (-) TimerEvent: {}
+[16.295861] (-) TimerEvent: {}
+[16.399719] (-) TimerEvent: {}
+[16.501320] (-) TimerEvent: {}
+[16.603169] (-) TimerEvent: {}
+[16.704672] (-) TimerEvent: {}
+[16.808296] (-) TimerEvent: {}
+[16.912318] (-) TimerEvent: {}
+[17.013706] (-) TimerEvent: {}
+[17.115526] (-) TimerEvent: {}
+[17.216323] (-) TimerEvent: {}
+[17.319058] (-) TimerEvent: {}
+[17.419579] (-) TimerEvent: {}
+[17.520527] (-) TimerEvent: {}
+[17.621095] (-) TimerEvent: {}
+[17.735989] (-) TimerEvent: {}
+[17.844831] (-) TimerEvent: {}
+[18.004361] (-) TimerEvent: {}
+[18.126037] (-) TimerEvent: {}
+[18.227329] (-) TimerEvent: {}
+[18.331551] (-) TimerEvent: {}
+[18.433855] (-) TimerEvent: {}
+[18.535678] (-) TimerEvent: {}
+[18.640045] (-) TimerEvent: {}
+[18.744242] (-) TimerEvent: {}
+[18.844763] (-) TimerEvent: {}
+[18.945345] (-) TimerEvent: {}
+[19.045909] (-) TimerEvent: {}
+[19.146423] (-) TimerEvent: {}
+[19.247442] (-) TimerEvent: {}
+[19.348308] (-) TimerEvent: {}
+[19.449698] (-) TimerEvent: {}
+[19.550190] (-) TimerEvent: {}
+[19.586850] (quadruped_control) StdoutLine: {'line': b'[ 26%] \x1b[32m\x1b[1mLinking CXX shared library ../../../bin/libggml-base.so\x1b[0m\n'}
+[19.650700] (-) TimerEvent: {}
+[19.751257] (-) TimerEvent: {}
+[19.855031] (-) TimerEvent: {}
+[19.955499] (-) TimerEvent: {}
+[20.056078] (-) TimerEvent: {}
+[20.113628] (quadruped_control) StdoutLine: {'line': b'[ 26%] Built target ggml-base\n'}
+[20.156207] (-) TimerEvent: {}
+[20.259133] (-) TimerEvent: {}
+[20.361993] (-) TimerEvent: {}
+[20.435974] (quadruped_control) StdoutLine: {'line': b'[ 34%] \x1b[32mBuilding CXX object whisper/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/repack.cpp.o\x1b[0m\n'}
+[20.439531] (quadruped_control) StdoutLine: {'line': b'[ 34%] \x1b[32mBuilding CXX object whisper/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/hbm.cpp.o\x1b[0m\n'}
+[20.444910] (quadruped_control) StdoutLine: {'line': b'[ 34%] \x1b[32mBuilding CXX object whisper/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/amx/amx.cpp.o\x1b[0m\n'}
+[20.447637] (quadruped_control) StdoutLine: {'line': b'[ 47%] \x1b[32mBuilding C object whisper/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/ggml-cpu.c.o\x1b[0m\n'}
+[20.450071] (quadruped_control) StdoutLine: {'line': b'[ 50%] \x1b[32mBuilding CXX object whisper/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/amx/mmq.cpp.o\x1b[0m\n'}
+[20.453585] (quadruped_control) StdoutLine: {'line': b'[ 52%] \x1b[32mBuilding CXX object whisper/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/unary-ops.cpp.o\x1b[0m\n'}
+[20.454803] (quadruped_control) StdoutLine: {'line': b'[ 52%] \x1b[32mBuilding C object whisper/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/quants.c.o\x1b[0m\n'}
+[20.455338] (quadruped_control) StdoutLine: {'line': b'[ 52%] \x1b[32mBuilding CXX object whisper/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/ggml-cpu.cpp.o\x1b[0m\n'}
+[20.457122] (quadruped_control) StdoutLine: {'line': b'[ 52%] \x1b[32mBuilding CXX object whisper/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/binary-ops.cpp.o\x1b[0m\n'}
+[20.467088] (-) TimerEvent: {}
+[20.470287] (quadruped_control) StdoutLine: {'line': b'[ 47%] \x1b[32mBuilding CXX object whisper/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/traits.cpp.o\x1b[0m\n'}
+[20.479526] (quadruped_control) StdoutLine: {'line': b'[ 55%] \x1b[32mBuilding CXX object whisper/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/ops.cpp.o\x1b[0m\n'}
+[20.512564] (quadruped_control) StdoutLine: {'line': b'[ 57%] \x1b[32mBuilding CXX object whisper/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/vec.cpp.o\x1b[0m\n'}
+[20.568761] (-) TimerEvent: {}
+[20.669908] (-) TimerEvent: {}
+[20.774729] (-) TimerEvent: {}
+[20.877848] (-) TimerEvent: {}
+[20.894159] (quadruped_control) StdoutLine: {'line': b'[ 60%] \x1b[32mBuilding C object whisper/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/arch/x86/quants.c.o\x1b[0m\n'}
+[20.978878] (-) TimerEvent: {}
+[21.080539] (-) TimerEvent: {}
+[21.182445] (-) TimerEvent: {}
+[21.285942] (-) TimerEvent: {}
+[21.389311] (-) TimerEvent: {}
+[21.492882] (-) TimerEvent: {}
+[21.595184] (-) TimerEvent: {}
+[21.699278] (-) TimerEvent: {}
+[21.803865] (-) TimerEvent: {}
+[21.914533] (-) TimerEvent: {}
+[22.015083] (-) TimerEvent: {}
+[22.122585] (-) TimerEvent: {}
+[22.224332] (-) TimerEvent: {}
+[22.327062] (-) TimerEvent: {}
+[22.430148] (-) TimerEvent: {}
+[22.537321] (-) TimerEvent: {}
+[22.642581] (-) TimerEvent: {}
+[22.751424] (-) TimerEvent: {}
+[22.837899] (quadruped_control) StdoutLine: {'line': b'[ 63%] \x1b[32mBuilding CXX object whisper/ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/arch/x86/repack.cpp.o\x1b[0m\n'}
+[22.851508] (-) TimerEvent: {}
+[22.954500] (-) TimerEvent: {}
+[23.059138] (-) TimerEvent: {}
+[23.162220] (-) TimerEvent: {}
+[23.266046] (-) TimerEvent: {}
+[23.367767] (-) TimerEvent: {}
+[23.470136] (-) TimerEvent: {}
+[23.574098] (-) TimerEvent: {}
+[23.676053] (-) TimerEvent: {}
+[23.780228] (-) TimerEvent: {}
+[23.881459] (-) TimerEvent: {}
+[23.983853] (-) TimerEvent: {}
+[24.086486] (-) TimerEvent: {}
+[24.190706] (-) TimerEvent: {}
+[24.291198] (-) TimerEvent: {}
+[24.391693] (-) TimerEvent: {}
+[24.492175] (-) TimerEvent: {}
+[24.592693] (-) TimerEvent: {}
+[24.693263] (-) TimerEvent: {}
+[24.793894] (-) TimerEvent: {}
+[24.898006] (-) TimerEvent: {}
+[24.999703] (-) TimerEvent: {}
+[25.100720] (-) TimerEvent: {}
+[25.201273] (-) TimerEvent: {}
+[25.301791] (-) TimerEvent: {}
+[25.402742] (-) TimerEvent: {}
+[25.503224] (-) TimerEvent: {}
+[25.603961] (-) TimerEvent: {}
+[25.704704] (-) TimerEvent: {}
+[25.805750] (-) TimerEvent: {}
+[25.906333] (-) TimerEvent: {}
+[26.007740] (-) TimerEvent: {}
+[26.108383] (-) TimerEvent: {}
+[26.210720] (-) TimerEvent: {}
+[26.311999] (-) TimerEvent: {}
+[26.412728] (-) TimerEvent: {}
+[26.514066] (-) TimerEvent: {}
+[26.614701] (-) TimerEvent: {}
+[26.716991] (-) TimerEvent: {}
+[26.817691] (-) TimerEvent: {}
+[26.918143] (-) TimerEvent: {}
+[27.018661] (-) TimerEvent: {}
+[27.119722] (-) TimerEvent: {}
+[27.220294] (-) TimerEvent: {}
+[27.322159] (-) TimerEvent: {}
+[27.423851] (-) TimerEvent: {}
+[27.524696] (-) TimerEvent: {}
+[27.627058] (-) TimerEvent: {}
+[27.736146] (-) TimerEvent: {}
+[27.839506] (-) TimerEvent: {}
+[27.940923] (-) TimerEvent: {}
+[28.046806] (-) TimerEvent: {}
+[28.155046] (-) TimerEvent: {}
+[28.264805] (-) TimerEvent: {}
+[28.372870] (-) TimerEvent: {}
+[28.473939] (-) TimerEvent: {}
+[28.574706] (-) TimerEvent: {}
+[28.678013] (-) TimerEvent: {}
+[28.778730] (-) TimerEvent: {}
+[28.879302] (-) TimerEvent: {}
+[28.979908] (-) TimerEvent: {}
+[29.080628] (-) TimerEvent: {}
+[29.181406] (-) TimerEvent: {}
+[29.282362] (-) TimerEvent: {}
+[29.383966] (-) TimerEvent: {}
+[29.485189] (-) TimerEvent: {}
+[29.586016] (-) TimerEvent: {}
+[29.690014] (-) TimerEvent: {}
+[29.790535] (-) TimerEvent: {}
+[29.891106] (-) TimerEvent: {}
+[29.929666] (quadruped_control) StdoutLine: {'line': b'[ 65%] \x1b[32m\x1b[1mLinking CXX shared library ../../../bin/libggml-cpu.so\x1b[0m\n'}
+[29.991244] (-) TimerEvent: {}
+[30.092938] (-) TimerEvent: {}
+[30.194131] (-) TimerEvent: {}
+[30.296720] (-) TimerEvent: {}
+[30.398116] (-) TimerEvent: {}
+[30.440209] (quadruped_control) StdoutLine: {'line': b'[ 65%] Built target ggml-cpu\n'}
+[30.498693] (-) TimerEvent: {}
+[30.600245] (-) TimerEvent: {}
+[30.700670] (quadruped_control) StdoutLine: {'line': b'[ 71%] \x1b[32mBuilding CXX object whisper/ggml/src/CMakeFiles/ggml.dir/ggml-backend-dl.cpp.o\x1b[0m\n'}
+[30.702009] (-) TimerEvent: {}
+[30.702252] (quadruped_control) StdoutLine: {'line': b'[ 71%] \x1b[32mBuilding CXX object whisper/ggml/src/CMakeFiles/ggml.dir/ggml-backend-reg.cpp.o\x1b[0m\n'}
+[30.802722] (-) TimerEvent: {}
+[30.903424] (-) TimerEvent: {}
+[31.005817] (-) TimerEvent: {}
+[31.106696] (-) TimerEvent: {}
+[31.207169] (-) TimerEvent: {}
+[31.308437] (-) TimerEvent: {}
+[31.410705] (-) TimerEvent: {}
+[31.511256] (-) TimerEvent: {}
+[31.612813] (-) TimerEvent: {}
+[31.713368] (-) TimerEvent: {}
+[31.814114] (-) TimerEvent: {}
+[31.914953] (-) TimerEvent: {}
+[32.016923] (-) TimerEvent: {}
+[32.117717] (-) TimerEvent: {}
+[32.218345] (-) TimerEvent: {}
+[32.319449] (-) TimerEvent: {}
+[32.421735] (-) TimerEvent: {}
+[32.522683] (-) TimerEvent: {}
+[32.624700] (-) TimerEvent: {}
+[32.725153] (-) TimerEvent: {}
+[32.749455] (quadruped_control) StdoutLine: {'line': b'[ 73%] \x1b[32m\x1b[1mLinking CXX shared library ../../../bin/libggml.so\x1b[0m\n'}
+[32.825716] (-) TimerEvent: {}
+[32.927689] (-) TimerEvent: {}
+[33.028949] (-) TimerEvent: {}
+[33.131256] (-) TimerEvent: {}
+[33.153741] (quadruped_control) StdoutLine: {'line': b'[ 73%] Built target ggml\n'}
+[33.231705] (-) TimerEvent: {}
+[33.333050] (-) TimerEvent: {}
+[33.358686] (quadruped_control) StdoutLine: {'line': b'[ 76%] \x1b[32mBuilding CXX object whisper/src/CMakeFiles/whisper.dir/whisper.cpp.o\x1b[0m\n'}
+[33.433694] (-) TimerEvent: {}
+[33.534193] (-) TimerEvent: {}
+[33.635976] (-) TimerEvent: {}
+[33.738474] (-) TimerEvent: {}
+[33.839202] (-) TimerEvent: {}
+[33.940576] (-) TimerEvent: {}
+[34.041632] (-) TimerEvent: {}
+[34.142997] (-) TimerEvent: {}
+[34.243445] (-) TimerEvent: {}
+[34.346935] (-) TimerEvent: {}
+[34.447512] (-) TimerEvent: {}
+[34.547998] (-) TimerEvent: {}
+[34.648616] (-) TimerEvent: {}
+[34.749100] (-) TimerEvent: {}
+[34.849565] (-) TimerEvent: {}
+[34.950170] (-) TimerEvent: {}
+[35.050636] (-) TimerEvent: {}
+[35.153978] (-) TimerEvent: {}
+[35.254408] (-) TimerEvent: {}
+[35.354865] (-) TimerEvent: {}
+[35.455351] (-) TimerEvent: {}
+[35.555990] (-) TimerEvent: {}
+[35.656710] (-) TimerEvent: {}
+[35.757171] (-) TimerEvent: {}
+[35.857667] (-) TimerEvent: {}
+[35.959694] (-) TimerEvent: {}
+[36.060141] (-) TimerEvent: {}
+[36.160652] (-) TimerEvent: {}
+[36.261995] (-) TimerEvent: {}
+[36.362576] (-) TimerEvent: {}
+[36.465691] (-) TimerEvent: {}
+[36.566264] (-) TimerEvent: {}
+[36.667693] (-) TimerEvent: {}
+[36.768151] (-) TimerEvent: {}
+[36.868650] (-) TimerEvent: {}
+[36.970711] (-) TimerEvent: {}
+[37.071149] (-) TimerEvent: {}
+[37.172845] (-) TimerEvent: {}
+[37.273314] (-) TimerEvent: {}
+[37.373775] (-) TimerEvent: {}
+[37.474713] (-) TimerEvent: {}
+[37.575306] (-) TimerEvent: {}
+[37.676713] (-) TimerEvent: {}
+[37.777204] (-) TimerEvent: {}
+[37.877825] (-) TimerEvent: {}
+[37.979516] (-) TimerEvent: {}
+[38.081723] (-) TimerEvent: {}
+[38.182267] (-) TimerEvent: {}
+[38.283385] (-) TimerEvent: {}
+[38.384708] (-) TimerEvent: {}
+[38.485205] (-) TimerEvent: {}
+[38.585707] (-) TimerEvent: {}
+[38.687692] (-) TimerEvent: {}
+[38.788165] (-) TimerEvent: {}
+[38.890976] (-) TimerEvent: {}
+[38.991426] (-) TimerEvent: {}
+[39.091966] (-) TimerEvent: {}
+[39.192425] (-) TimerEvent: {}
+[39.292919] (-) TimerEvent: {}
+[39.393355] (-) TimerEvent: {}
+[39.494695] (-) TimerEvent: {}
+[39.595269] (-) TimerEvent: {}
+[39.695918] (-) TimerEvent: {}
+[39.797996] (-) TimerEvent: {}
+[39.898468] (-) TimerEvent: {}
+[39.998926] (-) TimerEvent: {}
+[40.099399] (-) TimerEvent: {}
+[40.200698] (-) TimerEvent: {}
+[40.301230] (-) TimerEvent: {}
+[40.402704] (-) TimerEvent: {}
+[40.503199] (-) TimerEvent: {}
+[40.603691] (-) TimerEvent: {}
+[40.706698] (-) TimerEvent: {}
+[40.807150] (-) TimerEvent: {}
+[40.907647] (-) TimerEvent: {}
+[41.009705] (-) TimerEvent: {}
+[41.110166] (-) TimerEvent: {}
+[41.211831] (-) TimerEvent: {}
+[41.312304] (-) TimerEvent: {}
+[41.412994] (-) TimerEvent: {}
+[41.514895] (-) TimerEvent: {}
+[41.615349] (-) TimerEvent: {}
+[41.715831] (-) TimerEvent: {}
+[41.816286] (-) TimerEvent: {}
+[41.923709] (-) TimerEvent: {}
+[42.024171] (-) TimerEvent: {}
+[42.124628] (-) TimerEvent: {}
+[42.225980] (-) TimerEvent: {}
+[42.326472] (-) TimerEvent: {}
+[42.429822] (-) TimerEvent: {}
+[42.530965] (-) TimerEvent: {}
+[42.631420] (-) TimerEvent: {}
+[42.731914] (-) TimerEvent: {}
+[42.832374] (-) TimerEvent: {}
+[42.932941] (-) TimerEvent: {}
+[43.033414] (-) TimerEvent: {}
+[43.133877] (-) TimerEvent: {}
+[43.234380] (-) TimerEvent: {}
+[43.336013] (-) TimerEvent: {}
+[43.436811] (-) TimerEvent: {}
+[43.537694] (-) TimerEvent: {}
+[43.638161] (-) TimerEvent: {}
+[43.738987] (-) TimerEvent: {}
+[43.842859] (-) TimerEvent: {}
+[43.943337] (-) TimerEvent: {}
+[44.043831] (-) TimerEvent: {}
+[44.144972] (-) TimerEvent: {}
+[44.245454] (-) TimerEvent: {}
+[44.346015] (-) TimerEvent: {}
+[44.446566] (-) TimerEvent: {}
+[44.547035] (-) TimerEvent: {}
+[44.647502] (-) TimerEvent: {}
+[44.748697] (-) TimerEvent: {}
+[44.849837] (-) TimerEvent: {}
+[44.950261] (-) TimerEvent: {}
+[45.050727] (-) TimerEvent: {}
+[45.052874] (quadruped_control) StdoutLine: {'line': b'[ 78%] \x1b[32m\x1b[1mLinking CXX shared library ../../bin/libwhisper.so\x1b[0m\n'}
+[45.150846] (-) TimerEvent: {}
+[45.251944] (-) TimerEvent: {}
+[45.353382] (-) TimerEvent: {}
+[45.456701] (-) TimerEvent: {}
+[45.507361] (quadruped_control) StdoutLine: {'line': b'[ 78%] Built target whisper\n'}
+[45.557662] (-) TimerEvent: {}
+[45.658953] (-) TimerEvent: {}
+[45.738821] (quadruped_control) StdoutLine: {'line': b'[ 81%] \x1b[32mBuilding CXX object CMakeFiles/quadruped.dir/src/Nodes/Servo2040BridgeNode.cpp.o\x1b[0m\n'}
+[45.743322] (quadruped_control) StdoutLine: {'line': b'[ 86%] \x1b[32mBuilding CXX object CMakeFiles/quadruped.dir/src/quadruped.cpp.o\x1b[0m\n'}
+[45.749713] (quadruped_control) StdoutLine: {'line': b'[ 89%] \x1b[32mBuilding CXX object CMakeFiles/quadruped.dir/src/Nodes/UserCommunicationNode.cpp.o\x1b[0m\n'}
+[45.754314] (quadruped_control) StdoutLine: {'line': b'[ 89%] \x1b[32mBuilding CXX object CMakeFiles/quadruped.dir/src/Nodes/QuadrupedControllerNode.cpp.o\x1b[0m\n'}
+[45.759360] (-) TimerEvent: {}
+[45.769525] (quadruped_control) StdoutLine: {'line': b'[ 94%] \x1b[32mBuilding CXX object CMakeFiles/quadruped.dir/src/Clients/ActionClient.cpp.o\x1b[0m\n'}
+[45.772343] (quadruped_control) StdoutLine: {'line': b'[ 94%] \x1b[32mBuilding CXX object CMakeFiles/quadruped.dir/src/Services/ActionService.cpp.o\x1b[0m\n'}
+[45.780915] (quadruped_control) StdoutLine: {'line': b'[ 97%] \x1b[32mBuilding CXX object CMakeFiles/quadruped.dir/src/Nodes/CameraDisplayNode.cpp.o\x1b[0m\n'}
+[45.859520] (-) TimerEvent: {}
+[45.960400] (-) TimerEvent: {}
+[46.061992] (-) TimerEvent: {}
+[46.164073] (-) TimerEvent: {}
+[46.265491] (-) TimerEvent: {}
+[46.366366] (-) TimerEvent: {}
+[46.467703] (-) TimerEvent: {}
+[46.569054] (-) TimerEvent: {}
+[46.670953] (-) TimerEvent: {}
+[46.772460] (-) TimerEvent: {}
+[46.873288] (-) TimerEvent: {}
+[46.975034] (-) TimerEvent: {}
+[47.076704] (-) TimerEvent: {}
+[47.177207] (-) TimerEvent: {}
+[47.278998] (-) TimerEvent: {}
+[47.380583] (-) TimerEvent: {}
+[47.483371] (-) TimerEvent: {}
+[47.583959] (-) TimerEvent: {}
+[47.684767] (-) TimerEvent: {}
+[47.785713] (-) TimerEvent: {}
+[47.887151] (-) TimerEvent: {}
+[47.987717] (-) TimerEvent: {}
+[48.090722] (-) TimerEvent: {}
+[48.191971] (-) TimerEvent: {}
+[48.292857] (-) TimerEvent: {}
+[48.394808] (-) TimerEvent: {}
+[48.495519] (-) TimerEvent: {}
+[48.596052] (-) TimerEvent: {}
+[48.696657] (-) TimerEvent: {}
+[48.800224] (-) TimerEvent: {}
+[48.901707] (-) TimerEvent: {}
+[49.002240] (-) TimerEvent: {}
+[49.105025] (-) TimerEvent: {}
+[49.205615] (-) TimerEvent: {}
+[49.306589] (-) TimerEvent: {}
+[49.407094] (-) TimerEvent: {}
+[49.507676] (-) TimerEvent: {}
+[49.608708] (-) TimerEvent: {}
+[49.710593] (-) TimerEvent: {}
+[49.811039] (-) TimerEvent: {}
+[49.911865] (-) TimerEvent: {}
+[50.016069] (-) TimerEvent: {}
+[50.116723] (-) TimerEvent: {}
+[50.217405] (-) TimerEvent: {}
+[50.317949] (-) TimerEvent: {}
+[50.418818] (-) TimerEvent: {}
+[50.520009] (-) TimerEvent: {}
+[50.620558] (-) TimerEvent: {}
+[50.721702] (-) TimerEvent: {}
+[50.823072] (-) TimerEvent: {}
+[50.923728] (-) TimerEvent: {}
+[51.026000] (-) TimerEvent: {}
+[51.126486] (-) TimerEvent: {}
+[51.226961] (-) TimerEvent: {}
+[51.327787] (-) TimerEvent: {}
+[51.429338] (-) TimerEvent: {}
+[51.531564] (-) TimerEvent: {}
+[51.632695] (-) TimerEvent: {}
+[51.735217] (-) TimerEvent: {}
+[51.836784] (-) TimerEvent: {}
+[51.938470] (-) TimerEvent: {}
+[52.040789] (-) TimerEvent: {}
+[52.144691] (-) TimerEvent: {}
+[52.245180] (-) TimerEvent: {}
+[52.345817] (-) TimerEvent: {}
+[52.447974] (-) TimerEvent: {}
+[52.548506] (-) TimerEvent: {}
+[52.649119] (-) TimerEvent: {}
+[52.749768] (-) TimerEvent: {}
+[52.851860] (-) TimerEvent: {}
+[52.952399] (-) TimerEvent: {}
+[53.052933] (-) TimerEvent: {}
+[53.153459] (-) TimerEvent: {}
+[53.256291] (-) TimerEvent: {}
+[53.357827] (-) TimerEvent: {}
+[53.461703] (-) TimerEvent: {}
+[53.562177] (-) TimerEvent: {}
+[53.662702] (-) TimerEvent: {}
+[53.763175] (-) TimerEvent: {}
+[53.866808] (-) TimerEvent: {}
+[53.967349] (-) TimerEvent: {}
+[54.068405] (-) TimerEvent: {}
+[54.168904] (-) TimerEvent: {}
+[54.269387] (-) TimerEvent: {}
+[54.369922] (-) TimerEvent: {}
+[54.470385] (-) TimerEvent: {}
+[54.573422] (-) TimerEvent: {}
+[54.674744] (-) TimerEvent: {}
+[54.775987] (-) TimerEvent: {}
+[54.877993] (-) TimerEvent: {}
+[54.978713] (-) TimerEvent: {}
+[55.079699] (-) TimerEvent: {}
+[55.180183] (-) TimerEvent: {}
+[55.283866] (-) TimerEvent: {}
+[55.384374] (-) TimerEvent: {}
+[55.485583] (-) TimerEvent: {}
+[55.586726] (-) TimerEvent: {}
+[55.687188] (-) TimerEvent: {}
+[55.789177] (-) TimerEvent: {}
+[55.890347] (-) TimerEvent: {}
+[55.994708] (-) TimerEvent: {}
+[56.095203] (-) TimerEvent: {}
+[56.195661] (-) TimerEvent: {}
+[56.296709] (-) TimerEvent: {}
+[56.398570] (-) TimerEvent: {}
+[56.500699] (-) TimerEvent: {}
+[56.601168] (-) TimerEvent: {}
+[56.701648] (-) TimerEvent: {}
+[56.802112] (-) TimerEvent: {}
+[56.904023] (-) TimerEvent: {}
+[57.005796] (-) TimerEvent: {}
+[57.110044] (-) TimerEvent: {}
+[57.210671] (-) TimerEvent: {}
+[57.313982] (-) TimerEvent: {}
+[57.414471] (-) TimerEvent: {}
+[57.514963] (-) TimerEvent: {}
+[57.615514] (-) TimerEvent: {}
+[57.719623] (-) TimerEvent: {}
+[57.823056] (-) TimerEvent: {}
+[57.923576] (-) TimerEvent: {}
+[58.024126] (-) TimerEvent: {}
+[58.124621] (-) TimerEvent: {}
+[58.225108] (-) TimerEvent: {}
+[58.325787] (-) TimerEvent: {}
+[58.427723] (-) TimerEvent: {}
+[58.528344] (-) TimerEvent: {}
+[58.629230] (-) TimerEvent: {}
+[58.731566] (-) TimerEvent: {}
+[58.836731] (-) TimerEvent: {}
+[58.937698] (-) TimerEvent: {}
+[59.040079] (-) TimerEvent: {}
+[59.140852] (-) TimerEvent: {}
+[59.187810] (quadruped_control) StdoutLine: {'line': b'[100%] \x1b[32m\x1b[1mLinking CXX executable quadruped\x1b[0m\n'}
+[59.241001] (-) TimerEvent: {}
+[59.341569] (-) TimerEvent: {}
+[59.442695] (-) TimerEvent: {}
+[59.545784] (-) TimerEvent: {}
+[59.648157] (-) TimerEvent: {}
+[59.749712] (-) TimerEvent: {}
+[59.851081] (-) TimerEvent: {}
+[59.952507] (-) TimerEvent: {}
+[60.053661] (-) TimerEvent: {}
+[60.155045] (-) TimerEvent: {}
+[60.256250] (-) TimerEvent: {}
+[60.358358] (-) TimerEvent: {}
+[60.459696] (-) TimerEvent: {}
+[60.544484] (quadruped_control) StdoutLine: {'line': b'[100%] Built target quadruped\n'}
+[60.559874] (-) TimerEvent: {}
+[60.603419] (quadruped_control) CommandEnded: {'returncode': 0}
+[60.608302] (quadruped_control) JobProgress: {'identifier': 'quadruped_control', 'progress': 'install'}
+[60.660079] (-) TimerEvent: {}
+[60.671990] (quadruped_control) Command: {'cmd': ['/usr/bin/cmake', '--install', '/workspace/build/quadruped_control'], 'cwd': '/workspace/build/quadruped_control', 'env': OrderedDict([('HOSTNAME', 'docker-desktop'), ('GIT_ASKPASS', '/vscode/vscode-server/bin/linux-x64/04c0d99f4fb0d8afe6ce4f0c58e31e183ac3e4b1/extensions/git/dist/askpass.sh'), ('SHLVL', '2'), ('LIBGL_ALWAYS_SOFTWARE', '1'), ('LD_LIBRARY_PATH', '/workspace/install/audio_common/lib:/workspace/install/audio_common_msgs/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('BROWSER', '/vscode/vscode-server/bin/linux-x64/04c0d99f4fb0d8afe6ce4f0c58e31e183ac3e4b1/bin/helpers/browser.sh'), ('HOME', '/root'), ('OLDPWD', '/workspace'), ('TERM_PROGRAM_VERSION', '1.139.1'), ('VSCODE_IPC_HOOK_CLI', '/tmp/vscode-ipc-fa6fb7ff-3795-4a61-ac50-d69bae7eabb3.sock'), ('ROS_PYTHON_VERSION', '3'), ('VSCODE_GIT_ASKPASS_MAIN', '/vscode/vscode-server/bin/linux-x64/04c0d99f4fb0d8afe6ce4f0c58e31e183ac3e4b1/extensions/git/dist/askpass-main.js'), ('VSCODE_GIT_ASKPASS_NODE', '/vscode/vscode-server/bin/linux-x64/04c0d99f4fb0d8afe6ce4f0c58e31e183ac3e4b1/node'), ('VSCODE_PYTHON_AUTOACTIVATE_GUARD', '1'), ('COLORTERM', 'truecolor'), ('REMOTE_CONTAINERS', 'true'), ('COLCON_PREFIX_PATH', '/workspace/install'), ('ROS_DISTRO', 'humble'), ('REMOTE_CONTAINERS_IPC', '/tmp/vscode-remote-containers-ipc-c0198022-32dd-4300-9aa2-0e6705b6185f.sock'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('TERM', 'xterm-256color'), ('ROS_LOCALHOST_ONLY', '0'), ('UV_USE_IO_URING', '0'), ('QT_X11_NO_MITSHM', '1'), ('PATH', '/root/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand:/root/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli:/vscode/vscode-server/bin/linux-x64/04c0d99f4fb0d8afe6ce4f0c58e31e183ac3e4b1/bin/remote-cli:/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'), ('REMOTE_CONTAINERS_SOCKETS', '["/tmp/vscode-ssh-auth-c0198022-32dd-4300-9aa2-0e6705b6185f.sock","/root/.gnupg/S.gpg-agent"]'), ('DISPLAY', 'host.docker.internal:0'), ('LANG', 'C.UTF-8'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('QT_XCB_GL_INTEGRATION', 'none'), ('VSCODE_GIT_IPC_HANDLE', '/tmp/vscode-git-2ddeeb9305.sock'), ('TERM_PROGRAM', 'vscode'), ('SSH_AUTH_SOCK', '/tmp/vscode-ssh-auth-c0198022-32dd-4300-9aa2-0e6705b6185f.sock'), ('AMENT_PREFIX_PATH', '/workspace/install/quadruped_control:/workspace/install/voice_control:/workspace/install/quadruped_sim:/workspace/install/audio_common:/workspace/install/audio_common_msgs:/opt/ros/humble'), ('SHELL', '/bin/bash'), ('VSCODE_GIT_ASKPASS_EXTRA_ARGS', ''), ('PWD', '/workspace/build/quadruped_control'), ('LC_ALL', 'C.UTF-8'), ('COPILOT_DEBUG_NONCE', '7f76d34c619d9ae39aa0d2d418fbdd0b'), ('PYTHONPATH', '/workspace/install/audio_common_msgs/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('CMAKE_PREFIX_PATH', '/workspace/install/quadruped_control:/workspace/install/voice_control:/workspace/install/quadruped_sim:/workspace/install/audio_common:/workspace/install/audio_common_msgs:/opt/ros/humble')]), 'shell': False}
+[60.732539] (quadruped_control) StdoutLine: {'line': b'-- Install configuration: "Release"\n'}
+[60.736977] (quadruped_control) StdoutLine: {'line': b'-- Execute custom install script\n'}
+[60.745865] (quadruped_control) StdoutLine: {'line': b'-- Symlinking: /workspace/install/quadruped_control//libggml-cpu.so.0.22.0\n'}
+[60.760182] (-) TimerEvent: {}
+[60.798526] (quadruped_control) StdoutLine: {'line': b'-- Symlinking: /workspace/install/quadruped_control//libggml-base.so.0.22.0\n'}
+[60.841650] (quadruped_control) StdoutLine: {'line': b'-- Symlinking: /workspace/install/quadruped_control/lib/cmake/ggml/ggml-config.cmake\n'}
+[60.860644] (-) TimerEvent: {}
+[60.881241] (quadruped_control) StdoutLine: {'line': b'-- Symlinking: /workspace/install/quadruped_control/lib/cmake/ggml/ggml-config-version.cmake\n'}
+[60.922891] (quadruped_control) StdoutLine: {'line': b'-- Symlinking: /workspace/install/quadruped_control/lib/cmake/whisper/whisper-config.cmake\n'}
+[60.961716] (-) TimerEvent: {}
+[60.973582] (quadruped_control) StdoutLine: {'line': b'-- Symlinking: /workspace/install/quadruped_control/lib/cmake/whisper/whisper-config-version.cmake\n'}
+[61.038244] (quadruped_control) StdoutLine: {'line': b'-- Symlinking: /workspace/install/quadruped_control/lib/pkgconfig/whisper.pc\n'}
+[61.063713] (-) TimerEvent: {}
+[61.094584] (quadruped_control) StdoutLine: {'line': b'-- Symlinking: /workspace/install/quadruped_control/lib/cmake/parakeet/parakeet-config.cmake\n'}
+[61.151382] (quadruped_control) StdoutLine: {'line': b'-- Symlinking: /workspace/install/quadruped_control/lib/cmake/parakeet/parakeet-config-version.cmake\n'}
+[61.163816] (-) TimerEvent: {}
+[61.196375] (quadruped_control) StdoutLine: {'line': b'-- Symlinking: /workspace/install/quadruped_control/lib/pkgconfig/parakeet.pc\n'}
+[61.238443] (quadruped_control) StdoutLine: {'line': b'-- Symlinking: /workspace/install/quadruped_control/lib/quadruped_control/quadruped\n'}
+[61.264676] (-) TimerEvent: {}
+[61.280749] (quadruped_control) StdoutLine: {'line': b'-- Symlinking: /workspace/install/quadruped_control/share/ament_index/resource_index/package_run_dependencies/quadruped_control\n'}
+[61.324545] (quadruped_control) StdoutLine: {'line': b'-- Symlinking: /workspace/install/quadruped_control/share/ament_index/resource_index/parent_prefix_path/quadruped_control\n'}
+[61.366701] (-) TimerEvent: {}
+[61.386702] (quadruped_control) StdoutLine: {'line': b'-- Symlinking: /workspace/install/quadruped_control/share/quadruped_control/environment/ament_prefix_path.sh\n'}
+[61.442041] (quadruped_control) StdoutLine: {'line': b'-- Symlinking: /workspace/install/quadruped_control/share/quadruped_control/environment/ament_prefix_path.dsv\n'}
+[61.466883] (-) TimerEvent: {}
+[61.494491] (quadruped_control) StdoutLine: {'line': b'-- Symlinking: /workspace/install/quadruped_control/share/quadruped_control/environment/path.sh\n'}
+[61.554644] (quadruped_control) StdoutLine: {'line': b'-- Symlinking: /workspace/install/quadruped_control/share/quadruped_control/environment/path.dsv\n'}
+[61.570663] (-) TimerEvent: {}
+[61.596312] (quadruped_control) StdoutLine: {'line': b'-- Symlinking: /workspace/install/quadruped_control/share/quadruped_control/local_setup.bash\n'}
+[61.635920] (quadruped_control) StdoutLine: {'line': b'-- Symlinking: /workspace/install/quadruped_control/share/quadruped_control/local_setup.sh\n'}
+[61.671700] (-) TimerEvent: {}
+[61.681730] (quadruped_control) StdoutLine: {'line': b'-- Symlinking: /workspace/install/quadruped_control/share/quadruped_control/local_setup.zsh\n'}
+[61.740263] (quadruped_control) StdoutLine: {'line': b'-- Symlinking: /workspace/install/quadruped_control/share/quadruped_control/local_setup.dsv\n'}
+[61.771799] (-) TimerEvent: {}
+[61.791633] (quadruped_control) StdoutLine: {'line': b'-- Symlinking: /workspace/install/quadruped_control/share/quadruped_control/package.dsv\n'}
+[61.838901] (quadruped_control) StdoutLine: {'line': b'-- Symlinking: /workspace/install/quadruped_control/share/ament_index/resource_index/packages/quadruped_control\n'}
+[61.872669] (-) TimerEvent: {}
+[61.879205] (quadruped_control) StdoutLine: {'line': b'-- Symlinking: /workspace/install/quadruped_control/share/quadruped_control/cmake/quadruped_controlConfig.cmake\n'}
+[61.919766] (quadruped_control) StdoutLine: {'line': b'-- Symlinking: /workspace/install/quadruped_control/share/quadruped_control/cmake/quadruped_controlConfig-version.cmake\n'}
+[61.961823] (quadruped_control) StdoutLine: {'line': b'-- Symlinking: /workspace/install/quadruped_control/share/quadruped_control/package.xml\n'}
+[61.975639] (-) TimerEvent: {}
+[62.007726] (quadruped_control) CommandEnded: {'returncode': 0}
+[62.075795] (-) TimerEvent: {}
+[62.082255] (quadruped_control) JobEnded: {'identifier': 'quadruped_control', 'rc': 0}
+[62.085637] (-) EventReactorShutdown: {}

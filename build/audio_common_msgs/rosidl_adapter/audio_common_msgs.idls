@@ -1,0 +1,6 @@
+/workspace/build/audio_common_msgs/rosidl_adapter/audio_common_msgs:msg/AudioData.idl
+/workspace/build/audio_common_msgs/rosidl_adapter/audio_common_msgs:msg/AudioInfo.idl
+/workspace/build/audio_common_msgs/rosidl_adapter/audio_common_msgs:msg/Audio.idl
+/workspace/build/audio_common_msgs/rosidl_adapter/audio_common_msgs:msg/AudioStamped.idl
+/workspace/build/audio_common_msgs/rosidl_adapter/audio_common_msgs:action/TTS.idl
+/workspace/build/audio_common_msgs/rosidl_adapter/audio_common_msgs:srv/MusicPlay.idl

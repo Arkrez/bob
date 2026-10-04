@@ -1,0 +1,392 @@
+[0.107s] Invoking command in '/workspace/gz_control_ws/build/gz_ros2_control_demos': AMENT_PREFIX_PATH=/workspace/gz_control_ws/install/gz_ros2_control:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspace/gz_control_ws/install/gz_ros2_control:/workspace/install/voice_control:/workspace/install/quadruped_sim:/workspace/install/quadruped_control:/workspace/install/audio_common:/workspace/install/audio_common_msgs:/opt/ros/humble LD_LIBRARY_PATH=/workspace/gz_control_ws/install/gz_ros2_control/lib:${LD_LIBRARY_PATH} /usr/bin/cmake /workspace/gz_control_ws/src/gz_ros2_control/gz_ros2_control_demos -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/workspace/gz_control_ws/install/gz_ros2_control_demos
+[0.758s] -- The C compiler identification is GNU 11.4.0
+[1.151s] -- The CXX compiler identification is GNU 11.4.0
+[1.187s] -- Detecting C compiler ABI info
+[1.911s] -- Detecting C compiler ABI info - done
+[1.932s] -- Check for working C compiler: /usr/bin/cc - skipped
+[1.933s] -- Detecting C compile features
+[1.934s] -- Detecting C compile features - done
+[1.941s] -- Detecting CXX compiler ABI info
+[2.655s] -- Detecting CXX compiler ABI info - done
+[2.677s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[2.678s] -- Detecting CXX compile features
+[2.678s] -- Detecting CXX compile features - done
+[2.714s] -- Found ament_cmake: 1.3.14 (/opt/ros/humble/share/ament_cmake/cmake)
+[3.492s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[3.670s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[4.001s] -- Found geometry_msgs: 4.9.2 (/opt/ros/humble/share/geometry_msgs/cmake)
+[4.219s] -- Found rosidl_generator_c: 3.1.9 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[4.260s] -- Found rosidl_adapter: 3.1.9 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[4.303s] -- Found rosidl_generator_cpp: 3.1.9 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[4.349s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[4.419s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[4.517s] -- Found pluginlib: 5.1.4 (/opt/ros/humble/share/pluginlib/cmake)
+[4.655s] -- Found rclcpp: 16.0.19 (/opt/ros/humble/share/rclcpp/cmake)
+[4.854s] -- Found rmw_implementation_cmake: 6.1.3 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[4.880s] -- Found rmw_fastrtps_cpp: 6.2.10 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[4.993s] -- Found TinyXML2 via Config file: TinyXML2_DIR-NOTFOUND
+[5.542s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+[5.544s] -- Found TinyXML2 via Config file: TinyXML2_DIR-NOTFOUND
+[5.583s] -- Found FastRTPS: /opt/ros/humble/include  
+[5.587s] -- Found TinyXML2 via Config file: TinyXML2_DIR-NOTFOUND
+[5.619s] -- Found TinyXML2 via Config file: TinyXML2_DIR-NOTFOUND
+[5.648s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[5.712s] -- Looking for pthread.h
+[6.309s] -- Looking for pthread.h - found
+[6.311s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[6.957s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+[6.958s] -- Found Threads: TRUE  
+[7.049s] -- Found rclcpp_action: 16.0.19 (/opt/ros/humble/share/rclcpp_action/cmake)
+[7.134s] -- Found rclcpp_lifecycle: 16.0.19 (/opt/ros/humble/share/rclcpp_lifecycle/cmake)
+[7.189s] -- Found control_msgs: 4.9.0 (/opt/ros/humble/share/control_msgs/cmake)
+[7.290s] -- Found control_toolbox: 3.7.1 (/opt/ros/humble/share/control_toolbox/cmake)
+[7.479s] -- Found gz_ros2_control: 0.7.21 (/workspace/gz_control_ws/install/gz_ros2_control/share/gz_ros2_control/cmake)
+[7.495s] -- Found hardware_interface: 2.54.2 (/opt/ros/humble/share/hardware_interface/cmake)
+[7.512s] -- Looking for gz-sim8 -- found version 8.15.0
+[7.529s] -- Searching for dependencies of gz-sim8
+[7.544s] -- Looking for sdformat14 -- found version 14.9.0
+[7.544s] -- Searching for dependencies of sdformat14
+[7.564s] -- Checking for module 'tinyxml2'
+[7.689s] --   Found tinyxml2, version 9.0.0
+[8.027s] -- Looking for gz-math7 -- found version 7.7.0
+[8.028s] -- Searching for dependencies of gz-math7
+[8.045s] -- Looking for gz-utils2 -- found version 2.2.1
+[8.045s] -- Searching for dependencies of gz-utils2
+[8.047s] -- Looking for gz-utils2 -- found version 2.2.1
+[8.047s] -- Searching for dependencies of gz-utils2
+[8.047s] -- Searching for <gz-utils2> component [cli]
+[8.066s] -- Looking for gz-utils2-cli -- found version 2.2.1
+[8.066s] -- Searching for dependencies of gz-utils2-cli
+[8.085s] -- Looking for gz-plugin2 -- found version 2.0.4
+[8.085s] -- Searching for dependencies of gz-plugin2
+[8.086s] -- Looking for gz-utils2 -- found version 2.2.1
+[8.086s] -- Searching for <gz-plugin2> component [loader]
+[8.103s] -- Looking for gz-plugin2-loader -- found version 2.0.4
+[8.104s] -- Searching for dependencies of gz-plugin2-loader
+[8.105s] -- Searching for <gz-plugin2> component [register]
+[8.124s] -- Looking for gz-plugin2-register -- found version 2.0.4
+[8.125s] -- Searching for dependencies of gz-plugin2-register
+[8.144s] -- Looking for gz-transport13 -- found version 13.6.0
+[8.144s] -- Searching for dependencies of gz-transport13
+[8.214s] -- Found Protobuf: /usr/lib/x86_64-linux-gnu/libprotobuf.so (found version "3.12.4") 
+[8.245s] -- Config-file not installed for ZeroMQ -- checking for pkg-config
+[8.267s] -- Checking for module 'libzmq >= 4'
+[8.398s] --   Found libzmq , version 4.3.4
+[8.734s] -- Found ZeroMQ: TRUE (Required is at least version "4") 
+[8.757s] -- Checking for module 'uuid'
+[8.884s] --   Found uuid, version 2.37.2
+[9.205s] -- Found UUID: TRUE  
+[9.206s] -- Looking for gz-utils2 -- found version 2.2.1
+[9.226s] -- Looking for gz-msgs10 -- found version 10.4.0
+[9.227s] -- Searching for dependencies of gz-msgs10
+[9.297s] -- Looking for gz-utils2 -- found version 2.2.1
+[9.297s] -- Looking for gz-math7 -- found version 7.7.0
+[9.323s] -- Searching for <gz-transport13> component [log]
+[9.343s] -- Looking for gz-transport13-log -- found version 13.6.0
+[9.343s] -- Searching for dependencies of gz-transport13-log
+[9.344s] -- Searching for <gz-transport13> component [parameters]
+[9.363s] -- Looking for gz-transport13-parameters -- found version 13.6.0
+[9.364s] -- Searching for dependencies of gz-transport13-parameters
+[9.365s] -- Looking for gz-msgs10 -- found version 10.4.0
+[9.383s] -- Looking for gz-common5 -- found version 5.9.0
+[9.383s] -- Searching for dependencies of gz-common5
+[9.383s] -- Looking for gz-utils2 -- found version 2.2.1
+[9.384s] -- Looking for dlfcn.h - found
+[9.385s] -- Looking for libdl - found
+[9.387s] -- Found DL: TRUE  
+[9.411s] -- Searching for <gz-common5> component [av]
+[9.431s] -- Looking for gz-common5-av -- found version 5.9.0
+[9.431s] -- Searching for dependencies of gz-common5-av
+[9.454s] -- Checking for module 'libswscale'
+[9.584s] --   Found libswscale, version 5.9.100
+[9.918s] -- Found SWSCALE: TRUE  
+[9.940s] -- Checking for module 'libavdevice >= 56.4.100'
+[10.086s] --   Found libavdevice , version 58.13.100
+[10.429s] -- Found AVDEVICE: TRUE (Required is at least version "56.4.100") 
+[10.451s] -- Checking for module 'libavformat'
+[10.577s] --   Found libavformat, version 58.76.100
+[10.911s] -- Found AVFORMAT: TRUE  
+[10.932s] -- Checking for module 'libavcodec'
+[11.058s] --   Found libavcodec, version 58.134.100
+[11.393s] -- Found AVCODEC: TRUE  
+[11.414s] -- Checking for module 'libavutil'
+[11.539s] --   Found libavutil, version 56.70.100
+[11.863s] -- Found AVUTIL: TRUE  
+[11.864s] -- Searching for <gz-common5> component [events]
+[11.884s] -- Looking for gz-common5-events -- found version 5.9.0
+[11.884s] -- Searching for dependencies of gz-common5-events
+[11.885s] -- Looking for gz-math7 -- found version 7.7.0
+[11.885s] -- Searching for <gz-common5> component [graphics]
+[11.902s] -- Looking for gz-common5-graphics -- found version 5.9.0
+[11.902s] -- Searching for dependencies of gz-common5-graphics
+[11.902s] -- Looking for gz-math7 -- found version 7.7.0
+[11.938s] -- Found GzAssimp: TRUE (found version "5.2.0") 
+[11.939s] -- Searching for <gz-common5> component [io]
+[11.956s] -- Looking for gz-common5-io -- found version 5.9.0
+[11.956s] -- Searching for dependencies of gz-common5-io
+[11.957s] -- Searching for <gz-common5> component [profiler]
+[11.974s] -- Looking for gz-common5-profiler -- found version 5.9.0
+[11.974s] -- Searching for dependencies of gz-common5-profiler
+[11.993s] -- Looking for gz-fuel_tools9 -- found version 9.1.1
+[11.994s] -- Searching for dependencies of gz-fuel_tools9
+[12.572s] -- Found CURL: /usr/lib/x86_64-linux-gnu/libcurl.so (found version "7.81.0")  
+[12.614s] -- Checking for module 'jsoncpp'
+[12.738s] --   Found jsoncpp, version 1.9.5
+[13.060s] -- Found JSONCPP: TRUE  
+[13.083s] -- Checking for module 'libzip'
+[13.209s] --   Found libzip, version 1.7.3
+[13.533s] -- Found ZIP: TRUE  
+[13.534s] -- Looking for gz-utils2 -- found version 2.2.1
+[13.534s] -- Looking for gz-common5 -- found version 5.9.0
+[13.534s] -- Searching for dependencies of gz-common5
+[13.535s] -- Looking for gz-utils2 -- found version 2.2.1
+[13.535s] -- Looking for dlfcn.h - found
+[13.535s] -- Looking for libdl - found
+[13.559s] -- Searching for <gz-common5> component [testing]
+[13.579s] -- Looking for gz-common5-testing -- found version 5.9.0
+[13.580s] -- Searching for dependencies of gz-common5-testing
+[13.581s] -- Looking for gz-math7 -- found version 7.7.0
+[13.581s] -- Looking for gz-msgs10 -- found version 10.4.0
+[13.599s] -- Looking for gz-gui8 -- found version 8.4.0
+[13.599s] -- Searching for dependencies of gz-gui8
+[13.681s] -- Looking for gz-utils2 -- found version 2.2.1
+[13.681s] -- Looking for gz-math7 -- found version 7.7.0
+[13.681s] -- Looking for gz-common5 -- found version 5.9.0
+[13.682s] -- Looking for gz-plugin2 -- found version 2.0.4
+[13.682s] -- Looking for gz-transport13 -- found version 13.6.0
+[13.700s] -- Looking for gz-rendering8 -- found version 8.2.3
+[13.700s] -- Searching for dependencies of gz-rendering8
+[13.701s] -- Looking for gz-math7 -- found version 7.7.0
+[13.701s] -- Searching for dependencies of gz-math7
+[13.701s] -- Looking for gz-utils2 -- found version 2.2.1
+[13.702s] -- Searching for <gz-math7> component [eigen3]
+[13.719s] -- Looking for gz-math7-eigen3 -- found version 7.7.0
+[13.720s] -- Searching for dependencies of gz-math7-eigen3
+[13.721s] -- Looking for gz-common5 -- found version 5.9.0
+[13.722s] -- Searching for dependencies of gz-common5
+[13.722s] -- Looking for gz-utils2 -- found version 2.2.1
+[13.722s] -- Looking for dlfcn.h - found
+[13.723s] -- Looking for libdl - found
+[13.747s] -- Searching for <gz-common5> component [graphics]
+[13.747s] -- Searching for <gz-common5> component [events]
+[13.747s] -- Searching for <gz-common5> component [geospatial]
+[13.765s] -- Looking for gz-common5-geospatial -- found version 5.9.0
+[13.766s] -- Searching for dependencies of gz-common5-geospatial
+[13.766s] -- Looking for gz-math7 -- found version 7.7.0
+[13.766s] -- Looking for gz-common5 -- found version 5.9.0
+[13.768s] -- Looking for gz-plugin2 -- found version 2.0.4
+[13.768s] -- Searching for dependencies of gz-plugin2
+[13.768s] -- Looking for gz-utils2 -- found version 2.2.1
+[13.769s] -- Searching for <gz-plugin2> component [all]
+[13.786s] -- Looking for all libraries of gz-plugin2 -- found version 2.0.4
+[13.787s] -- Looking for gz-plugin2 -- found version 2.0.4
+[13.788s] -- Looking for gz-utils2 -- found version 2.2.1
+[13.800s] -- Found OpenGL: /usr/lib/x86_64-linux-gnu/libOpenGL.so  found components: OpenGL 
+[13.801s] -- Looking for gz-msgs10 -- found version 10.4.0
+[13.876s] -- Looking for gz-physics7 -- found version 7.8.0
+[13.876s] -- Searching for dependencies of gz-physics7
+[13.877s] -- Looking for gz-common5 -- found version 5.9.0
+[13.877s] -- Looking for gz-math7 -- found version 7.7.0
+[13.877s] -- Looking for gz-plugin2 -- found version 2.0.4
+[13.878s] -- Looking for gz-utils2 -- found version 2.2.1
+[13.879s] -- Searching for <gz-physics7> component [heightmap]
+[13.897s] -- Looking for gz-physics7-heightmap -- found version 7.8.0
+[13.897s] -- Searching for dependencies of gz-physics7-heightmap
+[13.898s] -- Looking for gz-common5 -- found version 5.9.0
+[13.898s] -- Searching for <gz-physics7> component [mesh]
+[13.915s] -- Looking for gz-physics7-mesh -- found version 7.8.0
+[13.916s] -- Searching for dependencies of gz-physics7-mesh
+[13.916s] -- Looking for gz-common5 -- found version 5.9.0
+[13.917s] -- Searching for <gz-physics7> component [sdf]
+[13.936s] -- Looking for gz-physics7-sdf -- found version 7.8.0
+[13.936s] -- Searching for dependencies of gz-physics7-sdf
+[13.937s] -- Looking for sdformat14 -- found version 14.9.0
+[13.954s] -- Looking for gz-sensors8 -- found version 8.2.2
+[13.954s] -- Searching for dependencies of gz-sensors8
+[14.013s] -- Looking for gz-math7 -- found version 7.7.0
+[14.014s] -- Looking for gz-common5 -- found version 5.9.0
+[14.014s] -- Looking for gz-transport13 -- found version 13.6.0
+[14.014s] -- Looking for gz-rendering8 -- found version 8.2.3
+[14.015s] -- Looking for gz-msgs10 -- found version 10.4.0
+[14.015s] -- Looking for sdformat14 -- found version 14.9.0
+[14.017s] -- Searching for <gz-sensors8> component [air_pressure]
+[14.035s] -- Looking for gz-sensors8-air_pressure -- found version 8.2.2
+[14.035s] -- Searching for dependencies of gz-sensors8-air_pressure
+[14.035s] -- Searching for <gz-sensors8> component [air_speed]
+[14.055s] -- Looking for gz-sensors8-air_speed -- found version 8.2.2
+[14.055s] -- Searching for dependencies of gz-sensors8-air_speed
+[14.056s] -- Searching for <gz-sensors8> component [altimeter]
+[14.073s] -- Looking for gz-sensors8-altimeter -- found version 8.2.2
+[14.073s] -- Searching for dependencies of gz-sensors8-altimeter
+[14.074s] -- Searching for <gz-sensors8> component [imu]
+[14.092s] -- Looking for gz-sensors8-imu -- found version 8.2.2
+[14.092s] -- Searching for dependencies of gz-sensors8-imu
+[14.092s] -- Searching for <gz-sensors8> component [force_torque]
+[14.110s] -- Looking for gz-sensors8-force_torque -- found version 8.2.2
+[14.111s] -- Searching for dependencies of gz-sensors8-force_torque
+[14.111s] -- Searching for <gz-sensors8> component [logical_camera]
+[14.129s] -- Looking for gz-sensors8-logical_camera -- found version 8.2.2
+[14.130s] -- Searching for dependencies of gz-sensors8-logical_camera
+[14.132s] -- Searching for <gz-sensors8> component [magnetometer]
+[14.150s] -- Looking for gz-sensors8-magnetometer -- found version 8.2.2
+[14.150s] -- Searching for dependencies of gz-sensors8-magnetometer
+[14.151s] -- Searching for <gz-sensors8> component [navsat]
+[14.197s] -- Looking for gz-sensors8-navsat -- found version 8.2.2
+[14.198s] -- Searching for dependencies of gz-sensors8-navsat
+[14.198s] -- Searching for <gz-sensors8> component [dvl]
+[14.217s] -- Looking for gz-sensors8-dvl -- found version 8.2.2
+[14.217s] -- Searching for dependencies of gz-sensors8-dvl
+[14.217s] -- Looking for gz-sensors8 -- found version 8.2.2
+[14.218s] -- Searching for dependencies of gz-sensors8
+[14.283s] -- Looking for gz-math7 -- found version 7.7.0
+[14.283s] -- Looking for gz-common5 -- found version 5.9.0
+[14.283s] -- Looking for gz-transport13 -- found version 13.6.0
+[14.284s] -- Looking for gz-rendering8 -- found version 8.2.3
+[14.284s] -- Looking for gz-msgs10 -- found version 10.4.0
+[14.284s] -- Looking for sdformat14 -- found version 14.9.0
+[14.285s] -- Searching for <gz-sensors8> component [rendering]
+[14.304s] -- Looking for gz-sensors8-rendering -- found version 8.2.2
+[14.304s] -- Searching for dependencies of gz-sensors8-rendering
+[14.305s] -- Searching for <gz-sensors8> component [rendering]
+[14.306s] -- Searching for <gz-sensors8> component [lidar]
+[14.325s] -- Looking for gz-sensors8-lidar -- found version 8.2.2
+[14.325s] -- Searching for dependencies of gz-sensors8-lidar
+[14.326s] -- Looking for gz-sensors8 -- found version 8.2.2
+[14.326s] -- Searching for <gz-sensors8> component [gpu_lidar]
+[14.344s] -- Looking for gz-sensors8-gpu_lidar -- found version 8.2.2
+[14.344s] -- Searching for dependencies of gz-sensors8-gpu_lidar
+[14.345s] -- Looking for gz-sensors8 -- found version 8.2.2
+[14.345s] -- Searching for <gz-sensors8> component [camera]
+[14.363s] -- Looking for gz-sensors8-camera -- found version 8.2.2
+[14.363s] -- Searching for dependencies of gz-sensors8-camera
+[14.364s] -- Looking for gz-sensors8 -- found version 8.2.2
+[14.364s] -- Searching for <gz-sensors8> component [boundingbox_camera]
+[14.382s] -- Looking for gz-sensors8-boundingbox_camera -- found version 8.2.2
+[14.382s] -- Searching for dependencies of gz-sensors8-boundingbox_camera
+[14.383s] -- Searching for <gz-sensors8> component [segmentation_camera]
+[14.400s] -- Looking for gz-sensors8-segmentation_camera -- found version 8.2.2
+[14.401s] -- Searching for dependencies of gz-sensors8-segmentation_camera
+[14.401s] -- Searching for <gz-sensors8> component [depth_camera]
+[14.420s] -- Looking for gz-sensors8-depth_camera -- found version 8.2.2
+[14.421s] -- Searching for dependencies of gz-sensors8-depth_camera
+[14.421s] -- Looking for gz-sensors8 -- found version 8.2.2
+[14.422s] -- Searching for <gz-sensors8> component [rgbd_camera]
+[14.441s] -- Looking for gz-sensors8-rgbd_camera -- found version 8.2.2
+[14.441s] -- Searching for dependencies of gz-sensors8-rgbd_camera
+[14.441s] -- Looking for gz-sensors8 -- found version 8.2.2
+[14.442s] -- Searching for <gz-sensors8> component [thermal_camera]
+[14.461s] -- Looking for gz-sensors8-thermal_camera -- found version 8.2.2
+[14.461s] -- Searching for dependencies of gz-sensors8-thermal_camera
+[14.461s] -- Looking for gz-sensors8 -- found version 8.2.2
+[14.462s] -- Searching for <gz-sensors8> component [wide_angle_camera]
+[14.481s] -- Looking for gz-sensors8-wide_angle_camera -- found version 8.2.2
+[14.481s] -- Searching for dependencies of gz-sensors8-wide_angle_camera
+[14.482s] -- Looking for gz-rendering8 -- found version 8.2.3
+[14.483s] -- Looking for gz-math7 -- found version 7.7.0
+[14.483s] -- Looking for gz-utils2 -- found version 2.2.1
+[14.546s] -- Compiling against Gazebo harmonic
+[14.771s] -- Configuring done
+[14.915s] -- Generating done
+[14.978s] -- Build files have been written to: /workspace/gz_control_ws/build/gz_ros2_control_demos
+[14.995s] Invoked command in '/workspace/gz_control_ws/build/gz_ros2_control_demos' returned '0': AMENT_PREFIX_PATH=/workspace/gz_control_ws/install/gz_ros2_control:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspace/gz_control_ws/install/gz_ros2_control:/workspace/install/voice_control:/workspace/install/quadruped_sim:/workspace/install/quadruped_control:/workspace/install/audio_common:/workspace/install/audio_common_msgs:/opt/ros/humble LD_LIBRARY_PATH=/workspace/gz_control_ws/install/gz_ros2_control/lib:${LD_LIBRARY_PATH} /usr/bin/cmake /workspace/gz_control_ws/src/gz_ros2_control/gz_ros2_control_demos -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/workspace/gz_control_ws/install/gz_ros2_control_demos
+[15.000s] Invoking command in '/workspace/gz_control_ws/build/gz_ros2_control_demos': AMENT_PREFIX_PATH=/workspace/gz_control_ws/install/gz_ros2_control:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspace/gz_control_ws/install/gz_ros2_control:/workspace/install/voice_control:/workspace/install/quadruped_sim:/workspace/install/quadruped_control:/workspace/install/audio_common:/workspace/install/audio_common_msgs:/opt/ros/humble LD_LIBRARY_PATH=/workspace/gz_control_ws/install/gz_ros2_control/lib:${LD_LIBRARY_PATH} /usr/bin/cmake --build /workspace/gz_control_ws/build/gz_ros2_control_demos -- -j12 -l12
+[15.563s] [  6%] [32mBuilding CXX object CMakeFiles/example_diff_drive.dir/examples/example_diff_drive.cpp.o[0m
+[15.572s] [ 12%] [32mBuilding CXX object CMakeFiles/example_position.dir/examples/example_position.cpp.o[0m
+[15.589s] [ 18%] [32mBuilding CXX object CMakeFiles/example_ackermann_drive.dir/examples/example_ackermann_drive.cpp.o[0m
+[15.599s] [ 25%] [32mBuilding CXX object CMakeFiles/example_tricycle_drive.dir/examples/example_tricycle_drive.cpp.o[0m
+[15.603s] [ 31%] [32mBuilding CXX object CMakeFiles/example_velocity.dir/examples/example_position.cpp.o[0m
+[15.608s] [ 37%] [32mBuilding CXX object CMakeFiles/example_gripper.dir/examples/example_gripper.cpp.o[0m
+[15.625s] [ 43%] [32mBuilding CXX object CMakeFiles/example_effort.dir/examples/example_position.cpp.o[0m
+[15.647s] [ 50%] [32mBuilding CXX object CMakeFiles/gz_custom_hardware_plugins.dir/src/gz_custom_system.cpp.o[0m
+[20.434s] [ 56%] [32m[1mLinking CXX executable example_ackermann_drive[0m
+[20.443s] [ 62%] [32m[1mLinking CXX executable example_diff_drive[0m
+[20.481s] [ 68%] [32m[1mLinking CXX executable example_tricycle_drive[0m
+[20.594s] [ 75%] [32m[1mLinking CXX executable example_gripper[0m
+[20.811s] [ 81%] [32m[1mLinking CXX executable example_position[0m
+[20.854s] [ 87%] [32m[1mLinking CXX executable example_effort[0m
+[20.939s] [ 93%] [32m[1mLinking CXX executable example_velocity[0m
+[21.398s] [ 93%] Built target example_ackermann_drive
+[21.400s] [ 93%] Built target example_diff_drive
+[21.417s] [ 93%] Built target example_tricycle_drive
+[21.565s] [ 93%] Built target example_gripper
+[21.736s] [ 93%] Built target example_position
+[21.757s] [ 93%] Built target example_effort
+[21.799s] [ 93%] Built target example_velocity
+[25.393s] [100%] [32m[1mLinking CXX shared library libgz_custom_hardware_plugins.so[0m
+[26.245s] [100%] Built target gz_custom_hardware_plugins
+[26.305s] Invoked command in '/workspace/gz_control_ws/build/gz_ros2_control_demos' returned '0': AMENT_PREFIX_PATH=/workspace/gz_control_ws/install/gz_ros2_control:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspace/gz_control_ws/install/gz_ros2_control:/workspace/install/voice_control:/workspace/install/quadruped_sim:/workspace/install/quadruped_control:/workspace/install/audio_common:/workspace/install/audio_common_msgs:/opt/ros/humble LD_LIBRARY_PATH=/workspace/gz_control_ws/install/gz_ros2_control/lib:${LD_LIBRARY_PATH} /usr/bin/cmake --build /workspace/gz_control_ws/build/gz_ros2_control_demos -- -j12 -l12
+[26.312s] Invoking command in '/workspace/gz_control_ws/build/gz_ros2_control_demos': AMENT_PREFIX_PATH=/workspace/gz_control_ws/install/gz_ros2_control:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspace/gz_control_ws/install/gz_ros2_control:/workspace/install/voice_control:/workspace/install/quadruped_sim:/workspace/install/quadruped_control:/workspace/install/audio_common:/workspace/install/audio_common_msgs:/opt/ros/humble LD_LIBRARY_PATH=/workspace/gz_control_ws/install/gz_ros2_control/lib:${LD_LIBRARY_PATH} /usr/bin/cmake --install /workspace/gz_control_ws/build/gz_ros2_control_demos
+[26.373s] -- Install configuration: ""
+[26.379s] -- Execute custom install script
+[26.388s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/ackermann_drive_example.launch.py
+[26.435s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/cart_example_effort.launch.py
+[26.484s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/cart_example_ft_sensor.launch.py
+[26.531s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/cart_example_position.launch.py
+[26.578s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/cart_example_velocity.launch.py
+[26.625s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/cart_example_velocity_custom_plugin.launch.py
+[26.672s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/diff_drive_example.launch.py
+[26.716s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/diff_drive_example_namespaced.launch.py
+[26.764s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/gripper_mimic_joint_example_effort.launch.py
+[26.811s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/gripper_mimic_joint_example_effort.launch.xml
+[26.859s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/gripper_mimic_joint_example_position.launch.py
+[26.907s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/gripper_mimic_joint_example_position.launch.xml
+[26.954s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/mecanum_drive_example.launch.py
+[26.999s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/pendulum_example_effort.launch.py
+[27.045s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/pendulum_example_position.launch.py
+[27.091s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//launch/tricycle_drive_example.launch.py
+[27.139s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//config/ackermann_drive_controller.yaml
+[27.199s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//config/cart_controller_effort.yaml
+[27.251s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//config/cart_controller_ft_sensor.yaml
+[27.302s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//config/cart_controller_position.yaml
+[27.350s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//config/cart_controller_velocity.yaml
+[27.399s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//config/diff_drive_controller.yaml
+[27.447s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//config/gripper_controller_effort.yaml
+[27.494s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//config/gripper_controller_position.yaml
+[27.544s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//config/mecanum_drive_controller.yaml
+[27.591s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//config/tricycle_drive_controller.yaml
+[27.641s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_ackermann_drive.xacro.urdf
+[27.687s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_cart_effort.xacro.urdf
+[27.734s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_cart_ft_sensor.xacro.urdf
+[27.780s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_cart_position.xacro.urdf
+[27.825s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_cart_velocity.xacro.urdf
+[27.872s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_cart_velocity_custom_plugin.xacro.urdf
+[27.919s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_diff_drive.xacro.urdf
+[27.968s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_gripper_mimic_joint_effort.xacro.urdf
+[28.014s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_gripper_mimic_joint_position.xacro.urdf
+[28.066s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_mecanum_drive.xacro.urdf
+[28.111s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_pendulum_effort.xacro.urdf
+[28.159s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_pendulum_position.xacro.urdf
+[28.206s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//urdf/test_tricycle_drive.xacro.urdf
+[28.258s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//worlds/empty_ft_sensor.sdf
+[28.306s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/lib/gz_ros2_control_demos/example_position
+[28.351s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/lib/gz_ros2_control_demos/example_velocity
+[28.398s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/lib/gz_ros2_control_demos/example_effort
+[28.448s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/lib/gz_ros2_control_demos/example_diff_drive
+[28.494s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/lib/gz_ros2_control_demos/example_tricycle_drive
+[28.541s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/lib/gz_ros2_control_demos/example_ackermann_drive
+[28.587s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/lib/gz_ros2_control_demos/example_gripper
+[28.637s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/environment/library_path.sh
+[28.684s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/environment/library_path.dsv
+[28.732s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos//gz_custom_hardware_plugins.xml
+[28.783s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/ament_index/resource_index/package_run_dependencies/gz_ros2_control_demos
+[28.831s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/ament_index/resource_index/parent_prefix_path/gz_ros2_control_demos
+[28.878s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/environment/ament_prefix_path.sh
+[28.925s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/environment/ament_prefix_path.dsv
+[28.975s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/environment/path.sh
+[29.023s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/environment/path.dsv
+[29.069s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/local_setup.bash
+[29.114s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/local_setup.sh
+[29.160s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/local_setup.zsh
+[29.208s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/local_setup.dsv
+[29.258s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/package.dsv
+[29.321s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/ament_index/resource_index/packages/gz_ros2_control_demos
+[29.369s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/ament_index/resource_index/gz_ros2_control__pluginlib__plugin/gz_ros2_control_demos
+[29.416s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/cmake/ament_cmake_export_targets-extras.cmake
+[29.465s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/cmake/gz_ros2_control_demosConfig.cmake
+[29.512s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/cmake/gz_ros2_control_demosConfig-version.cmake
+[29.559s] -- Symlinking: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/package.xml
+[29.610s] -- Installing: /workspace/gz_control_ws/install/gz_ros2_control_demos/lib/libgz_custom_hardware_plugins.so
+[29.648s] -- Set runtime path of "/workspace/gz_control_ws/install/gz_ros2_control_demos/lib/libgz_custom_hardware_plugins.so" to ""
+[29.649s] -- Installing: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/cmake/export_gz_custom_hardware_pluginsExport.cmake
+[29.651s] -- Installing: /workspace/gz_control_ws/install/gz_ros2_control_demos/share/gz_ros2_control_demos/cmake/export_gz_custom_hardware_pluginsExport-noconfig.cmake
+[29.660s] Invoked command in '/workspace/gz_control_ws/build/gz_ros2_control_demos' returned '0': AMENT_PREFIX_PATH=/workspace/gz_control_ws/install/gz_ros2_control:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/workspace/gz_control_ws/install/gz_ros2_control:/workspace/install/voice_control:/workspace/install/quadruped_sim:/workspace/install/quadruped_control:/workspace/install/audio_common:/workspace/install/audio_common_msgs:/opt/ros/humble LD_LIBRARY_PATH=/workspace/gz_control_ws/install/gz_ros2_control/lib:${LD_LIBRARY_PATH} /usr/bin/cmake --install /workspace/gz_control_ws/build/gz_ros2_control_demos

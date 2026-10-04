@@ -1,0 +1,72 @@
+[01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:[m[K In member function ‘[01m[Kbool QuadrupedControllerNode::publishSimulationCommand(int, const JointAngles&)[m[K’:
+[01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:966:55:[m[K [01;31m[Kerror: [m[Kqualified-id in declaration before ‘[01m[K([m[K’ token
+  966 | bool QuadrupedControllerNode::publishSimulationCommand[01;31m[K([m[K
+      |                                                       [01;31m[K^[m[K
+[01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1020:53:[m[K [01;31m[Kerror: [m[Kqualified-id in declaration before ‘[01m[K([m[K’ token
+ 1020 | bool QuadrupedControllerNode::publishPhysicalCommand[01;31m[K([m[K
+      |                                                     [01;31m[K^[m[K
+[01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1120:55:[m[K [01;31m[Kerror: [m[Kqualified-id in declaration before ‘[01m[K([m[K’ token
+ 1120 | void QuadrupedControllerNode::handleServoCommandStatus[01;31m[K([m[K
+      |                                                       [01;31m[K^[m[K
+[01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1215:47:[m[K [01;31m[Kerror: [m[Kqualified-id in declaration before ‘[01m[K([m[K’ token
+ 1215 | void QuadrupedControllerNode::commitJointState[01;31m[K([m[K
+      |                                               [01;31m[K^[m[K
+[01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1272:56:[m[K [01;31m[Kerror: [m[Kqualified-id in declaration before ‘[01m[K([m[K’ token
+ 1272 | JointAngles QuadrupedControllerNode::getConfirmedAngles[01;31m[K([m[K
+      |                                                        [01;31m[K^[m[K
+[01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1311:48:[m[K [01;31m[Kerror: [m[Kqualified-id in declaration before ‘[01m[K([m[K’ token
+ 1311 | FootPosition QuadrupedControllerNode::getLegXYZ[01;31m[K([m[K
+      |                                                [01;31m[K^[m[K
+[01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1349:44:[m[K [01;31m[Kerror: [m[Kqualified-id in declaration before ‘[01m[K([m[K’ token
+ 1349 | void QuadrupedControllerNode::publishLegXYZ[01;31m[K([m[K
+      |                                            [01;31m[K^[m[K
+[01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1397:42:[m[K [01;31m[Kerror: [m[Kqualified-id in declaration before ‘[01m[K([m[K’ token
+ 1397 | void QuadrupedControllerNode::printLegXYZ[01;31m[K([m[K
+      |                                          [01;31m[K^[m[K
+[01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1470:45:[m[K [01;31m[Kerror: [m[Kqualified-id in declaration before ‘[01m[K([m[K’ token
+ 1470 | void QuadrupedControllerNode::printAllLegXYZ[01;31m[K([m[K)
+      |                                             [01;31m[K^[m[K
+[01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1483:46:[m[K [01;31m[Kerror: [m[Kqualified-id in declaration before ‘[01m[K([m[K’ token
+ 1483 | void QuadrupedControllerNode::printJDirection[01;31m[K([m[K)
+      |                                              [01;31m[K^[m[K
+[01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1522:48:[m[K [01;31m[Kerror: [m[Kqualified-id in declaration before ‘[01m[K([m[K’ token
+ 1522 | void QuadrupedControllerNode::printJointOffsets[01;31m[K([m[K)
+      |                                                [01;31m[K^[m[K
+[01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:1575:45:[m[K [01;31m[Kerror: [m[Kqualified-id in declaration before ‘[01m[K([m[K’ token
+ 1575 | JointAngles QuadrupedControllerNode::solveIK[01;31m[K([m[K
+      |                                             [01;31m[K^[m[K
+[01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:2109:2:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K}[m[K’ at end of input
+ 2109 | }
+      |  [01;31m[K^[m[K
+[01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:929:1:[m[K [01;36m[Knote: [m[Kto match this ‘[01m[K{[m[K’
+  929 | [01;36m[K{[m[K
+      | [01;36m[K^[m[K
+[01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:2109:2:[m[K [01;35m[Kwarning: [m[Kno return statement in function returning non-void [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wreturn-type-Wreturn-type]8;;[m[K]
+ 2109 | }
+      |  [01;35m[K^[m[K
+[01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:[m[K At global scope:
+[01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:249:8:[m[K [01;35m[Kwarning: [m[K‘[01m[Kdouble {anonymous}::jointDistanceSquared(double, double, double, double, double, double)[m[K’ defined but not used [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-function-Wunused-function]8;;[m[K]
+  249 | double [01;35m[KjointDistanceSquared[m[K(
+      |        [01;35m[K^~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:206:6:[m[K [01;35m[Kwarning: [m[K‘[01m[Kbool {anonymous}::computeFK(int, double, double, double, const double (*)[4][3], KDL::Vector&)[m[K’ defined but not used [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-function-Wunused-function]8;;[m[K]
+  206 | bool [01;35m[KcomputeFK[m[K(
+      |      [01;35m[K^~~~~~~~~[m[K
+[01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:170:8:[m[K [01;35m[Kwarning: [m[K‘[01m[Kdouble {anonymous}::clampServo(double, const char*, rclcpp::Logger)[m[K’ defined but not used [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-function-Wunused-function]8;;[m[K]
+  170 | double [01;35m[KclampServo[m[K(
+      |        [01;35m[K^~~~~~~~~~[m[K
+[01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:161:8:[m[K [01;35m[Kwarning: [m[K‘[01m[Kdouble {anonymous}::applyDirection(double, double)[m[K’ defined but not used [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-function-Wunused-function]8;;[m[K]
+  161 | double [01;35m[KapplyDirection[m[K(
+      |        [01;35m[K^~~~~~~~~~~~~~[m[K
+[01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:156:8:[m[K [01;35m[Kwarning: [m[K‘[01m[Kdouble {anonymous}::toServoDegJ4(double)[m[K’ defined but not used [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-function-Wunused-function]8;;[m[K]
+  156 | double [01;35m[KtoServoDegJ4[m[K(double jointDeg)
+      |        [01;35m[K^~~~~~~~~~~~[m[K
+[01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:151:8:[m[K [01;35m[Kwarning: [m[K‘[01m[Kdouble {anonymous}::toServoDegJ3(double)[m[K’ defined but not used [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-function-Wunused-function]8;;[m[K]
+  151 | double [01;35m[KtoServoDegJ3[m[K(double jointDeg)
+      |        [01;35m[K^~~~~~~~~~~~[m[K
+[01m[K/workspace/src/quadruped_control/src/Nodes/QuadrupedControllerNode.cpp:146:8:[m[K [01;35m[Kwarning: [m[K‘[01m[Kdouble {anonymous}::toServoDegJ1(double)[m[K’ defined but not used [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-function-Wunused-function]8;;[m[K]
+  146 | double [01;35m[KtoServoDegJ1[m[K(double jointDeg)
+      |        [01;35m[K^~~~~~~~~~~~[m[K
+gmake[2]: *** [CMakeFiles/quadruped.dir/build.make:104: CMakeFiles/quadruped.dir/src/Nodes/QuadrupedControllerNode.cpp.o] Error 1
+gmake[2]: *** Waiting for unfinished jobs....
+gmake[1]: *** [CMakeFiles/Makefile2:227: CMakeFiles/quadruped.dir/all] Error 2
+gmake: *** [Makefile:146: all] Error 2

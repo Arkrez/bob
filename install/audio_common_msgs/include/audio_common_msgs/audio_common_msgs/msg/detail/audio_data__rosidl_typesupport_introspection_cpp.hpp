@@ -1,0 +1,1 @@
+/workspace/build/audio_common_msgs/rosidl_typesupport_introspection_cpp/audio_common_msgs/msg/detail/audio_data__rosidl_typesupport_introspection_cpp.hpp

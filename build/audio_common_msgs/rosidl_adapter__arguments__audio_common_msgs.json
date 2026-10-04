@@ -1,0 +1,11 @@
+{
+  "package_name": "audio_common_msgs",
+  "non_idl_tuples": [
+    "/workspace/audio_common/audio_common_msgs:msg/AudioData.msg",
+    "/workspace/audio_common/audio_common_msgs:msg/AudioInfo.msg",
+    "/workspace/audio_common/audio_common_msgs:msg/Audio.msg",
+    "/workspace/audio_common/audio_common_msgs:msg/AudioStamped.msg",
+    "/workspace/audio_common/audio_common_msgs:action/TTS.action",
+    "/workspace/audio_common/audio_common_msgs:srv/MusicPlay.srv"
+  ]
+}

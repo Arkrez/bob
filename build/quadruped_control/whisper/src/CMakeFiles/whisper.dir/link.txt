@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -O3 -DNDEBUG -shared -Wl,-soname,libwhisper.so.1 -o ../../bin/libwhisper.so.1.9.3 CMakeFiles/whisper.dir/whisper.cpp.o  -Wl,-rpath,/workspace/build/quadruped_control/bin: ../../bin/libggml.so.0.22.0 ../../bin/libggml-cpu.so.0.22.0 ../../bin/libggml-base.so.0.22.0 

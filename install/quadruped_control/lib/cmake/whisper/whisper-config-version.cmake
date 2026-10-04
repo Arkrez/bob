@@ -1,0 +1,1 @@
+/workspace/build/quadruped_control/whisper/whisper-config-version.cmake

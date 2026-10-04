@@ -1,0 +1,1 @@
+/workspace/build/audio_common_msgs/rosidl_generator_cpp/audio_common_msgs/msg/detail/audio_stamped__struct.hpp

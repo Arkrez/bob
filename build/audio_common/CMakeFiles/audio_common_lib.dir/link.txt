@@ -1,0 +1,2 @@
+/usr/bin/ar qc libaudio_common_lib.a CMakeFiles/audio_common_lib.dir/src/audio_common/wave_file.cpp.o
+/usr/bin/ranlib libaudio_common_lib.a

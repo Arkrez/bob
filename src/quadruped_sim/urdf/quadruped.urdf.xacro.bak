@@ -1,0 +1,532 @@
+<?xml version="1.0"?>
+
+<robot name="quadruped"
+       xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- ============================================================
+       MATERIALS
+       ============================================================ -->
+
+  <material name="body_grey">
+    <color rgba="0.25 0.25 0.28 1"/>
+  </material>
+
+  <material name="leg_orange">
+    <color rgba="0.85 0.45 0.1 1"/>
+  </material>
+
+  <material name="foot_black">
+    <color rgba="0.05 0.05 0.05 1"/>
+  </material>
+
+
+  <!-- ============================================================
+       BASE
+       ============================================================ -->
+
+  <link name="base_link">
+
+    <visual>
+      <geometry>
+        <box size="0.1524 0.1524 0.0381"/>
+      </geometry>
+      <material name="body_grey"/>
+    </visual>
+
+    <collision>
+      <geometry>
+        <box size="0.1524 0.1524 0.0381"/>
+      </geometry>
+    </collision>
+
+    <inertial>
+      <mass value="0.6"/>
+      <inertia
+        ixx="0.0012338685"
+        ixy="0"
+        ixz="0"
+        iyy="0.0012338685"
+        iyz="0"
+        izz="0.002322576"/>
+    </inertial>
+
+  </link>
+
+
+  <!-- ============================================================
+       HIP MAST
+       ============================================================ -->
+
+  <joint name="hip_mast_fixed" type="fixed">
+
+    <parent link="base_link"/>
+    <child link="hip_mast"/>
+
+    <origin
+      xyz="0 0 0.1143"
+      rpy="0 0 0"/>
+
+  </joint>
+
+
+  <link name="hip_mast">
+
+    <inertial>
+
+      <mass value="0.01"/>
+
+      <inertia
+        ixx="1e-6"
+        ixy="0"
+        ixz="0"
+        iyy="1e-6"
+        iyz="0"
+        izz="1e-6"/>
+
+    </inertial>
+
+  </link>
+
+
+  <!-- ============================================================
+       LEG MACRO
+       ============================================================ -->
+
+  <xacro:macro
+    name="leg"
+    params="i x y">
+
+
+    <!-- ==========================================================
+         JOINT 1
+         HIP YAW
+         rotates around Z
+         ========================================================== -->
+
+    <joint
+      name="joint1_leg${i}"
+      type="revolute">
+
+      <parent link="base_link"/>
+      <child link="leg${i}_link1"/>
+
+      <origin
+        xyz="${x} ${y} 0"
+        rpy="0 0 0"/>
+
+      <axis xyz="0 0 1"/>
+
+      <limit
+        effort="2.0"
+        lower="-1.5708"
+        upper="1.5708"
+        velocity="3.0"/>
+
+    </joint>
+
+
+    <link name="leg${i}_link1">
+
+      <visual>
+
+        <origin
+          xyz="0.0254 0 0"
+          rpy="0 0 0"/>
+
+        <geometry>
+          <box size="0.0508 0.0254 0.0254"/>
+        </geometry>
+
+        <material name="leg_orange"/>
+
+      </visual>
+
+
+      <collision>
+
+        <origin
+          xyz="0.0254 0 0"
+          rpy="0 0 0"/>
+
+        <geometry>
+          <box size="0.0508 0.0254 0.0254"/>
+        </geometry>
+
+      </collision>
+
+
+      <inertial>
+
+        <mass value="0.03"/>
+
+        <inertia
+          ixx="3.2258e-06"
+          ixy="0"
+          ixz="0"
+          iyy="8.0645e-06"
+          iyz="0"
+          izz="8.0645e-06"/>
+
+      </inertial>
+
+    </link>
+
+    <!-- ==========================================================
+         JOINT 3
+         HIP PITCH
+         ========================================================== -->
+
+    <joint
+      name="joint3_leg${i}"
+      type="revolute">
+
+      <parent link="leg${i}_link1"/>
+      <child link="leg${i}_link2"/>
+
+      <!-- joint is at the END of horizontal link1 -->
+      <origin
+        xyz="0.0508 0 0"
+        rpy="0 0 0"/>
+
+      <!-- hinge axis -->
+      <axis xyz="1 0 0"/>
+
+      <limit
+        effort="2.0"
+        lower="-1.5708"
+        upper="1.5708"
+        velocity="3.0"/>
+
+    </joint>
+
+
+    <!-- Upper leg extends DOWN from joint3 -->
+
+    <link name="leg${i}_link2">
+
+      <visual>
+
+        <!-- center of vertical link -->
+        <origin
+          xyz="0 0 -0.0254"
+          rpy="0 0 0"/>
+
+        <geometry>
+          <box size="0.0254 0.0254 0.0508"/>
+        </geometry>
+
+        <material name="leg_orange"/>
+
+      </visual>
+
+
+      <collision>
+
+        <origin
+          xyz="0 0 -0.0254"
+          rpy="0 0 0"/>
+
+        <geometry>
+          <box size="0.0254 0.0254 0.0508"/>
+        </geometry>
+
+      </collision>
+
+
+      <inertial>
+
+        <origin
+          xyz="0 0 -0.0254"
+          rpy="0 0 0"/>
+
+        <mass value="0.03"/>
+
+        <inertia
+          ixx="8.0645e-06"
+          ixy="0"
+          ixz="0"
+          iyy="8.0645e-06"
+          iyz="0"
+          izz="3.2258e-06"/>
+
+      </inertial>
+
+    </link>
+
+
+    <!-- ==========================================================
+         JOINT 4
+         KNEE
+         ========================================================== -->
+
+    <joint
+      name="joint4_leg${i}"
+      type="revolute">
+
+      <parent link="leg${i}_link2"/>
+      <child link="leg${i}_link3"/>
+
+      <!-- knee is at BOTTOM of link2 -->
+      <origin
+        xyz="0 0 -0.0508"
+        rpy="0 0 0"/>
+
+      <!-- same hinge axis as joint3 -->
+      <axis xyz="1 0 0"/>
+
+      <limit
+        effort="2.0"
+        lower="-1.5708"
+        upper="1.5708"
+        velocity="3.0"/>
+
+    </joint>
+
+
+    <!-- Lower leg extends DOWN from knee -->
+
+    <link name="leg${i}_link3">
+
+      <visual>
+
+        <origin
+          xyz="0 0 -0.0254"
+          rpy="0 0 0"/>
+
+        <geometry>
+          <box size="0.0254 0.0254 0.0508"/>
+        </geometry>
+
+        <material name="leg_orange"/>
+
+      </visual>
+
+
+      <collision>
+
+        <origin
+          xyz="0 0 -0.0254"
+          rpy="0 0 0"/>
+
+        <geometry>
+          <box size="0.0254 0.0254 0.0508"/>
+        </geometry>
+
+      </collision>
+
+
+      <inertial>
+
+        <origin
+          xyz="0 0 -0.0254"
+          rpy="0 0 0"/>
+
+        <mass value="0.03"/>
+
+        <inertia
+          ixx="8.0645e-06"
+          ixy="0"
+          ixz="0"
+          iyy="8.0645e-06"
+          iyz="0"
+          izz="3.2258e-06"/>
+
+      </inertial>
+
+    </link>
+
+
+    <!-- ==========================================================
+         FOOT
+         ========================================================== -->
+
+    <joint
+      name="leg${i}_foot_fixed"
+      type="fixed">
+
+      <parent link="leg${i}_link3"/>
+      <child link="leg${i}_foot"/>
+
+      <!-- foot at BOTTOM of lower leg -->
+      <origin
+        xyz="0 0 -0.0508"
+        rpy="0 0 0"/>
+
+    </joint>
+
+
+    <link name="leg${i}_foot">
+
+      <visual>
+
+        <geometry>
+          <sphere radius="0.0127"/>
+        </geometry>
+
+        <material name="foot_black"/>
+
+      </visual>
+
+
+      <collision>
+
+        <geometry>
+          <sphere radius="0.0127"/>
+        </geometry>
+
+      </collision>
+
+
+      <inertial>
+
+        <mass value="0.01"/>
+
+        <inertia
+          ixx="1e-5"
+          ixy="0"
+          ixz="0"
+          iyy="1e-5"
+          iyz="0"
+          izz="1e-5"/>
+
+      </inertial>
+
+    </link>
+  </xacro:macro>
+
+
+  <!-- ============================================================
+       FOUR LEGS
+
+       leg0 = front right
+       leg1 = front left
+       leg2 = back right
+       leg3 = back left
+       ============================================================ -->
+
+  <xacro:leg
+    i="0"
+    x="0.0508"
+    y="-0.0508"/>
+
+  <xacro:leg
+    i="1"
+    x="0.0508"
+    y="0.0508"/>
+
+  <xacro:leg
+    i="2"
+    x="-0.0508"
+    y="-0.0508"/>
+
+  <xacro:leg
+    i="3"
+    x="-0.0508"
+    y="0.0508"/>
+
+
+  <!-- ============================================================
+       WEBOTS ROS2 PLUGIN
+       ============================================================ -->
+
+  <webots>
+
+    <plugin
+      type="webots_ros2_control::Ros2Control"/>
+
+  </webots>
+
+
+  <!-- ============================================================
+       ROS2 CONTROL JOINT MACRO
+       ============================================================ -->
+
+  <xacro:macro
+    name="controlled_joint"
+    params="joint_name">
+
+    <joint name="${joint_name}">
+
+      <command_interface name="position">
+
+        <param name="min">
+          -1.5708
+        </param>
+
+        <param name="max">
+          1.5708
+        </param>
+
+      </command_interface>
+
+      <state_interface name="position"/>
+
+      <state_interface name="velocity"/>
+
+    </joint>
+
+  </xacro:macro>
+
+
+  <!-- ============================================================
+       ROS2 CONTROL
+       ============================================================ -->
+
+  <ros2_control
+    name="WebotsControl"
+    type="system">
+    <hardware>
+      <plugin>webots_ros2_control::Ros2ControlSystem</plugin>
+    </hardware>
+
+
+    <!-- LEG 0 -->
+
+    <xacro:controlled_joint
+      joint_name="joint1_leg0"/>
+
+    <xacro:controlled_joint
+      joint_name="joint3_leg0"/>
+
+    <xacro:controlled_joint
+      joint_name="joint4_leg0"/>
+
+
+    <!-- LEG 1 -->
+
+    <xacro:controlled_joint
+      joint_name="joint1_leg1"/>
+
+    <xacro:controlled_joint
+      joint_name="joint3_leg1"/>
+
+    <xacro:controlled_joint
+      joint_name="joint4_leg1"/>
+
+
+    <!-- LEG 2 -->
+
+    <xacro:controlled_joint
+      joint_name="joint1_leg2"/>
+
+    <xacro:controlled_joint
+      joint_name="joint3_leg2"/>
+
+    <xacro:controlled_joint
+      joint_name="joint4_leg2"/>
+
+
+    <!-- LEG 3 -->
+
+    <xacro:controlled_joint
+      joint_name="joint1_leg3"/>
+
+    <xacro:controlled_joint
+      joint_name="joint3_leg3"/>
+
+    <xacro:controlled_joint
+      joint_name="joint4_leg3"/>
+
+  </ros2_control>
+
+</robot>
