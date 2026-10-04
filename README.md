@@ -1,73 +1,94 @@
-# Bob — Motorcycle Chain Maintenance Robot
+# Bob — Motorcycle Chain Lubrication Robot
 
-Bob is a custom quadruped robot being built to solve a specific maintenance problem: **lubricating a motorcycle drive chain**.
+Owning a chain-driven motorcycle means periodically lubricating the drive chain. It is a repetitive maintenance task, and I wanted to automate it away. **Bob** is the quadruped robot I am building to do that.
 
-The robotics stack is not the end goal by itself. ROS 2, inverse kinematics, gait generation, computer vision, simulation, and embedded control are the technologies being developed to give Bob the mobility and control needed to perform that real-world task.
+The goal is for Bob to move around the motorcycle, get into position near the drive chain, identify where lubricant needs to be applied, and eventually perform the lubrication process automatically.
 
 <img width="1215" height="749" alt="Bob quadruped robot" src="https://github.com/user-attachments/assets/0fdad499-c6f1-402a-a0a8-6c3416fa759d" />
 
-## Problem Statement
+## What Bob Needs to Do
 
-Motorcycle drive chains require regular lubrication. Bob's mission is to turn that maintenance task into a robotics problem: build a robot capable of getting itself into the correct position around a motorcycle and ultimately applying lubricant to the drive chain.
+To solve the original maintenance problem, Bob needs several capabilities:
 
-That requires solving several smaller engineering problems, including locomotion, positioning, perception, joint control, and reliable interaction with real hardware.
-
-## Engineering Approach
-
-Bob uses a quadruped platform because the project requires a robot that can move and position itself around a motorcycle while carrying the hardware needed to perform the maintenance task.
-
-The current development work focuses on the capabilities that support that mission:
-
-- Reliable quadruped locomotion
-- Custom inverse kinematics
-- Gait generation and coordinated leg movement
-- ROS 2 communication between robot subsystems
-- Webots simulation before testing motions on hardware
-- Servo control through a Pimoroni Servo 2040
-- Camera / vision integration for future perception and positioning
-- Voice-control experiments for human interaction
+- Walk and position himself reliably around a motorcycle
+- Control each leg accurately enough for close positioning
+- Locate the motorcycle and drive-chain area using vision
+- Carry and position a chain-lubrication mechanism
+- Coordinate movement, perception, and hardware through ROS 2
+- Test new behavior in simulation before running it on the physical robot
 
 ## Hardware
 
-The physical robot is designed around:
+### Raspberry Pi 5
 
-- Raspberry Pi 5 — high-level compute and ROS 2
-- Pimoroni Servo 2040 — low-level servo control
-- 16 × MG995 servos — four servos per leg
-- Custom quadruped frame and leg geometry
-- Camera / vision input
-- Audio hardware for voice-control experiments
+The Raspberry Pi 5 is Bob's main computer. It runs ROS 2 and the higher-level robot software, including locomotion control, hardware communication, and camera processing.
 
-## Software Stack
+### Pimoroni Servo 2040
 
-- C++
-- ROS 2 Humble
-- Webots
-- CMake / ament_cmake
-- OpenCV / cv_bridge
-- Orocos KDL
-- Cyclone DDS
-- whisper.cpp for speech-recognition experiments
+The Servo 2040 handles low-level control of the leg servos. The Raspberry Pi sends commands through the ROS 2 hardware bridge, and the Servo 2040 generates the PWM signals used to position the servos.
 
-## Architecture
+### 16 × MG995 Servos
 
-The main ROS 2 executable starts several nodes inside one process:
+Bob has four legs with four servos per leg. These provide the joint movement used for stance control, walking, and positioning.
 
-- `QuadrupedControllerNode` — robot motion, gait, and IK control
-- `Servo2040BridgeNode` — bridge between ROS 2 and the physical Servo 2040 controller
-- `CameraDisplayNode` — camera-image handling and display
+### Power System
 
-The control package is located at:
+Bob uses an onboard battery and power-distribution setup so the Raspberry Pi, controller electronics, and servo power system can operate without being tethered to a bench power supply.
+
+### Camera
+
+The camera provides visual input for perception work. The long-term goal is to use vision to help Bob navigate around the motorcycle and locate the drive-chain area accurately enough to perform the maintenance task.
+
+## Software and Architecture
+
+### ROS 2 Humble
+
+ROS 2 is the communication layer between Bob's software components. It lets the locomotion controller, hardware bridge, camera pipeline, and future perception and task-planning systems communicate as separate parts of the robot.
+
+The main ROS 2 executable currently starts:
+
+- `QuadrupedControllerNode` — gait generation, inverse kinematics, joint targets, and robot movement
+- `Servo2040BridgeNode` — converts ROS 2 commands into communication with the physical Servo 2040
+- `CameraDisplayNode` — receives and processes camera images
+
+### Webots
+
+Webots is the main simulation environment for Bob. It provides a place to test joint motion, inverse kinematics, gait logic, and ROS 2 integration before sending the same behavior to the physical robot.
+
+That makes it possible to iterate on movement without repeatedly risking the servos, frame, or surrounding hardware.
+
+The current Webots world is:
 
 ```text
-src/quadruped_control/
+webots_quadruped/worlds/quadruped.wbt
 ```
 
-The Webots simulation is located at:
+### C++
 
-```text
-webots_quadruped/
-```
+Most of Bob's control software is written in C++. It is used for the ROS 2 nodes, locomotion logic, inverse kinematics, hardware communication, and supporting robot-control code.
+
+### OpenCV / cv_bridge
+
+OpenCV and `cv_bridge` are used for camera handling and provide the foundation for future visual detection and positioning around the motorcycle.
+
+### Cyclone DDS
+
+Cyclone DDS is used as the ROS 2 middleware configuration for communication between the development environment, containers, and robot hardware.
+
+## Motion Control
+
+Bob's locomotion system is being built around custom leg kinematics and gait generation.
+
+Current work includes:
+
+- Joint-angle control
+- Per-leg inverse kinematics
+- Coordinate transforms between robot and leg frames
+- Servo-direction and angle mapping
+- Multi-leg gait sequencing
+- Simulation-to-hardware control flow
+
+The goal is to make Bob stable and predictable enough that locomotion becomes a reliable tool for the chain-lubrication task rather than a separate experiment.
 
 ## Repository Layout
 
@@ -81,7 +102,7 @@ bob/
 │   └── worlds/
 │       └── quadruped.wbt      # Main Webots world
 ├── voice_control/             # Voice-control experiments
-├── Quadruped.proto            # Generated / exported Webots robot model
+├── Quadruped.proto            # Webots robot model
 ├── quadruped_webots.urdf      # Robot description used with Webots
 ├── cyclonedds.xml             # ROS 2 DDS configuration
 └── README.md
@@ -97,8 +118,6 @@ colcon build --symlink-install
 source install/setup.bash
 ```
 
-The project uses external dependencies including ROS 2 packages, OpenCV, Orocos KDL, audio messages, and `whisper.cpp`.
-
 ## Running the Controller
 
 After building and sourcing the workspace:
@@ -109,31 +128,8 @@ ros2 run quadruped_control quadruped
 
 This starts the quadruped controller, Servo 2040 bridge, and camera node.
 
-## Webots Simulation
-
-The current Webots world is:
-
-```text
-webots_quadruped/worlds/quadruped.wbt
-```
-
-The simulation is used to test joint motion, inverse kinematics, gait logic, and ROS 2 integration before sending equivalent commands to the physical robot.
-
-## Motion Control
-
-Bob's motion stack is being developed around custom leg kinematics and gait generation.
-
-Current work includes:
-
-- Joint-angle control
-- Per-leg inverse kinematics
-- Coordinate transforms between robot and leg frames
-- Servo-direction and angle mapping
-- Multi-leg gait sequencing
-- Simulation-to-hardware control flow
-
 ## Current Status
 
-Bob is an active work-in-progress. The project currently contains ROS 2 control infrastructure, a Servo 2040 hardware bridge, a Webots robot/world, camera integration, and ongoing locomotion and gait development.
+Bob is still under active development. The current focus is making locomotion and simulation reliable, improving the connection between ROS 2 and the physical robot, and building the perception and positioning capabilities needed for the motorcycle chain-lubrication task.
 
-The current focus is building the mobility and control foundation. Those capabilities will then be used to tackle the mission-specific work: positioning Bob around the motorcycle, identifying the drive-chain area, and integrating the mechanism that applies chain lubricant.
+The end result I am working toward is simple: take a maintenance job I have to do repeatedly on my motorcycle and have Bob do it for me.
