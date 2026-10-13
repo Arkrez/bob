@@ -26,9 +26,14 @@ constexpr double PI = 3.14159265358979323846;
 constexpr double RAD_TO_DEG = 180.0 / PI;
 constexpr double DEG_TO_RAD = PI / 180.0;
 
-constexpr double HIP_Z = 4.5;
-constexpr double HIP_X = 3.0;
-constexpr double HIP_Y = 3.0;
+// Bob CAD anchor positions are metres; the existing IK topic uses inches.
+constexpr double METERS_TO_INCHES = 39.37007874015748;
+constexpr double HIP_ANCHORS_M[4][3] = {
+    {-0.137775, -0.086000, 0.111950},
+    {-0.139700,  0.140000, 0.111950},
+    {-0.010300,  0.140000, 0.111950},
+    {-0.010300, -0.086000, 0.111950}
+};
 
 constexpr double JOINT_MIN_DEG = -90.0;
 constexpr double JOINT_MAX_DEG =  90.0;
@@ -38,19 +43,13 @@ constexpr double SCORE_TIE_EPSILON = 1e-12;
 
 KDL::Vector getHipAnchor(int leg)
 {
-    switch (leg)
-    {
-        case 0:
-            return KDL::Vector(HIP_X, HIP_Y, HIP_Z);      // front left
-        case 1:
-            return KDL::Vector(HIP_X, -HIP_Y, HIP_Z);     // front right
-        case 2:
-            return KDL::Vector(-HIP_X, HIP_Y, HIP_Z);     // back left
-        case 3:
-            return KDL::Vector(-HIP_X, -HIP_Y, HIP_Z);    // back right
-        default:
-            return KDL::Vector(0.0, 0.0, HIP_Z);
-    }
+    if (leg < 0 || leg >= 4)
+        return KDL::Vector(0.0, 0.0, 0.0);
+    return KDL::Vector(
+        HIP_ANCHORS_M[leg][0] * METERS_TO_INCHES,
+        HIP_ANCHORS_M[leg][1] * METERS_TO_INCHES,
+        HIP_ANCHORS_M[leg][2] * METERS_TO_INCHES
+    );
 }
 
 KDL::Chain getLegChain(
@@ -92,13 +91,13 @@ KDL::Chain getLegChain(
     );
 
     // J3: shoulder pitch.
-    // The current Webots/URDF model uses the X axis for J3/J4.
+    // Bob's STEP-derived joints use the Y axis for J3/J4.
     chain.addSegment(
         KDL::Segment(
             "link2",
             KDL::Joint(
                 "joint3",
-                KDL::Joint::RotX
+                KDL::Joint::RotY
             ),
             KDL::Frame(
                 KDL::Vector(
@@ -116,7 +115,7 @@ KDL::Chain getLegChain(
             "link3",
             KDL::Joint(
                 "joint4",
-                KDL::Joint::RotX
+                KDL::Joint::RotY
             ),
             KDL::Frame(
                 KDL::Vector(
@@ -927,6 +926,14 @@ bool QuadrupedControllerNode::publishSimulationCommand(
             "simulation_joint_publisher_ is NULL"
         );
 
+        return false;
+    }
+
+    // Avoid reporting success when the external Webots bridge is not online.
+    if (simulation_joint_publisher_->get_subscription_count() == 0)
+    {
+        RCLCPP_WARN_THROTTLE(get_logger(), *get_clock(), 3000,
+            "No Webots subscriber on /leg_position_controller/commands");
         return false;
     }
 

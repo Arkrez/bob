@@ -14,8 +14,14 @@ int main(int argc, char **argv)
     auto controller =
         std::make_shared<QuadrupedControllerNode>();
 
-    auto bridge =
-        std::make_shared<Servo2040BridgeNode>();
+    // Use --ros-args -p enable_servo_bridge:=false for Webots-only runs.
+    auto runtime = std::make_shared<rclcpp::Node>("bob_runtime");
+    const bool enable_servo_bridge =
+        runtime->declare_parameter<bool>("enable_servo_bridge", true);
+
+    std::shared_ptr<Servo2040BridgeNode> bridge;
+    if (enable_servo_bridge)
+        bridge = std::make_shared<Servo2040BridgeNode>();
 
     auto cameraDisplay =
         std::make_shared<CameraDisplayNode>();
@@ -23,7 +29,8 @@ int main(int argc, char **argv)
     rclcpp::executors::SingleThreadedExecutor executor;
 
     executor.add_node(controller);
-    executor.add_node(bridge);
+    if (bridge)
+        executor.add_node(bridge);
     executor.add_node(cameraDisplay);
 
     executor.spin();
