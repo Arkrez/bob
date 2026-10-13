@@ -9,32 +9,32 @@ PROTO Bob [
     rotation IS rotation
     controller IS controller
     children [
-      Shape { appearance PBRAppearance { baseColor 0.24 0.29 0.36 roughness 0.75 } geometry Mesh { url [ "meshes/base_link.stl" ] } }
+      Shape { appearance PBRAppearance { baseColor 0.24 0.29 0.36 roughness 0.75 } geometry Mesh { url [ "../meshes/base_link.stl" ] } }
       Solid {
         translation 0 0 0
         children [
-          Shape { appearance PBRAppearance { baseColor 0.3 0.3 0.3 roughness 0.8 } geometry Mesh { url [ "meshes/leg0_part0.stl" ] } }
+          Shape { appearance PBRAppearance { baseColor 0.3 0.3 0.3 roughness 0.8 } geometry Mesh { url [ "../meshes/leg0_part0.stl" ] } }
           HingeJoint {
             jointParameters HingeJointParameters { anchor -0.137775 -0.086000 0.111950 axis 0.000000 0.000000 1.000000 minStop -1.570796 maxStop 1.570796 }
             device [ RotationalMotor { name "leg0_joint1" minPosition -1.570796 maxPosition 1.570796 maxTorque 1.0 maxVelocity 2.618 } PositionSensor { name "leg0_joint1_sensor" } ]
             endPoint Solid {
               translation -0.137775 -0.086000 0.111950
               children [
-                Transform { translation 0.137775 0.086000 -0.111950 children [ Shape { appearance PBRAppearance { baseColor 0.5 0.55 0.62 roughness 0.7 } geometry Mesh { url [ "meshes/leg0_part1.stl" ] } } ] }
+                Transform { translation 0.137775 0.086000 -0.111950 children [ Shape { appearance PBRAppearance { baseColor 0.5 0.55 0.62 roughness 0.7 } geometry Mesh { url [ "../meshes/leg0_part1.stl" ] } } ] }
             HingeJoint {
               jointParameters HingeJointParameters { anchor -0.107210 0.025964 -0.010750 axis 0.000000 1.000000 0.000000 minStop -1.570796 maxStop 1.570796 }
               device [ RotationalMotor { name "leg0_joint2" minPosition -1.570796 maxPosition 1.570796 maxTorque 1.0 maxVelocity 2.618 } PositionSensor { name "leg0_joint2_sensor" } ]
               endPoint Solid {
                 translation -0.107210 0.025964 -0.010750
                 children [
-                  Transform { translation 0.244985 0.060036 -0.101200 children [ Shape { appearance PBRAppearance { baseColor 0.5 0.55 0.62 roughness 0.7 } geometry Mesh { url [ "meshes/leg0_part2.stl" ] } } ] }
+                  Transform { translation 0.244985 0.060036 -0.101200 children [ Shape { appearance PBRAppearance { baseColor 0.5 0.55 0.62 roughness 0.7 } geometry Mesh { url [ "../meshes/leg0_part2.stl" ] } } ] }
               HingeJoint {
                 jointParameters HingeJointParameters { anchor -0.107210 -0.033700 -0.000014 axis 0.000000 1.000000 0.000000 minStop -1.570796 maxStop 1.570796 }
                 device [ RotationalMotor { name "leg0_joint3" minPosition -1.570796 maxPosition 1.570796 maxTorque 1.0 maxVelocity 2.618 } PositionSensor { name "leg0_joint3_sensor" } ]
                 endPoint Solid {
                   translation -0.107210 -0.033700 -0.000014
                   children [
-                    Transform { translation 0.352195 0.093736 -0.101186 children [ Shape { appearance PBRAppearance { baseColor 0.5 0.55 0.62 roughness 0.7 } geometry Mesh { url [ "meshes/leg0_part3.stl" ] } } ] }
+                    Transform { translation 0.352195 0.093736 -0.101186 children [ Shape { appearance PBRAppearance { baseColor 0.5 0.55 0.62 roughness 0.7 } geometry Mesh { url [ "../meshes/leg0_part3.stl" ] } } ] }
                   ]
                   name "leg0_joint3_link"
                   boundingObject Box { size 0.035 0.035 0.08 }
@@ -59,28 +59,28 @@ PROTO Bob [
       Solid {
         translation 0 0 0
         children [
-          Shape { appearance PBRAppearance { baseColor 0.3 0.3 0.3 roughness 0.8 } geometry Mesh { url [ "meshes/leg1_part0.stl" ] } }
+          Shape { appearance PBRAppearance { baseColor 0.3 0.3 0.3 roughness 0.8 } geometry Mesh { url [ "../meshes/leg1_part0.stl" ] } }
           HingeJoint {
             jointParameters HingeJointParameters { anchor -0.139700 0.140000 0.111950 axis 0.000000 0.000000 1.000000 minStop -1.570796 maxStop 1.570796 }
             device [ RotationalMotor { name "leg1_joint1" minPosition -1.570796 maxPosition 1.570796 maxTorque 1.0 maxVelocity 2.618 } PositionSensor { name "leg1_joint1_sensor" } ]
             endPoint Solid {
               translation -0.139700 0.140000 0.111950
               children [
-                Transform { translation 0.139700 -0.140000 -0.111950 children [ Shape { appearance PBRAppearance { baseColor 0.5 0.55 0.62 roughness 0.7 } geometry Mesh { url [ "meshes/leg1_part1.stl" ] } } ] }
+                Transform { translation 0.139700 -0.140000 -0.111950 children [ Shape { appearance PBRAppearance { baseColor 0.5 0.55 0.62 roughness 0.7 } geometry Mesh { url [ "../meshes/leg1_part1.stl" ] } } ] }
             HingeJoint {
               jointParameters HingeJointParameters { anchor -0.107210 0.025964 -0.010750 axis 0.000000 1.000000 0.000000 minStop -1.570796 maxStop 1.570796 }
               device [ RotationalMotor { name "leg1_joint2" minPosition -1.570796 maxPosition 1.570796 maxTorque 1.0 maxVelocity 2.618 } PositionSensor { name "leg1_joint2_sensor" } ]
               endPoint Solid {
                 translation -0.107210 0.025964 -0.010750
                 children [
-                  Transform { translation 0.246910 -0.165964 -0.101200 children [ Shape { appearance PBRAppearance { baseColor 0.5 0.55 0.62 roughness 0.7 } geometry Mesh { url [ "meshes/leg1_part2.stl" ] } } ] }
+                  Transform { translation 0.246910 -0.165964 -0.101200 children [ Shape { appearance PBRAppearance { baseColor 0.5 0.55 0.62 roughness 0.7 } geometry Mesh { url [ "../meshes/leg1_part2.stl" ] } } ] }
               HingeJoint {
                 jointParameters HingeJointParameters { anchor -0.107210 -0.033700 -0.000014 axis 0.000000 1.000000 0.000000 minStop -1.570796 maxStop 1.570796 }
                 device [ RotationalMotor { name "leg1_joint3" minPosition -1.570796 maxPosition 1.570796 maxTorque 1.0 maxVelocity 2.618 } PositionSensor { name "leg1_joint3_sensor" } ]
                 endPoint Solid {
                   translation -0.107210 -0.033700 -0.000014
                   children [
-                    Transform { translation 0.354120 -0.132264 -0.101186 children [ Shape { appearance PBRAppearance { baseColor 0.5 0.55 0.62 roughness 0.7 } geometry Mesh { url [ "meshes/leg1_part3.stl" ] } } ] }
+                    Transform { translation 0.354120 -0.132264 -0.101186 children [ Shape { appearance PBRAppearance { baseColor 0.5 0.55 0.62 roughness 0.7 } geometry Mesh { url [ "../meshes/leg1_part3.stl" ] } } ] }
                   ]
                   name "leg1_joint3_link"
                   boundingObject Box { size 0.035 0.035 0.08 }
@@ -105,28 +105,28 @@ PROTO Bob [
       Solid {
         translation 0 0 0
         children [
-          Shape { appearance PBRAppearance { baseColor 0.3 0.3 0.3 roughness 0.8 } geometry Mesh { url [ "meshes/leg2_part0.stl" ] } }
+          Shape { appearance PBRAppearance { baseColor 0.3 0.3 0.3 roughness 0.8 } geometry Mesh { url [ "../meshes/leg2_part0.stl" ] } }
           HingeJoint {
             jointParameters HingeJointParameters { anchor -0.010300 0.140000 0.111950 axis 0.000000 0.000000 1.000000 minStop -1.570796 maxStop 1.570796 }
             device [ RotationalMotor { name "leg2_joint1" minPosition -1.570796 maxPosition 1.570796 maxTorque 1.0 maxVelocity 2.618 } PositionSensor { name "leg2_joint1_sensor" } ]
             endPoint Solid {
               translation -0.010300 0.140000 0.111950
               children [
-                Transform { translation 0.010300 -0.140000 -0.111950 children [ Shape { appearance PBRAppearance { baseColor 0.5 0.55 0.62 roughness 0.7 } geometry Mesh { url [ "meshes/leg2_part1.stl" ] } } ] }
+                Transform { translation 0.010300 -0.140000 -0.111950 children [ Shape { appearance PBRAppearance { baseColor 0.5 0.55 0.62 roughness 0.7 } geometry Mesh { url [ "../meshes/leg2_part1.stl" ] } } ] }
             HingeJoint {
               jointParameters HingeJointParameters { anchor 0.107210 -0.025964 -0.010750 axis 0.000000 1.000000 0.000000 minStop -1.570796 maxStop 1.570796 }
               device [ RotationalMotor { name "leg2_joint2" minPosition -1.570796 maxPosition 1.570796 maxTorque 1.0 maxVelocity 2.618 } PositionSensor { name "leg2_joint2_sensor" } ]
               endPoint Solid {
                 translation 0.107210 -0.025964 -0.010750
                 children [
-                  Transform { translation -0.096910 -0.114036 -0.101200 children [ Shape { appearance PBRAppearance { baseColor 0.5 0.55 0.62 roughness 0.7 } geometry Mesh { url [ "meshes/leg2_part2.stl" ] } } ] }
+                  Transform { translation -0.096910 -0.114036 -0.101200 children [ Shape { appearance PBRAppearance { baseColor 0.5 0.55 0.62 roughness 0.7 } geometry Mesh { url [ "../meshes/leg2_part2.stl" ] } } ] }
               HingeJoint {
                 jointParameters HingeJointParameters { anchor 0.107210 0.033700 -0.000014 axis 0.000000 1.000000 0.000000 minStop -1.570796 maxStop 1.570796 }
                 device [ RotationalMotor { name "leg2_joint3" minPosition -1.570796 maxPosition 1.570796 maxTorque 1.0 maxVelocity 2.618 } PositionSensor { name "leg2_joint3_sensor" } ]
                 endPoint Solid {
                   translation 0.107210 0.033700 -0.000014
                   children [
-                    Transform { translation -0.204120 -0.147736 -0.101186 children [ Shape { appearance PBRAppearance { baseColor 0.5 0.55 0.62 roughness 0.7 } geometry Mesh { url [ "meshes/leg2_part3.stl" ] } } ] }
+                    Transform { translation -0.204120 -0.147736 -0.101186 children [ Shape { appearance PBRAppearance { baseColor 0.5 0.55 0.62 roughness 0.7 } geometry Mesh { url [ "../meshes/leg2_part3.stl" ] } } ] }
                   ]
                   name "leg2_joint3_link"
                   boundingObject Box { size 0.035 0.035 0.08 }
@@ -151,28 +151,28 @@ PROTO Bob [
       Solid {
         translation 0 0 0
         children [
-          Shape { appearance PBRAppearance { baseColor 0.3 0.3 0.3 roughness 0.8 } geometry Mesh { url [ "meshes/leg3_part0.stl" ] } }
+          Shape { appearance PBRAppearance { baseColor 0.3 0.3 0.3 roughness 0.8 } geometry Mesh { url [ "../meshes/leg3_part0.stl" ] } }
           HingeJoint {
             jointParameters HingeJointParameters { anchor -0.010300 -0.086000 0.111950 axis 0.000000 0.000000 1.000000 minStop -1.570796 maxStop 1.570796 }
             device [ RotationalMotor { name "leg3_joint1" minPosition -1.570796 maxPosition 1.570796 maxTorque 1.0 maxVelocity 2.618 } PositionSensor { name "leg3_joint1_sensor" } ]
             endPoint Solid {
               translation -0.010300 -0.086000 0.111950
               children [
-                Transform { translation 0.010300 0.086000 -0.111950 children [ Shape { appearance PBRAppearance { baseColor 0.5 0.55 0.62 roughness 0.7 } geometry Mesh { url [ "meshes/leg3_part1.stl" ] } } ] }
+                Transform { translation 0.010300 0.086000 -0.111950 children [ Shape { appearance PBRAppearance { baseColor 0.5 0.55 0.62 roughness 0.7 } geometry Mesh { url [ "../meshes/leg3_part1.stl" ] } } ] }
             HingeJoint {
               jointParameters HingeJointParameters { anchor 0.107210 -0.025964 -0.010750 axis 0.000000 1.000000 0.000000 minStop -1.570796 maxStop 1.570796 }
               device [ RotationalMotor { name "leg3_joint2" minPosition -1.570796 maxPosition 1.570796 maxTorque 1.0 maxVelocity 2.618 } PositionSensor { name "leg3_joint2_sensor" } ]
               endPoint Solid {
                 translation 0.107210 -0.025964 -0.010750
                 children [
-                  Transform { translation -0.096910 0.111964 -0.101200 children [ Shape { appearance PBRAppearance { baseColor 0.5 0.55 0.62 roughness 0.7 } geometry Mesh { url [ "meshes/leg3_part2.stl" ] } } ] }
+                  Transform { translation -0.096910 0.111964 -0.101200 children [ Shape { appearance PBRAppearance { baseColor 0.5 0.55 0.62 roughness 0.7 } geometry Mesh { url [ "../meshes/leg3_part2.stl" ] } } ] }
               HingeJoint {
                 jointParameters HingeJointParameters { anchor 0.107210 0.033700 -0.000014 axis 0.000000 1.000000 0.000000 minStop -1.570796 maxStop 1.570796 }
                 device [ RotationalMotor { name "leg3_joint3" minPosition -1.570796 maxPosition 1.570796 maxTorque 1.0 maxVelocity 2.618 } PositionSensor { name "leg3_joint3_sensor" } ]
                 endPoint Solid {
                   translation 0.107210 0.033700 -0.000014
                   children [
-                    Transform { translation -0.204120 0.078264 -0.101186 children [ Shape { appearance PBRAppearance { baseColor 0.5 0.55 0.62 roughness 0.7 } geometry Mesh { url [ "meshes/leg3_part3.stl" ] } } ] }
+                    Transform { translation -0.204120 0.078264 -0.101186 children [ Shape { appearance PBRAppearance { baseColor 0.5 0.55 0.62 roughness 0.7 } geometry Mesh { url [ "../meshes/leg3_part3.stl" ] } } ] }
                   ]
                   name "leg3_joint3_link"
                   boundingObject Box { size 0.035 0.035 0.08 }
