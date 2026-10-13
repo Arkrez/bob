@@ -1,0 +1,380 @@
+#VRML_SIM R2025a utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# Modified Fusion-derived Webots leg with hot dog base_link visual
+# Extracted from: /Users/arkrez/Desktop/urdf_bob/Leg_description/urdf/Leg.urdf
+
+PROTO HotDogLeg [
+  field  SFVec3f     translation     0 0 0
+  field  SFRotation  rotation        0 0 1 0
+  field  SFString    name            "HotDogLeg"  # Is `Robot.name`.
+  field  SFString    controller      "void" # Is `Robot.controller`.
+  field  MFString    controllerArgs  []     # Is `Robot.controllerArgs`.
+  field  SFString    customData      ""     # Is `Robot.customData`.
+  field  SFBool      supervisor      FALSE  # Is `Robot.supervisor`.
+  field  SFBool      synchronization TRUE   # Is `Robot.synchronization`.
+  field  SFBool      selfCollision   FALSE  # Is `Robot.selfCollision`.
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    controller IS controller
+    controllerArgs IS controllerArgs
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
+    selfCollision IS selfCollision
+    children [
+      # Hot-dog base_link visual: sausage between two bun halves, long axis X.
+      Transform {
+        translation 0 0 0.005
+        scale 1 1 1
+        children [
+          # Sausage
+          Transform {
+            scale 0.145 0.026 0.026
+            children [
+              Shape {
+                appearance PBRAppearance { baseColor 0.62 0.16 0.09 roughness 0.85 metalness 0 }
+                geometry Sphere { radius 1 subdivision 2 }
+              }
+            ]
+          }
+          # Left bun
+          Transform {
+            translation 0 0.027 -0.012
+            scale 0.135 0.028 0.031
+            children [
+              Shape {
+                appearance PBRAppearance { baseColor 0.82 0.53 0.25 roughness 0.95 metalness 0 }
+                geometry Sphere { radius 1 subdivision 2 }
+              }
+            ]
+          }
+          # Right bun
+          Transform {
+            translation 0 -0.027 -0.012
+            scale 0.135 0.028 0.031
+            children [
+              Shape {
+                appearance PBRAppearance { baseColor 0.82 0.53 0.25 roughness 0.95 metalness 0 }
+                geometry Sphere { radius 1 subdivision 2 }
+              }
+            ]
+          }
+          # Mustard stripe along the top of the sausage
+          Transform {
+            translation 0 0 0.026
+            scale 0.120 0.006 0.003
+            children [
+              Shape {
+                appearance PBRAppearance { baseColor 0.97 0.75 0.05 roughness 0.85 metalness 0 }
+                geometry Sphere { radius 1 subdivision 2 }
+              }
+            ]
+          }
+        ]
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0.000000 1.000000 0.000000
+          anchor -0.000102 0.003200 -0.010299
+        }
+        device [
+          RotationalMotor {
+            name "Revolute_1"
+            maxVelocity 1.0
+            maxTorque 100.0
+          }
+          PositionSensor {
+            name "Revolute_1_sensor"
+          }
+        ]
+        endPoint Solid {
+          translation -0.000102 0.003200 -0.010299
+          rotation -1.000000 0.000000 0.000000 1.570796
+          children [
+            Pose {
+              translation 0.049402 -0.007709 0.250000
+              rotation 0.999976 0.004934 0.004934 1.570820
+              children [
+                DEF TOWER_PRO_MG_995_ANALOG_SERVO_SHAFT_1_visual CadShape {
+                  url "/Users/arkrez/Desktop/urdf_bob/Leg_description/meshes/Servo_mg995_L40_W19_H43mm_1/TOWER_PRO_MG_995_ANALOG_SERVO_SHAFT_1.dae"
+                }
+              ]
+            }
+            Solid {
+              translation 0.000102 -0.010299 0.014500
+              rotation 0.999976 0.004934 0.004934 1.570820
+              children [
+                DEF Leg_Link_v0_1_1_visual CadShape {
+                  url "/Users/arkrez/Desktop/urdf_bob/Leg_description/meshes/Leg/Leg_Link_v0_1_1.dae"
+                }
+                Solid {
+                  translation -0.014014 -0.016500 0.107210
+                  rotation 0.000000 0.000000 1.000000 1.570796
+                  children [
+                    DEF Servo_Holder_2_visual CadShape {
+                      url "/Users/arkrez/Desktop/urdf_bob/Leg_description/meshes/Leg/Servo_Holder_2.dae"
+                    }
+                    HingeJoint {
+                      jointParameters HingeJointParameters {
+                        axis -0.000000 1.000000 0.000000
+                        anchor 0.000000 0.003200 -0.010300
+                      }
+                      device [
+                        RotationalMotor {
+                          name "Revolute_2"
+                          maxVelocity 1.0
+                          maxTorque 100.0
+                        }
+                        PositionSensor {
+                          name "Revolute_2_sensor"
+                        }
+                      ]
+                      endPoint Solid {
+                        translation 0.000000 0.003200 -0.010300
+                        rotation -0.577350 -0.577350 -0.577350 2.094395
+                        children [
+                          Pose {
+                            translation 0.008196 0.049324 0.250000
+                            rotation 0.577350 0.577350 0.577350 2.094395
+                            children [
+                              DEF TOWER_PRO_MG_995_ANALOG_SERVO_SHAFT_1_1_visual CadShape {
+                                url "/Users/arkrez/Desktop/urdf_bob/Leg_description/meshes/Servo_mg995_L40_W19_H43mm_1_1/TOWER_PRO_MG_995_ANALOG_SERVO_SHAFT_1_1.dae"
+                              }
+                            ]
+                          }
+                          Solid {
+                            translation 0.010300 0.000000 0.014500
+                            rotation 0.577350 0.577350 0.577350 2.094395
+                            children [
+                              DEF Leg_Link_v0_1_1_1_visual CadShape {
+                                url "/Users/arkrez/Desktop/urdf_bob/Leg_description/meshes/Leg/Leg_Link_v0_1_1_1.dae"
+                              }
+                              Solid {
+                                translation -0.000014 -0.027500 0.107210
+                                rotation 0.000000 -0.000000 -1.000000 3.141593
+                                children [
+                                  DEF Servo_Holder_2_2_visual CadShape {
+                                    url "/Users/arkrez/Desktop/urdf_bob/Leg_description/meshes/Leg/Servo_Holder_2_2.dae"
+                                  }
+                                  HingeJoint {
+                                    jointParameters HingeJointParameters {
+                                      axis -0.000000 1.000000 0.000000
+                                      anchor 0.000000 0.003200 -0.010300
+                                    }
+                                    device [
+                                      RotationalMotor {
+                                        name "Revolute_3"
+                                        maxVelocity 1.0
+                                        maxTorque 100.0
+                                      }
+                                      PositionSensor {
+                                        name "Revolute_3_sensor"
+                                      }
+                                    ]
+                                    endPoint Solid {
+                                      translation 0.000000 0.003200 -0.010300
+                                      rotation -0.577350 -0.577350 -0.577350 2.094395
+                                      children [
+                                        Pose {
+                                          translation 0.008196 0.049324 0.250000
+                                          rotation 0.577350 0.577350 0.577350 2.094395
+                                          children [
+                                            DEF TOWER_PRO_MG_995_ANALOG_SERVO_SHAFT_1_1_2_visual CadShape {
+                                              url "/Users/arkrez/Desktop/urdf_bob/Leg_description/meshes/Servo_mg995_L40_W19_H43mm_1_1_2/TOWER_PRO_MG_995_ANALOG_SERVO_SHAFT_1_1_2.dae"
+                                            }
+                                          ]
+                                        }
+                                        Solid {
+                                          translation 0.010300 0.000000 0.014500
+                                          rotation 0.577350 0.577350 0.577350 2.094395
+                                          children [
+                                            DEF Leg_Link_v0_1_1_1_2_visual CadShape {
+                                              url "/Users/arkrez/Desktop/urdf_bob/Leg_description/meshes/Leg/Leg_Link_v0_1_1_1_2.dae"
+                                            }
+                                            Solid {
+                                              translation -0.008014 0.003101 0.108210
+                                              rotation 0.004934 0.004934 -0.999976 1.570820
+                                              children [
+                                                DEF Foot_v0_1_visual CadShape {
+                                                  url "/Users/arkrez/Desktop/urdf_bob/Leg_description/meshes/Leg/Foot_v0_1.dae"
+                                                }
+                                              ]
+                                              name "Foot_v0_1"
+                                              boundingObject DEF Foot_v0_1_collision Mesh {
+                                                url "/Users/arkrez/Desktop/urdf_bob/Leg_description/meshes/Leg/Foot_v0_1_collision.stl"
+                                              }
+                                              physics Physics {
+                                                density -1
+                                                mass 0.275244
+                                                centerOfMass [ 0.022352 0.001015 0.013848 ]
+                                                inertiaMatrix [
+                                                  1.801062e-04 1.677658e-04 7.908241e-05
+                                                  8.167661e-07 6.994717e-07 -6.018891e-05
+                                                ]
+                                              }
+                                            }
+                                          ]
+                                          name "Leg_Link_v0_1_1_1_2"
+                                          boundingObject DEF Leg_Link_v0_1_1_1_2_collision Mesh {
+                                            url "/Users/arkrez/Desktop/urdf_bob/Leg_description/meshes/Leg/Leg_Link_v0_1_1_1_2_collision.stl"
+                                          }
+                                          physics Physics {
+                                            density -1
+                                            mass 0.177925
+                                            centerOfMass [ 0.000000 0.003124 0.054772 ]
+                                            inertiaMatrix [
+                                              2.710521e-04 2.885893e-04 1.827310e-05
+                                              2.768579e-12 -1.094504e-09 1.432222e-06
+                                            ]
+                                          }
+                                        }
+                                      ]
+                                      name "TOWER_PRO_MG_995_ANALOG_SERVO_SHAFT_1_1_2"
+                                      boundingObject Pose {
+                                        translation 0.008196 0.049324 0.250000
+                                        rotation 0.577350 0.577350 0.577350 2.094395
+                                        children [
+                                          DEF TOWER_PRO_MG_995_ANALOG_SERVO_SHAFT_1_1_2_collision Mesh {
+                                            url "/Users/arkrez/Desktop/urdf_bob/Leg_description/meshes/Servo_mg995_L40_W19_H43mm_1_1_2/TOWER_PRO_MG_995_ANALOG_SERVO_SHAFT_1_1_2_collision.stl"
+                                          }
+                                        ]
+                                      }
+                                      physics Physics {
+                                        density -1
+                                        mass 0.003005
+                                        centerOfMass [ 0.000000 0.000000 0.008691 ]
+                                        inertiaMatrix [
+                                          1.000000e-06 1.000000e-06 1.000000e-06
+                                          0.000000e+00 0.000000e+00 0.000000e+00
+                                        ]
+                                      }
+                                    }
+                                  }
+                                ]
+                                name "Servo_Holder_2_2"
+                                boundingObject DEF Servo_Holder_2_2_collision Mesh {
+                                  url "/Users/arkrez/Desktop/urdf_bob/Leg_description/meshes/Leg/Servo_Holder_2_2_collision.stl"
+                                }
+                                physics Physics {
+                                  density -1
+                                  mass 0.233835
+                                  centerOfMass [ 0.003526 -0.010141 -0.000166 ]
+                                  inertiaMatrix [
+                                    1.001504e-04 8.141686e-05 5.777385e-05
+                                    2.055954e-06 -1.372084e-07 -4.329281e-08
+                                  ]
+                                }
+                              }
+                            ]
+                            name "Leg_Link_v0_1_1_1"
+                            boundingObject DEF Leg_Link_v0_1_1_1_collision Mesh {
+                              url "/Users/arkrez/Desktop/urdf_bob/Leg_description/meshes/Leg/Leg_Link_v0_1_1_1_collision.stl"
+                            }
+                            physics Physics {
+                              density -1
+                              mass 0.177925
+                              centerOfMass [ 0.000000 0.003124 0.054772 ]
+                              inertiaMatrix [
+                                2.710521e-04 2.885893e-04 1.827310e-05
+                                2.768578e-12 -1.094504e-09 1.432222e-06
+                              ]
+                            }
+                          }
+                        ]
+                        name "TOWER_PRO_MG_995_ANALOG_SERVO_SHAFT_1_1"
+                        boundingObject Pose {
+                          translation 0.008196 0.049324 0.250000
+                          rotation 0.577350 0.577350 0.577350 2.094395
+                          children [
+                            DEF TOWER_PRO_MG_995_ANALOG_SERVO_SHAFT_1_1_collision Mesh {
+                              url "/Users/arkrez/Desktop/urdf_bob/Leg_description/meshes/Servo_mg995_L40_W19_H43mm_1_1/TOWER_PRO_MG_995_ANALOG_SERVO_SHAFT_1_1_collision.stl"
+                            }
+                          ]
+                        }
+                        physics Physics {
+                          density -1
+                          mass 0.003005
+                          centerOfMass [ 0.000000 0.000000 0.008691 ]
+                          inertiaMatrix [
+                            1.000000e-06 1.000000e-06 1.000000e-06
+                            0.000000e+00 0.000000e+00 0.000000e+00
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                  name "Servo_Holder_2"
+                  boundingObject DEF Servo_Holder_2_collision Mesh {
+                    url "/Users/arkrez/Desktop/urdf_bob/Leg_description/meshes/Leg/Servo_Holder_2_collision.stl"
+                  }
+                  physics Physics {
+                    density -1
+                    mass 0.233835
+                    centerOfMass [ 0.003526 -0.010141 -0.000166 ]
+                    inertiaMatrix [
+                      1.001504e-04 8.141686e-05 5.777385e-05
+                      2.055954e-06 -1.372084e-07 -4.329281e-08
+                    ]
+                  }
+                }
+              ]
+              name "Leg_Link_v0_1_1"
+              boundingObject DEF Leg_Link_v0_1_1_collision Mesh {
+                url "/Users/arkrez/Desktop/urdf_bob/Leg_description/meshes/Leg/Leg_Link_v0_1_1_collision.stl"
+              }
+              physics Physics {
+                density -1
+                mass 0.177925
+                centerOfMass [ 0.000000 0.003124 0.054772 ]
+                inertiaMatrix [
+                  2.710521e-04 2.885893e-04 1.827310e-05
+                  2.768578e-12 -1.094504e-09 1.432222e-06
+                ]
+              }
+            }
+          ]
+          name "TOWER_PRO_MG_995_ANALOG_SERVO_SHAFT_1"
+          boundingObject Pose {
+            translation 0.049402 -0.007709 0.250000
+            rotation 0.999976 0.004934 0.004934 1.570820
+            children [
+              DEF TOWER_PRO_MG_995_ANALOG_SERVO_SHAFT_1_collision Mesh {
+                url "/Users/arkrez/Desktop/urdf_bob/Leg_description/meshes/Servo_mg995_L40_W19_H43mm_1/TOWER_PRO_MG_995_ANALOG_SERVO_SHAFT_1_collision.stl"
+              }
+            ]
+          }
+          physics Physics {
+            density -1
+            mass 0.003005
+            centerOfMass [ 0.000000 0.000000 0.008691 ]
+            inertiaMatrix [
+              1.000000e-06 1.000000e-06 1.000000e-06
+              0.000000e+00 0.000000e+00 0.000000e+00
+            ]
+          }
+        }
+      }
+    ]
+    name IS name
+    # Simple collision envelope, independent of the decorative bun/sausage geometry.
+    boundingObject Pose {
+      translation 0 0 -0.002
+      children [
+        Box { size 0.260 0.100 0.067 }
+      ]
+    }
+    physics Physics {
+      density -1
+      mass 0.233835
+      centerOfMass [ 0.003524 -0.010141 -0.000201 ]
+      inertiaMatrix [
+        1.001436e-04 8.141686e-05 5.778069e-05
+        2.055427e-06 -5.553331e-07 -6.357886e-08
+      ]
+    }
+  }
+}
