@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bob Webots Voice Control</title>
+<style>
+body{font:17px system-ui,sans-serif;max-width:680px;margin:3rem auto;padding:0 1rem;line-height:1.5}
+button,input{font:inherit;padding:.7rem;margin:.4rem 0}input{width:95%}
+#status{white-space:pre-wrap;border:1px solid #ccc;padding:1rem;border-radius:8px}
+</style>
+<h1>Bob — voice control (simulation only)</h1>
+<p>Say “set leg 0 joint 3 to 15 degrees”, “reset”, or “stop”. Legs 0–3 are uncalibrated; commands are limited to ±45°.</p>
+<button id="listen">🎙 Speak a command</button>
+<form id="form"><input id="cmd" type="text" aria-label="Command" placeholder="set leg 0 joint 3 to 15 degrees"><button>Send command</button></form>
+<p id="status" role="status">Ready. Start the ROS 2 to Webots bridge first.</p>
+<script>
+const status = document.getElementById('status');
+const input = document.getElementById('cmd');
+async function send(text) {
+  status.textContent='Sending: '+text;
+  try {
+    const r=await fetch('/command',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text})});
+    const j=await r.json();
+    status.textContent=(j.ok?'✓ ':'✗ ')+j.message+(j.pose_degrees?'\nJoint targets: '+j.pose_degrees.join(', '):'');
+  } catch(e) {status.textContent='Connection failed: '+e.message;}
+}
+document.getElementById('form').addEventListener('submit',e=>{e.preventDefault();send(input.value.trim());});
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+const btn=document.getElementById('listen');
+if (!SR) {
+  btn.disabled=true;
+  status.textContent='Speech recognition is unavailable in this browser. Type commands below, or use a supported Chrome build.';
+} else {
+  btn.addEventListener('click',()=>{
+    const r=new SR();r.lang='en-US';r.interimResults=false;r.maxAlternatives=1;
+    status.textContent='Listening…';
+    r.onresult=e=>{input.value=e.results[0][0].transcript;send(input.value.trim());};
+    r.onerror=e=>{status.textContent='Microphone / speech error: '+e.error;};
+    r.start();
+  });
+}
+</script></html>
