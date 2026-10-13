@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540">
+<title>Hot Dog Quadruped — conceptual schematic, not Webots render</title>
+<rect width="960" height="540" fill="#eaf1f8"/>
+<path d="M0 425H960" stroke="#c0cbd8" stroke-width="4"/>
+<g stroke="#3e4956" stroke-width="23" stroke-linecap="round" fill="none">
+<path d="M260 310L208 375L232 426"/><path d="M690 310L740 370L716 425"/>
+<path d="M350 314L315 360L338 425"/><path d="M620 314L651 360L626 425"/>
+</g>
+<g fill="#9caaba" stroke="#3c4855" stroke-width="7"><circle cx="260" cy="310" r="19"/><circle cx="690" cy="310" r="19"/><circle cx="350" cy="314" r="17"/><circle cx="620" cy="314" r="17"/><circle cx="208" cy="375" r="13"/><circle cx="740" cy="370" r="13"/><circle cx="315" cy="360" r="12"/><circle cx="651" cy="360" r="12"/></g>
+<rect x="171" y="201" rx="83" width="619" height="138" fill="#bd7c39"/>
+<rect x="190" y="154" rx="77" width="582" height="133" fill="#e9ad66" stroke="#b97f41" stroke-width="6"/>
+<rect x="195" y="177" rx="54" width="570" height="91" fill="#9f3832" stroke="#7d2a27" stroke-width="5"/>
+<path d="M246 212Q294 180 345 212T444 212T543 212T642 212T718 210" fill="none" stroke="#eacb17" stroke-width="19" stroke-linecap="round"/>
+<path d="M194 268Q479 320 766 268L760 301Q475 354 202 304Z" fill="#e7a65d" stroke="#b77c3d" stroke-width="5"/>
+<text x="480" y="65" font-family="Arial,sans-serif" font-size="36" text-anchor="middle" fill="#253447" font-weight="bold">Hot Dog Quadruped</text>
+<text x="480" y="498" font-family="Arial,sans-serif" font-size="22" text-anchor="middle" fill="#46576b">Concept schematic only — not an actual Webots screenshot</text>
+</svg>
