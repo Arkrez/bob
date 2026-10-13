@@ -88,7 +88,7 @@ Servo2040BridgeNode::Servo2040BridgeNode()
                         get_logger(),
                         "Serial port not open, dropping command"
                     );
-                    const bool success = true;
+                    const bool success = false;
 
                     publishStatus(
                         success,
