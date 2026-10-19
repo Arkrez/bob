@@ -10,6 +10,8 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(orocos_kdl_vendor REQUIRED)
+find_package(kdl_parser REQUIRED)
+find_package(ament_index_cpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(cv_bridge REQUIRED)
 find_package(OpenCV REQUIRED)
@@ -35,6 +37,8 @@ ament_target_dependencies(
   std_msgs
   sensor_msgs
   cv_bridge
+  kdl_parser
+  ament_index_cpp
 )
 
 target_link_libraries(
