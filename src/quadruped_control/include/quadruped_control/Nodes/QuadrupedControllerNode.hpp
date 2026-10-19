@@ -115,22 +115,19 @@ private:
     };
 
     // ------------------------------------------------------------
-    // KDL link offsets, inches
-    //
-    // [leg][0] = J1 -> J3
-    // [leg][1] = unused J2 slot
-    // [leg][2] = J3 -> J4
-    // [leg][3] = J4 -> foot
+    // KDL foot-tip approximation (inches).
+    // J1/J3 joint origins and axes now come from bob_description/urdf/robot.urdf.
+    // Only jointOffset_[leg][3] is used for the final J4-to-foot offset,
+    // until the CAD URDF exports an explicit foot-tip frame.
+    // /joint_offset remains supported for index 3 only.
     // ------------------------------------------------------------
 
-    // CAD-derived joint displacements, converted from metres to inches.
-    // Foot tip offsets are approximations until calibrated in Webots.
     double jointOffset_[4][4][3] =
     {
-        {{-4.22087,  1.02220, -0.42323}, {0,0,0}, {-4.22087, -1.32677, -0.00055}, {-3.93701, 0, -0.78740}},
-        {{-4.22087,  1.02220, -0.42323}, {0,0,0}, {-4.22087, -1.32677, -0.00055}, {-3.93701, 0, -0.78740}},
-        {{ 4.22087, -1.02220, -0.42323}, {0,0,0}, { 4.22087,  1.32677, -0.00055}, { 3.93701, 0, -0.78740}},
-        {{ 4.22087, -1.02220, -0.42323}, {0,0,0}, { 4.22087,  1.32677, -0.00055}, { 3.93701, 0, -0.78740}}
+        {{0,0,0}, {0,0,0}, {0,0,0}, {-3.93701, 0, -0.78740}},
+        {{0,0,0}, {0,0,0}, {0,0,0}, {-3.93701, 0, -0.78740}},
+        {{0,0,0}, {0,0,0}, {0,0,0}, { 3.93701, 0, -0.78740}},
+        {{0,0,0}, {0,0,0}, {0,0,0}, { 3.93701, 0, -0.78740}}
     };
 
     // ------------------------------------------------------------
