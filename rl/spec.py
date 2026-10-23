@@ -11,16 +11,20 @@ import numpy as np
 STAND = np.tile([0.0, 0.75, 1.05], 4)
 ACTION_SCALE = np.tile([0.35, 0.45, 0.28], 4)    # rad per unit action: yaw, hip, knee
 JOINT_LIMIT = 1.5708
-# Targets stop short of the servo end stops: pushing into a stop grinds an MG995's gears.
+# Targets stop short of the servo end stops: pushing into a stop grinds a hobby servo's gears.
 TARGET_LIMIT = 0.9 * JOINT_LIMIT
 CONTROL_DT = 0.02                                # 50 Hz
 PHYSICS_DT = 0.004                               # s; MuJoCo and Webots both step physics at this
 
-# MG995 servo model, used by MuJoCo (make_mjcf.py) and reproduced in Webots (the bridge):
+# Servo model, used by MuJoCo (make_mjcf.py), the Webots bridge and the URDF/PROTO (build.py):
 # torque = KP * (target - angle) - KV * speed, clamped to the stall torque.
-SERVO_KP = 8.0            # N m / rad: saturates at stall torque ~7 deg from target
-SERVO_KV = 0.15           # N m s / rad: caps free speed near the 5.2 rad/s datasheet value
-STALL_TORQUE = 0.94       # N m
+# HobbyPark 25 kg coreless digital servo at 7.4 V (2S LiPo): 25 kg.cm, ~0.13 s/60 deg.
+# Seller specs vary; the earlier MG995 was KP 8, KV 0.15, stall 0.94 N m, ~5.2 rad/s.
+SERVO_NAME = "HobbyPark 25 kg coreless"
+STALL_TORQUE = 2.45       # N m (25 kg.cm)
+SERVO_FREE_SPEED = 8.0    # rad/s (0.13 s per 60 deg)
+SERVO_KP = 20.0           # N m / rad: saturates at stall torque ~7 deg from target
+SERVO_KV = STALL_TORQUE / SERVO_FREE_SPEED   # N m s / rad: no torque left at free speed
 JOINT_DAMPING = 0.02      # N m s / rad
 JOINT_FRICTION = 0.02     # N m
 ARMATURE = 0.003          # kg m^2, reflected rotor + gearbox inertia (MuJoCo only)
@@ -28,9 +32,9 @@ FOOT_FRICTION = 0.9
 # Gait clock: one stride per GAIT_PERIOD when walking, speeding up to RUN_PERIOD at RUN_SPEED.
 # The rhythm follows the commanded speed, so "run" is just a faster /cmd_vel.
 GAIT_PERIOD = 0.6                                # s per stride, walking (and standing/turning)
-RUN_PERIOD = 0.4                                 # s per stride at full running speed
+RUN_PERIOD = 0.33                                # s per stride at full running speed
 WALK_SPEED = 0.18                                # m/s: above this the stride starts to quicken
-RUN_SPEED = 0.35                                 # m/s: top commanded speed
+RUN_SPEED = 0.8                                  # m/s: top commanded speed (above what the servos allow)
 TURN_PERIOD = 1.0                                # s per stride when turning in place: fewer, bigger steps
 OBS_SIZE = 3 + 3 + 3 + 12 + 12 + 2
 JOINT_NAMES = [f"joint{j}_leg{l}" for l in range(4) for j in (1, 3, 4)]

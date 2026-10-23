@@ -2,7 +2,7 @@
 """Pi camera -> /target: find an ArUco marker and publish where it is relative to the robot.
 
 Runs on the Raspberry Pi 5 with a Camera Module 3 behind the rock's front window:
-    python3 rl/camera_target_node.py --marker-size 0.08
+    python3 rl/camera_target_node.py --marker-size 0.15
 
 Publishes /target (geometry_msgs/PointStamped, frame "base_link": x forward, y left, metres)
 for every frame in which the marker is found. ros_policy_node.py --nav turns those into the
@@ -26,9 +26,9 @@ from geometry_msgs.msg import PointStamped
 from rclpy.node import Node
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
-from camera import CAMERA_X  # noqa: E402
+from camera import CAMERA_X, IMAGE_WIDTH, MARKER_SIZE  # noqa: E402
 
-WIDTH, HEIGHT = 640, 360
+WIDTH, HEIGHT = IMAGE_WIDTH, IMAGE_WIDTH * 9 // 16   # keep in step with the navigator's camera model
 # Camera Module 3 nominal optics: 4.74 mm lens, 6.45 mm wide sensor -> focal length in pixels
 FX = 4.74 / 6.45 * WIDTH
 
@@ -86,7 +86,7 @@ class CameraTarget(Node):
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--marker-id", type=int, default=0)
-    p.add_argument("--marker-size", type=float, default=0.08, help="black square side, metres")
+    p.add_argument("--marker-size", type=float, default=MARKER_SIZE, help="black square side, metres")
     p.add_argument("--calibration", help="npz with K (3x3) and dist from a checkerboard calibration")
     args, ros_args = p.parse_known_args()
     rclpy.init(args=ros_args)

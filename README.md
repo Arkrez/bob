@@ -22,6 +22,7 @@ Options:
 - `--world cad` loads the older CAD model instead of Rocky-Bob.
 - `--demo` also runs the joint-motion smoke test.
 - `--policy rl/policies/rocky_walk.npz` walks the robot with the trained policy. Drive it with `/cmd_vel`; see `rl/README.md`.
+- The Rocky-Bob world has interior walls, boxes too tall to step over, low steps and rocks. Bob can't sense obstacles yet (his camera only finds the target), so he can walk into them. For an empty arena, use `--world cad/rocky_bob/sim/worlds/rocky_bob_open.wbt`.
 - `--nav scripted` makes it find the orange target post with a simulated Pi camera, turn to face it, and walk or run to it. Drag the post in Webots to move it. `--nav rl/policies/rocky_nav.npz` uses the trained navigator instead.
 - `--stop` shuts the container down.
 

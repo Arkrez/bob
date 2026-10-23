@@ -10,7 +10,7 @@ controller_manager is required.
 Policy mode (BOB_POLICY=/path/to/policy.npz): the bridge runs a trained walking
 policy itself, in lockstep with simulation time, so it sees exactly what it saw in
 MuJoCo training: a 50 Hz control step and gait clock in sim seconds, however fast
-Webots runs. It also drives the motors with the MuJoCo MG995 servo model
+Webots runs. It also drives the motors with the MuJoCo servo model from rl/spec.py
 (torque = KP*(target-angle) - KV*speed, clamped to stall) instead of Webots'
 own position controller. Drive it with /cmd_vel (linear.x/y m/s, angular.z rad/s).
 
@@ -216,7 +216,7 @@ class BobBridge(Node):
                 self.create_subscription(Twist, "/cmd_vel", self.cmd_vel_callback, 10)
             self.get_logger().info(
                 f"Bob Webots bridge ready: 12 actuators driven by {policy_path} in lockstep with sim time "
-                f"(policy every {self.policy.decimation} x {self.step_ms} ms), MG995 servo model; send /cmd_vel"
+                f"(policy every {self.policy.decimation} x {self.step_ms} ms), {self.policy.spec.SERVO_NAME} servo model"
             )
         else:
             self.subscription = self.create_subscription(

@@ -4,7 +4,8 @@ Numpy-only (`policy.py`), for `ros_policy_node.py`, `play.py` and `watch.py`. Tr
 
 | file | snapshot | notes |
 | --- | --- | --- |
-| `rocky_walk.npz` | walk_pivot 30M | Default. Walks and runs; turns in place on the spot with fewer steps (1.0 s turning stride). |
+| `rocky_walk.npz` | walk_hp4 42M | Default. Trained for the HobbyPark 25 kg servos: clean, even ~4 cm steps, almost no bounces, fewest steps when pivoting. |
+| `rocky_walk_pivot_mg995.npz` | walk_pivot 30M | Previous default, trained for MG995s. Holds its pivot best (4.6 cm drift), but takes low, uneven steps. |
 | `rocky_walk_run22.npz` | walk_run 22M | Faster walking and running, but sloppier turns in place. Needs `spec.TURN_PERIOD = 0.6`. |
 | `rocky_walk_v1.npz` | walk_steady 45M | The previous walker. Can walk backward and sidestep, but can't run. |
 | `rocky_walk_turny.npz` | walk_steady 35M | Older walker that turns in place better. |
@@ -74,3 +75,33 @@ Turning results are from `turn_eval.py`: 10 s turns, both directions, randomised
 | **`rocky_walk` (pivot 30M)** | **20.5** | **7.2 cm** | 0.31 | 0.121 | 0.225 | 0.096 | 4.0 | 82% |
 
 **To switch back to the faster walker:** set `TURN_PERIOD = 0.6` in `spec.py` and copy `rocky_walk_run22.npz` over `rocky_walk.npz`.
+
+## HobbyPark 25 kg servos: `rocky_walk.npz` (walk_hp4 42M)
+
+This walker was trained from scratch for the HobbyPark 25 kg coreless servo, modelled at 7.4 V as 2.45 N·m stall and about 8 rad/s (`spec.py`). It runs with commands up to 0.8 m/s.
+
+On top of the earlier rewards, it adds:
+- a target step height (4.5 cm) that every leg should reach
+- a penalty when the four legs' step heights differ
+- a bounce penalty (a re-touch after less than 0.08 s in the air)
+- stricter pivot rewards: an anchor bonus and a linear offset penalty, a slide penalty, and no foot planted longer than 0.75 s
+
+Everything below is measured with the new servo model. The step test's target height is 4.5 cm.
+
+| | walk 0.15 | run 0.30 | top speed | turn 0.40 | rough 0.15 | pivot drift | footfalls/rad | step height (walk) | bounces/s (walk, pivot) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `rocky_walk_pivot_mg995` | 0.125 | 0.189 | **0.314** | 0.28 | 0.114 | **4.6 cm** | 26.7 | 1.7 ± 0.8 cm | 1.7, 0.8 |
+| **`rocky_walk` (hp4 42M)** | **0.188** | **0.247** | 0.280 | **0.34** | **0.168** | 10.8 cm | **14.4** | **4.0 ± 0.5 cm** | **0.0, 0.2** |
+
+**Webots** (open arena, `rl/webots_eval.py`, with the servo rotor inertia added to the Webots legs):
+
+| | walk 0.15 m/s | run 0.30 m/s | turn in place 0.40 rad/s | sidestep 0.08 m/s | body wobble |
+| --- | --- | --- | --- | --- | --- |
+| Webots | 0.198 | 0.240 | 0.36 | 0.056 | 0.3–0.5 rad/s |
+| MuJoCo | 0.197 | 0.256 | 0.34 | | 0.4–0.5 rad/s |
+
+Before the rotor inertia was added, Webots managed only about half this speed with 2.0–2.3 rad/s of wobble.
+
+**Not yet achieved:**
+- Pivot drift is still about 10 cm; the pivot rewards struggled to hold the body over the spot.
+- Top speed stays around 0.3 m/s even with the stronger servo, so the limit now looks like the learned gait, not the actuator.

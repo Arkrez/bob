@@ -8,7 +8,7 @@ point gives each episode a clean start.
 import numpy as np
 
 BUMP_HEIGHT = 0.04       # m, peak-to-trough of the smooth bumps at level 1
-BLOCK_HEIGHT = 0.045     # m, tallest obstacle block at level 1
+BLOCK_HEIGHT = 0.07      # m, tallest obstacle block at level 1 (the 25 kg servos step ~4.5 cm)
 BLOCKS = 400             # blocks scattered over the 12 x 12 m field at level 1 (~3 per m²)
 SPAWN_PAD = (0.35, 0.7)  # m: flat inside the first radius, full roughness past the second
 

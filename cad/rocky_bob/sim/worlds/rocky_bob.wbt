@@ -11,14 +11,25 @@ Viewpoint { orientation -0.25 0.2 0.95 1.95 position 0.45 -1.2 0.8 }
 TexturedBackground {}
 TexturedBackgroundLight {}
 RectangleArena { floorSize 8 8 }
+Solid { translation -1.25 1.5 0.15 rotation 0 0 1 0.0000 children [ Shape { appearance PBRAppearance { baseColor 0.75 0.72 0.68 roughness 0.9 metalness 0 } geometry Box { size 2.5 0.06 0.3 } } ] name "wall_west" boundingObject Box { size 2.5 0.06 0.3 } }
+Solid { translation 2.0 -1.25 0.15 rotation 0 0 1 0.0000 children [ Shape { appearance PBRAppearance { baseColor 0.75 0.72 0.68 roughness 0.9 metalness 0 } geometry Box { size 0.06 2.5 0.3 } } ] name "wall_east" boundingObject Box { size 0.06 2.5 0.3 } }
+Solid { translation -1.6 -2.2 0.15 rotation 0 0 1 0.0000 children [ Shape { appearance PBRAppearance { baseColor 0.75 0.72 0.68 roughness 0.9 metalness 0 } geometry Box { size 1.6 0.06 0.3 } } ] name "wall_south" boundingObject Box { size 1.6 0.06 0.3 } }
+Solid { translation 1.8 1.8 0.1 rotation 0 0 1 0.2618 children [ Shape { appearance PBRAppearance { baseColor 0.55 0.35 0.2 roughness 0.9 metalness 0 } geometry Box { size 0.3 0.3 0.2 } } ] name "box_a" boundingObject Box { size 0.3 0.3 0.2 } }
+Solid { translation -2.4 -0.5 0.125 rotation 0 0 1 -0.1745 children [ Shape { appearance PBRAppearance { baseColor 0.55 0.35 0.2 roughness 0.9 metalness 0 } geometry Box { size 0.25 0.4 0.25 } } ] name "box_b" boundingObject Box { size 0.25 0.4 0.25 } }
+Solid { translation 0.6 -2.6 0.075 rotation 0 0 1 0.5236 children [ Shape { appearance PBRAppearance { baseColor 0.55 0.35 0.2 roughness 0.9 metalness 0 } geometry Box { size 0.2 0.2 0.15 } } ] name "box_c" boundingObject Box { size 0.2 0.2 0.15 } }
+Solid { translation -1.2 0.4 0.02 rotation 0 0 1 0.0000 children [ Shape { appearance PBRAppearance { baseColor 0.45 0.45 0.5 roughness 0.9 metalness 0 } geometry Box { size 0.6 0.6 0.04 } } ] name "step_low" boundingObject Box { size 0.6 0.6 0.04 } }
+Solid { translation 2.9 0.9 0.03 rotation 0 0 1 0.0000 children [ Shape { appearance PBRAppearance { baseColor 0.45 0.45 0.5 roughness 0.9 metalness 0 } geometry Box { size 0.5 1.0 0.06 } } ] name "ledge" boundingObject Box { size 0.5 1.0 0.06 } }
+Solid { translation 3.0 -2.6 0.06 rotation 0 0 1 0.6109 children [ Shape { appearance PBRAppearance { baseColor 0.42 0.4 0.37 roughness 0.9 metalness 0 } geometry Box { size 0.22 0.18 0.12 } } ] name "rock_a" boundingObject Box { size 0.22 0.18 0.12 } }
+Solid { translation -3.0 2.8 0.08 rotation 0 0 1 -0.3491 children [ Shape { appearance PBRAppearance { baseColor 0.42 0.4 0.37 roughness 0.9 metalness 0 } geometry Box { size 0.28 0.2 0.16 } } ] name "rock_b" boundingObject Box { size 0.28 0.2 0.16 } }
+Solid { translation 1.2 -1.6 0.045 rotation 0 0 1 1.0472 children [ Shape { appearance PBRAppearance { baseColor 0.42 0.4 0.37 roughness 0.9 metalness 0 } geometry Box { size 0.16 0.14 0.09 } } ] name "rock_c" boundingObject Box { size 0.16 0.14 0.09 } }
 RockyBob { translation 0 0 0.19 }
-# Camera target: an ArUco-style marker on a post. Drag it around; with BOB_NAV the robot walks to it.
+# Camera target: an ArUco-style 15 cm marker on a post (rl/camera.py MARKER_SIZE). Drag it around; with BOB_NAV the robot walks to it.
 DEF TARGET Solid {
   translation 1 0.4 0
   children [
     Pose { translation 0 0 0.125 children [ Shape { appearance PBRAppearance { baseColor 0.9 0.4 0.1 roughness 0.6 } geometry Cylinder { height 0.25 radius 0.012 } } ] }
-    Pose { translation 0 0 0.25 children [ Shape { appearance PBRAppearance { baseColor 0.05 0.05 0.05 roughness 0.8 } geometry Box { size 0.01 0.1 0.1 } } ] }
-    Pose { translation 0 0 0.25 children [ Shape { appearance PBRAppearance { baseColor 1 1 1 roughness 0.8 } geometry Box { size 0.012 0.05 0.05 } } ] }
+    Pose { translation 0 0 0.25 children [ Shape { appearance PBRAppearance { baseColor 0.05 0.05 0.05 roughness 0.8 } geometry Box { size 0.01 0.15 0.15 } } ] }
+    Pose { translation 0 0 0.25 children [ Shape { appearance PBRAppearance { baseColor 1 1 1 roughness 0.8 } geometry Box { size 0.012 0.07 0.07 } } ] }
   ]
   name "target"
 }

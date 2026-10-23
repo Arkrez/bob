@@ -4,7 +4,7 @@ The policy runs at 50 Hz and outputs 12 joint-target offsets around the standing
 Its observations are chosen so the same policy can run on the real robot:
   projected gravity (3)  and gyro (3)       -> from an IMU on the body
   velocity command (3)                       -> vx, vy (m/s), yaw rate (rad/s)
-  joint positions (12)                       -> MG995s don't report position; on hardware
+  joint positions (12)                       -> hobby servos don't report position; on hardware
                                                 feed the last commanded targets instead
   last action (12)
   gait clock sin/cos (2)
@@ -28,6 +28,7 @@ import numpy as np
 import terrain
 from spec import quat_matrix
 from spec import advance_phase
+from spec import STALL_TORQUE, WALK_SPEED
 from spec import (CONTROL_DT, GAIT_PERIOD, JOINT_LIMIT, OBS_SIZE, STAND, action_to_targets, observation,
                   projected_gravity, quat_rotate_inverse)
 
@@ -35,13 +36,17 @@ MODEL = pathlib.Path(__file__).resolve().parent / "rocky_bob.xml"
 STREAM_PORT = 9871   # watch.py --live listens here
 
 SOFT_JOINT_LIMIT = 0.85 * JOINT_LIMIT   # rad; penalised beyond this
-SOFT_TORQUE = 0.7                      # N m; 75 % of the MG995's 0.94 N m stall torque
+SOFT_TORQUE = 0.75 * STALL_TORQUE      # N m; penalised above 75 % of stall
 FOOT_CLEARANCE = 0.03                  # m of swing-foot height above the local ground
 # Penalties that shape *how* it walks; train.py ramps them in (penalty_scale 0.25 -> 1) so the
 # robot learns to walk before it learns to walk politely, instead of finding that freezing is cheapest.
 SHAPING = {"power", "torque", "action_rate", "action_smooth", "joint_acc", "joint_vel",
            "joint_limit", "torque_limit", "slip", "foot_clearance"}
-TURN_ANCHOR_SIGMA = 0.10 ** 2   # m^2: the pivot bonus falls to 1/e at 10 cm of drift
+TURN_ANCHOR_SIGMA = 0.05 ** 2   # m^2: the pivot bonus falls to 1/e at 5 cm of drift
+TURN_MAX_STANCE = 0.75           # s: a foot planted longer than this while turning is a pivot leg
+SWING_HEIGHT = 0.045        # m: target peak foot clearance of every step
+SWING_SIGMA = 0.012         # m: swing_height bonus falls to 1/e this far from the target
+BOUNCE_AIR = 0.08           # s: a touchdown after less air time than this is a bounce
 STEADY_SIGMA = 0.1          # (rad/s)^2: roll^2 + pitch^2 rate at which "steady" falls to 1/e
 RIDE_SIGMA = 1.0            # (m/s^2)^2: body acceleration (per control step) where "smooth_ride" falls to 1/e
 PUSH_EVERY = (2.0, 5.0)                # s between shoves
@@ -54,7 +59,7 @@ COMMAND_MIX = [            # (share, vx range, vy range, wz range)
     (0.18, (0, 0), (0, 0), (-0.5, 0.5)),               # turn in place
     (0.12, (0, 0), (-0.10, 0.10), (0, 0)),             # sidestep
     (0.20, (-0.10, 0.18), (-0.08, 0.08), (-0.4, 0.4)),  # mixed, walking
-    (0.20, (0.18, 0.35), (0, 0), (-0.15, 0.15)),       # run: faster stride (spec.gait_period)
+    (0.20, (0.18, 0.80), (0, 0), (-0.15, 0.15)),       # run: faster stride (spec.gait_period)
 ]
 # Trot schedule on the gait clock: diagonal pairs (leg0 back-right + leg2 front-left, leg1 + leg3)
 # alternate; all feet planted when told to stand (Walk These Ways-style contact schedule).
@@ -64,10 +69,20 @@ TROT_PAIR = np.array([0, 1, 0, 1])
 TRACK_TAU = GAIT_PERIOD
 REWARD = {
     "track_lin": 3.0, "track_yaw": 3.0, "gait": 1.5,
+    # run commands: pays in proportion to how much of the commanded speed is reached, so every
+    # extra bit of speed is worth the same (track_lin alone flattens out far from the target)
+    "run_progress": 2.0,
     # "chicken head": bonus for a steady body (and camera) while the legs do the work
     "steady": 1.0, "smooth_ride": 1.0,
     # turning in place: pivot over the spot where the turn began, in as few steps as possible
-    "turn_anchor": 1.5, "turn_footfall": -5.0, "turn_drift": -3.0,
+    "turn_anchor": 3.0, "turn_footfall": -5.0, "turn_drift": -6.0, "turn_slip": -1.0,
+    # no pivoting on one planted leg: every foot keeps stepping during a turn in place
+    "turn_planted": -2.0,
+    # distance off the pivot, linear: a signal at any drift (the anchor bonus alone is flat far out)
+    "turn_offset": -10.0,
+    # clean, even steps everywhere (pivots too): each step should peak at SWING_HEIGHT, all four legs
+    # alike, and land once - a foot that taps down again after a brief lift is a bounce, not a step
+    "swing_height": 5.0, "swing_spread": -50.0, "foot_bounce": -10.0,
     "lin_z": -2.0, "ang_xy": -0.05, "tilt": -2.0, "height": -20.0,
     "power": -0.02, "torque": -0.15,
     # stepping, not dragging: reward air time, penalise feet that slide on the ground or move
@@ -251,6 +266,9 @@ class RockyBobWalk(gym.Env):
         self.last_action = np.zeros(12)
         self.prev_action = np.zeros(12)
         self.air_time = np.zeros(4)
+        self.stance_time = np.zeros(4)
+        self.swing_peak = np.zeros(4)         # highest clearance of each foot's current swing
+        self.last_peak = np.full(4, np.nan)   # peak of each foot's last completed step
         self.vel_avg = np.zeros(3)   # vx, vy, yaw rate, averaged over ~one stride
         self.prev_world_vel = d.qvel[:3].copy()
         self.target_height = d.qpos[2]          # spawn pad is flat, so this is height above ground
@@ -303,7 +321,9 @@ class RockyBobWalk(gym.Env):
         turning = (abs(self.command[0]) < 0.02 and abs(self.command[1]) < 0.02 and abs(self.command[2]) > 0.1)
         moving = np.linalg.norm(self.command) > 0.05
         feet_air = np.sum((self.air_time - 0.2) * first_contact) * moving
+        air_before = self.air_time.copy()
         self.air_time = np.where(touching, 0.0, self.air_time + CONTROL_DT)
+        self.stance_time = np.where(touching, self.stance_time + CONTROL_DT, 0.0)
         foot_speed = np.zeros(4)
         for k, g in enumerate(self.feet):
             mujoco.mj_objectVelocity(m, d, mujoco.mjtObj.mjOBJ_GEOM, g, self._vel6, 0)
@@ -314,9 +334,22 @@ class RockyBobWalk(gym.Env):
         ground = terrain.heights_at(self.field, px, py, *self.field_shape, *self.field_half, self.field_max)
         clearance = d.geom_xpos[self.feet, 2] - self.foot_radius - ground[:4]
         foot_low = (np.maximum(FOOT_CLEARANCE - clearance, 0.0) / FOOT_CLEARANCE) ** 2
+        # step quality, scored once per touchdown (events, like turn_footfall)
+        self.swing_peak = np.where(touching, self.swing_peak, np.maximum(self.swing_peak, clearance))
+        real_step = first_contact & (air_before >= BOUNCE_AIR)
+        bounce = first_contact & (air_before < BOUNCE_AIR)
+        swing_height = float(np.sum(np.exp(-((self.swing_peak - SWING_HEIGHT) / SWING_SIGMA) ** 2) * real_step)) if moving else 0.0
+        self.last_peak = np.where(real_step, self.swing_peak, self.last_peak)
+        complete = not np.isnan(self.last_peak).any()
+        swing_spread = float(np.std(self.last_peak)) * float(np.sum(real_step)) if complete and moving else 0.0
+        self.swing_peak = np.where(touching, 0.0, self.swing_peak)
 
         terms = {
-            "track_lin": np.exp(-np.sum((self.command[:2] - self.vel_avg[:2]) ** 2) / 0.02),
+            # tolerance grows a little with commanded speed
+            "track_lin": np.exp(-np.sum((self.command[:2] - self.vel_avg[:2]) ** 2)
+                                / (0.02 + 0.06 * float(self.command[:2] @ self.command[:2]))),
+            "run_progress": (float(np.clip((self.vel_avg[:2] @ self.command[:2]) / (asked ** 2), 0.0, 1.0))
+                             if asked > WALK_SPEED else 0.0),
             "track_yaw": np.exp(-(self.command[2] - self.vel_avg[2]) ** 2 / 0.1),
             "lin_z": vel[2] ** 2,
             "ang_xy": np.sum(ang[:2] ** 2),
@@ -336,6 +369,12 @@ class RockyBobWalk(gym.Env):
             # an event, not a rate: with the CONTROL_DT scaling each footfall costs 5 * 0.02 = 0.1
             "turn_footfall": float(np.sum(first_contact)) if turning else 0.0,
             "turn_drift": float(np.hypot(d.qvel[0], d.qvel[1])) if turning else 0.0,   # body sliding off the pivot
+            "turn_slip": float(np.sum(foot_speed * touching)) if turning else 0.0,   # feet dragged round in a pivot
+            "turn_planted": float(np.sum(np.maximum(self.stance_time - TURN_MAX_STANCE, 0.0))) if turning else 0.0,
+            "turn_offset": float(np.linalg.norm(d.qpos[:2] - self.anchor)) if turning else 0.0,
+            "swing_height": swing_height,
+            "swing_spread": swing_spread,
+            "foot_bounce": float(np.sum(bounce)),
             "steady": np.exp(-(ang[0] ** 2 + ang[1] ** 2) / STEADY_SIGMA),
             "smooth_ride": np.exp(-float(body_acc @ body_acc) / RIDE_SIGMA),
             "slip": np.sum(foot_speed * touching),

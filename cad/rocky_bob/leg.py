@@ -1,4 +1,4 @@
-"""Rock-styled 3-DOF leg for Bob (MG995 servos, M3 hardware).
+"""Rock-styled 3-DOF leg for Bob (standard-size 25 kg servos, M3 hardware).
 
 Leg frame (zero pose): origin on the hip-yaw axis, +X points out along the leg, +Z up.
   joint1 (hip yaw)   axis Z at (0, 0, 0)
@@ -19,18 +19,20 @@ L1 = 107.2   # hip yaw -> hip pitch
 L2 = 107.2   # hip pitch -> knee
 L3 = 160.0   # knee -> foot centre
 
-# ---------------------------------------------------------------- MG995 (servo frame)
+# ---------------------------------------------------------------- servo (servo frame)
 # Servo frame: output shaft on +Z through the origin. The case runs from x=-SHAFT_FROM_END
-# to x=CASE_L-SHAFT_FROM_END. Values from the common MG995 drawing; check with calipers.
-CASE_L, CASE_W, CASE_H = 40.7, 19.7, 36.5
+# to x=CASE_L-SHAFT_FROM_END. HobbyPark 25 kg coreless, standard size (40 x 20 mm, 49.5 x 10 mm
+# hole pattern, 25T spline) - seller drawings vary, so check with calipers. (MG995 was 40.7 x 19.7,
+# tabs 54.6, holes 48.7 x 10.)
+CASE_L, CASE_W, CASE_H = 40.0, 20.0, 37.0
 SHAFT_FROM_END = 10.0
-TAB_L, TAB_T = 54.6, 2.5
+TAB_L, TAB_T = 54.5, 2.5
 TAB_TOP_BELOW_CASE_TOP = 10.0
-TAB_HOLE_DX, TAB_HOLE_DY = 48.7, 10.0
+TAB_HOLE_DX, TAB_HOLE_DY = 49.5, 10.0
 HORN_FACE_ABOVE_CASE = 8.0   # case top -> outer face of the 25T round horn
 HORN_D, HORN_T = 24.0, 2.0
 HORN_BCD = 14.0              # bolt circle of the horn's M3 holes - measure yours
-SERVO_MASS = 0.055           # kg
+SERVO_MASS = 0.062           # kg
 
 # Joint stack along the servo axis: horn face at +G_HORN, idler boss face at -G_IDLER.
 G_HORN = 23.5
@@ -189,7 +191,7 @@ PITCH = ((-1, 0, 0), (0, 0, 1), (0, 1, 0))    # shaft along +Y
 
 
 # ================================================================ servo-frame features
-def mg995():
+def servo_model():
     x0, x1 = -SHAFT_FROM_END, CASE_L - SHAFT_FROM_END
     w = CASE_W / 2
     body = fuse(
@@ -204,7 +206,7 @@ def mg995():
 
 
 def pocket():
-    """Everything a parent link must remove to hold an MG995."""
+    """Everything a parent link must remove to hold the servo."""
     x0, x1 = -SHAFT_FROM_END - FIT, CASE_L - SHAFT_FROM_END + FIT
     w = CASE_W / 2 + FIT
     top = G_HORN + 20
@@ -254,7 +256,7 @@ def joint_clearance(r):
 
 # ================================================================ parts (each in its own link frame)
 def build():
-    s_body, s_horn = mg995()
+    s_body, s_horn = servo_model()
 
     # --- hip pod (bolts to the rock body): housing for the yaw servo + mounting plate
     plate = box(HIP_PLATE_X, HIP_PLATE_X + 4, *HIP_PLATE_Y, *HIP_PLATE_Z)

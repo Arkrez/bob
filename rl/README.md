@@ -63,6 +63,10 @@ In the sim, the Webots bridge runs the policy itself, stepped by simulation time
 - **Timing:** a policy step every 20 ms of simulated time (5 × 4 ms physics steps), with a gait clock that also runs on sim time. That holds however fast Webots runs; here, under Docker emulation, it runs at about 0.9× real time.
 - **Servo model:** the same MG995 model as MuJoCo: torque = KP × (target − angle) − KV × speed, clamped to 0.94 N·m. Webots' own position controller is much stiffer.
 - **Joints and ground:** the same joint damping and friction, and the same 0.9 foot friction. All of these come from `spec.py`.
+- **Servo rotor inertia:** MuJoCo models the servo's rotor as joint armature (0.003 kg·m²), and Webots has nothing equivalent. `build.py` therefore adds it to each child leg link's inertia about its joint axis.
+  - Without it, the knee link is so light that the servo's damping, applied once per 4 ms physics step, becomes unstable.
+  - That matters for the 25 kg servo's stiffer gains: the legs chattered and the body wobbled at 2.0–2.3 rad/s, against 0.4 in MuJoCo.
+  - With it, Webots matches MuJoCo: it walks at 0.198 against 0.197 m/s, and the body wobbles at 0.3–0.5 rad/s.
 
 The bridge also publishes `/clock` (sim time) and `/sim/position` (ground-truth position). It stops the robot if `/cmd_vel` is silent for one second of sim time.
 
@@ -224,8 +228,14 @@ The shared definitions are in `spec.py`, which keeps training and deployment ide
   - *smooth ride:* low body acceleration over each 20 ms step
 
   `progress.md` tracks both.
+- **Clean, even steps:**
+  - a 4.5 cm target step height for every leg
+  - penalties when the legs' step heights differ and for bounces (quick re-touches)
+  - extra penalties for dragging feet during pivots
+
+  `step_eval.py` measures them.
 - **Rough terrain and shoves** (`terrain.py`), for dynamic balance:
-  - The ground has smooth bumps up to 4 cm and up to 400 blocks up to 4.5 cm tall, on a 12 × 12 m height field. The spawn area is a flat pad.
+  - The ground has smooth bumps up to 4 cm and up to 400 blocks up to 7 cm tall (raised from 4.5 cm for the 25 kg servos), on a 12 × 12 m height field. The spawn area is a flat pad.
   - Each training robot moves up a level after walking at least 60% of its commanded distance, and down a level after a fall or a stall.
   - Every 2–5 s the robot gets a shove of up to 0.5 m/s plus a twist.
   - The policy is blind: it feels the ground through its legs and IMU, like the real robot.

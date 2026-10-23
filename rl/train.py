@@ -120,6 +120,8 @@ def main():
     p.add_argument("--resume", help="path to a .zip to keep training")
     p.add_argument("--seed", type=int, default=0)
     p.add_argument("--explore", type=float, help="with --resume: reset the action noise std to this")
+    p.add_argument("--lr", type=float, help="with --resume: learning rate (gentler fine-tunes, e.g. 1e-4)")
+    p.add_argument("--target-kl", type=float, help="with --resume: stop each update past this KL (e.g. 0.01)")
     p.add_argument("--obs-stats", help="with --resume: policy.npz whose input scaling matches the checkpoint "
                    "(checkpoints made before vecnormalize was saved with them)")
     p.add_argument("--penalty-start", type=float, default=0.25,
@@ -145,6 +147,11 @@ def main():
             z = np.load(args.obs_stats)
             venv.obs_rms.mean, venv.obs_rms.var = z["obs_mean"].astype(np.float64), z["obs_var"].astype(np.float64)
         model = PPO.load(args.resume, env=venv, device="cpu", custom_objects={"n_steps": n_steps})
+        if args.lr:   # a good policy needs smaller steps: big updates can knock it off its gait for good
+            model.learning_rate = args.lr
+            model._setup_lr_schedule()
+        if args.target_kl:
+            model.target_kl = args.target_kl
         if args.explore:   # a converged policy has almost no noise left to discover new motions with
             model.policy.log_std.data.fill_(float(np.log(args.explore)))
     else:

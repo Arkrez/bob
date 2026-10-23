@@ -17,7 +17,13 @@ import numpy as np
 # Pi Camera Module 3 (standard lens): 66 x 41 deg. Wide: 102 deg; Module v2: 62.2 deg.
 HFOV_DEG = 66.0
 CAMERA_X = 0.109          # m ahead of the body origin (front face of the rock, 70 mm up)
-MIN_RANGE, MAX_RANGE = 0.15, 2.5
+# How far a marker can be detected depends on how many pixels it covers: ArUco needs roughly
+# MIN_MARKER_PX across. Range = focal length (px) * marker size / MIN_MARKER_PX.
+IMAGE_WIDTH = 1280        # px, as captured by camera_target_node.py
+MARKER_SIZE = 0.15        # m, black square of the printed marker
+MIN_MARKER_PX = 25
+FOCAL_PX = (IMAGE_WIDTH / 2) / np.tan(np.radians(HFOV_DEG / 2))
+MIN_RANGE, MAX_RANGE = 0.15, FOCAL_PX * MARKER_SIZE / MIN_MARKER_PX   # ~5.9 m with the defaults
 FRAME_PERIOD = 0.1        # s between detections
 LATENCY = 0.1             # s from exposure to result
 MISS_RATE = 0.1           # chance a frame fails to detect a visible marker

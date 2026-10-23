@@ -3,7 +3,7 @@
 Re-run after changing the CAD (cad/rocky_bob/build.py) so training matches the robot:
     .venv/bin/python make_mjcf.py
 
-Servo model: MG995 as a MuJoCo position actuator, force clamped to the 0.94 N m stall torque.
+Servo model (spec.py): a MuJoCo position actuator, force clamped to the servo's stall torque.
 Collision: the URDF's primitive shapes. The legs collide with the floor only, not with each
 other or the body (the CAD check shows the legs can't reach the body anyway).
 """
@@ -19,11 +19,11 @@ HERE = pathlib.Path(__file__).resolve().parent
 URDF = HERE.parent / "cad/rocky_bob/sim/rocky_bob.urdf"
 OUT = HERE / "rocky_bob.xml"
 
-# MG995 servo model
+# servo model
 # servo model constants live in spec.py so the Webots bridge can reproduce them
 
 # terrain height field (see terrain.py); flat until env.py fills it in
-TERRAIN = dict(nrow=240, ncol=240, half=6.0, max_height=0.1, base=0.05)
+TERRAIN = dict(nrow=240, ncol=240, half=6.0, max_height=0.12, base=0.05)
 
 # collision bits: floor hits everything, the body and legs never hit each other
 FLOOR = 'contype="1" conaffinity="3"'

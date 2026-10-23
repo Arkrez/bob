@@ -50,7 +50,8 @@ class Eval(Node):
         yaw = math.atan2(2 * (q.w * q.z + q.x * q.y), 1 - 2 * (q.y * q.y + q.z * q.z))
         # body z axis' vertical component: below 0.5 means tipped past 60 degrees
         upright = 1 - 2 * (q.x * q.x + q.y * q.y)
-        self.samples.append((self.sim_time, *self.pos, yaw, upright))
+        g = msg.angular_velocity
+        self.samples.append((self.sim_time, *self.pos, yaw, upright, float(np.hypot(g.x, g.y))))
 
     def drive(self, cmd, seconds):
         msg = Twist()
@@ -69,7 +70,7 @@ class Eval(Node):
         s = np.array([r for r in self.samples if r[0] - start > SETTLE])
         if len(s) < 10:
             return None
-        t, x, y, yaw, upright = s.T
+        t, x, y, yaw, upright, wobble = s.T
         yaw_u = np.unwrap(yaw)
         dt = t[-1] - t[0]
         # world displacement rotated into the robot's frame at each step
@@ -77,7 +78,7 @@ class Eval(Node):
         mid_yaw = yaw_u[:-1]
         fwd = np.sum(dx * np.cos(mid_yaw) + dy * np.sin(mid_yaw)) / dt
         side = np.sum(-dx * np.sin(mid_yaw) + dy * np.cos(mid_yaw)) / dt
-        return fwd, side, (yaw_u[-1] - yaw_u[0]) / dt, bool(np.min(upright) < 0.5)
+        return fwd, side, (yaw_u[-1] - yaw_u[0]) / dt, bool(np.min(upright) < 0.5), float(np.sqrt(np.mean(wobble ** 2)))
 
 
 def main():
@@ -90,15 +91,15 @@ def main():
     if not node.samples:
         print("No /imu + /sim/position data: is the sim running with Rocky-Bob and the bridge connected?")
         return
-    print(f"{'test':15s} {'command':>22s}   {'forward m/s':>11s} {'side m/s':>9s} {'turn rad/s':>10s}  fell")
+    print(f"{'test':15s} {'command':>22s}   {'forward m/s':>11s} {'side m/s':>9s} {'turn rad/s':>10s} {'wobble rad/s':>12s}  fell")
     for name, cmd in TESTS:
         r = node.measure(cmd)
         node.drive((0, 0, 0), REST)
         if r is None:
             print(f"{name:15s} no data")
             continue
-        fwd, side, turn, fell = r
-        print(f"{name:15s} vx={cmd[0]:+.2f} vy={cmd[1]:+.2f} wz={cmd[2]:+.2f}   {fwd:+11.3f} {side:+9.3f} {turn:+10.2f}  {'YES' if fell else 'no'}",
+        fwd, side, turn, fell, wobble = r
+        print(f"{name:15s} vx={cmd[0]:+.2f} vy={cmd[1]:+.2f} wz={cmd[2]:+.2f}   {fwd:+11.3f} {side:+9.3f} {turn:+10.2f} {wobble:12.2f}  {'YES' if fell else 'no'}",
               flush=True)
     node.destroy_node()
     rclpy.shutdown()
