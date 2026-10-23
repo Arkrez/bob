@@ -1,0 +1,31 @@
+# ROS 2 side of the Bob simulation: builds quadruped_control and runs the Webots
+# extern-controller bridge. Webots itself runs on the host (macOS GUI).
+#
+# amd64 only: Webots ships its controller library for x86-64 Linux, so on Apple
+# Silicon this runs under Rosetta emulation.
+FROM --platform=linux/amd64 ros:humble-ros-base
+
+# Must match the Webots version on the host.
+ARG WEBOTS_VERSION=R2025a
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        bzip2 \
+        ca-certificates \
+        curl \
+        libopencv-dev \
+        python3-colcon-common-extensions \
+        ros-humble-cv-bridge \
+        ros-humble-orocos-kdl-vendor \
+        ros-humble-xacro \
+    && rm -rf /var/lib/apt/lists/*
+
+# Only the controller runtime is needed; drop the bundled worlds and docs.
+RUN curl -fsSL "https://github.com/cyberbotics/webots/releases/download/${WEBOTS_VERSION}/webots-${WEBOTS_VERSION}-x86-64.tar.bz2" \
+        | tar -xj -C /usr/local \
+    && rm -rf /usr/local/webots/projects /usr/local/webots/docs
+
+ENV WEBOTS_HOME=/usr/local/webots
+ENV PATH="${WEBOTS_HOME}:${PATH}"
+
+WORKDIR /workspace
+CMD ["/workspace/docker/sim_entrypoint.sh"]

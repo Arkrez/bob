@@ -2,6 +2,33 @@
 
 Bob is a motorcycle-chain maintenance robot in development, using a Raspberry Pi 5, a Pimoroni Servo 2040, MG995 servos, and ROS 2 Humble. This repository contains the controller software and the **current CAD-derived Bob model**.
 
+## Quick start: simulation
+
+You need Docker Desktop and Webots R2025a on the Mac. Then, from the repo root:
+
+```bash
+scripts/start_sim.sh
+```
+
+The script does four things:
+
+1. Starts Docker if it isn't running.
+2. Opens Webots with the Rocky-Bob world.
+3. Builds and starts the `bob-sim` container. The first run takes a while.
+4. Connects the ROS 2 bridge to the 12 motors.
+
+Options:
+
+- `--world cad` loads the older CAD model instead of Rocky-Bob.
+- `--demo` also runs the joint-motion smoke test.
+- `--policy rl/policies/rocky_walk.npz` walks the robot with the trained policy. Drive it with `/cmd_vel`; see `rl/README.md`.
+- `--nav scripted` makes it find the orange target post with a simulated Pi camera, turn to face it, and walk or run to it. Drag the post in Webots to move it. `--nav rl/policies/rocky_nav.npz` uses the trained navigator instead.
+- `--stop` shuts the container down.
+
+To run ROS commands inside the container, use `scripts/sim_ros.sh`, for example `scripts/sim_ros.sh ros2 topic echo /joint_states`. In Claude Code, `/startSim` does the same as `scripts/start_sim.sh`.
+
+The Docker setup lives in `docker/`. The colcon build is kept in a Docker volume, so the repo's `build/` and `install/` folders are left alone. The manual steps are further down.
+
 ## Current robot model
 
 - `webots_quadruped/protos/Bob.proto`: Webots PROTO; the model references `../meshes/*.stl` relative to the PROTO.

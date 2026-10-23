@@ -1,0 +1,8 @@
+mujoco==3.3.5
+gymnasium==1.2.0
+stable-baselines3==2.7.0
+torch==2.8.0
+tensorboard==2.20.0
+imageio==2.37.0
+imageio-ffmpeg==0.6.0
+setuptools<81          # tensorboard still imports pkg_resources
