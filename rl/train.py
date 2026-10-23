@@ -120,6 +120,8 @@ def main():
     p.add_argument("--resume", help="path to a .zip to keep training")
     p.add_argument("--seed", type=int, default=0)
     p.add_argument("--explore", type=float, help="with --resume: reset the action noise std to this")
+    p.add_argument("--obs-stats", help="with --resume: policy.npz whose input scaling matches the checkpoint "
+                   "(checkpoints made before vecnormalize was saved with them)")
     p.add_argument("--penalty-start", type=float, default=0.25,
                    help="shaping penalties start at this fraction and ramp to full (1 = no ramp)")
     args = p.parse_args()
@@ -136,7 +138,12 @@ def main():
 
     if args.resume:
         stats = pathlib.Path(args.resume).with_name("vecnormalize.pkl")
-        venv = VecNormalize.load(str(stats), venv)
+        ckpt = pathlib.Path(args.resume)   # CheckpointCallback saves ppo_<n>_steps.zip + ppo_vecnormalize_<n>_steps.pkl
+        own = ckpt.with_name(ckpt.stem.replace("_", "_vecnormalize_", 1) + ".pkl")
+        venv = VecNormalize.load(str(own if own.exists() else stats), venv)
+        if args.obs_stats:   # the network only works with the input scaling it was trained with
+            z = np.load(args.obs_stats)
+            venv.obs_rms.mean, venv.obs_rms.var = z["obs_mean"].astype(np.float64), z["obs_var"].astype(np.float64)
         model = PPO.load(args.resume, env=venv, device="cpu", custom_objects={"n_steps": n_steps})
         if args.explore:   # a converged policy has almost no noise left to discover new motions with
             model.policy.log_std.data.fill_(float(np.log(args.explore)))
@@ -157,7 +164,7 @@ def main():
         total_timesteps=int(args.steps),
         tb_log_name=args.name,
         reset_num_timesteps=not args.resume,
-        callback=[CheckpointCallback(every * 5, str(run_dir / "checkpoints"), name_prefix="ppo"),
+        callback=[CheckpointCallback(every * 5, str(run_dir / "checkpoints"), name_prefix="ppo", save_vecnormalize=True),
                   SaveLatest(run_dir, every), TerrainLogger(),
                   PenaltyRamp(start=args.penalty_start, steps=8e6 if args.resume else 10e6)],
     )

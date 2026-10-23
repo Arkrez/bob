@@ -41,6 +41,7 @@ FOOT_CLEARANCE = 0.03                  # m of swing-foot height above the local 
 # robot learns to walk before it learns to walk politely, instead of finding that freezing is cheapest.
 SHAPING = {"power", "torque", "action_rate", "action_smooth", "joint_acc", "joint_vel",
            "joint_limit", "torque_limit", "slip", "foot_clearance"}
+TURN_ANCHOR_SIGMA = 0.10 ** 2   # m^2: the pivot bonus falls to 1/e at 10 cm of drift
 STEADY_SIGMA = 0.1          # (rad/s)^2: roll^2 + pitch^2 rate at which "steady" falls to 1/e
 RIDE_SIGMA = 1.0            # (m/s^2)^2: body acceleration (per control step) where "smooth_ride" falls to 1/e
 PUSH_EVERY = (2.0, 5.0)                # s between shoves
@@ -65,6 +66,8 @@ REWARD = {
     "track_lin": 3.0, "track_yaw": 3.0, "gait": 1.5,
     # "chicken head": bonus for a steady body (and camera) while the legs do the work
     "steady": 1.0, "smooth_ride": 1.0,
+    # turning in place: pivot over the spot where the turn began, in as few steps as possible
+    "turn_anchor": 1.5, "turn_footfall": -5.0, "turn_drift": -3.0,
     "lin_z": -2.0, "ang_xy": -0.05, "tilt": -2.0, "height": -20.0,
     "power": -0.02, "torque": -0.15,
     # stepping, not dragging: reward air time, penalise feet that slide on the ground or move
@@ -244,6 +247,7 @@ class RockyBobWalk(gym.Env):
         self.phase = 0.0
         self.steps = 0
         self.command = self._sample_command()
+        self.anchor = d.qpos[:2].copy()   # pivot point for turn-in-place commands
         self.last_action = np.zeros(12)
         self.prev_action = np.zeros(12)
         self.air_time = np.zeros(4)
@@ -278,6 +282,7 @@ class RockyBobWalk(gym.Env):
             self.next_push = self.t + self.np_random.uniform(*PUSH_EVERY)
         if self.fixed_command is None and self.steps % 250 == 0:
             self.command = self._sample_command()
+            self.anchor = d.qpos[:2].copy()
 
         q = self._sense("orientation", 4)
         Rt = quat_matrix(q).T                               # world -> body
@@ -295,6 +300,7 @@ class RockyBobWalk(gym.Env):
         self._asked += asked * CONTROL_DT
 
         first_contact = touching & (self.air_time > 0)
+        turning = (abs(self.command[0]) < 0.02 and abs(self.command[1]) < 0.02 and abs(self.command[2]) > 0.1)
         moving = np.linalg.norm(self.command) > 0.05
         feet_air = np.sum((self.air_time - 0.2) * first_contact) * moving
         self.air_time = np.where(touching, 0.0, self.air_time + CONTROL_DT)
@@ -325,7 +331,11 @@ class RockyBobWalk(gym.Env):
             "joint_limit": np.sum(np.maximum(np.abs(d.qpos[7:]) - SOFT_JOINT_LIMIT, 0.0)),
             "torque_limit": over_torque,
             "feet_air": feet_air,
-            "gait": self._gait_score(touching),
+            "gait": self._gait_score(touching),   # turning in place uses the slower TURN_PERIOD stride
+            "turn_anchor": np.exp(-float(np.sum((d.qpos[:2] - self.anchor) ** 2)) / TURN_ANCHOR_SIGMA) if turning else 0.0,
+            # an event, not a rate: with the CONTROL_DT scaling each footfall costs 5 * 0.02 = 0.1
+            "turn_footfall": float(np.sum(first_contact)) if turning else 0.0,
+            "turn_drift": float(np.hypot(d.qvel[0], d.qvel[1])) if turning else 0.0,   # body sliding off the pivot
             "steady": np.exp(-(ang[0] ** 2 + ang[1] ** 2) / STEADY_SIGMA),
             "smooth_ride": np.exp(-float(body_acc @ body_acc) / RIDE_SIGMA),
             "slip": np.sum(foot_speed * touching),

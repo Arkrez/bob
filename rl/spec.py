@@ -31,6 +31,7 @@ GAIT_PERIOD = 0.6                                # s per stride, walking (and st
 RUN_PERIOD = 0.4                                 # s per stride at full running speed
 WALK_SPEED = 0.18                                # m/s: above this the stride starts to quicken
 RUN_SPEED = 0.35                                 # m/s: top commanded speed
+TURN_PERIOD = 1.0                                # s per stride when turning in place: fewer, bigger steps
 OBS_SIZE = 3 + 3 + 3 + 12 + 12 + 2
 JOINT_NAMES = [f"joint{j}_leg{l}" for l in range(4) for j in (1, 3, 4)]
 
@@ -59,6 +60,8 @@ def projected_gravity(q):
 def gait_period(command):
     """Stride period (s) for a command: walking rhythm up to WALK_SPEED, quickening to RUN_PERIOD."""
     speed = float(np.hypot(command[0], command[1]))
+    if speed < 0.02 and abs(command[2]) > 0.1:   # turning in place
+        return TURN_PERIOD
     run = np.clip((speed - WALK_SPEED) / (RUN_SPEED - WALK_SPEED), 0.0, 1.0)
     return GAIT_PERIOD + run * (RUN_PERIOD - GAIT_PERIOD)
 

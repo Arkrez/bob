@@ -213,6 +213,12 @@ The shared definitions are in `spec.py`, which keeps training and deployment ide
   - a foot sliding while on the ground is penalised
   - a foot moving while lower than 3 cm above the ground beneath it is penalised (Isaac Lab's `foot_clearance`)
 - **Penalty curriculum:** the shaping penalties (smoothness, servo protection, power, foot drag) start at 25% and ramp to full over the first 10M steps. Without that, an early policy discovers that freezing is the cheapest option.
+- **Turning in place:**
+  - a bonus for keeping the body over the spot where the turn began
+  - a small cost per footfall and for the body sliding
+  - a slower 1.0 s stride (`spec.TURN_PERIOD`), so it pivots with fewer, bigger steps
+
+  `turn_eval.py` measures footfalls per radian and drift.
 - **Stable body, the "chicken head":** two bonuses that peak when the body, and so the camera, stays still while the legs work:
   - *steady:* low roll and pitch rate
   - *smooth ride:* low body acceleration over each 20 ms step

@@ -4,7 +4,8 @@ Numpy-only (`policy.py`), for `ros_policy_node.py`, `play.py` and `watch.py`. Tr
 
 | file | snapshot | notes |
 | --- | --- | --- |
-| `rocky_walk.npz` | walk_run 22M | Default. Walks and runs: the stride quickens with commanded speed. Steadiest body. |
+| `rocky_walk.npz` | walk_pivot 30M | Default. Walks and runs; turns in place on the spot with fewer steps (1.0 s turning stride). |
+| `rocky_walk_run22.npz` | walk_run 22M | Faster walking and running, but sloppier turns in place. Needs `spec.TURN_PERIOD = 0.6`. |
 | `rocky_walk_v1.npz` | walk_steady 45M | The previous walker. Can walk backward and sidestep, but can't run. |
 | `rocky_walk_turny.npz` | walk_steady 35M | Older walker that turns in place better. |
 | `rocky_nav.npz` | nav_v2 | Turn-then-walk navigator for `rocky_walk.npz`; see below. |
@@ -54,3 +55,22 @@ Tested on 6 seeds per command with randomised physics, medium terrain and shoves
 | **`rocky_walk` (22M)** | 0.144 | **0.254** | **0.344** | −0.003 | 0.014 | **0.117** | **0.67** | **0.24** | **0.71 N·m** |
 
 The new walker gave up walking backward and sidestepping in exchange for running. The turn-then-walk navigator doesn't need either. If you want them back, give the backward and sidestep commands a bigger share in `env.COMMAND_MIX` and fine-tune.
+
+## Pivot turns: `rocky_walk.npz` (walk_pivot 30M)
+
+This walker is fine-tuned from `walk_run` with rewards for turning in place:
+
+- a bonus for keeping the body centre over the point where the turn began
+- a small cost per footfall
+- a cost for the body sliding while it turns
+
+It also uses a slower 1.0 s stride when turning in place (`spec.TURN_PERIOD`), so it takes fewer, bigger steps.
+
+Turning results are from `turn_eval.py`: 10 s turns, both directions, randomised physics. Walking results are as above.
+
+| | footfalls per radian | drift off the pivot | turn rate (cmd 0.4) | walk 0.15 | run 0.30 | rough 0.15 | targets/min (scripted nav) | path efficiency |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `rocky_walk_run22` | 23.7 | 11.8 cm | 0.34 | **0.144** | **0.254** | **0.117** | **4.1** | **94%** |
+| **`rocky_walk` (pivot 30M)** | **20.5** | **7.2 cm** | 0.31 | 0.121 | 0.225 | 0.096 | 4.0 | 82% |
+
+**To switch back to the faster walker:** set `TURN_PERIOD = 0.6` in `spec.py` and copy `rocky_walk_run22.npz` over `rocky_walk.npz`.
