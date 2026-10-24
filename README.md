@@ -30,6 +30,32 @@ To run ROS commands inside the container, use `scripts/sim_ros.sh`, for example 
 
 The Docker setup lives in `docker/`. The colcon build is kept in a Docker volume, so the repo's `build/` and `install/` folders are left alone. The manual steps are further down.
 
+
+## Running on Windows
+
+Everything runs on Windows 10/11 too: Webots and MuJoCo natively, ROS 2 in Docker Desktop. Docker runs the x86 sim image natively there, where the Mac emulates it. In PowerShell:
+
+```powershell
+git clone -b feat/rocky-bob https://github.com/Arkrez/bob.git
+cd bob
+powershell -ExecutionPolicy Bypass -File scripts\setup_windows.ps1
+```
+
+`setup_windows.ps1` installs Git, Python 3.12, Docker Desktop and Webots R2025a with `winget` if they're missing. It then sets up `rl\.venv` from `rl/requirements.txt` and builds the sim container. If Docker Desktop asks you to enable WSL 2, restart or sign in, do that and run the script again. If Windows Firewall asks about Webots, allow it on private networks: the container connects to it.
+
+Then use the PowerShell twins of the Mac scripts (run each with `powershell -ExecutionPolicy Bypass -File`, or allow local scripts once with `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`):
+
+| | macOS / Linux | Windows |
+| --- | --- | --- |
+| start the sim (planner navigation) | `scripts/start_sim.sh --nav planner` | `scripts\start_sim.ps1 -Nav planner` |
+| stop it | `scripts/start_sim.sh --stop` | `scripts\start_sim.ps1 -Stop` |
+| ROS commands in the container | `scripts/sim_ros.sh ros2 topic list` | `scripts\sim_ros.ps1 ros2 topic list` |
+| demos | `scripts/demo.sh` | `scripts\demo.ps1` |
+| train more | `scripts/train_more.sh --hours 3` | `scripts\train_more.ps1 -Hours 3` |
+| MuJoCo viewer | `rl/.venv/bin/mjpython rl/watch.py ...` | `rl\.venv\Scripts\python rl\watch.py ...` |
+
+On a fresh clone, training starts from the walkers in `rl/policies/`. The training state (`rl/runs/`, champions and checkpoints) stays on the machine that made it.
+
 ## Current robot model
 
 - `webots_quadruped/protos/Bob.proto`: Webots PROTO; the model references `../meshes/*.stl` relative to the PROTO.

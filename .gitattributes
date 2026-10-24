@@ -1,0 +1,9 @@
+# Keep Unix line endings on files that run inside the Linux sim container, even on Windows checkouts.
+*.sh    text eol=lf
+*.py    text eol=lf
+*.yaml  text eol=lf
+*.proto text eol=lf
+*.wbt   text eol=lf
+*.urdf  text eol=lf
+Dockerfile* text eol=lf
+*.ps1   text eol=crlf

@@ -26,7 +26,6 @@ is logged to runs/rounds/log.md. A crashed round is logged and skipped.
 A walker round takes about 30 minutes, a navigator round about 30, a self-righting round about 15.
 """
 
-import fcntl
 import json
 import os
 import pathlib
@@ -103,9 +102,22 @@ def wait_for_disk():
 
 
 def other_training():
-    """Another training job (started by hand) already using the CPU?"""
-    out = subprocess.run(["pgrep", "-f", r"(nav_)?train\.py"], capture_output=True, text=True).stdout.split()
-    return [p for p in out if int(p) != os.getpid()]
+    """Another training job (started by hand) already using the CPU? (psutil: works on Windows too)"""
+    import psutil
+    found = []
+    for p in psutil.process_iter(["pid", "cmdline"]):
+        cmd = " ".join(p.info["cmdline"] or [])
+        if p.info["pid"] != os.getpid() and re.search(r"(nav_)?train\.py", cmd) and "train_rounds" not in cmd:
+            found.append(p.info["pid"])
+    return found
+
+
+def keep_awake():
+    """Windows: stop the PC sleeping while training (macOS uses caffeinate in train_more.sh)."""
+    if os.name == "nt":
+        import ctypes
+        ES_CONTINUOUS, ES_SYSTEM_REQUIRED = 0x80000000, 0x00000001
+        ctypes.windll.kernel32.SetThreadExecutionState(ES_CONTINUOUS | ES_SYSTEM_REQUIRED)
 
 
 def champion_dir():
@@ -321,7 +333,12 @@ def take_lock():
     Returns None if another session has it."""
     f = open(STATE_DIR / "lock", "w")
     try:
-        fcntl.flock(f, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        if os.name == "nt":
+            import msvcrt
+            msvcrt.locking(f.fileno(), msvcrt.LK_NBLCK, 1)
+        else:
+            import fcntl
+            fcntl.flock(f, fcntl.LOCK_EX | fcntl.LOCK_NB)
     except OSError:
         return None
     return f
@@ -341,6 +358,7 @@ def main():
         print("training is already running", flush=True)
         return
     STOP.unlink(missing_ok=True)
+    keep_awake()
     budget = f"{args.rounds} round(s)" if args.rounds else f"{args.hours:g} hour(s)"
     log(f"training session started: {budget}")
     end = time.time() + args.hours * 3600

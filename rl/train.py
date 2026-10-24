@@ -29,6 +29,7 @@ from recover_env import RockyBobRecover
 from vec import BatchedSubprocVecEnv
 
 HERE = pathlib.Path(__file__).resolve().parent
+NICE = ["nice", "-n", "10"] if shutil.which("nice") else []   # background scoring at low priority (not on Windows)
 
 
 def export_numpy(model, vecnorm, path):
@@ -110,7 +111,7 @@ class SaveLatest(BaseCallback):
         shutil.copy(self.run_dir / "latest.zip", snap.with_suffix(".zip"))
         shutil.copy(self.run_dir / "vecnormalize.pkl", snap.with_name(snap.stem.replace("_", "_vecnormalize_", 1) + ".pkl"))
         with open(progress / "progress.log", "a") as log:
-            subprocess.Popen(["nice", "-n", "10", sys.executable, str(HERE / self.scorer), str(snap)],
+            subprocess.Popen([*NICE, sys.executable, str(HERE / self.scorer), str(snap)],
                              stdout=log, stderr=subprocess.STDOUT, cwd=HERE)
 
 

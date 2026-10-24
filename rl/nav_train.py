@@ -34,6 +34,7 @@ from nav_spec import ScriptedNavigator, command_to_action
 from train import export_numpy
 
 HERE = pathlib.Path(__file__).resolve().parent
+NICE = ["nice", "-n", "10"] if shutil.which("nice") else []   # background scoring at low priority (not on Windows)
 
 
 def imitate(model, venv, make_env, steps, log):
@@ -99,7 +100,7 @@ class SaveAndScore(BaseCallback):
         shutil.copy(self.run_dir / "latest.zip", snap.with_suffix(".zip"))
         shutil.copy(self.run_dir / "vecnormalize.pkl", snap.with_name(snap.stem + "_vecnormalize.pkl"))
         with open(self.run_dir / "progress.md", "a") as log:
-            subprocess.Popen(["nice", "-n", "10", sys.executable, str(HERE / "nav_eval.py"), str(snap), *self.eval_args],
+            subprocess.Popen([*NICE, sys.executable, str(HERE / "nav_eval.py"), str(snap), *self.eval_args],
                              stdout=log, stderr=subprocess.STDOUT, cwd=HERE)
 
 

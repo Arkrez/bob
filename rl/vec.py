@@ -50,7 +50,8 @@ class BatchedSubprocVecEnv(VecEnv):
         n = len(env_fns)
         workers = min(workers, n)
         self.groups = [list(g) for g in np.array_split(np.arange(n), workers)]
-        ctx = mp.get_context("forkserver")
+        # forkserver on macOS/Linux; Windows only has spawn
+        ctx = mp.get_context("forkserver" if "forkserver" in mp.get_all_start_methods() else "spawn")
         self.remotes, self.procs = [], []
         for g in self.groups:
             remote, child = ctx.Pipe()
