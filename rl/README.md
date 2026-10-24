@@ -31,6 +31,75 @@ Each run writes to `runs/<name>/`:
 - `checkpoints/`: snapshots taken during training.
 - `policy.npz`: the deployable policy. It needs only numpy.
 
+### Training more, on demand
+
+```bash
+scripts/train_more.sh               # 2 hours of rounds in the background, then it stops
+scripts/train_more.sh --hours 6     # longer (overnight, say), or --rounds 3
+scripts/train_more.sh --status      # champions so far and the recent log
+scripts/train_more.sh --stop        # finish the current round, then stop early
+```
+
+`train_rounds.py` runs rounds until its budget is used. It never stops mid-round, and the Mac is kept awake only while it runs. The champions and the round counter live in `runs/rounds/`, so each session carries on where the last one stopped.
+
+Each round trains the walker 10M steps (about 30 minutes) on the full curriculum. `keep_best.py` scores every 1M-step snapshot against the champion. A snapshot that beats it, without falling or losing more than 10% of walking or top speed, becomes the new champion and is installed as `policies/rocky_walk.npz`. A running sim picks it up by itself.
+
+Training carries on from where the last round ended (the "frontier"), so a new skill such as stairs can build up over several rounds even while it costs speed. After 3 rounds with no new champion it restarts from the champion. Every second round it also trains the lidar navigator 1M steps, scores it over 20 one-minute runs among obstacles (goals/min minus bumps and falls), and installs a winner as `policies/rocky_nav_lidar.npz`. Every third round it trains self-righting 5M steps and installs a winner as `policies/rocky_recover.npz`.
+
+Each round deletes its losing snapshots, videos and checkpoints, and keeps the score tables. Old champions stay in `policies/history/`. A session pauses if the disk gets below 8 GB free, and waits for any training you started by hand to finish first. A crashed round is logged in `runs/rounds/log.md` and skipped.
+
+### Self-righting
+
+`recover_env.py` drops him on his back (half the time), on a side, or at any angle, from a random leg pose, then gives him 8 s to roll over and stand up. It's a separate policy from the walker:
+
+- **Joint range:** it uses nearly the whole range (`spec.recovery_targets`). Rolling a rock needs far bigger swings than walking.
+- **Rewards:** being upright, then standing height and the standing pose, then each second spent fully up. The pose term is linear as well as an exponential. With only the exponential, the first 25M steps learned to roll over and rise to standing height, but ended with the legs far from the standing pose (pose error ~13, against the 0.3 needed to hand back to the walker), because the exponential gave no pull from that far away.
+- **Smooth and controlled:** the first version flung itself over, with a typical body spin of 7.9 rad/s and 20 rad/s at worst. Now joint targets move no faster than 3 rad/s (`spec.RECOVERY_MAX_RATE`, in training and on the robot). Spinning faster than 2 rad/s costs steeply, and so does the rock hitting the ground at over 30 N. With the speed limit alone, the old policy rolled over but couldn't get its legs under itself in time and landed on its belly (up to 3,400 N). Retraining under the limit is fixing that. `recover_eval.py` reports body spin and impact peaks.
+- **Gentle on the lidar:** upside down he rests on the RPLIDAR C1, the highest point of the robot, and there is no roll guard. Every second the lidar is on the ground costs 4 points, more than twice what being upright earns. On top of that, each newton on it costs, hard knocks (over 30 N) cost more, and so does each new touch. Spinning, fast joints, servo strain and jerky actions also cost.
+
+```bash
+.venv/bin/python train.py --task recover --name recover --steps 40e6 --penalty-start 1.0
+.venv/bin/python recover_eval.py runs/recover/policy.npz   # % recovered, time to stand, lidar time and peak force
+```
+
+**How he runs it** (`recover_spec.Recovery`, shared by `recover_eval.py` and the Webots bridge): the learned policy rolls him upright, in about a second from his back. It always ends in a stable splayed stance, with three hip-yaw joints at their limit, which the walker can't start from, and training couldn't pull him out of it (swinging a loaded leg drags its foot). So once he's upright and steady, a scripted tidy-up moves one leg at a time while the other three carry him: lift the foot, swing the yaw home, put it down at the standing pose. If he tips over on the way, it goes back to rolling.
+
+| (`recover_eval.py`, 24 falls, 12 s each) | back to standing | median time | lidar on the ground | lidar peak force |
+| --- | --- | --- | --- | --- |
+| recover 10M | 46% | 6.7 s | 0.0 s | 0 N |
+| **recover 40M** (installed as `policies/rocky_recover.npz`) | **83%** | **6.7 s** | **0.0 s** | **0 N** |
+
+In Webots the bridge switches to self-righting when he tips past 60° for 0.3 s, and back to walking when the tidy-up is done. Navigation pauses meanwhile. Flipped by `flip_test.py`, he was walking again 7.1 s after 180°, 7.4 s after 150° and 11.8 s after 90° (on his side). To flip him by hand:
+
+```bash
+scripts/sim_ros.sh ros2 topic pub --once /flip std_msgs/msg/Float64 "{data: 180.0}"
+```
+
+`train_more.sh` sessions train self-righting further every third round, and install only improvements.
+
+To model the lidar properly the collision shapes changed. The body is now the rock's own convex shell, so it rolls like the real one, plus boxes for the plinth and the lidar, named `lidar` so its contacts can be measured. Dropped upside down with no control, he rests on the lidar alone: 19 N on average, up to 61 N.
+
+### Stairs and step-ups
+
+At higher curriculum levels the training ground (`terrain.py`) also has stairs of five kinds and wide flat platforms, on top of the bumps and blocks ([preview](stairs_terrain.png)):
+
+- **Pyramids:** steps up on every side to a landing.
+- **Straight flights:** up, a landing, and half the time down again, 0.8–2.5 m wide. You can walk off the side of these, so they're harder.
+- **Kerbs:** long single steps.
+- **Sunken stairs:** a plateau with steps down into a pit and back up.
+- **Uneven flights:** half of all staircases have steps that each vary ±35% in height.
+
+Risers go up to 5 cm at full level, on treads of 24–45 cm. Raising the risers to 6 cm stalled progress for five rounds, so they went back to 5 cm. In 30% of training episodes (**stair practice**) a straight flight is put right in his path and he's told to walk forward at 0.15–0.3 m/s, so he practises climbing instead of meeting stairs by chance.
+
+`keep_best.py` tests him on eight staircases (`STAIR_CASES`), two tries each: pyramids of 3, 4 and 5 cm; straight 4 cm flights with deep (40 cm) and tight (25 cm) treads; an uneven flight (3/5/3.5 cm); a flight approached at 30°; and a 5 cm kerb. The 128M walker gets over the 3 and 4 cm pyramids every time and the kerb half the time, but none of the straight flights: he climbs the first step, stalls at the second, slides along the riser and walks off the side.
+
+The walker is blind, so it has to learn to climb by feel. Two things help:
+
+- **Sharper risers:** the height field has 2.5 cm cells (it was 5 cm, which turned every riser into a 5 cm ramp).
+- **A stumble penalty:** a planted foot pressed against a riser costs points, so he learns to lift his feet higher. "Pressed against a riser" means ground more than 2 cm higher right beside the foot, judged from the terrain itself. MuJoCo's sphere-on-heightfield contacts have tilted normals even on flat ground, so the usual contact-force test (legged_gym's `feet_stumble`) fired 86 times in 500 steps on flat floor. `keep_best.py` tests it on a staircase of 3 steps up and 3 down at 4, 6 and 8 cm risers. The walker from before stairs training (walk_turn2 79M) gets over none of them: with 4 cm risers it climbs the first step and stalls.
+
+The Webots world has two staircases (6 cm and 4.5 cm risers) and an 8 cm platform. They sit below the lidar's scan plane, so the navigator treats them as walkable floor.
+
 ## Watch it
 
 ```bash
@@ -38,7 +107,40 @@ Each run writes to `runs/<name>/`:
 .venv/bin/mjpython play.py runs/walk --viewer                       # live 3D window
 ```
 
+## Demos in Webots
+
+```bash
+scripts/demo.sh             # all four, about 6 minutes: tour, stairs, flip, walls
+scripts/demo.sh stairs      # or just one
+```
+
+`scripts/demo.sh` starts the sim in planner mode if it isn't already, and `rl/demo.py` runs the demos, narrating what the navigator is doing. The Webots camera follows Bob.
+
+**From the Webots window:** with the sim in planner mode (`scripts/start_sim.sh --nav planner`), click the 3D view, then press **1** tour, **2** stairs, **3** flip, **4** walls, **0** all, or **S** to stop. The bridge runs `demo.py` itself. A key guide and Bob's current status are drawn at the top left of the view.
+
+| demo | what happens | last run |
+| --- | --- | --- |
+| tour | six targets round the arena, past the boxes and walls | 4 of 6 within 75 s (now 100 s each) |
+| stairs | spots the target on the 3 cm staircase's landing, climbs up to it | reached in 29 s, body 8 cm higher |
+| flip | flipped upside down, rights himself, walks to a target | up in 10 s, target in 10 s more |
+| walls | target hidden behind the south wall: looks, searches, spots it, goes round | reached in 77 s |
+
+### Do MuJoCo and Webots match?
+
+They run the same files (`policies/*.npz`, `nav_spec.py`, `spec.py`), checked by hash inside the sim container. The walker, measured with the same commands (MuJoCo: `speed_eval.py` and `turn_eval.py`; Webots: `webots_eval.py` in the open arena):
+
+| command | MuJoCo | Webots |
+| --- | --- | --- |
+| walk 0.15 m/s | 0.247 | 0.266 |
+| run 0.30 m/s | 0.317 | 0.243 |
+| turn 0.4 rad/s | 0.46 | 0.49 |
+| fast turn 1.0 rad/s | 0.89 | 0.91 |
+
+Walking and turning match closely. Running is ~23% slower in Webots, a gap in how the two simulators handle foot contact. The planner's dead reckoning uses the MuJoCo speeds, so in Webots it thinks he's gone a bit further than he has. That's why it only treats a remembered target as reached within 0.15 m, and otherwise keeps homing in until it re-sights it.
+
 ## Run it in Webots
+
+To watch a training run live, use `scripts/start_sim.sh --nav scripted --follow-training rl/runs/<name>` while `keep_best.py runs/<name>` runs beside `train.py`. The watcher scores every 1M-step snapshot (turning, speed, step quality and drift), keeps the best in `best.npz` and logs every score to `best.md`. The bridge swaps in each new best within 5 s of sim time.
 
 From the repo root:
 
@@ -100,6 +202,47 @@ The walker only follows velocity commands, and it drifts: told to go straight fo
 2. Turn in place until the target is within 14° of straight ahead.
 3. Go straight, steering gently: run if the target is more than 1 m away, walk if it's closer.
 4. If a full turn passes without a sighting, run forward about 1.4 m and look again.
+5. **Obstacles (lidar):** if a wall or box is within 55 cm ahead while walking, turn in place towards the more open side until the way ahead is clear past 85 cm, walk on for 1.5 s, then head for the target again. It also eases away from anything within 35 cm of either side. The target post is not counted as an obstacle.
+
+Turns go up to 1.0 rad/s, slowing as he lines up, and he searches at 0.8 rad/s. When the goal moves (`/goal`), the Webots bridge holds him still for 0.4 s while the camera takes a first look. Without that he span off at search speed and then turned back, which looked like turning the wrong way. Walls also hide the target from the camera model, judged from the lidar.
+
+**Among obstacles** (`nav_eval.py baseline --obstacles`, 20 one-minute runs, random walls and boxes): the lidar rule brings bumps down from 7.05/min to 0.45/min, and goals up from 4.2/min to 4.5/min. In Webots he keeps 38–44 cm from walls. He can still fail to find a target hidden behind a wall, because the scripted navigator keeps no map; the trained lidar navigator below is meant to fix that.
+
+**Lidar navigator** (`nav_train.py --obstacles --imitate 300000`, runs/nav_lidar): trained among random walls and boxes, with lidar in its observation. Bumping costs a lot: 40 points for each new bump (about four goals' worth), 20/s while touching, a little for getting within 45 cm, and 3/s for being stuck (2 s without moving or turning). It starts by imitating the scripted navigator, then PPO improves on it. `nav_eval.py <npz> --obstacles` scores it.
+
+Results over 20 one-minute MuJoCo runs among random obstacles:
+
+| | goals/min | bumps/min | stuck |
+| --- | --- | --- | --- |
+| scripted + lidar | 5.0 | 0.20 | 0% |
+| lidar navigator (nav_lidar 3.25M, installed as `policies/rocky_nav_lidar.npz`) | 6.8 | 0.00 | 1% |
+| the same, as the hybrid Webots runs (`--hybrid`) | 5.9 | 0.05 | 2% |
+
+The trained navigator never learned to explore: in training a target nearly always came into view within a turn, so when one stays hidden (behind a wall) it just spins. `nav_spec.HybridNavigator` therefore lets it drive only while the target is in sight or was seen in the last 1.5 s. Otherwise the scripted search takes over: turn once, then walk off round obstacles and look again. The Webots bridge runs lidar navigators this way (`--nav rl/policies/rocky_nav_lidar.npz`), and `train_rounds.py` scores them this way too.
+
+Both navigators also have a **stuck escape** (`nav_spec.StuckEscape`). If he walks at a target he can see for 2.4 s and gets less than 8 cm closer (pushing against a low step the lidar can't see, say), he turns away about 75° and walks on for 1.5 s before trying again.
+
+**The planner** (`nav_spec.PlannerNavigator`, `--nav planner`) is the navigator to use with the lidar. It's hand-written, not trained:
+
+- **Memory:** every sighting of the target goes into an odometry frame (the gyro for heading, the walker's measured speed for distance, since a 0.15 m/s command actually walks at 0.205). A target hidden by a wall is still known, and its bearing stays right as he moves.
+- **Free-path steering:** of 72 headings, it takes the free one nearest the target, where his whole footprint fits along it (the legs reach ~0.35 m from the centre). That leads round the end of a wall instead of into it. He turns in place first if that heading is far off, then walks or runs with gentle steering.
+- **Search:** with no target known, he looks all round, then walks off towards open space he hasn't visited, preferring wall ends with unseen space behind them, and looks again. (Steering the search by what the camera has already covered measured worse, so it's off: `SEARCH_COVERAGE`.)
+- **Steps and stairs:** the lidar scans ~36 cm up, so it can't see steps. If the scan stops changing while he's walking, he's stuck. If the way ahead looks clear, it's probably a step, so he first tries to climb it slowly for 4 s. If that fails he remembers it as an invisible wall for 2 minutes and goes round.
+- **Safety layer** (`nav_spec.safe_command`, used by every navigator): each command is checked against the lidar by predicting his footprint 0.6 s ahead, including the sweep of a turn. A command that would come within 8 cm of anything is swapped for the closest safe one. If he's already too close, it picks whichever move (including stepping sideways) gets him out fastest, because standing still isn't safe either: the walker drifts. The target post is masked out only at its own distance, so a wall right behind a goal still counts.
+
+Results over 20 one-minute MuJoCo runs among random walls and boxes (`nav_eval.py <nav> --obstacles --goals random|near|hidden`):
+
+| goals/min (bumps/min) | random | near a wall (0.3-0.5 m) | hidden behind a wall |
+| --- | --- | --- | --- |
+| scripted | 4.8 (0.00) | 1.9 (0.20) | 0.5 (3.20) |
+| hybrid trained | 4.2 (0.00) | 1.2 (1.55) | 0.3 (0.05) |
+| **planner** | **4.8 (0.00)** | **1.8 (0.00)** | **0.9 (0.00)** |
+
+In Webots (`rl/wall_test.py`: each goal from the arena centre, 2 minutes each), the planner reaches 3 to 4 of the 6 goals. It's reliable on open floor and beside the boxes (about 20 s each). It's hit-and-miss for goals hidden behind the long walls, because without a map the search is guesswork; he once wandered south while the target was just round the north end of a wall. Nearest approaches in Webots were mostly 0.3 m or more, with two rare runs at 0.14 and 0.19 m.
+
+**Stairs in Webots** (`rl/stairs_test.py east|north`): with the 92M walker he walks up to the 3 cm east staircase, notices the first step, climbs to the landing and reaches the target there (2 of 3 tries, 30–48 s; the third came at the corner and stalled). The 4.5 cm north staircase is still too high: he stalls at the first riser, tries to climb, and keeps retrying. In MuJoCo he crosses 3–4 cm stairs most of the time but not 5 cm.
+
+**Footprint:** the safety layer models him as a 0.62 m square with its corners rounded off at 0.38 m, because his feet sit at the diagonals and reach only ~0.35 m. A plain square swung its corners out to 0.44 m when turning, so in tight spots it refused safe turns and backed up instead (and he barely walks backwards). A plain circle bumped occasionally. It also predicts with the walker's real speeds, which are about 20% of the command going backwards and 80% sideways.
 
 **Why scripted:** with the walk+run walker it beat every trained navigator I tried. Over 20 one-minute runs: 4.1 targets/min and 94% path efficiency, against 3.1 and 85% for the best trained one. It also arcs only about 5% of the time. The trained navigator (`policies/rocky_nav.npz`, `nav_v3`) learned turn-then-walk too, but it loses sight of the target more often.
 
@@ -199,7 +342,7 @@ The shared definitions are in `spec.py`, which keeps training and deployment ide
   - its last action
   - a gait clock
 - **Walk and run:** the gait clock input ticks at a rhythm set by the commanded speed: a 0.6 s stride up to 0.18 m/s, quickening to 0.4 s at 0.35 m/s (`spec.gait_period`). "Run" is just a faster command. The Webots bridge and the robot node advance the clock the same way.
-- **Outputs:** 12 joint-angle offsets from the standing pose (hip 0.75 rad, knee 1.05 rad), sent at 50 Hz. Targets stay within 90% of each servo's range, and the full action range sits inside the soft limits. A policy that can push a joint onto its end stop learns to lean on it, and on an MG995 that strips the gears.
+- **Outputs:** 12 joint-angle offsets from the standing pose (hip 0.75 rad, knee 1.05 rad), sent at 50 Hz. One unit of action reaches the servo limit (less a 10% guard against grinding the gears into their end stops), so the only limits are the servos and the robot's shape. The legs collide with the body and each other, in MuJoCo and in Webots (`selfCollision TRUE`). Walkers used to be trained on narrow bands around standing (yaw 0.35–0.6, hip 0.45, knee 0.28 rad per unit), which capped foot lift at 4.6 cm, too little for 4.5 cm stairs; the full range allows about 7 cm. `rescale_actions.py` converts a checkpoint or `.npz` between ranges without changing what it does, and every walker in `policies/` has been converted.
 - **Rewards:**
   - *Encouraged:* matching the commanded speed and turn rate, staying level at standing height, and taking clean steps with the feet in the air.
   - *Discouraged:* wasted power, jerky actions, slipping feet, and legs dragging on the ground.
@@ -220,7 +363,8 @@ The shared definitions are in `spec.py`, which keeps training and deployment ide
 - **Turning in place:**
   - a bonus for keeping the body over the spot where the turn began
   - a small cost per footfall and for the body sliding
-  - a slower 1.0 s stride (`spec.TURN_PERIOD`), so it pivots with fewer, bigger steps
+  - a reward for reaching the commanded turn rate (`turn_progress`, linear like `run_progress`), with turn commands up to 1.0 rad/s
+  - wide hip-yaw swings (±0.6 rad, `spec.ACTION_SCALE`) and a 0.8 s stride (`spec.TURN_PERIOD`), so each step turns the body further
 
   `turn_eval.py` measures footfalls per radian and drift.
 - **Stable body, the "chicken head":** two bonuses that peak when the body, and so the camera, stays still while the legs work:
@@ -241,6 +385,41 @@ The shared definitions are in `spec.py`, which keeps training and deployment ide
   - The policy is blind: it feels the ground through its legs and IMU, like the real robot.
   - TensorBoard plots `curriculum/terrain_level` and `curriculum/penalty_scale`.
 - **Randomisation:** body mass +30/−20% (the PSU weight isn't known yet), leg masses ±10%, friction, servo stiffness and strength, and sensor noise. This keeps the policy from relying on exact simulator details.
+
+## Lidar
+
+Rocky-Bob carries a Slamtec RPLIDAR C1 on his lid (`cad/rocky_bob/README.md`). It isn't used by any policy yet. It is there so a navigator can learn to avoid obstacles, and so real rooms can be scanned and rebuilt in simulation. All three places produce the same scan:
+
+| where | source | message |
+| --- | --- | --- |
+| real robot | `sllidar_ros2` (`ros2 launch sllidar_ros2 sllidar_c1_launch.py`) | `/scan`, 10 Hz, ~500 points |
+| Webots | the bridge, from the robot's `Lidar` device | `/scan`, frame `laser`, ~10 Hz, 500 points |
+| MuJoCo | `lidar.LidarModel` (`mj_multiRay` from the `lidar` site, 0.06 ms a scan) | 72 sectors, refreshed at 10 Hz |
+
+**See the point cloud:** `scripts/start_sim.sh` also starts `scan_viewer.py`, so open **http://localhost:8765**. It shows the live scan round the robot, coloured by distance. With a pose available (Webots publishes `/sim/position` and `/imu`), every return also goes into a 5 cm grid, so walking around builds a map of the room. Scroll to zoom, drag to pan, and use *clear map* to start over. In Webots itself, *View > Optional Rendering > Show Lidar Point Cloud* draws the rays in 3D. On the Pi, run `python3 rl/scan_viewer.py` next to `sllidar_ros2` and browse to `http://<pi>:8765`. The real robot has no odometry yet, so the viewer stays in the robot's frame there, with no map.
+
+For learning, a scan is reduced to 72 five-degree sectors (`lidar.scan_bins` for a ROS scan). Each sector keeps the nearest return, clipped to 4 m, counter-clockwise from straight behind. The MuJoCo model adds 1.5 cm noise and 2% dropped sectors.
+
+A 2D lidar only sees what crosses its scan plane, about 36 cm off the floor. In the Webots obstacle world the walls and two boxes are tall enough to show up, while the small box, the rocks and the steps are not. The real robot has the same blind spot.
+
+**Real robot:** plug the C1 into its USB adapter on the Pi, or wire it to the Pi's UART at 460800 baud. Install `sllidar_ros2` and run its C1 launch file. A Webots scan was checked against a ray-cast of the world, and 66 of 72 sectors agreed to within 10 cm.
+
+## Floor sensor (stairs)
+
+The lidar only sees a slice about 36 cm up, so steps, kerbs and ledges are invisible to it. A **SparkFun Qwiic ToF Imager, VL53L5CX** ([SEN-18642 on Amazon](https://www.amazon.com/SparkFun-VL53L5CX-Multizone-Measurements-Recognition-Laser-Assisted/dp/B09M97318D)) in the nose looks at the floor instead. It reads an 8 × 8 grid of distances over about 45° × 45°, up to 4 m, at 15 Hz. It sits behind a small window in a chamfer under the mustache, tilted 24° down, covering the floor from about 0.3 m to 3 m ahead (`cad/rocky_bob/body.py`: `TOF_*`).
+
+**Wiring:** it runs at 3.3 V on the Pi 5's I²C (address 0x29), through a Qwiic-to-Pi cable (e.g. SparkFun PRT-14425). Pimoroni's `vl53l5cx-python` works with it.
+
+`tof.py` turns the 64 distances into the floor height where each zone lands, relative to the floor he's standing on, using the IMU's gravity to undo body tilt. Flat floor reads ~0, a 4 cm step +0.04, a drop −0.04. MuJoCo casts the 64 rays from a `tof` site. Webots has an 8 × 8 `RangeFinder` at the same spot. Webots reports depth along the sensor's axis, so `tof.from_depth` converts it to true distances. In Webots the bridge publishes `/tof/heights`.
+
+- **Walker:** a walker can take the 64 heights as extra inputs: 99 instead of 35. Older walkers ignore them; `policy.py` uses only the inputs a policy has. `widen_obs.py` gave the champion the new inputs with zero weights, so it starts out behaving the same. After 1M steps of training (129M) it already crossed 44% of the test staircases instead of 12%, with fewer taps (20 against 28 per run), half the backing up (4.4 s against 7.9 s), and a higher top speed (0.365 against 0.319 m/s). But it turned and tracked straight lines worse. A learning rate of 1e-4 then made it collapse, so training continues from 129M at 3e-5.
+- **Planner:** it judges each step by the jump between neighbouring zones, not the total height. A staircase is many small climbable jumps even if its top is 10 cm up. A single jump over 5 cm (a wall, ledge or kerb face) or a drop over 8 cm becomes an obstacle, like a lidar return, so he plans round it before reaching it. A climbable step of 2.5 cm or more, seen in at least two zones, slows him to a walk taking it straight. The target's own post and the bottom of walls aren't counted as steps.
+
+**Results so far:**
+
+- **MuJoCo, flat floor:** the planner with the sensor is as good as without it (5.4 goals/min, no bumps).
+- **MuJoCo, rough training terrain:** it's slower (about 3.6 against 4.8 goals/min). It slows down at steps that the current walker, which can't see the floor, often fails to climb anyway.
+- **Webots:** he now sees the ledge, platform, rocks and small box, which the lidar misses, and doesn't walk into them. A target tucked into the 30 cm gap between the ledge and the east staircase is still out of reach: getting there means climbing onto the stairs and walking along them, and the planner doesn't plan routes across steps yet.
 
 ## Moving to the real robot
 

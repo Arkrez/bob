@@ -20,7 +20,7 @@ from rclpy.node import Node
 from sensor_msgs.msg import Imu
 
 TESTS = [("forward", (0.15, 0.0, 0.0)), ("run", (0.30, 0.0, 0.0)), ("backward", (-0.10, 0.0, 0.0)),
-         ("turn in place", (0.0, 0.0, 0.4)), ("sidestep", (0.0, 0.08, 0.0))]
+         ("turn in place", (0.0, 0.0, 0.4)), ("fast turn", (0.0, 0.0, 1.0)), ("sidestep", (0.0, 0.08, 0.0))]
 SECONDS = 10.0
 SETTLE = 3.0      # ignore the first seconds of each command
 REST = 3.0        # stand still between tests

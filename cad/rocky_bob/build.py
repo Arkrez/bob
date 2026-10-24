@@ -22,6 +22,7 @@ HERE = pathlib.Path(__file__).resolve().parent
 # Servo, joint and contact constants shared with the RL training model (rl/spec.py), so
 # Webots and MuJoCo simulate the same robot.
 sys.path.insert(0, str(HERE.parents[1] / "rl"))
+import lidar  # noqa: E402
 import spec  # noqa: E402
 COLORS = {**leg.COLORS, **body.COLORS}
 STANDING = (0.0, 0.75, 1.05)   # joint1, joint3, joint4 (rad); matches rl/spec.py STAND
@@ -92,10 +93,13 @@ def leg_collisions(yt):
 
 
 def body_collision(body_parts):
-    bb = body_parts["rock_base"][0].BoundingBox()
-    top = body_parts["rock_lid"][0].BoundingBox().zmax
-    sx, sy, sz = 0.85 * (bb.xmax - bb.xmin), 0.85 * (bb.ymax - bb.ymin), top - 5
-    return [("box", (sx / 1000, sy / 1000, sz / 1000), (0, 0, sz / 2000))]
+    """The rock's own convex shell (it rolls like the real one), plus the lidar plinth and the lidar,
+    which is the highest point: upside down he lands on it, so it is its own named geom ("lidar")."""
+    q = body.LIDAR_PLINTH / 2
+    return [("mesh", "rock_collision", (0, 0, 0)),
+            ("box", (2 * q / 1000, 2 * q / 1000, (body.LIDAR_TOP - 112) / 1000), (0, 0, (body.LIDAR_TOP + 112) / 2000)),
+            ("box", (body.LIDAR_SIZE / 1000, body.LIDAR_SIZE / 1000, body.LIDAR_H / 1000),
+             (0, 0, (body.LIDAR_TOP - body.LIDAR_POCKET_D + body.LIDAR_H / 2) / 1000), "lidar")]
 
 
 # ================================================================ URDF
@@ -104,6 +108,8 @@ def f3(v):
 
 
 def urdf_geom(kind, dims):
+    if kind == "mesh":
+        return f'<mesh filename="meshes/{dims}.stl"/>'
     if kind == "box":
         return f'<box size="{f3(dims)}"/>'
     if kind == "cyl":
@@ -117,9 +123,10 @@ def urdf_link(name, visuals, cols, inertial):
     for mesh, rgb in visuals:
         lines.append(f'    <visual><geometry><mesh filename="meshes/{mesh}.stl"/></geometry>'
                      f'<material name="{mesh}"><color rgba="{rgb[0]} {rgb[1]} {rgb[2]} 1"/></material></visual>')
-    for kind, dims, o in cols:
+    for kind, dims, o, *name in cols:
         rpy = "0 1.5708 0" if kind == "cyl" else "0 0 0"
-        lines.append(f'    <collision><origin xyz="{f3(o)}" rpy="{rpy}"/><geometry>{urdf_geom(kind, dims)}</geometry></collision>')
+        named = f' name="{name[0]}"' if name else ""
+        lines.append(f'    <collision{named}><origin xyz="{f3(o)}" rpy="{rpy}"/><geometry>{urdf_geom(kind, dims)}</geometry></collision>')
     lines.append(f'    <inertial><origin xyz="{f3(c)}"/><mass value="{m:.4f}"/>'
                  f'<inertia ixx="{I[0][0]:.3e}" iyy="{I[1][1]:.3e}" izz="{I[2][2]:.3e}" '
                  f'ixy="{I[0][1]:.3e}" ixz="{I[0][2]:.3e}" iyz="{I[1][2]:.3e}"/></inertial>')
@@ -158,15 +165,16 @@ def write_urdf(body_parts, leg_parts, yt):
 
 
 # ================================================================ Webots PROTO
-# Webots arena furniture: (name, x, y, size x, size y, height, yaw deg, colour). Walls and boxes too
-# tall to step over (Bob can't sense them yet: his camera only finds the target marker), low steps
-# he can climb (<= 6 cm), and rocks. The spawn point and the starting target stay clear.
+# Webots arena furniture: (name, x, y, size x, size y, height, yaw deg, colour). Walls and two
+# furniture-height boxes reach above the lidar's scan plane (~36 cm up when standing) so it sees
+# them; the small box and rocks are below it, like the clutter a 2D lidar misses in a real room.
+# Low steps he can climb (<= 6 cm). The spawn point and the starting target stay clear.
 OBSTACLES = [
-    ("wall_west", -1.25, 1.5, 2.5, 0.06, 0.30, 0, (0.75, 0.72, 0.68)),
-    ("wall_east", 2.0, -1.25, 0.06, 2.5, 0.30, 0, (0.75, 0.72, 0.68)),
-    ("wall_south", -1.6, -2.2, 1.6, 0.06, 0.30, 0, (0.75, 0.72, 0.68)),
-    ("box_a", 1.8, 1.8, 0.30, 0.30, 0.20, 15, (0.55, 0.35, 0.20)),
-    ("box_b", -2.4, -0.5, 0.25, 0.40, 0.25, -10, (0.55, 0.35, 0.20)),
+    ("wall_west", -1.25, 1.5, 2.5, 0.06, 0.60, 0, (0.75, 0.72, 0.68)),
+    ("wall_east", 2.0, -1.25, 0.06, 2.5, 0.60, 0, (0.75, 0.72, 0.68)),
+    ("wall_south", -1.6, -2.2, 1.6, 0.06, 0.60, 0, (0.75, 0.72, 0.68)),
+    ("box_a", 1.8, 1.8, 0.30, 0.30, 0.45, 15, (0.55, 0.35, 0.20)),
+    ("box_b", -2.4, -0.5, 0.25, 0.40, 0.50, -10, (0.55, 0.35, 0.20)),
     ("box_c", 0.6, -2.6, 0.20, 0.20, 0.15, 30, (0.55, 0.35, 0.20)),
     ("step_low", -1.2, 0.4, 0.60, 0.60, 0.04, 0, (0.45, 0.45, 0.50)),
     ("ledge", 2.9, 0.9, 0.50, 1.00, 0.06, 0, (0.45, 0.45, 0.50)),
@@ -176,9 +184,30 @@ OBSTACLES = [
 ]
 
 
+# Stairs to climb: (name, centre x, y, along "x" or "y", steps each way, riser m, tread m, landing m, width m).
+# Up one side, a landing, down the other, like the pyramid stairs he trains on (rl/terrain.py).
+# Risers match what the walker trains on (rl/terrain.py: up to 5 cm).
+STAIRS = [("stairs_north", 0.8, 3.0, "x", 4, 0.045, 0.32, 0.6, 0.9),
+          ("stairs_east", 3.35, -1.05, "y", 3, 0.03, 0.30, 0.5, 1.1)]
+PLATFORMS = [("platform_sw", -3.1, -3.1, 0.9, 0.9, 0.08)]   # (name, x, y, size x, size y, height): a step-up
+
+
+def stair_boxes():
+    """Each staircase as nested boxes: step i is a box spanning everything at or above its height."""
+    out = []
+    for name, x, y, axis, n, rise, tread, landing, width in STAIRS:
+        for i in range(1, n + 1):
+            length = landing + 2 * (n - i + 1) * tread
+            sx, sy = (length, width) if axis == "x" else (width, length)
+            out.append((f"{name}_{i}", x, y, sx, sy, i * rise, 0, (0.55, 0.55, 0.6)))
+    for name, x, y, sx, sy, h in PLATFORMS:
+        out.append((name, x, y, sx, sy, h, 0, (0.5, 0.5, 0.56)))
+    return out
+
+
 def obstacles_wbt():
     out = []
-    for name, x, y, sx, sy, h, yaw, (r, g, b) in OBSTACLES:
+    for name, x, y, sx, sy, h, yaw, (r, g, b) in OBSTACLES + stair_boxes():
         out.append(f'Solid {{ translation {x} {y} {h / 2} rotation 0 0 1 {math.radians(yaw):.4f} '
                    f'children [ Shape {{ appearance PBRAppearance {{ baseColor {r} {g} {b} roughness 0.9 metalness 0 }} '
                    f'geometry Box {{ size {sx} {sy} {h} }} }} ] name "{name}" boundingObject Box {{ size {sx} {sy} {h} }} }}')
@@ -199,8 +228,10 @@ def wb_shapes(items):
 
 def wb_bounding(cols):
     out = []
-    for kind, dims, o in cols:
-        if kind == "box":
+    for kind, dims, o, *_ in cols:
+        if kind == "mesh":
+            g, rot = f'Mesh {{ url [ "../meshes/{dims}.stl" ] }}', "0 0 1 0"
+        elif kind == "box":
             g, rot = f"Box {{ size {f3(dims)} }}", "0 0 1 0"
         elif kind == "cyl":
             g, rot = f"Cylinder {{ radius {dims[0]:.5f} height {dims[1]:.5f} }}", "0 1 0 1.5708"
@@ -281,9 +312,12 @@ PROTO RockyBob [
     name IS name
     controller IS controller
     supervisor TRUE   # lets the bridge read the target marker's position for the camera model
+    selfCollision TRUE   # legs collide with the body and each other: only the servos and the shape limit them
     children [
       InertialUnit {{ name "imu" translation 0 0 0.05 }}
       Camera {{ name "camera" translation {body.CAM_D / 1000:.4f} 0 {body.CAM_Z / 1000:.4f} fieldOfView {math.radians(body_cam_hfov()):.4f} width 320 height 200 }}
+      Lidar {{ name "lidar" translation 0 0 {body.LIDAR_SCAN_Z / 1000:.4f} horizontalResolution 500 fieldOfView 6.2832 numberOfLayers 1 verticalFieldOfView 0.05 minRange 0.05 maxRange 12 noise 0.01 }}   # RPLIDAR C1
+      RangeFinder {{ name "tof" translation {f3(v / 1000 for v in body.tof_point()[0].toTuple())} rotation 0 1 0 {math.radians(body.TOF_TILT):.4f} width 8 height 8 fieldOfView 0.7854 minRange 0.02 maxRange 4 }}   # floor depth sensor (VL53L5CX)
       Gyro {{ name "gyro" translation 0 0 0.05 }}
       GPS {{ name "gps" }}
       {wb_shapes([(n, COLORS[c]) for n, (_, c, _) in body_parts.items()])}
@@ -306,10 +340,10 @@ WorldInfo {
   basicTimeStep 4
   contactProperties [ ContactProperties { coulombFriction [ %FRICTION% ] } ]
 }
-Viewpoint { orientation -0.25 0.2 0.95 1.95 position 0.45 -1.2 0.8 }
+Viewpoint { orientation -0.25 0.2 0.95 1.95 position 0.7 -1.9 1.3 follow "Bob" followType "Tracking Shot" }
 TexturedBackground {}
 TexturedBackgroundLight {}
-RectangleArena { floorSize 8 8 }
+RectangleArena { floorSize 8 8 wallHeight 0.6 }
 %OBSTACLES%RockyBob { translation 0 0 0.19 }
 # Camera target: an ArUco-style 15 cm marker on a post (rl/camera.py MARKER_SIZE). Drag it around; with BOB_NAV the robot walks to it.
 DEF TARGET Solid {
@@ -329,6 +363,7 @@ DEF TARGET Solid {
 
 # ================================================================ main
 def main():
+    assert abs(lidar.LIDAR_Z - body.LIDAR_SCAN_Z / 1000) < 1e-6, "update rl/lidar.py LIDAR_Z to body.LIDAR_SCAN_Z"
     body_parts = body.build()
     leg_parts, yt = leg.build()   # each part is already in its own link frame
     for d in ("step", "stl", "sim/meshes"):
@@ -350,6 +385,9 @@ def main():
     assembly(body_parts, leg_parts, (0, 0, 0)).export(str(HERE / "step/rocky_bob_assembly.step"))
     assembly(body_parts, leg_parts, STANDING).export(str(HERE / "step/rocky_bob_standing.step"))
 
+    # the rock's convex shell, without lumps, as the body's collision shape (body_collision)
+    cq.exporters.export(body.shell_at(0).scale(0.001), str(HERE / "sim/meshes/rock_collision.stl"),
+                        tolerance=0.0005, angularTolerance=0.5)
     write_urdf(body_parts, leg_parts, yt)
     write_proto(body_parts, leg_parts, yt)
 

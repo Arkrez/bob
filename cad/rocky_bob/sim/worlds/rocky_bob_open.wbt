@@ -7,10 +7,10 @@ WorldInfo {
   basicTimeStep 4
   contactProperties [ ContactProperties { coulombFriction [ 0.9 ] } ]
 }
-Viewpoint { orientation -0.25 0.2 0.95 1.95 position 0.45 -1.2 0.8 }
+Viewpoint { orientation -0.25 0.2 0.95 1.95 position 0.7 -1.9 1.3 follow "Bob" followType "Tracking Shot" }
 TexturedBackground {}
 TexturedBackgroundLight {}
-RectangleArena { floorSize 8 8 }
+RectangleArena { floorSize 8 8 wallHeight 0.6 }
 RockyBob { translation 0 0 0.19 }
 # Camera target: an ArUco-style 15 cm marker on a post (rl/camera.py MARKER_SIZE). Drag it around; with BOB_NAV the robot walks to it.
 DEF TARGET Solid {

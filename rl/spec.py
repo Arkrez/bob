@@ -9,7 +9,14 @@ import numpy as np
 # Standing pose (rad), chosen so the full action range stays inside the soft joint limits:
 # a policy that can push a joint onto a stop learns to lean on it and grinds the servo.
 STAND = np.tile([0.0, 0.75, 1.05], 4)
-ACTION_SCALE = np.tile([0.35, 0.45, 0.28], 4)    # rad per unit action: yaw, hip, knee
+# rad per unit action: yaw, hip, knee. Yaw was 0.35: wide hip swings turn the body further per step
+# (rescale_actions.py converts walkers trained with the old scale).
+# A unit of action reaches TARGET_LIMIT from the standing pose: the whole range the servos allow (less
+# the 10 % guard), nothing narrower. (Walkers were trained on narrower bands, 0.35-0.60 / 0.45 / 0.28 rad,
+# which capped foot lift at 4.6 cm; rescale_actions.py converts them.) Legs collide with the body and
+# each other in the sim, so the rest is up to the robot's shape.
+_FULL = 0.9 * 1.5708   # = TARGET_LIMIT
+ACTION_SCALE = np.tile([_FULL, _FULL + 0.75, _FULL + 1.05], 4)   # yaw, hip, knee (STAND is 0, 0.75, 1.05)
 JOINT_LIMIT = 1.5708
 # Targets stop short of the servo end stops: pushing into a stop grinds a hobby servo's gears.
 TARGET_LIMIT = 0.9 * JOINT_LIMIT
@@ -35,8 +42,10 @@ GAIT_PERIOD = 0.6                                # s per stride, walking (and st
 RUN_PERIOD = 0.33                                # s per stride at full running speed
 WALK_SPEED = 0.18                                # m/s: above this the stride starts to quicken
 RUN_SPEED = 0.8                                  # m/s: top commanded speed (above what the servos allow)
-TURN_PERIOD = 1.0                                # s per stride when turning in place: fewer, bigger steps
+TURN_PERIOD = 0.8                                # s per stride when turning in place: big, unhurried steps
 OBS_SIZE = 3 + 3 + 3 + 12 + 12 + 2
+TOF_ZONES = 64                                   # floor depth sensor (tof.py): heights of the floor ahead
+OBS_SIZE_TOF = OBS_SIZE + TOF_ZONES             # walkers that see the floor; older ones use the first OBS_SIZE
 JOINT_NAMES = [f"joint{j}_leg{l}" for l in range(4) for j in (1, 3, 4)]
 
 
@@ -75,12 +84,30 @@ def advance_phase(phase, command, dt=CONTROL_DT):
     return (phase + 2 * np.pi * dt / gait_period(command)) % (2 * np.pi)
 
 
-def observation(gravity, gyro, command, joints, last_action, phase):
+def observation(gravity, gyro, command, joints, last_action, phase, floor=None):
     """gravity: unit gravity in the body frame; gyro: rad/s body frame; command: vx, vy, wz;
-    phase: gait clock (rad), advanced every control step with advance_phase()."""
-    return np.concatenate([gravity, np.asarray(gyro) * 0.25, np.asarray(command) * [2.0, 2.0, 1.0],
-                           np.asarray(joints) - STAND, last_action,
-                           [np.sin(phase), np.cos(phase)]]).astype(np.float32)
+    phase: gait clock (rad), advanced every control step with advance_phase().
+    floor: optional 64 floor heights ahead (m, tof.heights), appended scaled x10."""
+    obs = [gravity, np.asarray(gyro) * 0.25, np.asarray(command) * [2.0, 2.0, 1.0],
+           np.asarray(joints) - STAND, last_action, [np.sin(phase), np.cos(phase)]]
+    if floor is not None:
+        obs.append(np.asarray(floor) * 10.0)
+    return np.concatenate(obs).astype(np.float32)
+
+
+RECOVERY_MAX_RATE = 3.0   # rad/s: self-righting joint targets move no faster than this (smooth, no flinging)
+
+
+def slew(previous, target, dt=CONTROL_DT, rate=RECOVERY_MAX_RATE):
+    """Move joint targets toward `target` by at most rate * dt per step."""
+    step = rate * dt
+    return np.asarray(previous) + np.clip(np.asarray(target) - previous, -step, step)
+
+
+def recovery_targets(action):
+    """Self-righting (recover_env.py) uses nearly the whole joint range: rolling a rock over needs
+    big leg swings, far outside the walking band round STAND. Same limits as walking (TARGET_LIMIT)."""
+    return np.clip(np.asarray(action, dtype=float), -1.0, 1.0) * TARGET_LIMIT
 
 
 def action_to_targets(action):

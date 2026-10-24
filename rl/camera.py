@@ -51,11 +51,12 @@ class CameraModel:
         bearing = np.degrees(np.arctan2(cam[1], cam[0]))
         return MIN_RANGE <= dist <= MAX_RANGE and abs(bearing) <= HFOV_DEG / 2
 
-    def update(self, rel, now):
-        """Call every control step with the true relative target position and the time."""
+    def update(self, rel, now, blocked=False):
+        """Call every control step with the true relative target position and the time.
+        blocked: something (a wall) stands between the camera and the target."""
         if now >= self.next_frame:
             self.next_frame = now + FRAME_PERIOD
-            if self.in_view(rel) and self.rng.random() > MISS_RATE:
+            if not blocked and self.in_view(rel) and self.rng.random() > MISS_RATE:
                 cam = np.asarray(rel) - [CAMERA_X, 0.0]
                 dist = float(np.hypot(*cam))
                 bearing = np.arctan2(cam[1], cam[0])

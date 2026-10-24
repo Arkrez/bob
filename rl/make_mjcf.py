@@ -14,6 +14,9 @@ import xml.etree.ElementTree as ET
 
 from spec import ARMATURE, FOOT_FRICTION, JOINT_DAMPING, JOINT_FRICTION as FRICTIONLOSS, STALL_TORQUE
 from spec import PHYSICS_DT, SERVO_KP as KP, SERVO_KV as KV
+from lidar import LIDAR_Z
+from tof import POS as TOF_POS
+from nav_spec import OBSTACLES
 
 HERE = pathlib.Path(__file__).resolve().parent
 URDF = HERE.parent / "cad/rocky_bob/sim/rocky_bob.urdf"
@@ -23,12 +26,13 @@ OUT = HERE / "rocky_bob.xml"
 # servo model constants live in spec.py so the Webots bridge can reproduce them
 
 # terrain height field (see terrain.py); flat until env.py fills it in
-TERRAIN = dict(nrow=240, ncol=240, half=6.0, max_height=0.12, base=0.05)
+TERRAIN = dict(nrow=480, ncol=480, half=6.0, max_height=0.35, base=0.05)   # 2.5 cm cells: steep risers; 0.35: room for stairs
 
-# collision bits: floor hits everything, the body and legs never hit each other
+# collision bits: everything hits the floor, and the legs hit the body and each other, so the only
+# limits on a leg are its servos and the robot's own shape (MuJoCo skips each link and its parent)
 FLOOR = 'contype="1" conaffinity="3"'
-BODY = 'contype="2" conaffinity="1"'
-LEG = 'contype="4" conaffinity="1"'
+BODY = 'contype="2" conaffinity="5"'
+LEG = 'contype="4" conaffinity="7"'
 
 
 def floats(s):
@@ -62,14 +66,18 @@ def geoms(link, is_body, meshes, materials):
         pos = fmt(floats(o.get("xyz")))
         rpy = floats(o.get("rpy"))
         g = c.find("geometry")[0]
-        if g.tag == "box":
+        if g.tag == "mesh":   # convex: MuJoCo collides with its convex hull
+            mesh = pathlib.Path(g.get("filename")).stem
+            meshes.add(mesh)
+            shape = f'type="mesh" mesh="{mesh}"'
+        elif g.tag == "box":
             size = fmt([s / 2 for s in floats(g.get("size"))])
             shape = f'type="box" size="{size}"'
         elif g.tag == "cylinder":
             shape = f'type="cylinder" size="{float(g.get("radius")):.6g} {float(g.get("length")) / 2:.6g}"'
         else:
             shape = f'type="sphere" size="{float(g.get("radius")):.6g}"'
-        name = ""
+        name = f'name="{c.get("name")}" ' if c.get("name") else ""
         if g.tag == "sphere":
             name = f'name="{link.get("name").split("_")[0]}_foot" '
         out.append(f'<geom {name}class="collision" {shape} pos="{pos}" euler="{fmt(rpy)}" {bits}/>')
@@ -145,9 +153,16 @@ def main():
     <body name="base_link" pos="0 0 0.2">
       <freejoint name="root"/>
       <site name="imu" pos="0 0 0.05" size="0.01"/>
+      <site name="lidar" pos="0 0 {LIDAR_Z}" size="0.01"/>
+      <site name="tof" pos="{fmt(TOF_POS)}" size="0.005"/>
       <camera name="track" mode="trackcom" pos="0.6 -0.9 0.5" xyaxes="0.83 0.56 0 -0.2 0.3 0.93"/>
 {chr(10).join(tree)}
     </body>
+    <!-- Obstacles for navigation training: parked out of the way; nav_env.py moves them into place.
+         They collide with the robot's body and legs (contype/conaffinity bits above). -->
+{chr(10).join(f'    <body name="obstacle{i}" mocap="true" pos="{60 + 3 * i} 60 -5"><geom name="obstacle{i}" type="box" size="{fmt(h)}" contype="1" conaffinity="6" rgba="0.70 0.62 0.50 1"/></body>' for i, h in enumerate(OBSTACLES))}
+    <!-- The target post: seen by the lidar (rays hit any geom) but nothing collides with it -->
+    <body name="goal_post" mocap="true" pos="60 50 -5"><geom name="goal_post" type="cylinder" size="0.02 0.25" pos="0 0 0.25" contype="0" conaffinity="0" rgba="1 0.5 0.1 1"/></body>
   </worldbody>
 
   <actuator>

@@ -25,6 +25,7 @@ from stable_baselines3.common.monitor import Monitor
 from stable_baselines3.common.vec_env import VecNormalize
 
 from env import RockyBobWalk
+from recover_env import RockyBobRecover
 from vec import BatchedSubprocVecEnv
 
 HERE = pathlib.Path(__file__).resolve().parent
@@ -78,9 +79,9 @@ class PenaltyRamp(BaseCallback):
 
 
 class SaveLatest(BaseCallback):
-    def __init__(self, run_dir, every):
+    def __init__(self, run_dir, every, scorer="progress.py"):
         super().__init__()
-        self.run_dir, self.every = run_dir, every
+        self.run_dir, self.every, self.scorer = run_dir, every, scorer
 
     def _on_step(self):
         if self.n_calls % self.every == 0:
@@ -105,8 +106,11 @@ class SaveLatest(BaseCallback):
         if snap.exists():
             return
         shutil.copy(self.run_dir / "policy.npz", snap)
+        # the full checkpoint too, so a snapshot keep_best.py picks can be trained on from (train_rounds.py)
+        shutil.copy(self.run_dir / "latest.zip", snap.with_suffix(".zip"))
+        shutil.copy(self.run_dir / "vecnormalize.pkl", snap.with_name(snap.stem.replace("_", "_vecnormalize_", 1) + ".pkl"))
         with open(progress / "progress.log", "a") as log:
-            subprocess.Popen(["nice", "-n", "10", sys.executable, str(HERE / "progress.py"), str(snap)],
+            subprocess.Popen(["nice", "-n", "10", sys.executable, str(HERE / self.scorer), str(snap)],
                              stdout=log, stderr=subprocess.STDOUT, cwd=HERE)
 
 
@@ -117,6 +121,8 @@ def main():
     p.add_argument("--per-worker", type=int, default=4,
                    help="robots per worker process (batching cuts the per-step messaging overhead)")
     p.add_argument("--name", default="walk")
+    p.add_argument("--task", choices=("walk", "recover"), default="walk",
+                   help="walk (env.py), or recover: self-righting after a fall (recover_env.py)")
     p.add_argument("--resume", help="path to a .zip to keep training")
     p.add_argument("--seed", type=int, default=0)
     p.add_argument("--explore", type=float, help="with --resume: reset the action noise std to this")
@@ -132,6 +138,8 @@ def main():
     run_dir.mkdir(parents=True, exist_ok=True)
     # env 0 streams its state so `watch.py --live` can show a robot that is actually training
     def make(rank):
+        if args.task == "recover":
+            return lambda: Monitor(RockyBobRecover())
         return lambda: Monitor(RockyBobWalk(stream=(rank == 0)))
     robots = args.envs * args.per_worker
     venv = BatchedSubprocVecEnv([make(i) for i in range(robots)], workers=args.envs)
@@ -172,7 +180,8 @@ def main():
         tb_log_name=args.name,
         reset_num_timesteps=not args.resume,
         callback=[CheckpointCallback(every * 5, str(run_dir / "checkpoints"), name_prefix="ppo", save_vecnormalize=True),
-                  SaveLatest(run_dir, every), TerrainLogger(),
+                  SaveLatest(run_dir, every, scorer="recover_eval.py" if args.task == "recover" else "progress.py"),
+                  TerrainLogger(),
                   PenaltyRamp(start=args.penalty_start, steps=8e6 if args.resume else 10e6)],
     )
     print(f"done: {run_dir}")

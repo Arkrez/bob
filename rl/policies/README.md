@@ -1,10 +1,14 @@
 # Trained walking policies
 
-Numpy-only (`policy.py`), for `ros_policy_node.py`, `play.py` and `watch.py`. Trained with `walk_steady` (fine-tuned from `walk_v3` at 25M steps).
+Numpy-only (`policy.py`), for `ros_policy_node.py`, `play.py` and `watch.py`. All walkers here use the 0.6 rad hip-yaw action scale (`spec.ACTION_SCALE`). The older ones were trained at 0.35 and converted with `rescale_actions.py`, which leaves them behaving as before. Trained with `walk_steady` (fine-tuned from `walk_v3` at 25M steps).
 
 | file | snapshot | notes |
 | --- | --- | --- |
-| `rocky_walk.npz` | walk_hp4 42M | Default. Trained for the HobbyPark 25 kg servos: clean, even ~4 cm steps, almost no bounces, fewest steps when pivoting. |
+| `rocky_walk.npz` | round_w0017 131M | Default. The first walker that sees the floor (nose ToF sensor, 99 inputs): in Webots it climbs the 3 cm east staircase to its landing (30-36 s). It turns a little worse than 128M. 4.5 cm risers are still too high for it. |
+| `rocky_walk_128M.npz` | round_w0006 128M | Previous default: blind (35 inputs), climbs 3-4 cm pyramids in MuJoCo by feel. |
+| `rocky_walk_79M.npz` | walk_turn2 79M | Default. Best of a further 30M-step fine-tune, picked by `keep_best.py`: turns at 0.85 rad/s in 7.2 footfalls/rad, runs at 0.32 m/s, barely bounces, and drifts 9 cm (not 35) over a 6 s straight walk. |
+| `rocky_walk_turn48.npz` | walk_turn 48M | First fast-turn walker: 0.73 rad/s, 8.1 footfalls/rad. |
+| `rocky_walk_hp4.npz` | walk_hp4 42M | Previous default: slower turns, but the cleanest, most even ~4 cm steps. |
 | `rocky_walk_pivot_mg995.npz` | walk_pivot 30M | Previous default, trained for MG995s. Holds its pivot best (4.6 cm drift), but takes low, uneven steps. |
 | `rocky_walk_run22.npz` | walk_run 22M | Faster walking and running, but sloppier turns in place. Needs `spec.TURN_PERIOD = 0.6`. |
 | `rocky_walk_v1.npz` | walk_steady 45M | The previous walker. Can walk backward and sidestep, but can't run. |
@@ -76,7 +80,36 @@ Turning results are from `turn_eval.py`: 10 s turns, both directions, randomised
 
 **To switch back to the faster walker:** set `TURN_PERIOD = 0.6` in `spec.py` and copy `rocky_walk_run22.npz` over `rocky_walk.npz`.
 
-## HobbyPark 25 kg servos: `rocky_walk.npz` (walk_hp4 42M)
+## Longer fine-tune: `rocky_walk.npz` (walk_turn2 79M)
+
+This run continued from walk_turn's 49M checkpoint at half the learning rate (`5e-5`) for 30M steps. `keep_best.py` scored every 1M-step snapshot and kept the best; the whole table is in `runs/walk_turn2/best.md`. The score covers turning, footfalls, walking and top speed, step height, pivot bounces, walking drift and turn slide. Snapshots that fell, or lost more than 10% of walking or top speed, were rejected.
+
+| | turn rad/s (cmd 1.0) | footfalls/rad | walk 0.15 | top speed | step height | pivot bounces/s | walk drift (6 s) | turn slide |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `rocky_walk_turn48` | 0.73 | 8.1 | 0.196 | 0.284 | 3.4 cm | 0.8 | 35 cm | 4 cm |
+| **`rocky_walk` (79M)** | **0.85** | **7.2** | **0.208** | **0.317** | **3.8 cm** | **0.1** | **9 cm** | **1.2 cm** |
+
+## Fast turns: `rocky_walk_turn48.npz` (walk_turn 48M)
+
+This walker is fine-tuned from walk_hp4 (44M checkpoint) to turn faster with fewer steps:
+- Hip-yaw range is 0.6 rad per unit action, up from 0.35. Turning in place is limited by how far each step can swing the hip: a planted foot is further from the body's centre than the hip, so the hip sweeps about 1.7× the body's rotation. The checkpoint was converted with `rescale_actions.py` first, so training started from identical behaviour.
+- The turn-in-place stride is 0.8 s, down from 1.0 (`spec.TURN_PERIOD`).
+- Turn commands go up to 1.0 rad/s, and a linear `turn_progress` reward pays for the share of the commanded rate reached.
+
+Trained gently (`--lr 1e-4 --target-kl 0.01`, full penalties) for 12M steps. The snapshot 4M steps in was the best. Later ones turned slower and lost running speed.
+
+Turning is from `turn_eval.py --wz 0.4 1.0`, both walkers under the current spec:
+
+| | turn rate (cmd 1.0) | footfalls/rad (cmd 1.0) | pivot drift (cmd 1.0) | turn rate (cmd 0.4) | walk 0.15 | top speed | step height (walk) | bounces/s (pivot) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `rocky_walk_hp4` | 0.38 rad/s | 14.9 | 20.3 cm | 0.31 | 0.214 | 0.282 | **4.0 cm** | **0.0** |
+| **`rocky_walk` (turn 48M)** | **0.72 rad/s** | **8.4** | **5.2 cm** | **0.41** | 0.198 | **0.283** | 3.4 cm | 1.2 |
+
+The navigator now turns at up to 1.0 rad/s, slowing as it lines up (`nav_spec.FACE_TURN`), and searches at 0.8 rad/s. Over 20 one-minute `nav_eval.py baseline` runs it reaches 4.8 goals/min (worst run 4), up from 4.4 (worst run 3), with path efficiency 85% against 92%.
+
+**Webots** (open arena, `rl/webots_eval.py`): walk 0.205 m/s, run 0.265, turn 0.39 rad/s at cmd 0.4 and **0.86 rad/s at cmd 1.0**, sidestep 0.065, body wobble 0.3–0.5 rad/s, no falls.
+
+## HobbyPark 25 kg servos: `rocky_walk_hp4.npz` (walk_hp4 42M)
 
 This walker was trained from scratch for the HobbyPark 25 kg coreless servo, modelled at 7.4 V as 2.45 N·m stall and about 8 rad/s (`spec.py`). It runs with commands up to 0.8 m/s.
 

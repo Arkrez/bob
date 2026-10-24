@@ -20,16 +20,20 @@
     <mesh name="horn_hip_pitch" file="horn_hip_pitch.stl"/>
     <mesh name="horn_hip_yaw" file="horn_hip_yaw.stl"/>
     <mesh name="horn_knee" file="horn_knee.stl"/>
+    <mesh name="lidar" file="lidar.stl"/>
+    <mesh name="mustache" file="mustache.stl"/>
     <mesh name="pi5" file="pi5.stl"/>
     <mesh name="pi_camera" file="pi_camera.stl"/>
     <mesh name="psu" file="psu.stl"/>
     <mesh name="rock_base" file="rock_base.stl"/>
+    <mesh name="rock_collision" file="rock_collision.stl"/>
     <mesh name="rock_lid" file="rock_lid.stl"/>
     <mesh name="servo2040" file="servo2040.stl"/>
     <mesh name="servo_hip_pitch" file="servo_hip_pitch.stl"/>
     <mesh name="servo_hip_yaw" file="servo_hip_yaw.stl"/>
     <mesh name="servo_knee" file="servo_knee.stl"/>
     <mesh name="tibia" file="tibia.stl"/>
+    <mesh name="tof" file="tof.stl"/>
     <material name="coxa" rgba="0.34 0.31 0.28 1"/>
     <material name="femur" rgba="0.47 0.42 0.37 1"/>
     <material name="foot" rgba="0.6 0.55 0.48 1"/>
@@ -37,6 +41,8 @@
     <material name="horn_hip_pitch" rgba="0.85 0.85 0.85 1"/>
     <material name="horn_hip_yaw" rgba="0.85 0.85 0.85 1"/>
     <material name="horn_knee" rgba="0.85 0.85 0.85 1"/>
+    <material name="lidar" rgba="0.08 0.08 0.1 1"/>
+    <material name="mustache" rgba="0.1 0.07 0.05 1"/>
     <material name="pi5" rgba="0.1 0.45 0.2 1"/>
     <material name="pi_camera" rgba="0.1 0.45 0.2 1"/>
     <material name="psu" rgba="0.25 0.35 0.6 1"/>
@@ -47,9 +53,10 @@
     <material name="servo_hip_yaw" rgba="0.1 0.1 0.12 1"/>
     <material name="servo_knee" rgba="0.1 0.1 0.12 1"/>
     <material name="tibia" rgba="0.47 0.42 0.37 1"/>
+    <material name="tof" rgba="0.75 0.12 0.1 1"/>
     <texture name="grid" type="2d" builtin="checker" rgb1="0.35 0.37 0.40" rgb2="0.28 0.30 0.33" width="512" height="512"/>
     <material name="grid" texture="grid" texrepeat="48 48" texuniform="false" reflectance="0.05"/>
-    <hfield name="terrain" nrow="240" ncol="240" size="6.0 6.0 0.12 0.05"/>
+    <hfield name="terrain" nrow="480" ncol="480" size="6.0 6.0 0.35 0.05"/>
     <texture name="sky" type="skybox" builtin="gradient" rgb1="0.55 0.65 0.8" rgb2="0.1 0.1 0.15" width="256" height="256"/>
   </asset>
 
@@ -61,42 +68,49 @@
     <body name="base_link" pos="0 0 0.2">
       <freejoint name="root"/>
       <site name="imu" pos="0 0 0.05" size="0.01"/>
+      <site name="lidar" pos="0 0 0.166" size="0.01"/>
+      <site name="tof" pos="0.1022 0 0.013" size="0.005"/>
       <camera name="track" mode="trackcom" pos="0.6 -0.9 0.5" xyaxes="0.83 0.56 0 -0.2 0.3 0.93"/>
-      <inertial pos="-0.01711 -0.00187 0.04409" mass="0.6718" fullinertia="0.002582 0.003219 0.003701 6.207e-05 -0.0002549 -1.544e-05"/>
+      <inertial pos="-0.01452 -0.00155 0.05871" mass="0.7748" fullinertia="0.003716 0.004421 0.003801 5.903e-05 -0.0004213 -3.749e-05"/>
       <geom class="visual" type="mesh" mesh="rock_base" material="rock_base"/>
       <geom class="visual" type="mesh" mesh="rock_lid" material="rock_lid"/>
       <geom class="visual" type="mesh" mesh="pi5" material="pi5"/>
       <geom class="visual" type="mesh" mesh="servo2040" material="servo2040"/>
       <geom class="visual" type="mesh" mesh="psu" material="psu"/>
       <geom class="visual" type="mesh" mesh="pi_camera" material="pi_camera"/>
-      <geom class="collision" type="box" size="0.09992 0.09647 0.071615" pos="0 0 0.07161" euler="0 0 0" contype="2" conaffinity="1"/>
+      <geom class="visual" type="mesh" mesh="mustache" material="mustache"/>
+      <geom class="visual" type="mesh" mesh="tof" material="tof"/>
+      <geom class="visual" type="mesh" mesh="lidar" material="lidar"/>
+      <geom class="collision" type="mesh" mesh="rock_collision" pos="0 0 0" euler="0 0 0" contype="2" conaffinity="5"/>
+      <geom class="collision" type="box" size="0.032 0.032 0.013" pos="0 0 0.125" euler="0 0 0" contype="2" conaffinity="5"/>
+      <geom name="lidar" class="collision" type="box" size="0.0278 0.0278 0.02065" pos="0 0 0.15665" euler="0 0 0" contype="2" conaffinity="5"/>
       <body name="leg0_mount" pos="-0.10624 -0.10624 0.06" euler="0 0 3.92699">
         <inertial pos="-0.01176 -0.0001 -0.00481" mass="0.0812" fullinertia="1.511e-05 3.12e-05 2.395e-05 -2.071e-07 -7.322e-07 -1.066e-07"/>
         <geom class="visual" type="mesh" mesh="hip_pod" material="hip_pod"/>
         <geom class="visual" type="mesh" mesh="servo_hip_yaw" material="servo_hip_yaw"/>
-        <geom class="collision" type="box" size="0.0325 0.0225 0.028" pos="-0.02 0 -0.01" euler="0 0 0" contype="4" conaffinity="1"/>
+        <geom class="collision" type="box" size="0.0325 0.0225 0.028" pos="-0.02 0 -0.01" euler="0 0 0" contype="4" conaffinity="7"/>
         <body name="leg0_joint1_link" pos="0 0 0" euler="0 0 0">
           <joint name="joint1_leg0" class="servo" axis="0 0 1"/>
           <inertial pos="0.07389 -0.00425 -0.00052" mass="0.1366" fullinertia="4.373e-05 0.0001538 0.0001468 1.743e-06 -2.983e-06 6.516e-07"/>
           <geom class="visual" type="mesh" mesh="horn_hip_yaw" material="horn_hip_yaw"/>
           <geom class="visual" type="mesh" mesh="coxa" material="coxa"/>
           <geom class="visual" type="mesh" mesh="servo_hip_pitch" material="servo_hip_pitch"/>
-          <geom class="collision" type="box" size="0.065 0.0275 0.02" pos="0.065 -0.01 0" euler="0 0 0" contype="4" conaffinity="1"/>
+          <geom class="collision" type="box" size="0.065 0.0275 0.02" pos="0.065 -0.01 0" euler="0 0 0" contype="4" conaffinity="7"/>
           <body name="leg0_joint2_link" pos="0.1072 0 0" euler="0 0 0">
             <joint name="joint3_leg0" class="servo" axis="0 1 0"/>
             <inertial pos="0.07952 -0.00478 0.00039" mass="0.1454" fullinertia="4.145e-05 0.0001639 0.0001808 6.618e-06 1.768e-08 4.74e-07"/>
             <geom class="visual" type="mesh" mesh="horn_hip_pitch" material="horn_hip_pitch"/>
             <geom class="visual" type="mesh" mesh="femur" material="femur"/>
             <geom class="visual" type="mesh" mesh="servo_knee" material="servo_knee"/>
-            <geom class="collision" type="cylinder" size="0.024 0.0546" pos="0.0846 -0.0105 0" euler="0 1.5708 0" contype="4" conaffinity="1"/>
+            <geom class="collision" type="cylinder" size="0.024 0.0546" pos="0.0846 -0.0105 0" euler="0 1.5708 0" contype="4" conaffinity="7"/>
             <body name="leg0_joint3_link" pos="0.1072 0 0" euler="0 0 0">
               <joint name="joint4_leg0" class="servo" axis="0 1 0"/>
               <inertial pos="0.07456 -0.00185 -8e-05" mass="0.0729" fullinertia="2.362e-05 0.0001538 0.0001675 -3.409e-07 4.865e-07 -2.598e-08"/>
               <geom class="visual" type="mesh" mesh="horn_knee" material="horn_knee"/>
               <geom class="visual" type="mesh" mesh="tibia" material="tibia"/>
               <geom class="visual" type="mesh" mesh="foot" material="foot"/>
-              <geom class="collision" type="cylinder" size="0.013 0.052" pos="0.092 -0.00175 0" euler="0 1.5708 0" contype="4" conaffinity="1"/>
-              <geom name="leg0_foot" class="collision" type="sphere" size="0.016" pos="0.16 -0.00175 0" euler="0 0 0" contype="4" conaffinity="1"/>
+              <geom class="collision" type="cylinder" size="0.013 0.052" pos="0.092 -0.00175 0" euler="0 1.5708 0" contype="4" conaffinity="7"/>
+              <geom name="leg0_foot" class="collision" type="sphere" size="0.016" pos="0.16 -0.00175 0" euler="0 0 0" contype="4" conaffinity="7"/>
               <site name="leg0_foot" pos="0.16 -0.00175 0" size="0.005"/>
             </body>
           </body>
@@ -106,29 +120,29 @@
         <inertial pos="-0.01176 -0.0001 -0.00481" mass="0.0812" fullinertia="1.511e-05 3.12e-05 2.395e-05 -2.071e-07 -7.322e-07 -1.066e-07"/>
         <geom class="visual" type="mesh" mesh="hip_pod" material="hip_pod"/>
         <geom class="visual" type="mesh" mesh="servo_hip_yaw" material="servo_hip_yaw"/>
-        <geom class="collision" type="box" size="0.0325 0.0225 0.028" pos="-0.02 0 -0.01" euler="0 0 0" contype="4" conaffinity="1"/>
+        <geom class="collision" type="box" size="0.0325 0.0225 0.028" pos="-0.02 0 -0.01" euler="0 0 0" contype="4" conaffinity="7"/>
         <body name="leg1_joint1_link" pos="0 0 0" euler="0 0 0">
           <joint name="joint1_leg1" class="servo" axis="0 0 1"/>
           <inertial pos="0.07389 -0.00425 -0.00052" mass="0.1366" fullinertia="4.373e-05 0.0001538 0.0001468 1.743e-06 -2.983e-06 6.516e-07"/>
           <geom class="visual" type="mesh" mesh="horn_hip_yaw" material="horn_hip_yaw"/>
           <geom class="visual" type="mesh" mesh="coxa" material="coxa"/>
           <geom class="visual" type="mesh" mesh="servo_hip_pitch" material="servo_hip_pitch"/>
-          <geom class="collision" type="box" size="0.065 0.0275 0.02" pos="0.065 -0.01 0" euler="0 0 0" contype="4" conaffinity="1"/>
+          <geom class="collision" type="box" size="0.065 0.0275 0.02" pos="0.065 -0.01 0" euler="0 0 0" contype="4" conaffinity="7"/>
           <body name="leg1_joint2_link" pos="0.1072 0 0" euler="0 0 0">
             <joint name="joint3_leg1" class="servo" axis="0 1 0"/>
             <inertial pos="0.07952 -0.00478 0.00039" mass="0.1454" fullinertia="4.145e-05 0.0001639 0.0001808 6.618e-06 1.768e-08 4.74e-07"/>
             <geom class="visual" type="mesh" mesh="horn_hip_pitch" material="horn_hip_pitch"/>
             <geom class="visual" type="mesh" mesh="femur" material="femur"/>
             <geom class="visual" type="mesh" mesh="servo_knee" material="servo_knee"/>
-            <geom class="collision" type="cylinder" size="0.024 0.0546" pos="0.0846 -0.0105 0" euler="0 1.5708 0" contype="4" conaffinity="1"/>
+            <geom class="collision" type="cylinder" size="0.024 0.0546" pos="0.0846 -0.0105 0" euler="0 1.5708 0" contype="4" conaffinity="7"/>
             <body name="leg1_joint3_link" pos="0.1072 0 0" euler="0 0 0">
               <joint name="joint4_leg1" class="servo" axis="0 1 0"/>
               <inertial pos="0.07456 -0.00185 -8e-05" mass="0.0729" fullinertia="2.362e-05 0.0001538 0.0001675 -3.409e-07 4.865e-07 -2.598e-08"/>
               <geom class="visual" type="mesh" mesh="horn_knee" material="horn_knee"/>
               <geom class="visual" type="mesh" mesh="tibia" material="tibia"/>
               <geom class="visual" type="mesh" mesh="foot" material="foot"/>
-              <geom class="collision" type="cylinder" size="0.013 0.052" pos="0.092 -0.00175 0" euler="0 1.5708 0" contype="4" conaffinity="1"/>
-              <geom name="leg1_foot" class="collision" type="sphere" size="0.016" pos="0.16 -0.00175 0" euler="0 0 0" contype="4" conaffinity="1"/>
+              <geom class="collision" type="cylinder" size="0.013 0.052" pos="0.092 -0.00175 0" euler="0 1.5708 0" contype="4" conaffinity="7"/>
+              <geom name="leg1_foot" class="collision" type="sphere" size="0.016" pos="0.16 -0.00175 0" euler="0 0 0" contype="4" conaffinity="7"/>
               <site name="leg1_foot" pos="0.16 -0.00175 0" size="0.005"/>
             </body>
           </body>
@@ -138,29 +152,29 @@
         <inertial pos="-0.01176 -0.0001 -0.00481" mass="0.0812" fullinertia="1.511e-05 3.12e-05 2.395e-05 -2.071e-07 -7.322e-07 -1.066e-07"/>
         <geom class="visual" type="mesh" mesh="hip_pod" material="hip_pod"/>
         <geom class="visual" type="mesh" mesh="servo_hip_yaw" material="servo_hip_yaw"/>
-        <geom class="collision" type="box" size="0.0325 0.0225 0.028" pos="-0.02 0 -0.01" euler="0 0 0" contype="4" conaffinity="1"/>
+        <geom class="collision" type="box" size="0.0325 0.0225 0.028" pos="-0.02 0 -0.01" euler="0 0 0" contype="4" conaffinity="7"/>
         <body name="leg2_joint1_link" pos="0 0 0" euler="0 0 0">
           <joint name="joint1_leg2" class="servo" axis="0 0 1"/>
           <inertial pos="0.07389 -0.00425 -0.00052" mass="0.1366" fullinertia="4.373e-05 0.0001538 0.0001468 1.743e-06 -2.983e-06 6.516e-07"/>
           <geom class="visual" type="mesh" mesh="horn_hip_yaw" material="horn_hip_yaw"/>
           <geom class="visual" type="mesh" mesh="coxa" material="coxa"/>
           <geom class="visual" type="mesh" mesh="servo_hip_pitch" material="servo_hip_pitch"/>
-          <geom class="collision" type="box" size="0.065 0.0275 0.02" pos="0.065 -0.01 0" euler="0 0 0" contype="4" conaffinity="1"/>
+          <geom class="collision" type="box" size="0.065 0.0275 0.02" pos="0.065 -0.01 0" euler="0 0 0" contype="4" conaffinity="7"/>
           <body name="leg2_joint2_link" pos="0.1072 0 0" euler="0 0 0">
             <joint name="joint3_leg2" class="servo" axis="0 1 0"/>
             <inertial pos="0.07952 -0.00478 0.00039" mass="0.1454" fullinertia="4.145e-05 0.0001639 0.0001808 6.618e-06 1.768e-08 4.74e-07"/>
             <geom class="visual" type="mesh" mesh="horn_hip_pitch" material="horn_hip_pitch"/>
             <geom class="visual" type="mesh" mesh="femur" material="femur"/>
             <geom class="visual" type="mesh" mesh="servo_knee" material="servo_knee"/>
-            <geom class="collision" type="cylinder" size="0.024 0.0546" pos="0.0846 -0.0105 0" euler="0 1.5708 0" contype="4" conaffinity="1"/>
+            <geom class="collision" type="cylinder" size="0.024 0.0546" pos="0.0846 -0.0105 0" euler="0 1.5708 0" contype="4" conaffinity="7"/>
             <body name="leg2_joint3_link" pos="0.1072 0 0" euler="0 0 0">
               <joint name="joint4_leg2" class="servo" axis="0 1 0"/>
               <inertial pos="0.07456 -0.00185 -8e-05" mass="0.0729" fullinertia="2.362e-05 0.0001538 0.0001675 -3.409e-07 4.865e-07 -2.598e-08"/>
               <geom class="visual" type="mesh" mesh="horn_knee" material="horn_knee"/>
               <geom class="visual" type="mesh" mesh="tibia" material="tibia"/>
               <geom class="visual" type="mesh" mesh="foot" material="foot"/>
-              <geom class="collision" type="cylinder" size="0.013 0.052" pos="0.092 -0.00175 0" euler="0 1.5708 0" contype="4" conaffinity="1"/>
-              <geom name="leg2_foot" class="collision" type="sphere" size="0.016" pos="0.16 -0.00175 0" euler="0 0 0" contype="4" conaffinity="1"/>
+              <geom class="collision" type="cylinder" size="0.013 0.052" pos="0.092 -0.00175 0" euler="0 1.5708 0" contype="4" conaffinity="7"/>
+              <geom name="leg2_foot" class="collision" type="sphere" size="0.016" pos="0.16 -0.00175 0" euler="0 0 0" contype="4" conaffinity="7"/>
               <site name="leg2_foot" pos="0.16 -0.00175 0" size="0.005"/>
             </body>
           </body>
@@ -170,35 +184,53 @@
         <inertial pos="-0.01176 -0.0001 -0.00481" mass="0.0812" fullinertia="1.511e-05 3.12e-05 2.395e-05 -2.071e-07 -7.322e-07 -1.066e-07"/>
         <geom class="visual" type="mesh" mesh="hip_pod" material="hip_pod"/>
         <geom class="visual" type="mesh" mesh="servo_hip_yaw" material="servo_hip_yaw"/>
-        <geom class="collision" type="box" size="0.0325 0.0225 0.028" pos="-0.02 0 -0.01" euler="0 0 0" contype="4" conaffinity="1"/>
+        <geom class="collision" type="box" size="0.0325 0.0225 0.028" pos="-0.02 0 -0.01" euler="0 0 0" contype="4" conaffinity="7"/>
         <body name="leg3_joint1_link" pos="0 0 0" euler="0 0 0">
           <joint name="joint1_leg3" class="servo" axis="0 0 1"/>
           <inertial pos="0.07389 -0.00425 -0.00052" mass="0.1366" fullinertia="4.373e-05 0.0001538 0.0001468 1.743e-06 -2.983e-06 6.516e-07"/>
           <geom class="visual" type="mesh" mesh="horn_hip_yaw" material="horn_hip_yaw"/>
           <geom class="visual" type="mesh" mesh="coxa" material="coxa"/>
           <geom class="visual" type="mesh" mesh="servo_hip_pitch" material="servo_hip_pitch"/>
-          <geom class="collision" type="box" size="0.065 0.0275 0.02" pos="0.065 -0.01 0" euler="0 0 0" contype="4" conaffinity="1"/>
+          <geom class="collision" type="box" size="0.065 0.0275 0.02" pos="0.065 -0.01 0" euler="0 0 0" contype="4" conaffinity="7"/>
           <body name="leg3_joint2_link" pos="0.1072 0 0" euler="0 0 0">
             <joint name="joint3_leg3" class="servo" axis="0 1 0"/>
             <inertial pos="0.07952 -0.00478 0.00039" mass="0.1454" fullinertia="4.145e-05 0.0001639 0.0001808 6.618e-06 1.768e-08 4.74e-07"/>
             <geom class="visual" type="mesh" mesh="horn_hip_pitch" material="horn_hip_pitch"/>
             <geom class="visual" type="mesh" mesh="femur" material="femur"/>
             <geom class="visual" type="mesh" mesh="servo_knee" material="servo_knee"/>
-            <geom class="collision" type="cylinder" size="0.024 0.0546" pos="0.0846 -0.0105 0" euler="0 1.5708 0" contype="4" conaffinity="1"/>
+            <geom class="collision" type="cylinder" size="0.024 0.0546" pos="0.0846 -0.0105 0" euler="0 1.5708 0" contype="4" conaffinity="7"/>
             <body name="leg3_joint3_link" pos="0.1072 0 0" euler="0 0 0">
               <joint name="joint4_leg3" class="servo" axis="0 1 0"/>
               <inertial pos="0.07456 -0.00185 -8e-05" mass="0.0729" fullinertia="2.362e-05 0.0001538 0.0001675 -3.409e-07 4.865e-07 -2.598e-08"/>
               <geom class="visual" type="mesh" mesh="horn_knee" material="horn_knee"/>
               <geom class="visual" type="mesh" mesh="tibia" material="tibia"/>
               <geom class="visual" type="mesh" mesh="foot" material="foot"/>
-              <geom class="collision" type="cylinder" size="0.013 0.052" pos="0.092 -0.00175 0" euler="0 1.5708 0" contype="4" conaffinity="1"/>
-              <geom name="leg3_foot" class="collision" type="sphere" size="0.016" pos="0.16 -0.00175 0" euler="0 0 0" contype="4" conaffinity="1"/>
+              <geom class="collision" type="cylinder" size="0.013 0.052" pos="0.092 -0.00175 0" euler="0 1.5708 0" contype="4" conaffinity="7"/>
+              <geom name="leg3_foot" class="collision" type="sphere" size="0.016" pos="0.16 -0.00175 0" euler="0 0 0" contype="4" conaffinity="7"/>
               <site name="leg3_foot" pos="0.16 -0.00175 0" size="0.005"/>
             </body>
           </body>
         </body>
       </body>
     </body>
+    <!-- Obstacles for navigation training: parked out of the way; nav_env.py moves them into place.
+         They collide with the robot's body and legs (contype/conaffinity bits above). -->
+    <body name="obstacle0" mocap="true" pos="60 60 -5"><geom name="obstacle0" type="box" size="1 0.03 0.3" contype="1" conaffinity="6" rgba="0.70 0.62 0.50 1"/></body>
+    <body name="obstacle1" mocap="true" pos="63 60 -5"><geom name="obstacle1" type="box" size="1 0.03 0.3" contype="1" conaffinity="6" rgba="0.70 0.62 0.50 1"/></body>
+    <body name="obstacle2" mocap="true" pos="66 60 -5"><geom name="obstacle2" type="box" size="1 0.03 0.3" contype="1" conaffinity="6" rgba="0.70 0.62 0.50 1"/></body>
+    <body name="obstacle3" mocap="true" pos="69 60 -5"><geom name="obstacle3" type="box" size="0.5 0.03 0.3" contype="1" conaffinity="6" rgba="0.70 0.62 0.50 1"/></body>
+    <body name="obstacle4" mocap="true" pos="72 60 -5"><geom name="obstacle4" type="box" size="0.5 0.03 0.3" contype="1" conaffinity="6" rgba="0.70 0.62 0.50 1"/></body>
+    <body name="obstacle5" mocap="true" pos="75 60 -5"><geom name="obstacle5" type="box" size="0.5 0.03 0.3" contype="1" conaffinity="6" rgba="0.70 0.62 0.50 1"/></body>
+    <body name="obstacle6" mocap="true" pos="78 60 -5"><geom name="obstacle6" type="box" size="0.15 0.15 0.25" contype="1" conaffinity="6" rgba="0.70 0.62 0.50 1"/></body>
+    <body name="obstacle7" mocap="true" pos="81 60 -5"><geom name="obstacle7" type="box" size="0.15 0.15 0.25" contype="1" conaffinity="6" rgba="0.70 0.62 0.50 1"/></body>
+    <body name="obstacle8" mocap="true" pos="84 60 -5"><geom name="obstacle8" type="box" size="0.15 0.15 0.25" contype="1" conaffinity="6" rgba="0.70 0.62 0.50 1"/></body>
+    <body name="obstacle9" mocap="true" pos="87 60 -5"><geom name="obstacle9" type="box" size="0.15 0.15 0.25" contype="1" conaffinity="6" rgba="0.70 0.62 0.50 1"/></body>
+    <body name="obstacle10" mocap="true" pos="90 60 -5"><geom name="obstacle10" type="box" size="0.15 0.15 0.25" contype="1" conaffinity="6" rgba="0.70 0.62 0.50 1"/></body>
+    <body name="obstacle11" mocap="true" pos="93 60 -5"><geom name="obstacle11" type="box" size="0.3 0.2 0.25" contype="1" conaffinity="6" rgba="0.70 0.62 0.50 1"/></body>
+    <body name="obstacle12" mocap="true" pos="96 60 -5"><geom name="obstacle12" type="box" size="0.3 0.2 0.25" contype="1" conaffinity="6" rgba="0.70 0.62 0.50 1"/></body>
+    <body name="obstacle13" mocap="true" pos="99 60 -5"><geom name="obstacle13" type="box" size="0.3 0.2 0.25" contype="1" conaffinity="6" rgba="0.70 0.62 0.50 1"/></body>
+    <!-- The target post: seen by the lidar (rays hit any geom) but nothing collides with it -->
+    <body name="goal_post" mocap="true" pos="60 50 -5"><geom name="goal_post" type="cylinder" size="0.02 0.25" pos="0 0 0.25" contype="0" conaffinity="0" rgba="1 0.5 0.1 1"/></body>
   </worldbody>
 
   <actuator>

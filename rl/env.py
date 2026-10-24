@@ -29,7 +29,8 @@ import terrain
 from spec import quat_matrix
 from spec import advance_phase
 from spec import STALL_TORQUE, WALK_SPEED
-from spec import (CONTROL_DT, GAIT_PERIOD, JOINT_LIMIT, OBS_SIZE, STAND, action_to_targets, observation,
+import tof
+from spec import (CONTROL_DT, GAIT_PERIOD, JOINT_LIMIT, OBS_SIZE, OBS_SIZE_TOF, STAND, action_to_targets, observation,
                   projected_gravity, quat_rotate_inverse)
 
 MODEL = pathlib.Path(__file__).resolve().parent / "rocky_bob.xml"
@@ -38,15 +39,21 @@ STREAM_PORT = 9871   # watch.py --live listens here
 SOFT_JOINT_LIMIT = 0.85 * JOINT_LIMIT   # rad; penalised beyond this
 SOFT_TORQUE = 0.75 * STALL_TORQUE      # N m; penalised above 75 % of stall
 FOOT_CLEARANCE = 0.03                  # m of swing-foot height above the local ground
+EASIER_SHARE = 0.5                     # share of training episodes on terrain easier than the robot's level
+STAIR_PRACTICE = 0.4                   # share of training episodes that start walking at a flight of stairs
+STUMBLE_RISE = 0.02                    # m: a step this tall right beside a planted foot means it's at a riser
 # Penalties that shape *how* it walks; train.py ramps them in (penalty_scale 0.25 -> 1) so the
 # robot learns to walk before it learns to walk politely, instead of finding that freezing is cheapest.
 SHAPING = {"power", "torque", "action_rate", "action_smooth", "joint_acc", "joint_vel",
-           "joint_limit", "torque_limit", "slip", "foot_clearance"}
+           "joint_limit", "torque_limit", "slip", "foot_clearance", "stumble"}
 TURN_ANCHOR_SIGMA = 0.05 ** 2   # m^2: the pivot bonus falls to 1/e at 5 cm of drift
 TURN_MAX_STANCE = 0.75           # s: a foot planted longer than this while turning is a pivot leg
 SWING_HEIGHT = 0.045        # m: target peak foot clearance of every step
 SWING_SIGMA = 0.012         # m: swing_height bonus falls to 1/e this far from the target
 BOUNCE_AIR = 0.08           # s: a touchdown after less air time than this is a bounce
+TAP_HEIGHT = 0.015          # m: a step that never lifted this far clear is a tap, not a step
+STEP_LEVEL = 0.015          # m: a landing this much higher or lower than the foot's last one is onto a new step
+RETOUCH_DIST = 0.06         # m: landing closer than this to where the foot last landed is a re-touch
 STEADY_SIGMA = 0.1          # (rad/s)^2: roll^2 + pitch^2 rate at which "steady" falls to 1/e
 RIDE_SIGMA = 1.0            # (m/s^2)^2: body acceleration (per control step) where "smooth_ride" falls to 1/e
 PUSH_EVERY = (2.0, 5.0)                # s between shoves
@@ -56,7 +63,7 @@ PUSH_SPEED, PUSH_SPIN = 0.5, 0.6       # m/s sideways and rad/s yaw added by a s
 COMMAND_MIX = [            # (share, vx range, vy range, wz range)
     (0.08, (0, 0), (0, 0), (0, 0)),                    # stand still
     (0.22, (-0.12, 0.18), (0, 0), (0, 0)),             # walk forward / back
-    (0.18, (0, 0), (0, 0), (-0.5, 0.5)),               # turn in place
+    (0.18, (0, 0), (0, 0), (-1.0, 1.0)),               # turn in place
     (0.12, (0, 0), (-0.10, 0.10), (0, 0)),             # sidestep
     (0.20, (-0.10, 0.18), (-0.08, 0.08), (-0.4, 0.4)),  # mixed, walking
     (0.20, (0.18, 0.80), (0, 0), (-0.15, 0.15)),       # run: faster stride (spec.gait_period)
@@ -75,6 +82,8 @@ REWARD = {
     # "chicken head": bonus for a steady body (and camera) while the legs do the work
     "steady": 1.0, "smooth_ride": 1.0,
     # turning in place: pivot over the spot where the turn began, in as few steps as possible
+    # ...and as fast as asked: paid per share of the commanded turn rate reached (linear, like run_progress)
+    "turn_progress": 2.0,
     "turn_anchor": 3.0, "turn_footfall": -5.0, "turn_drift": -6.0, "turn_slip": -1.0,
     # no pivoting on one planted leg: every foot keeps stepping during a turn in place
     "turn_planted": -2.0,
@@ -82,12 +91,21 @@ REWARD = {
     "turn_offset": -10.0,
     # clean, even steps everywhere (pivots too): each step should peak at SWING_HEIGHT, all four legs
     # alike, and land once - a foot that taps down again after a brief lift is a bounce, not a step
-    "swing_height": 5.0, "swing_spread": -50.0, "foot_bounce": -10.0,
+    "swing_height": 5.0, "swing_spread": -50.0, "foot_bounce": -5.0,   # -10 made him step less (slower) on stairs
+    # decisive climbing: no nervous taps (a touchdown after a tiny lift), keep moving forward on
+    # stair practice (walking back counts against), and no jittering while at it
+    "tap": -2.0, "stair_progress": 3.0, "stair_jitter": -0.5,
+    # stairs, quickly and cleanly: a bonus for every landing on a new step (up or down), so faster
+    # climbs earn more; a cost for putting a foot down again where it last landed (each leg touches
+    # each step once, no hesitant re-placing)
+    "stair_step": 1.5, "retouch": -1.5,
     "lin_z": -2.0, "ang_xy": -0.05, "tilt": -2.0, "height": -20.0,
     "power": -0.02, "torque": -0.15,
     # stepping, not dragging: reward air time, penalise feet that slide on the ground or move
     # while lower than FOOT_CLEARANCE above the terrain beneath them (Isaac Lab foot_clearance)
     "feet_air": 1.0, "slip": -0.5, "foot_clearance": -0.4,
+    # stairs: a foot pushing mostly sideways is hitting a riser (legged_gym's feet_stumble), so lift higher
+    "stumble": -0.5,
     # smoothness (legged_gym-style): 1st and 2nd difference of actions, joint acceleration and
     # speed. Each is ~5 % of a good walk's reward, so jitter costs more than it gains.
     "action_rate": -0.5, "action_smooth": -0.5, "joint_acc": -5e-6, "joint_vel": -0.005,
@@ -101,7 +119,7 @@ class RockyBobWalk(gym.Env):
     metadata = {"render_modes": ["rgb_array"], "render_fps": int(1 / CONTROL_DT)}
 
     def __init__(self, render_mode=None, randomize=True, episode_seconds=20.0, command=None, stream=False,
-                 terrain_level=None, pushes=None):
+                 terrain_level=None, pushes=None, floor_sensor=True):
         """terrain_level: None = curriculum (training), or a fixed 0 (flat) .. 1 (roughest).
         pushes: shove the robot every few seconds (defaults to `randomize`)."""
         self.model = mujoco.MjModel.from_xml_path(str(MODEL))
@@ -148,7 +166,10 @@ class RockyBobWalk(gym.Env):
         self.penalty_scale = 1.0
 
         self.action_space = gym.spaces.Box(-1.0, 1.0, (12,), np.float32)
-        self.observation_space = gym.spaces.Box(-np.inf, np.inf, (OBS_SIZE,), np.float32)
+        self.floor_sensor = floor_sensor
+        self.tof = None
+        self.floor_heights = np.zeros(tof.ZONES ** 2)
+        self.observation_space = gym.spaces.Box(-np.inf, np.inf, (OBS_SIZE_TOF if floor_sensor else OBS_SIZE,), np.float32)
 
     # ---------------------------------------------------------------- helpers
     def _sense(self, name, n):
@@ -162,7 +183,7 @@ class RockyBobWalk(gym.Env):
         kind = r.choice(len(COMMAND_MIX), p=[c[0] for c in COMMAND_MIX])
         cmd = np.array([r.uniform(*rng) for rng in COMMAND_MIX[kind][1:]])
         if kind == 2:   # turning in place: keep it a real turn, not a twitch
-            cmd[2] = np.sign(cmd[2] or 1) * max(abs(cmd[2]), 0.2)
+            cmd[2] = np.sign(cmd[2] or 1) * max(abs(cmd[2]), 0.3)
         if kind == 3:
             cmd[1] = np.sign(cmd[1] or 1) * max(abs(cmd[1]), 0.04)
         return cmd
@@ -218,6 +239,22 @@ class RockyBobWalk(gym.Env):
             self.level += 0.1
         self.level = float(np.clip(self.level, 0.0, 1.0))
 
+    def _stumbles(self, touching):
+        """Touching feet pressed against a riser: ground more than STUMBLE_RISE higher right next to
+        the foot than under it. (By geometry: MuJoCo's sphere-heightfield contacts have tilted normals
+        even on flat ground, so contact forces can't tell a riser from the floor.)"""
+        if not touching.any():
+            return np.zeros(4, bool)
+        d = self.data
+        px, py = d.geom_xpos[self.feet, 0], d.geom_xpos[self.feet, 1]
+        reach = self.foot_radius + 0.02
+        ring = np.linspace(0, 2 * np.pi, 8, endpoint=False)
+        xs = (px[:, None] + reach[:, None] * np.cos(ring)).ravel()
+        ys = (py[:, None] + reach[:, None] * np.sin(ring)).ravel()
+        around = terrain.heights_at(self.field, xs, ys, *self.field_shape, *self.field_half, self.field_max).reshape(4, -1)
+        under = terrain.heights_at(self.field, px, py, *self.field_shape, *self.field_half, self.field_max)
+        return touching & (around.max(1) - under > STUMBLE_RISE)
+
     def _foot_contacts(self):
         touching = np.zeros(4, bool)
         n = self.data.ncon
@@ -237,7 +274,14 @@ class RockyBobWalk(gym.Env):
             gravity += self.np_random.normal(0, 0.03, 3)
             gyro += self.np_random.normal(0, 0.1, 3)
             joints += self.np_random.normal(0, 0.02, 12)
-        return observation(gravity, gyro, self.command, joints, self.last_action, self.phase)
+        floor = None
+        if self.floor_sensor:
+            if self.tof is None:
+                self.tof = tof.ToFModel(self.model, self.np_random)
+            g = projected_gravity(self._sense("orientation", 4))
+            floor = tof.heights(self.tof.update(self.data, self.t), g)
+            self.floor_heights = floor
+        return observation(gravity, gyro, self.command, joints, self.last_action, self.phase, floor)
 
     # ---------------------------------------------------------------- gym API
     def reset(self, *, seed=None, options=None):
@@ -246,13 +290,23 @@ class RockyBobWalk(gym.Env):
         m, d = self.model, self.data
         mujoco.mj_resetData(m, d)
         self._update_curriculum()
-        self.field = terrain.generate(self.np_random, self.level, *self.field_shape, *self.field_half, self.field_max)
+        yaw = self.np_random.uniform(-np.pi, np.pi) if self.randomize else 0.0
+        # stair practice: in training, some episodes put a flight of stairs straight ahead and walk him at it
+        self.stair_practice = (self.fixed_level is None and self.fixed_command is None
+                               and self.np_random.random() < STAIR_PRACTICE)
+        # Train on a mix: half the episodes at this robot's curriculum level, half at an easier random one.
+        # With every episode at the top level, training soon happened almost only on the hardest clutter
+        # and the walker grew slow and cautious everywhere (worse on flat ground and plain stairs).
+        level = self.level
+        if self.fixed_level is None and self.np_random.random() < EASIER_SHARE:
+            level = self.np_random.uniform(0.0, self.level)
+        self.field = terrain.generate(self.np_random, level, *self.field_shape, *self.field_half, self.field_max,
+                                      ahead_yaw=yaw if self.stair_practice else None)
         m.hfield_data[:] = self.field.ravel()
         self._terrain_dirty = True
         noise = self.np_random.uniform(-0.05, 0.05, 12) if self.randomize else 0
         d.qpos[7:] = STAND + noise
         d.ctrl[:] = d.qpos[7:]
-        yaw = self.np_random.uniform(-np.pi, np.pi) if self.randomize else 0.0
         d.qpos[3:7] = [np.cos(yaw / 2), 0, 0, np.sin(yaw / 2)]
         mujoco.mj_forward(m, d)
         low = min(d.geom_xpos[g][2] - m.geom_size[g][0] for g in self.feet)
@@ -261,11 +315,17 @@ class RockyBobWalk(gym.Env):
         self.t = 0.0
         self.phase = 0.0
         self.steps = 0
+        if self.tof is not None:
+            self.tof.next = 0.0
         self.command = self._sample_command()
+        if self.stair_practice:
+            self.command = np.array([self.np_random.uniform(0.15, 0.3), 0.0, 0.0])
         self.anchor = d.qpos[:2].copy()   # pivot point for turn-in-place commands
         self.last_action = np.zeros(12)
         self.prev_action = np.zeros(12)
         self.air_time = np.zeros(4)
+        self.last_land_xy = d.geom_xpos[self.feet, :2].copy()
+        self.last_land_level = np.full(4, np.nan)
         self.stance_time = np.zeros(4)
         self.swing_peak = np.zeros(4)         # highest clearance of each foot's current swing
         self.last_peak = np.full(4, np.nan)   # peak of each foot's last completed step
@@ -334,10 +394,17 @@ class RockyBobWalk(gym.Env):
         ground = terrain.heights_at(self.field, px, py, *self.field_shape, *self.field_half, self.field_max)
         clearance = d.geom_xpos[self.feet, 2] - self.foot_radius - ground[:4]
         foot_low = (np.maximum(FOOT_CLEARANCE - clearance, 0.0) / FOOT_CLEARANCE) ** 2
+        # landings: onto a new step level, or back down where the foot last landed
+        land_xy = d.geom_xpos[self.feet, :2]
+        new_level = first_contact & (np.abs(ground[:4] - self.last_land_level) > STEP_LEVEL)
+        retouch = first_contact & (np.hypot(*(land_xy - self.last_land_xy).T) < RETOUCH_DIST)
+        self.last_land_xy = np.where(first_contact[:, None], land_xy, self.last_land_xy)
+        self.last_land_level = np.where(first_contact, ground[:4], self.last_land_level)
         # step quality, scored once per touchdown (events, like turn_footfall)
         self.swing_peak = np.where(touching, self.swing_peak, np.maximum(self.swing_peak, clearance))
         real_step = first_contact & (air_before >= BOUNCE_AIR)
         bounce = first_contact & (air_before < BOUNCE_AIR)
+        tap = real_step & (self.swing_peak < TAP_HEIGHT)
         swing_height = float(np.sum(np.exp(-((self.swing_peak - SWING_HEIGHT) / SWING_SIGMA) ** 2) * real_step)) if moving else 0.0
         self.last_peak = np.where(real_step, self.swing_peak, self.last_peak)
         complete = not np.isnan(self.last_peak).any()
@@ -365,6 +432,7 @@ class RockyBobWalk(gym.Env):
             "torque_limit": over_torque,
             "feet_air": feet_air,
             "gait": self._gait_score(touching),   # turning in place uses the slower TURN_PERIOD stride
+            "turn_progress": float(np.clip(self.vel_avg[2] / self.command[2], 0.0, 1.0)) if turning else 0.0,
             "turn_anchor": np.exp(-float(np.sum((d.qpos[:2] - self.anchor) ** 2)) / TURN_ANCHOR_SIGMA) if turning else 0.0,
             # an event, not a rate: with the CONTROL_DT scaling each footfall costs 5 * 0.02 = 0.1
             "turn_footfall": float(np.sum(first_contact)) if turning else 0.0,
@@ -375,9 +443,16 @@ class RockyBobWalk(gym.Env):
             "swing_height": swing_height,
             "swing_spread": swing_spread,
             "foot_bounce": float(np.sum(bounce)),
+            "tap": float(np.sum(tap)) if moving else 0.0,
+            "stair_step": float(np.sum(new_level)),
+            "retouch": float(np.sum(retouch)) if asked > 0.1 else 0.0,
+            "stair_progress": (float(np.clip((self.vel_avg[:2] @ self.command[:2]) / max(asked ** 2, 1e-4), -1.0, 1.0))
+                               if self.stair_practice and asked > 0.05 else 0.0),
+            "stair_jitter": float(np.sum((action - self.last_action) ** 2)) if self.stair_practice else 0.0,
             "steady": np.exp(-(ang[0] ** 2 + ang[1] ** 2) / STEADY_SIGMA),
             "smooth_ride": np.exp(-float(body_acc @ body_acc) / RIDE_SIGMA),
             "slip": np.sum(foot_speed * touching),
+            "stumble": float(np.sum(self._stumbles(touching))),
             "foot_clearance": np.sum(foot_low * np.tanh(5 * foot_speed) * ~touching),
             "leg_contact": float(leg_hit),
             "alive": 1.0,

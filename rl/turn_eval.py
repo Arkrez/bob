@@ -39,14 +39,16 @@ def turn(policy, wz, level, seed, seconds=10.0):
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("policies", nargs="+")
+    p.add_argument("--wz", type=float, nargs="+", default=[0.4], help="commanded turn rates (rad/s)")
     args = p.parse_args()
     for path in args.policies:
         policy = NumpyPolicy(path)
-        rows = [turn(policy, wz, level, seed) for wz in (0.4, -0.4) for level in (0.0, 0.3) for seed in range(3)]
-        yaw, steps, drift, max_drift, fell = (np.array(c, dtype=float) for c in zip(*rows))
-        print(f"{path.split('/')[-1]}: turn rate {np.mean(yaw) / 10:.2f} rad/s (cmd 0.40) | "
-              f"{np.sum(steps) / np.sum(yaw):.1f} footfalls per radian | drift {100 * np.mean(drift):.1f} cm "
-              f"(max {100 * np.mean(max_drift):.1f} cm) | falls {int(np.sum(fell))}/{len(rows)}", flush=True)
+        for w in args.wz:
+            rows = [turn(policy, wz, level, seed) for wz in (w, -w) for level in (0.0, 0.3) for seed in range(3)]
+            yaw, steps, drift, max_drift, fell = (np.array(c, dtype=float) for c in zip(*rows))
+            print(f"{path.split('/')[-1]}: turn rate {np.mean(yaw) / 10:.2f} rad/s (cmd {w:.2f}) | "
+                  f"{np.sum(steps) / np.sum(yaw):.1f} footfalls per radian | drift {100 * np.mean(drift):.1f} cm "
+                  f"(max {100 * np.mean(max_drift):.1f} cm) | falls {int(np.sum(fell))}/{len(rows)}", flush=True)
 
 
 if __name__ == "__main__":

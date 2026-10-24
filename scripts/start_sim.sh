@@ -6,9 +6,15 @@
 #   scripts/start_sim.sh --detach        start everything and return
 #   scripts/start_sim.sh --demo          also run the joint-motion smoke test
 #   scripts/start_sim.sh --policy rl/policies/rocky_walk.npz   walk with a trained policy (drive it with /cmd_vel)
-#   scripts/start_sim.sh --nav scripted          walk to the orange target marker (drag it in Webots);
+#   scripts/start_sim.sh --nav planner           walk to the orange target marker (drag it in Webots), finding
+#                                                the way round walls with the lidar (rl/nav_spec.PlannerNavigator);
+#   scripts/start_sim.sh --nav scripted          the simpler scripted navigator;
 #                                                or --nav rl/policies/rocky_nav.npz for the trained navigator
+#   scripts/start_sim.sh --nav scripted --follow-training rl/runs/walk_turn2
+#                                        walk with that run's best snapshot so far (rl/keep_best.py), swapping
+#                                        in each new best live while it trains
 #   scripts/start_sim.sh --rebuild       rebuild the Docker image first
+# The lidar viewer (rl/scan_viewer.py) always starts too: http://localhost:8765
 #   scripts/start_sim.sh --stop          stop the container (quit Webots yourself)
 #
 # Needs Docker Desktop and Webots R2025a (/Applications/Webots.app, or set WEBOTS_APP).
@@ -27,6 +33,7 @@ while [[ $# -gt 0 ]]; do
         --detach) detach=1; shift ;;
         --demo) demo=1; shift ;;
         --policy) policy="$2"; shift 2 ;;
+        --follow-training) policy="${2%/}/best.npz"; shift 2 ;;
         --nav) nav="$2"; shift 2 ;;
         --rebuild) rebuild=1; shift ;;
         --stop) "${COMPOSE[@]}" down; echo "Container stopped. Quit Webots from its window."; exit 0 ;;
@@ -75,7 +82,7 @@ in_container() {   # repo path -> path inside the container
 [[ -n "$nav" && -z "$policy" ]] && policy="$REPO/rl/policies/rocky_walk.npz"
 export BOB_POLICY="" BOB_NAV=""
 [[ -n "$policy" ]] && BOB_POLICY="$(in_container "$policy")"
-if [[ "$nav" == "scripted" ]]; then BOB_NAV=scripted; elif [[ -n "$nav" ]]; then BOB_NAV="$(in_container "$nav")"; fi
+if [[ "$nav" == "scripted" || "$nav" == "planner" ]]; then BOB_NAV="$nav"; elif [[ -n "$nav" ]]; then BOB_NAV="$(in_container "$nav")"; fi
 since="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 build_flag=()
 [[ $rebuild == 1 ]] && build_flag=(--build)
@@ -98,6 +105,10 @@ if [[ $demo == 1 ]]; then
         >"$LOG_DIR/demo.log" 2>&1 &
     echo "Joint-motion demo running (log: $LOG_DIR/demo.log)"
 fi
+
+docker exec -d bob-sim bash -c 'source /opt/ros/humble/setup.bash && exec python3 /workspace/rl/scan_viewer.py \
+    > /tmp/scan_viewer.log 2>&1'
+echo "Lidar point cloud: http://localhost:8765 (Webots: View > Optional Rendering > Show Lidar Point Cloud)"
 
 if [[ -n "$BOB_NAV" ]]; then
     echo "Navigation running in the bridge: $BOB_NAV (walker $BOB_POLICY)"

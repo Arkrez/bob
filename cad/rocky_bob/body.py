@@ -14,6 +14,7 @@ import math
 import random
 
 import cadquery as cq
+import numpy as np
 
 import leg
 from leg import box, convex, cut, cyl, fib_dirs, fuse, pebble
@@ -38,7 +39,64 @@ Z_SPLIT = 88.0
 LIP_H, LIP_T, LIP_GAP = 6.0, 1.8, 0.25
 MAGNET_D, MAGNET_H = 6.0, 3.0
 POST_R = 5.5
-LUMP_SEEDS = (101, 102, 103, 104, 105, 106)   # five carapace lumps + one in the middle
+LUMP_SEEDS = (101, 102, 103, 104, 105)   # five carapace lumps round the lidar plinth
+
+# ---------------------------------------------------------------- lidar (top of the lid)
+# Slamtec RPLIDAR C1: 55.6 x 55.6 x 41.3 mm, 110 g, 4x M2.5 threaded holes in its base
+# (screws may go at most 4 mm in). It sits in a shallow square pocket on a hollow plinth
+# in the middle of the lid; the cable drops through a slot into the cavity, to a USB
+# adapter on the Pi. The hole spacing isn't in the datasheet text: list it in LIDAR_HOLES
+# once measured, or drill the 3 mm plate using the lidar as a template (M2.5 x 6 from below).
+LIDAR_SIZE, LIDAR_H, LIDAR_MASS = 55.6, 41.3, 0.110
+LIDAR_TOP = 138.0                   # plinth top (the lidar's base) above the rock's base, mm
+LIDAR_POCKET = 0.4                  # clearance round the lidar in the pocket
+LIDAR_POCKET_D = 2.0
+LIDAR_PLATE = 3.0                   # plinth top thickness under the pocket
+LIDAR_PLINTH = 64.0                 # plinth width at the top; it flares 4 mm down to the lid
+LIDAR_HOLES = []                    # (x, y) of the C1's M2.5 holes relative to its centre: VERIFY on the part
+LIDAR_SCAN_Z = LIDAR_TOP + 28.0     # approx. height of the laser's scan plane (VERIFY)
+LIDAR_CABLE_SLOT = (16.0, 8.0)      # x, y of the cable slot, at the back of the pocket
+
+# ---------------------------------------------------------------- floor depth sensor (bottom of the nose)
+# SparkFun Qwiic ToF Imager, VL53L5CX (SEN-18642; amazon.com/dp/B09M97318D): 8x8 zones, 63 deg diagonal
+# field of view (~45 x 45 deg), up to 4 m. The 2D lidar only sees a slice ~36 cm up, so steps, kerbs and
+# ledges are invisible to it; this looks forward-down at the floor 0.25-2 m ahead instead. It sits behind
+# a small window in a chamfer along the bottom of the nose, tilted TOF_TILT down, below the mustache.
+# The board is 1 x 1 in; its 4 corner holes are modelled at SparkFun's usual 0.8 in square: VERIFY.
+TOF_TILT = 24.0                     # deg below horizontal the sensor looks
+TOF_CENTRE = (103.5, 16.0)          # (x, z) the chamfer plane passes through, mm
+TOF_Z = 13.0                        # sensor height above the rock's base, on the chamfer, mm
+TOF_BOARD = 25.4                    # mm square
+TOF_HOLES = [(sx * 10.16, sy * 10.16) for sx in (-1, 1) for sy in (-1, 1)]   # board frame, mm (VERIFY)
+TOF_WINDOW = 6.0                    # window radius: clears the 63 deg cone through the 3 mm wall
+TOF_STANDOFF = 3.0
+TOF_MASS = 0.003
+
+
+def tof_normal():
+    t = math.radians(TOF_TILT)
+    return cq.Vector(math.cos(t), 0, -math.sin(t))
+
+
+def tof_point():
+    """Sensor position (mm, body frame) on the outside of the chamfer, and its unit view direction."""
+    n = tof_normal()
+    d = n.x * TOF_CENTRE[0] + n.z * TOF_CENTRE[1]
+    x = (d - n.z * TOF_Z) / n.x
+    return cq.Vector(x, 0, TOF_Z), n
+
+
+# ---------------------------------------------------------------- mustache
+# The lidar looks like a top hat, so Bob gets a handlebar mustache to match: a 3 mm printed
+# shell that follows the rock's facets just under the camera "nose". Glue it on (print it in
+# dark brown/black, face down).
+STACHE_Z = 55.0                     # height of its centre on the nose
+STACHE_T = 3.0                      # thickness, standing proud of the rock
+STACHE_SCALE = 1.0                  # 1 = about 92 mm wide
+# right half: centreline (y, z) from the middle out to the curled tip, and its half-thickness there
+STACHE_LINE = [(0, 0), (8, 1.0), (16, 0.6), (24, -0.8), (31, -2.2), (37, -1.6), (41.5, 1.2), (43.5, 5.5),
+               (42, 9.5), (38.5, 10.0), (37.5, 7.5)]
+STACHE_R = [4.0, 5.2, 5.0, 4.2, 3.4, 2.8, 2.3, 1.9, 1.6, 1.4, 1.2]
 
 # ---------------------------------------------------------------- electronics (front half)
 M25_PILOT = 2.2                     # both boards use M2.5 holes; M3 won't fit them
@@ -80,7 +138,8 @@ CAM_HOLES = [(y, z) for y in (-10.5, 10.5) for z in (7.5, -5.0)]   # relative to
 M2_PILOT = 1.6
 
 PRINT_DENSITY = leg.PRINT_DENSITY
-ELECTRONICS_MASS = {"pi5": 0.046, "servo2040": 0.015, "psu": PSU_MASS, "pi_camera": 0.004}
+ELECTRONICS_MASS = {"pi5": 0.046, "servo2040": 0.015, "psu": PSU_MASS, "pi_camera": 0.004,
+                    "lidar": LIDAR_MASS, "tof": TOF_MASS}
 
 
 # ================================================================ geometry
@@ -111,11 +170,16 @@ def _planes():
         u = cq.Vector(*u)
         h = math.sqrt((RX * u.x) ** 2 + (RY * u.y) ** 2 + (RZ * u.z) ** 2)   # ellipsoid support
         rock.append([u, u.dot(centre) + h + rnd.uniform(-ROUGHNESS, ROUGHNESS)])
-    pads = [(unit(a), PAD_D) for a in LEG_ANGLES.values()] + [(cq.Vector(1, 0, 0), CAM_D)]
+    tn = tof_normal()
+    pads = [(unit(a), PAD_D) for a in LEG_ANGLES.values()] + [(cq.Vector(1, 0, 0), CAM_D),
+                                                               (tn, tn.x * TOF_CENTRE[0] + tn.z * TOF_CENTRE[1])]
     # Push any facet that would clip a pad or the camera window outward so each stays a full flat face.
     corners = [leg_point(i, (leg.HIP_PLATE_X, y, z))
                for i in LEG_ANGLES for y in (-28, 28) for z in (-44, 24)]
     corners += [cq.Vector(CAM_D, y, z) for y in (-18, 18) for z in (CAM_Z - 16, CAM_Z + 16)]
+    tc, _ = tof_point()
+    along = cq.Vector(math.sin(math.radians(TOF_TILT)), 0, math.cos(math.radians(TOF_TILT)))   # up the chamfer
+    corners += [tc + cq.Vector(0, y, 0) + along * a for y in (-17, 17) for a in (-8, 14)]
     for f in rock:
         f[1] = max(f[1], max(f[0].dot(c) for c in corners) + 2)
     return [tuple(f) for f in rock], pads
@@ -162,9 +226,9 @@ def hex_x(af, x0, x1, y, z):
 
 
 def lumps():
-    """Rocky-style carapace bumps: five round the top, one in the middle."""
+    """Rocky-style carapace bumps: five round the top (the middle is the lidar plinth)."""
     out = []
-    spots = [(0.0, 0.0, 30.0)] + [(0.5 * RX * math.cos(math.radians(90 + 72 * k)),
+    spots = [(0.5 * RX * math.cos(math.radians(90 + 72 * k)),
                                    0.5 * RY * math.sin(math.radians(90 + 72 * k)), 24.0)
                                   for k in range(5)]
     keep = cut(slab(Z_SPLIT + 6, 400), *[cq.Solid.makeCylinder(5000, 5000, n * d, n) for n, d in PAD_PLANES])
@@ -172,6 +236,36 @@ def lumps():
         z = top_height(x, y) - 0.45 * r
         out.append(pebble((x, y, z), r, seed, n=36, jitter=0.18).intersect(keep))
     return out
+
+
+def frustum(r0, r1, z0, z1):
+    """Square frustum, half-width r0 at z0 tapering to r1 at z1."""
+    return (cq.Workplane("XY", origin=(0, 0, z0)).rect(2 * r0, 2 * r0)
+            .workplane(offset=z1 - z0).rect(2 * r1, 2 * r1).loft().val())
+
+
+def tof_board():
+    """The SparkFun board (25.4 mm square, 1.6 mm) behind the chamfer window, with the sensor on it."""
+    tp, tn = tof_point()
+    t = math.radians(TOF_TILT)
+    board = box(-0.8, 0.8, -TOF_BOARD / 2, TOF_BOARD / 2, -TOF_BOARD / 2, TOF_BOARD / 2)
+    chip = box(0.8, 2.3, -3.2, 3.2, -1.5, 1.5)
+    face = tp - tn * (WALL + TOF_STANDOFF + 0.8)
+    return fuse(board, chip).rotate((0, 0, 0), (0, 1, 0), math.degrees(t)).translate(face.toTuple())
+
+
+def mustache():
+    """Handlebar mustache conforming to the rock's nose under the camera."""
+    line, r = np.array(STACHE_LINE, float), np.array(STACHE_R, float)
+    t = np.concatenate([[0], np.cumsum(np.hypot(*np.diff(line, axis=0).T))])
+    ts = np.linspace(0, t[-1], int(t[-1] / 0.8))
+    ys, zs, rs = (np.interp(ts, t, v) for v in (line[:, 0], line[:, 1], r))
+    sk = cq.Sketch()
+    for side in (1, -1):
+        for y, z, rr in zip(ys, zs, rs):
+            sk = sk.push([(side * y * STACHE_SCALE, z * STACHE_SCALE)]).circle(rr * STACHE_SCALE).reset()
+    blank = cq.Workplane("YZ", origin=(CAM_D - 30, 0, STACHE_Z)).placeSketch(sk.clean()).extrude(60).val()
+    return cut(blank.intersect(shell_at(-STACHE_T)), shell_at(-0.05))
 
 
 def magnet_spots():
@@ -257,8 +351,20 @@ def build():
         camera_add.append(cyl(2.25, (board_x, y, CAM_Z + z), (inner + 0.5, y, CAM_Z + z)))
         camera_cut.append(cyl(M2_PILOT / 2, (board_x - 1, y, CAM_Z + z), (inner - 0.5, y, CAM_Z + z)))
 
-    base = fuse(base, lip, *posts, divider, *standoffs, *guides, *loops, *pad_add, *camera_add)
-    base = cut(base, *post_pockets, divider_notch, *pilots, *loop_holes, *pad_cut, switch, *camera_cut)
+    # floor depth sensor: a window through the chamfer, the board on four standoffs behind it
+    tp, tn = tof_point()
+    up = cq.Vector(math.sin(math.radians(TOF_TILT)), 0, math.cos(math.radians(TOF_TILT)))
+    side = cq.Vector(0, 1, 0)
+    inner_tof = tp - tn * WALL
+    tof_cut = [cyl(TOF_WINDOW, (tp + tn * 1).toTuple(), (inner_tof - tn * 1).toTuple())]
+    tof_add = []
+    for a, b in TOF_HOLES:
+        c = inner_tof + side * a + up * b
+        tof_add.append(cyl(2.25, (c + tn * 0.5).toTuple(), (c - tn * TOF_STANDOFF).toTuple()))
+        tof_cut.append(cyl(M25_PILOT / 2, (c + tn * 0.2).toTuple(), (c - tn * (TOF_STANDOFF + 1)).toTuple()))
+
+    base = fuse(base, lip, *posts, divider, *standoffs, *guides, *loops, *pad_add, *camera_add, *tof_add)
+    base = cut(base, *post_pockets, divider_notch, *pilots, *loop_holes, *pad_cut, switch, *camera_cut, *tof_cut)
 
     # ---------------------------------------------------------------- lid
     lid = fuse(outer, *lumps()).intersect(slab(Z_SPLIT, 400))
@@ -269,6 +375,20 @@ def build():
         bosses.append(cyl(POST_R, (x, y, z0), (x, y, 300)).intersect(outer))
         boss_pockets.append(cyl(MAGNET_D / 2 + 0.1, (x, y, z0 - 1), (x, y, z0 + MAGNET_H + 0.2)))
     lid = cut(fuse(lid, *bosses), *boss_pockets)
+
+    # lidar plinth: a hollow, slightly flared block standing on the lid, pocket on top
+    a, b = LIDAR_PLINTH / 2, LIDAR_PLINTH / 2 + 4
+    z0 = Z_SPLIT + 20
+    plinth = frustum(b, a, z0, LIDAR_TOP)
+    hollow = frustum(b - WALL, a - WALL, z0 - 1, LIDAR_TOP - LIDAR_POCKET_D - LIDAR_PLATE)
+    q = LIDAR_SIZE / 2 + LIDAR_POCKET
+    cx, cy = LIDAR_CABLE_SLOT
+    lidar_cut = [hollow,
+                 box(-q, q, -q, q, LIDAR_TOP - LIDAR_POCKET_D, LIDAR_TOP + 1),
+                 box(-q + 2, -q + 2 + cx, -cy / 2, cy / 2, z0 - 1, LIDAR_TOP + 1)]
+    for x, y in LIDAR_HOLES:
+        lidar_cut.append(cyl(1.4, (x, y, z0), (x, y, LIDAR_TOP + 1)))
+    lid = cut(fuse(lid, plinth), cavity, *lidar_cut)
 
     # ---------------------------------------------------------------- placeholders (not printed)
     pcb_z = WALL + STANDOFF_H
@@ -289,10 +409,18 @@ def build():
         "pi_camera": (fuse(box(board_x - 1, board_x, -CAM_BOARD[0] / 2, CAM_BOARD[0] / 2,
                                CAM_Z + CAM_LENS_FROM_TOP - CAM_BOARD[1], CAM_Z + CAM_LENS_FROM_TOP),
                            box(board_x, inner - 0.2, -4, 4, CAM_Z - 4, CAM_Z + 4)), "pcb_green", "electronics"),
+        "mustache": (mustache(), "mustache", "printed"),
+        "tof": (tof_board(), "pcb_red", "electronics"),
+        "lidar": (fuse(box(-LIDAR_SIZE / 2, LIDAR_SIZE / 2, -LIDAR_SIZE / 2, LIDAR_SIZE / 2,
+                           LIDAR_TOP - LIDAR_POCKET_D, LIDAR_TOP - LIDAR_POCKET_D + 16),
+                       cyl(25.0, (0, 0, LIDAR_TOP - LIDAR_POCKET_D + 16), (0, 0, LIDAR_TOP - LIDAR_POCKET_D + LIDAR_H))),
+                  "pcb_black", "electronics"),
     }
 
 
 COLORS = {
+    "mustache": (0.10, 0.07, 0.05),
+    "pcb_red": (0.75, 0.12, 0.10),
     "pcb_green": (0.10, 0.45, 0.20),
     "pcb_black": (0.08, 0.08, 0.10),
     "psu": (0.25, 0.35, 0.60),
