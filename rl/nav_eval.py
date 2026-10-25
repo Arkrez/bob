@@ -9,8 +9,9 @@
 
 Each run is 60 s on medium terrain with shoves and randomised physics; goals keep appearing
 0.5-2.5 m away in random directions. Reports goals per minute, time to each goal, path
-efficiency (straight-line distance / distance walked), sideways command use and falls. With
---obstacles, also bumps per minute and the share of time stuck.
+efficiency (straight-line distance / distance walked), sideways command use, falls, and how fast
+he locates each new goal (seconds until it's first in view). With --obstacles, also bumps per
+minute and the share of time stuck.
 """
 
 import argparse
@@ -30,8 +31,12 @@ def baseline():
     return ScriptedNavigator()
 
 
-def run(nav, seed, seconds=60, frames=None, obstacles=False, hybrid=False, goals="random"):
-    env = RockyBobNavigate(episode_seconds=seconds, terrain=TERRAIN, obstacles=obstacles, goals=goals)
+FIND_MIN = 5.0   # s: a goal still unseen at the end counts (as the time so far) only after this long
+
+
+def run(nav, seed, seconds=60, frames=None, obstacles=False, hybrid=False, goals="random", walker=None):
+    env = RockyBobNavigate(episode_seconds=seconds, terrain=TERRAIN, obstacles=obstacles, goals=goals,
+                           **({"walker": walker} if walker else {}))
     obs, _ = env.reset(seed=seed)
     if nav == "planner":
         scripted = PlannerNavigator()
@@ -42,6 +47,7 @@ def run(nav, seed, seconds=60, frames=None, obstacles=False, hybrid=False, goals
     stuck = 0
     times, effs, sideways, arcing, fell = [], [], [], [], False
     t_goal, path, start = 0.0, 0.0, env.walk.data.qpos[:2].copy()
+    finds, found = [], False
     straight = float(np.linalg.norm(env.goal - start))
     prev = start.copy()
     done = False
@@ -54,6 +60,9 @@ def run(nav, seed, seconds=60, frames=None, obstacles=False, hybrid=False, goals
         path += float(np.linalg.norm(pos - prev))
         prev = pos
         t_goal += NAV_DT
+        if not found and info["visible"]:
+            finds.append(t_goal)
+            found = True
         sideways.append(abs(info["cmd"][1]))
         stuck += int(info["stuck"])
         arcing.append(abs(info["cmd"][2]) > 0.15 and info["cmd"][0] > 0.05)
@@ -62,11 +71,13 @@ def run(nav, seed, seconds=60, frames=None, obstacles=False, hybrid=False, goals
         if env.reached > reached_before:
             times.append(t_goal)
             effs.append(straight / max(path, 1e-6))
-            t_goal, path = 0.0, 0.0
+            t_goal, path, found = 0.0, 0.0, False
             straight = float(np.linalg.norm(env.goal - pos))
         done = fell or trunc
+    if not found and t_goal >= FIND_MIN:
+        finds.append(t_goal)
     return (env.reached, times, effs, float(np.mean(sideways)), fell, float(np.mean(arcing)),
-            env.bumps * 60 / max(env.steps * NAV_DT, 1e-6), stuck / max(env.steps, 1))
+            env.bumps * 60 / max(env.steps * NAV_DT, 1e-6), stuck / max(env.steps, 1), finds)
 
 
 def main():
@@ -75,21 +86,25 @@ def main():
                                   "or 'blind' (scripted, no lidar)")
     p.add_argument("--obstacles", action="store_true", help="random walls and boxes in the way")
     p.add_argument("--hybrid", action="store_true", help="a trained navigator, with the scripted search when lost")
-    p.add_argument("--goals", default="random", choices=("random", "near", "hidden", "mixed"),
+    p.add_argument("--goals", default="random", choices=("random", "near", "hidden", "mixed", "prey"),
                    help="with --obstacles: where goals go (near = 0.3-0.5 m from an obstacle, hidden = behind one)")
     p.add_argument("--runs", type=int, default=6)
+    p.add_argument("--seconds", type=float, default=60)
+    p.add_argument("--walker", help="walker .npz to drive (default policies/rocky_walk.npz)")
     p.add_argument("--video", help="record the first run to this mp4")
     args = p.parse_args()
     nav = args.policy if args.policy in ("baseline", "blind", "planner") else NumpyPolicy(args.policy)
 
-    goals, times, effs, side, falls, arcs, bumps, stuck = [], [], [], [], 0, [], [], []
+    goals, times, effs, side, falls, arcs, bumps, stuck, finds = [], [], [], [], 0, [], [], [], []
     frames = [] if args.video else None
     for i in range(args.runs):
-        g, t, e, s, f, a, b, k = run(nav, seed=500 + i, frames=frames if i == 0 else None, obstacles=args.obstacles, hybrid=args.hybrid, goals=args.goals)
-        goals.append(g); times += t; effs += e; side.append(s); falls += int(f); arcs.append(a)
+        g, t, e, s, f, a, b, k, fd = run(nav, seed=500 + i, seconds=args.seconds, frames=frames if i == 0 else None,
+                                         obstacles=args.obstacles, hybrid=args.hybrid, goals=args.goals, walker=args.walker)
+        goals.append(g); times += t; effs += e; side.append(s); falls += int(f); arcs.append(a); finds += fd
         bumps.append(b); stuck.append(k)
-    print(f"{args.policy}: {np.mean(goals):.1f} goals/min (range {min(goals)}-{max(goals)}) | "
+    print(f"{args.policy}: {np.mean(goals) * 60 / args.seconds:.1f} goals/min (range {min(goals)}-{max(goals)}) | "
           f"time to goal median {np.median(times) if times else float('nan'):.1f} s | "
+          f"time to find mean {np.mean(finds) if finds else float('nan'):.1f} s | "
           f"path efficiency {np.mean(effs) if effs else float('nan'):.0%} | "
           f"sideways cmd {np.mean(side):.3f} m/s | arcing {np.mean(arcs):.0%} | falls {falls}/{args.runs}"
           + (f" | bumps {np.mean(bumps):.2f}/min | stuck {np.mean(stuck):.0%}" if args.obstacles else ""))

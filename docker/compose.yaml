@@ -26,6 +26,8 @@ services:
       BOB_POLICY: ${BOB_POLICY:-}
       # set by scripts/start_sim.sh --nav: walk to the TARGET marker using this navigator
       BOB_NAV: ${BOB_NAV:-}
+      # set by scripts/start_sim.sh when the world has a second robot ("Bob2", the chase demo's runner)
+      BOB2: ${BOB2:-}
 
 volumes:
   colcon:

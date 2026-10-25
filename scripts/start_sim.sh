@@ -3,6 +3,7 @@
 #
 #   scripts/start_sim.sh                 Rocky-Bob world, follow logs (Ctrl-C stops the container)
 #   scripts/start_sim.sh --world cad     the older CAD-derived Bob world
+#   scripts/start_sim.sh --world chase   chase mode: a second Bob (Bob2) for the chase demo (press 7)
 #   scripts/start_sim.sh --detach        start everything and return
 #   scripts/start_sim.sh --demo          also run the joint-motion smoke test
 #   scripts/start_sim.sh --policy rl/policies/rocky_walk.npz   walk with a trained policy (drive it with /cmd_vel)
@@ -44,9 +45,10 @@ done
 
 case "$world" in
     rocky) world_file="$REPO/cad/rocky_bob/sim/worlds/rocky_bob.wbt" ;;
+    chase) world_file="$REPO/cad/rocky_bob/sim/worlds/rocky_bob_chase.wbt"; [[ -z "$nav" ]] && nav=planner ;;
     cad) world_file="$REPO/webots_quadruped/worlds/bob.wbt" ;;
     *.wbt) world_file="$(cd "$(dirname "$world")" && pwd)/$(basename "$world")" ;;
-    *) echo "--world must be rocky, cad or a path to a .wbt file" >&2; exit 2 ;;
+    *) echo "--world must be rocky, chase, cad or a path to a .wbt file" >&2; exit 2 ;;
 esac
 [[ -f "$world_file" ]] || { echo "World not found: $world_file" >&2; exit 1; }
 [[ -d "$WEBOTS_APP" ]] || { echo "Webots not found at $WEBOTS_APP. Install R2025a from https://cyberbotics.com or set WEBOTS_APP." >&2; exit 1; }
@@ -80,7 +82,9 @@ in_container() {   # repo path -> path inside the container
     echo "/workspace/${f#"$REPO"/}"
 }
 [[ -n "$nav" && -z "$policy" ]] && policy="$REPO/rl/policies/rocky_walk.npz"
-export BOB_POLICY="" BOB_NAV=""
+export BOB_POLICY="" BOB_NAV="" BOB2=""
+# a second robot in the world (the chase demo's runner) gets its own bridge, if it can walk too
+grep -q 'name "Bob2"' "$world_file" && [[ -n "$nav" ]] && BOB2=1
 [[ -n "$policy" ]] && BOB_POLICY="$(in_container "$policy")"
 if [[ "$nav" == "scripted" || "$nav" == "planner" ]]; then BOB_NAV="$nav"; elif [[ -n "$nav" ]]; then BOB_NAV="$(in_container "$nav")"; fi
 since="$(date -u +%Y-%m-%dT%H:%M:%SZ)"

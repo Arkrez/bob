@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Webots demos of Bob (rl/demo.py): starts the sim in planner mode if it isn't running, then runs them.
-#   scripts/demo.sh             all demos (~5 min): tour, stairs, flip, walls
+#   scripts/demo.sh             all demos (~10 min): tour, stairs, flip, walls, tall, ledge, chase
 #   scripts/demo.sh stairs      just one
 set -euo pipefail
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"

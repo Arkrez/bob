@@ -24,7 +24,16 @@ FLIGHTS = 8              # straight flights (up, landing, maybe down) at level 1
 CURBS = 12               # long single steps (kerbs) at level 1
 PITS = 3                 # sunken stairs (down into a pit and back up) at level 1
 UNEVEN = 0.5             # share of staircases whose steps each get their own height (+-35 %)
-PLATFORM_HEIGHT = 0.08
+PLATFORM_HEIGHT = 0.10
+# Stair practice (env.STAIR_PRACTICE) puts one of these straight ahead of him, as (share, kind):
+#   stairs: a flight like the field's, risers up to STAIR_RISE
+#   tall:   1-3 steps of TALL_RISE, as high as his belly can clear with his legs straightened
+#   ledge:  one LEDGE_RISE block to climb onto, up to 30 cm (above his hips: belly contact allowed)
+# (30 % tall and 15 % ledges, all at once, cost him his ordinary stairs for seven rounds: so fewer,
+# and the tall steps start at 6 cm and grow towards 10 cm as he gets over them, env.tall_level)
+PRACTICE_KINDS = ((0.80, "stairs"), (0.15, "tall"), (0.05, "ledge"))
+TALL_RISE = (0.06, 0.10)   # m: the tallest riser at tall_level 0 and 1
+LEDGE_RISE = (0.12, 0.30)
 
 
 def _rises(rng, level, n):
@@ -59,10 +68,11 @@ def _pyramid(rng, level, X, Y, half_x, half_y):
     return tops[(k + 1).astype(int)]
 
 
-def _flight(rng, level, X, Y, c, yaw, start_at_origin=False):
-    """Straight flight along yaw from c: up, a landing, and (half the time) down again, of random width."""
+def _flight(rng, level, X, Y, c, yaw, start_at_origin=False, steps=None):
+    """Straight flight along yaw from c: up, a landing, and (half the time) down again, of random width.
+    steps: (rises, tread) to use instead of random ones."""
     u, v = _local(X, Y, c, yaw)
-    rises, tread = _steps(rng, level)
+    rises, tread = steps if steps is not None else _steps(rng, level)
     n, width, landing = len(rises), rng.uniform(0.6, 3.0), rng.uniform(0.3, 1.2)
     tops = np.r_[0.0, np.cumsum(rises)]
     up = np.clip(np.floor(u / tread) + 1, 0, n).astype(int)                    # steps climbed by u
@@ -99,9 +109,27 @@ def _pit(rng, level, X, Y, half_x, half_y, height):
     return np.where(inside, np.maximum(height, top - depth), height)
 
 
-def generate(rng, level, nrow, ncol, half_x, half_y, max_height, ahead_yaw=None):
+def practice_obstacle(rng, level, tall_level=1.0):
+    """What stair practice puts ahead of him: (kind, distance to its first riser (m), steps).
+    steps is None for an ordinary random flight, else (rises, tread). tall_level (0..1) sets how
+    tall the tall steps are: risers up to TALL_RISE[0] at 0, up to TALL_RISE[1] at 1, mostly near the top."""
+    shares, kinds = zip(*PRACTICE_KINDS)
+    kind = kinds[int(rng.choice(len(kinds), p=np.array(shares) / sum(shares)))]
+    d = rng.uniform(0.8, 1.2)
+    if kind == "tall":
+        n = int(rng.integers(1, 4))
+        cap = TALL_RISE[0] + (TALL_RISE[1] - TALL_RISE[0]) * float(np.clip(tall_level, 0, 1))
+        rises = rng.uniform(cap - 0.01, cap) * (rng.uniform(0.85, 1.0, n) if rng.random() < UNEVEN else np.ones(n))
+        return kind, d, (rises, rng.uniform(0.30, 0.50))
+    if kind == "ledge":
+        return kind, d, (np.array([rng.uniform(*LEDGE_RISE)]), rng.uniform(0.5, 1.0))
+    return kind, d, None
+
+
+def generate(rng, level, nrow, ncol, half_x, half_y, max_height, ahead_yaw=None, ahead=None):
     """Height field values in [0, 1] (MuJoCo scales them by max_height).
-    ahead_yaw: also put a straight flight of stairs just ahead of the spawn point, facing that way."""
+    ahead_yaw: also put a practice obstacle just ahead of the spawn point, facing that way:
+    ahead = practice_obstacle(...), or an ordinary flight of stairs if None."""
     if level <= 0 and ahead_yaw is None:
         return np.zeros((nrow, ncol))
     xs = np.linspace(-half_x, half_x, ncol)
@@ -137,9 +165,9 @@ def generate(rng, level, nrow, ncol, half_x, half_y, max_height, ahead_yaw=None)
     for _ in range(int(round(PITS * level))):
         height = _pit(rng, level, X, Y, half_x, half_y, height)
     if ahead_yaw is not None:   # a staircase right in his path (stair practice episodes)
-        d = rng.uniform(0.8, 1.2)
+        _, d, steps = ahead if ahead is not None else ("stairs", rng.uniform(0.8, 1.2), None)
         height = np.maximum(height, _flight(rng, max(level, 0.5), X, Y, (d * np.cos(ahead_yaw), d * np.sin(ahead_yaw)),
-                                            ahead_yaw, start_at_origin=True))
+                                            ahead_yaw, start_at_origin=True, steps=steps))
 
     # platforms: wide flat boxes to step up onto
     for _ in range(int(round(PLATFORMS * level))):

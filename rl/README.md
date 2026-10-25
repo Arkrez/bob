@@ -89,7 +89,7 @@ At higher curriculum levels the training ground (`terrain.py`) also has stairs o
 - **Sunken stairs:** a plateau with steps down into a pit and back up.
 - **Uneven flights:** half of all staircases have steps that each vary ±35% in height.
 
-Risers go up to 5 cm at full level, on treads of 24–45 cm. Raising the risers to 6 cm stalled progress for five rounds, so they went back to 5 cm. In 30% of training episodes (**stair practice**) a straight flight is put right in his path and he's told to walk forward at 0.15–0.3 m/s, so he practises climbing instead of meeting stairs by chance.
+Risers go up to 5 cm at full level, on treads of 24–45 cm. Raising the risers to 6 cm stalled progress for five rounds, so they went back to 5 cm. In 40% of training episodes (**stair practice**) something to climb is put right in his path and he's told to walk forward at 0.15–0.3 m/s, so he practises climbing instead of meeting stairs by chance. Most of the time it's an ordinary flight. In 15% of them it's 1–3 taller steps, about as high as his belly clears with his legs straightened: they start at 5–6 cm and grow towards 10 cm (`tall_level`, logged as `curriculum/tall_level`) each time he gets to the top, and shrink when he falls or can't get up the first one. In 5% it's a single ledge of 12–30 cm. (At first it was 30% tall steps of 6–10 cm and 15% ledges, all at once: for seven rounds he got worse at ordinary stairs and no better at tall ones.) A 30 cm ledge is above his hips, so on a ledge his belly may touch (a small penalty, not a fall); the lidar touching anything still ends the episode. These taller episodes don't move the terrain curriculum, and `keep_best.py` scores them separately (`tall`), along with how fast he locates a hidden goal with the planner driving him (`find s`).
 
 `keep_best.py` tests him on eight staircases (`STAIR_CASES`), two tries each: pyramids of 3, 4 and 5 cm; straight 4 cm flights with deep (40 cm) and tight (25 cm) treads; an uneven flight (3/5/3.5 cm); a flight approached at 30°; and a 5 cm kerb. The 128M walker gets over the 3 and 4 cm pyramids every time and the kerb half the time, but none of the straight flights: he climbs the first step, stalls at the second, slides along the riser and walks off the side.
 
@@ -110,13 +110,17 @@ The Webots world has two staircases (6 cm and 4.5 cm risers) and an 8 cm platfor
 ## Demos in Webots
 
 ```bash
-scripts/demo.sh             # all four, about 6 minutes: tour, stairs, flip, walls
+scripts/demo.sh             # all seven, about 10 minutes: tour, stairs, flip, walls, tall, ledge, chase
 scripts/demo.sh stairs      # or just one
 ```
 
 `scripts/demo.sh` starts the sim in planner mode if it isn't already, and `rl/demo.py` runs the demos, narrating what the navigator is doing. The Webots camera follows Bob.
 
-**From the Webots window:** with the sim in planner mode (`scripts/start_sim.sh --nav planner`), click the 3D view, then press **1** tour, **2** stairs, **3** flip, **4** walls, **0** all, or **S** to stop. The bridge runs `demo.py` itself. A key guide and Bob's current status are drawn at the top left of the view.
+**From the Webots window:** with the sim in planner mode (`scripts/start_sim.sh --nav planner`), click the 3D view, then press **1** tour, **2** stairs, **3** flip, **4** walls, **5** tall, **6** ledge, **7** chase, **0** all, or **S** to stop. The bridge runs `demo.py` itself. A key guide and Bob's current status are drawn at the top left of the view.
+
+**tall** and **ledge** walk him straight at the 10 cm stairs and the 30 cm ledge with `/cmd_vel`, because the navigator steers round anything over 8 cm. In planner mode `/cmd_vel` overrides the navigator for a second after each message.
+
+**chase** is its own mode: `scripts/start_sim.sh --world chase` opens the same arena with a second robot, Bob2, parked in the north-west corner with his own bridge (topics under `/bob2/`), then press **7**. The normal world has only Bob, and none of this is in the walker or the navigator: the real robot has no idea of being chased. Green prizes pop up at random open spots and Bob2 goes for them, heading straight there while Bob is far away and not in the way, and dodging when Bob gets close (an invisible waypoint the demo moves). Bob hunts Bob2: his orange target rides on Bob2, and he has to see it with his camera model, so Bob2 can lose him behind a wall. It ends when their centres come within 0.45 m, or after 120 s; the score is how many prizes Bob2 collected.
 
 | demo | what happens | last run |
 | --- | --- | --- |
@@ -124,6 +128,9 @@ scripts/demo.sh stairs      # or just one
 | stairs | spots the target on the 3 cm staircase's landing, climbs up to it | reached in 29 s, body 8 cm higher |
 | flip | flipped upside down, rights himself, walks to a target | up in 10 s, target in 10 s more |
 | walls | target hidden behind the south wall: looks, searches, spots it, goes round | reached in 77 s |
+| tall | walked straight at three 10 cm steps | stalls at the first riser (178M) |
+| ledge | walked straight at a 30 cm ledge | stalls at the riser (178M) |
+| chase | (chase world) Bob2 collects random prizes, Bob hunts him | caught in 74 s (before prizes were added) |
 
 ### Do MuJoCo and Webots match?
 
@@ -163,7 +170,7 @@ scripts/sim_ros.sh python3 /workspace/rl/webots_eval.py
 In the sim, the Webots bridge runs the policy itself, stepped by simulation time. The setup matches training:
 
 - **Timing:** a policy step every 20 ms of simulated time (5 × 4 ms physics steps), with a gait clock that also runs on sim time. That holds however fast Webots runs; here, under Docker emulation, it runs at about 0.9× real time.
-- **Servo model:** the same MG995 model as MuJoCo: torque = KP × (target − angle) − KV × speed, clamped to 0.94 N·m. Webots' own position controller is much stiffer.
+- **Servo model:** the same 25 kg servo model as MuJoCo: torque = KP × (target − angle) − KV × speed, clamped to 2.45 N·m. Webots' own position controller is much stiffer.
 - **Joints and ground:** the same joint damping and friction, and the same 0.9 foot friction. All of these come from `spec.py`.
 - **Servo rotor inertia:** MuJoCo models the servo's rotor as joint armature (0.003 kg·m²), and Webots has nothing equivalent. `build.py` therefore adds it to each child leg link's inertia about its joint axis.
   - Without it, the knee link is so light that the servo's damping, applied once per 4 ms physics step, becomes unstable.
@@ -183,7 +190,7 @@ At first I drove Webots from a separate ROS node running on the wall clock, with
 
 The remaining forward gap, about 15%, is likely from differences between the two contact models and from motor armature, which Webots doesn't simulate.
 
-`ros_policy_node.py` is for the real robot. It reads `/imu` and `/joint_states`, takes `/cmd_vel`, and publishes the 12 joint targets 50 times a second, timed by the wall clock, which is fine on hardware running in real time. With `--open-loop` it feeds back its own last commands in place of measured angles, because MG995s can't report their angle.
+`ros_policy_node.py` is for the real robot. It reads `/imu` and `/joint_states`, takes `/cmd_vel`, and publishes the 12 joint targets 50 times a second, timed by the wall clock, which is fine on hardware running in real time. With `--open-loop` it feeds back its own last commands in place of measured angles, because the 25 kg PWM servos can't report their angle.
 
 ## Walking to a target with the Pi camera
 
@@ -424,10 +431,10 @@ The lidar only sees a slice about 36 cm up, so steps, kerbs and ledges are invis
 ## Moving to the real robot
 
 - **Add an IMU.** The policy needs gravity direction and gyro rates. A BNO085 or MPU-6050 on the Pi's I2C bus works. Publish it on `/imu`.
-- **Run open loop.** MG995s can't report their angle, so run with `python3 rl/ros_policy_node.py rl/runs/walk/policy.npz --open-loop`. The node then feeds its own last commands back in place of measured angles. Set the servo bridge's joint directions and offsets first, using `/jdirection` and `/joint_offset`.
+- **Run open loop.** The 25 kg PWM servos can't report their angle, so run with `python3 rl/ros_policy_node.py rl/runs/walk/policy.npz --open-loop`. The node then feeds its own last commands back in place of measured angles. Set the servo bridge's joint directions and offsets first, using `/jdirection` and `/joint_offset`.
 - **Expect a gap.** Real servos have backlash, delay and droop. Start with the robot held up off the ground, use small commands, and stay within reach of the power switch.
 
 ## Limits
 
 - **Standing up:** the robot can't push itself up from lying on its belly, because the hip servos stall. Training therefore always starts from standing, and Webots spawns it standing.
-- **Weight:** standing takes about 21% of the MG995's stall torque. Walking on rough ground takes more, and the torque-limit penalty keeps it below 75%. Lighter prints or stronger servos give the gait more headroom.
+- **Weight:** standing takes about 10% of the 25 kg servo's stall torque. Walking on rough ground takes more, and the torque-limit penalty keeps it below 75%. Lighter prints or stronger servos give the gait more headroom.

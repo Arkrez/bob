@@ -18,7 +18,8 @@ Rounds:
       fast, and how little it leans on the lidar); a winner is installed as policies/rocky_recover.npz.
   navigator round (every NAV_EVERY rounds): continue the champion lidar navigator for NAV_STEPS
       among random walls and boxes, on top of the current walker. Its snapshots and the champion
-      are scored with nav_eval.py --obstacles (goals/min, minus bumps and falls); a winner is
+      are scored with nav_eval.py --obstacles (goals/min, minus bumps, falls and the seconds it takes
+      to locate each new goal); a winner is
       installed as policies/rocky_nav_lidar.npz.
 Each round's leftovers (losing snapshots, videos, checkpoints) are deleted to save disk; the score
 tables stay. Old champions are kept in policies/history/ (the last HISTORY of each). Everything
@@ -195,11 +196,13 @@ def prune(run):
 def nav_score(npz):
     out = subprocess.run([PY, "nav_eval.py", str(npz), "--obstacles", "--hybrid", "--runs", str(NAV_EVAL_RUNS)],
                          cwd=HERE, capture_output=True, text=True).stdout
-    m = re.search(r"([\d.]+) goals/min.*falls (\d+)/\d+.*bumps ([\d.]+)/min", out)
+    m = re.search(r"([\d.]+) goals/min.*time to find mean ([\d.]+|nan) s.*falls (\d+)/\d+.*bumps ([\d.]+)/min", out)
     if not m:
         return None, out.strip()[-300:]
-    goals, falls, bumps = float(m.group(1)), int(m.group(2)), float(m.group(3))
-    return goals - 2.0 * bumps - 0.5 * falls, f"{goals} goals/min, {bumps} bumps/min, {falls} falls"
+    goals, find, falls, bumps = float(m.group(1)), float(m.group(2)), int(m.group(3)), float(m.group(4))
+    find = 30.0 if find != find else find   # nan: never saw a goal
+    return (goals - 2.0 * bumps - 0.5 * falls - 0.1 * find,   # 10 s to find a goal costs one goal/min
+            f"{goals} goals/min, finds in {find:.1f} s, {bumps} bumps/min, {falls} falls")
 
 
 def nav_round(state, k):

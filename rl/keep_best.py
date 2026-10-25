@@ -10,7 +10,9 @@ copies it to runs/<name>/best.npz only if it beats the best so far, the baseline
 The score adds up what we want from the walker, each scaled so the installed walker is ~1:
 turn rate and footfalls per radian at a 1.0 rad/s command, walking and top speed, step height,
 pivot bounces, how far he drifts sideways walking straight or slides turning in place, and how
-often he gets over a staircase (STAIR_CASES: 8 kinds, 2 tries each).
+often he gets over a staircase (STAIR_CASES: 8 kinds, 2 tries each) and over taller steps and
+ledges (TALL_CASES: 7-10 cm stairs, 15-30 cm ledges), and how fast he locates a hidden goal
+with the planner driving him (find_time).
 A snapshot that falls, or loses more than 10% of the baseline's walking or top
 speed, is never kept, however well it turns. Every result goes to runs/<name>/best.md.
 Webots can follow it live (scripts/start_sim.sh --follow-training runs/<name>). To make the winner
@@ -34,7 +36,8 @@ from turn_eval import turn
 
 # the installed walker (walk_turn 48M) on these tests, so each term is ~1 for it
 REFERENCE = {"turn": 0.72, "footfalls": 8.4, "walk": 0.198, "top": 0.283, "step": 3.4, "bounce": 1.2,
-             "drift": 35.0, "slide": 4.0}
+             "drift": 35.0, "slide": 4.0,
+             "find": 14.7}   # s, the 178M walker with the planner (keep_best.find_time)
 
 
 def speeds(policy, seeds=3):
@@ -76,6 +79,12 @@ STAIR_CASES = [("pyramid", [0.03] * 3, 0.32, 0.0), ("pyramid", [0.04] * 3, 0.32,
                ("flight", [0.04] * 3, 0.40, 0.0), ("flight", [0.04] * 4, 0.25, 0.0),
                ("flight", [0.03, 0.05, 0.035], 0.32, 0.0), ("flight", [0.04] * 3, 0.32, np.radians(30)),
                ("kerb", [0.05], 0.6, 0.0)]
+# Taller ones: stairs his belly can clear with his legs straightened, and ledges up to 30 cm, above
+# his hips, where he may belly-climb (belly contact is allowed over a ledge above BELLY_LEDGE).
+TALL_CASES = [("flight", [0.07] * 2, 0.35, 0.0), ("flight", [0.10] * 2, 0.40, 0.0),
+              ("flight", [0.06, 0.09, 0.08], 0.40, 0.0), ("kerb", [0.15], 0.6, 0.0),
+              ("kerb", [0.20], 0.6, 0.0), ("kerb", [0.30], 0.8, 0.0)]
+BELLY_LEDGE = 0.10
 
 
 def stair_field(env, kind, rises, tread, angle, p0, ahead):
@@ -110,12 +119,12 @@ def stair_field(env, kind, rises, tread, angle, p0, ahead):
     return np.asarray(h, float) / env.field_max, 0.6 + length / max(np.cos(angle), 0.5) + 0.3
 
 
-def stairs(policy, seeds=2):
+def stairs(policy, seeds=2, cases=STAIR_CASES):
     """Across STAIR_CASES (pyramids of 3-5 cm, deep and tight treads, uneven steps, a 30 degree
     approach and a kerb): the share of runs that get right over, and how hesitant he is on the way:
     taps (touchdowns after a tiny lift) and seconds spent moving backwards, per run."""
     ok, taps, back, times = [], [], [], []
-    for kind, rises, tread, angle in STAIR_CASES:
+    for kind, rises, tread, angle in cases:
         for s in range(seeds):
             env = RockyBobWalk(randomize=True, episode_seconds=30, command=(0.2, 0, 0), terrain_level=0.0, pushes=False)
             obs, _ = env.reset(seed=1500 + s)
@@ -124,6 +133,8 @@ def stairs(policy, seeds=2):
             ahead = ahead / np.linalg.norm(ahead)
             env.field, far = stair_field(env, kind, rises, tread, angle, p0, ahead)
             env.model.hfield_data[:] = env.field.ravel()
+            if kind == "kerb" and rises[0] > BELLY_LEDGE:
+                env.belly_zone = (p0, ahead, 0.6 - 0.35, 0.6 + tread + 0.35)
             done, t, b = False, 0.0, 0.0
             for step in range(int(30 / 0.02)):
                 obs, _, fell, _, info = env.step(policy(obs))
@@ -140,6 +151,16 @@ def stairs(policy, seeds=2):
     return float(np.mean(ok)), float(np.mean(taps)), float(np.mean(back)), float(np.mean(times)) if times else 30.0
 
 
+def find_time(path, runs=4, seconds=45):
+    """Mean seconds until a new hidden goal (behind a wall) is first in view, with the planner
+    navigator driving this walker."""
+    from nav_eval import run
+    finds = []
+    for i in range(runs):
+        finds += run("planner", seed=700 + i, seconds=seconds, obstacles=True, goals="hidden", walker=str(path))[-1]
+    return float(np.mean(finds)) if finds else float(seconds)
+
+
 def evaluate(path):
     policy = NumpyPolicy(str(path))
     rows = [turn(policy, wz, level, seed) for wz in (1.0, -1.0) for level in (0.0, 0.3) for seed in range(2)]
@@ -152,7 +173,8 @@ def evaluate(path):
             "falls": int(np.sum(fell)) + speed_falls,
             "drift": sideways(policy, (0.15, 0, 0), 6.0),
             "slide": 0.5 * (sideways(policy, (0, 0, 0.6), 3.0) + sideways(policy, (0, 0, -0.6), 3.0)),
-            **dict(zip(("stairs", "stair_taps", "stair_back", "stair_time"), stairs(policy)))}
+            **dict(zip(("stairs", "stair_taps", "stair_back", "stair_time"), stairs(policy))),
+            "tall": stairs(policy, cases=TALL_CASES)[0], "find": find_time(path)}
 
 
 def publish(src, dst):
@@ -169,7 +191,8 @@ def score(r):
             - 0.5 * r["bounce"] / R["bounce"]
             - 0.5 * r["drift"] / R["drift"] - 0.5 * r["slide"] / R["slide"]
             + 3.0 * r["stairs"] - 0.3 * min(r["stair_taps"] / 10, 1) - 0.3 * min(r["stair_back"] / 3, 1)
-            + 0.5 * (1 - min(r["stair_time"] / 30, 1))) / 6.5
+            + 0.5 * (1 - min(r["stair_time"] / 30, 1))
+            + 2.0 * r.get("tall", 0.0) + R["find"] / max(r.get("find", 45.0), 1.0)) / 9.5
 
 
 def acceptable(r, base):
@@ -180,7 +203,7 @@ def acceptable(r, base):
 
 def line(name, r, s, note=""):
     return (f"| {name} | {r['turn']:.2f} | {r['footfalls']:.1f} | {r['walk']:.3f} | {r['top']:.3f} | "
-            f"{r['step']:.1f} | {r['bounce']:.1f} | {r['drift']:.0f} | {r['slide']:.1f} | {r['stairs']:.0%} | {r['stair_time']:.0f} | {r['stair_taps']:.1f} | {r['stair_back']:.1f} | {r['falls']} | {s:.3f} | {note} |")
+            f"{r['step']:.1f} | {r['bounce']:.1f} | {r['drift']:.0f} | {r['slide']:.1f} | {r['stairs']:.0%} | {r['stair_time']:.0f} | {r['stair_taps']:.1f} | {r['stair_back']:.1f} | {r.get('tall', 0):.0%} | {r.get('find', float('nan')):.1f} | {r['falls']} | {s:.3f} | {note} |")
 
 
 def main():
@@ -197,8 +220,8 @@ def main():
     best = score(base)
     publish(args.baseline, best_path)
     with open(report, "w") as f:
-        f.write("| snapshot | turn rad/s (cmd 1.0) | footfalls/rad | walk 0.15 | top speed | step cm | pivot bounces/s | walk drift cm | turn slide cm | stairs | stair s | taps/run | back s/run | falls | score | |\n")
-        f.write("| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n")
+        f.write("| snapshot | turn rad/s (cmd 1.0) | footfalls/rad | walk 0.15 | top speed | step cm | pivot bounces/s | walk drift cm | turn slide cm | stairs | stair s | taps/run | back s/run | tall | find s | falls | score | |\n")
+        f.write("| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n")
         f.write(line(f"baseline ({pathlib.Path(args.baseline).name})", base, best, "kept") + "\n")
     print(f"baseline score {best:.3f}", flush=True)
 

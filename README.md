@@ -1,6 +1,6 @@
 # Bob — ROS 2 / Webots quadruped
 
-Bob is a motorcycle-chain maintenance robot in development, using a Raspberry Pi 5, a Pimoroni Servo 2040, MG995 servos, and ROS 2 Humble. This repository contains the controller software and the **current CAD-derived Bob model**.
+Bob is a motorcycle-chain maintenance robot in development, using a Raspberry Pi 5, a Pimoroni Servo 2040, HobbyPark 25 kg coreless servos, and ROS 2 Humble. This repository contains the controller software and the **current CAD-derived Bob model**.
 
 ## Quick start: simulation
 
@@ -89,7 +89,7 @@ Joint anchors are approximated from STEP geometry; hip joint axes are Z and the 
 
 ## Project goal
 
-Bob will eventually walk around a motorcycle, visually locate its chain and lubricate it using a carried mechanism. The Raspberry Pi handles high-level control, the Servo 2040 drives the MG995 servos, and ROS 2 coordinates perception, locomotion, and hardware communication.
+Bob will eventually walk around a motorcycle, visually locate its chain and lubricate it using a carried mechanism. The Raspberry Pi handles high-level control, the Servo 2040 drives the 25 kg servos, and ROS 2 coordinates perception, locomotion, and hardware communication.
 
 ## ROS 2 -> Webots direct motor bridge (Bob CAD)
 

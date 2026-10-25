@@ -41,6 +41,9 @@ SOFT_TORQUE = 0.75 * STALL_TORQUE      # N m; penalised above 75 % of stall
 FOOT_CLEARANCE = 0.03                  # m of swing-foot height above the local ground
 EASIER_SHARE = 0.5                     # share of training episodes on terrain easier than the robot's level
 STAIR_PRACTICE = 0.4                   # share of training episodes that start walking at a flight of stairs
+# (or, some of the time, at taller steps or a ledge up to 30 cm: terrain.PRACTICE_KINDS)
+TALL_UP, TALL_DOWN = 0.1, 0.05         # tall_level change after getting to the top of tall steps / failing them
+LEDGE_BELLY = (-0.35, 2.6)             # m along his path from a practice ledge's riser: belly contact allowed here
 STUMBLE_RISE = 0.02                    # m: a step this tall right beside a planted foot means it's at a riser
 # Penalties that shape *how* it walks; train.py ramps them in (penalty_scale 0.25 -> 1) so the
 # robot learns to walk before it learns to walk politely, instead of finding that freezing is cheapest.
@@ -111,7 +114,7 @@ REWARD = {
     "action_rate": -0.5, "action_smooth": -0.5, "joint_acc": -5e-6, "joint_vel": -0.005,
     # servo protection (legged_gym-style soft limits): stay clear of end stops and stall torque
     "joint_limit": -3.0, "torque_limit": -5.0,
-    "leg_contact": -0.5, "alive": 0.1,
+    "leg_contact": -0.5, "belly": -2.0, "alive": 0.1,
 }
 
 
@@ -146,6 +149,7 @@ class RockyBobWalk(gym.Env):
         self.geom_role = np.zeros(m.ngeom, int)
         self.geom_role[list(self.leg_geoms)] = -2
         self.geom_role[self.base_geom] = -1
+        self.geom_role[m.geom("lidar").id] = -3   # the lidar touching anything always ends the episode
         self.geom_role[self.feet] = np.arange(1, 5)
         self.foot_radius = m.geom_size[self.feet, 0]
         self.sensor = {n: m.sensor(n).adr[0] for n in ("orientation", "gyro", "velocity")}
@@ -161,6 +165,8 @@ class RockyBobWalk(gym.Env):
         self.field_half = float(m.hfield_size[0][0]), float(m.hfield_size[0][1])
         self.field_max = float(m.hfield_size[0][2])
         self.field = np.zeros(self.field_shape)
+        self.practice, self.belly_zone, self.lidar_hit = None, None, False
+        self.tall_level, self._climbed = 0.0, 0.0   # tall-step curriculum (terrain.practice_obstacle)
         self._episodes = 0
         self._terrain_dirty = False
         self.penalty_scale = 1.0
@@ -233,6 +239,16 @@ class RockyBobWalk(gym.Env):
         """Harder terrain after walking most of a real command; easier after a fall or a stall."""
         if self.fixed_level is not None or self._episodes == 0:
             return
+        if self.practice is not None and self.practice[0] == "tall":   # tall steps have their own level
+            top = float(np.sum(self.practice[2][0]))
+            if not self._fell and self._climbed >= 0.9 * top:
+                self.tall_level += TALL_UP
+            elif self._fell or self._climbed < 0.9 * self.practice[2][0][0]:
+                self.tall_level -= TALL_DOWN
+            self.tall_level = float(np.clip(self.tall_level, 0.0, 1.0))
+            return
+        if self.practice is not None and self.practice[0] != "stairs":   # nor do ledges set the level
+            return
         if self._fell or (self._asked > 0.5 and self._walked < 0.3 * self._asked):
             self.level -= 0.1
         elif self._asked > 0.5 and self._walked >= 0.6 * self._asked:
@@ -255,15 +271,24 @@ class RockyBobWalk(gym.Env):
         under = terrain.heights_at(self.field, px, py, *self.field_shape, *self.field_half, self.field_max)
         return touching & (around.max(1) - under > STUMBLE_RISE)
 
+    def _belly_ok(self):
+        """Is he where his belly may touch (self.belly_zone: origin, path direction, from, to)?"""
+        if self.belly_zone is None:
+            return False
+        origin, ahead, lo, hi = self.belly_zone
+        return lo <= float((self.data.qpos[:2] - origin) @ ahead) <= hi
+
     def _foot_contacts(self):
         touching = np.zeros(4, bool)
         n = self.data.ncon
+        self.lidar_hit = False
         if n == 0:
             return touching, False, False
         g1, g2 = self.data.contact.geom1[:n], self.data.contact.geom2[:n]
         other = np.where(g1 == self.floor, g2, np.where(g2 == self.floor, g1, -1))
         roles = self.geom_role[other[other >= 0]]
         touching[roles[roles > 0] - 1] = True
+        self.lidar_hit = bool(np.any(roles == -3))
         return touching, bool(np.any(roles == -2)), bool(np.any(roles == -1))
 
     def _obs(self):
@@ -300,8 +325,14 @@ class RockyBobWalk(gym.Env):
         level = self.level
         if self.fixed_level is None and self.np_random.random() < EASIER_SHARE:
             level = self.np_random.uniform(0.0, self.level)
+        self.practice = terrain.practice_obstacle(self.np_random, level, self.tall_level) if self.stair_practice else None
         self.field = terrain.generate(self.np_random, level, *self.field_shape, *self.field_half, self.field_max,
-                                      ahead_yaw=yaw if self.stair_practice else None)
+                                      ahead_yaw=yaw if self.stair_practice else None, ahead=self.practice)
+        # where his belly may touch: around a practice ledge (above his hips, he has to belly-climb it)
+        self.belly_zone = None
+        if self.practice is not None and self.practice[0] == "ledge":
+            self.belly_zone = (np.zeros(2), np.array([np.cos(yaw), np.sin(yaw)]), self.practice[1] + LEDGE_BELLY[0],
+                               self.practice[1] + LEDGE_BELLY[1])
         m.hfield_data[:] = self.field.ravel()
         self._terrain_dirty = True
         noise = self.np_random.uniform(-0.05, 0.05, 12) if self.randomize else 0
@@ -334,7 +365,7 @@ class RockyBobWalk(gym.Env):
         self.target_height = d.qpos[2]          # spawn pad is flat, so this is height above ground
         self.next_push = self.np_random.uniform(*PUSH_EVERY)
         self._episodes += 1
-        self._fell, self._walked, self._asked = False, 0.0, 0.0
+        self._fell, self._walked, self._asked, self._climbed = False, 0.0, 0.0, 0.0
         return self._obs(), {}
 
     def step(self, action):
@@ -358,7 +389,7 @@ class RockyBobWalk(gym.Env):
             d.qvel[:2] += self.np_random.uniform(-PUSH_SPEED, PUSH_SPEED, 2)
             d.qvel[5] += self.np_random.uniform(-PUSH_SPIN, PUSH_SPIN)
             self.next_push = self.t + self.np_random.uniform(*PUSH_EVERY)
-        if self.fixed_command is None and self.steps % 250 == 0:
+        if self.fixed_command is None and self.steps % 250 == 0 and not (self.practice and self.practice[0] != "stairs"):
             self.command = self._sample_command()
             self.anchor = d.qpos[:2].copy()
 
@@ -376,6 +407,8 @@ class RockyBobWalk(gym.Env):
         if asked > 0:   # progress along the command only: jiggling and shoves don't count
             self._walked += max(float(vel[:2] @ self.command[:2]) / asked, 0.0) * CONTROL_DT
         self._asked += asked * CONTROL_DT
+        if self.practice is not None and self.practice[0] != "stairs":   # how high he's got (tall_level)
+            self._climbed = max(self._climbed, self.ground(d.qpos[0], d.qpos[1]))
 
         first_contact = touching & (self.air_time > 0)
         turning = (abs(self.command[0]) < 0.02 and abs(self.command[1]) < 0.02 and abs(self.command[2]) > 0.1)
@@ -455,6 +488,7 @@ class RockyBobWalk(gym.Env):
             "stumble": float(np.sum(self._stumbles(touching))),
             "foot_clearance": np.sum(foot_low * np.tanh(5 * foot_speed) * ~touching),
             "leg_contact": float(leg_hit),
+            "belly": float(base_hit),
             "alive": 1.0,
         }
         reward = sum(REWARD[k] * v * (self.penalty_scale if k in SHAPING else 1.0)
@@ -462,7 +496,8 @@ class RockyBobWalk(gym.Env):
         self.prev_action = self.last_action
         self.last_action = action
 
-        terminated = bool(gravity[2] > -0.5 or base_hit)    # tipped past 60 deg or belly on the ground
+        # tipped past 60 deg, the lidar touched something, or belly on the ground (except climbing a ledge)
+        terminated = bool(gravity[2] > -0.5 or self.lidar_hit or (base_hit and not self._belly_ok()))
         truncated = self.steps >= self.max_steps
         self._fell = self._fell or terminated
         if self._stream is not None:
@@ -472,7 +507,7 @@ class RockyBobWalk(gym.Env):
             except OSError:
                 pass
         info = {"terms": terms, "command": self.command.copy(), "vel": vel.copy(), "yaw_rate": float(ang[2]),
-                "torque": float(np.abs(d.actuator_force).max()), "terrain_level": self.level}
+                "torque": float(np.abs(d.actuator_force).max()), "terrain_level": self.level, "tall_level": self.tall_level}
         return self._obs(), float(reward), terminated, truncated, info
 
     def render(self):

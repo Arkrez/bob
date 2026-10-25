@@ -113,11 +113,13 @@ def main():
     p.add_argument("--obstacles", action="store_true", help="walls and boxes, lidar observations, bump penalties")
     p.add_argument("--walker", default=str(WALKER), help="frozen walker .npz")
     p.add_argument("--imitate", type=int, default=0, help="first copy the scripted navigator over this many steps")
+    p.add_argument("--goals", default="random", choices=("random", "near", "hidden", "mixed", "prey"),
+                   help="where goals go (with --obstacles); prey: a runner that flees from him (chase practice)")
     args = p.parse_args()
-    eval_args = ["--obstacles"] if args.obstacles else []
+    eval_args = (["--obstacles"] if args.obstacles else []) + (["--goals", args.goals] if args.goals != "random" else [])
 
     def make_env():
-        return RockyBobNavigate(obstacles=args.obstacles, walker=args.walker)
+        return RockyBobNavigate(obstacles=args.obstacles, walker=args.walker, goals=args.goals)
 
     run_dir = HERE / "runs" / args.name
     run_dir.mkdir(parents=True, exist_ok=True)

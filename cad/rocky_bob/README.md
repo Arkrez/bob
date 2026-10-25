@@ -1,6 +1,6 @@
 # Rocky-Bob
 
-Bob, rebuilt to look like Rocky from *Project Hail Mary*. The body is a hollow, low-poly boulder with lumps on top and a flat base, so it can sit on the ground. Four craggy MG995 legs radiate out from it. The top lifts off like a crab's shell so you can reach the electronics.
+Bob, rebuilt to look like Rocky from *Project Hail Mary*. The body is a hollow, low-poly boulder with lumps on top and a flat base, so it can sit on the ground. Four craggy legs, each with three HobbyPark 25 kg servos, radiate out from it. The top lifts off like a crab's shell so you can reach the electronics.
 
 ![preview](preview.png)
 
@@ -93,8 +93,8 @@ The lidar looks like a top hat, so Bob has a handlebar mustache to match (`musta
 
 - The files have not been opened in Fusion.
 - The C1's hole spacing and the height of its laser above its base (taken as 28 mm) are not from a drawing. Check them on the part.
-- The MG995 and horn dimensions come from the datasheet. Measure your parts and update the values in `leg.py`.
-- The robot weighs about 2.3 kg with the placeholder PSU, which is a lot for MG995s. Check that the hip-pitch servos can hold the stance before trusting the gait.
+- The HobbyPark 25 kg servo and horn dimensions come from seller drawings, which vary. Measure your parts and update the values in `leg.py`.
+- The robot weighs about 2.5 kg in the sim, with the placeholder PSU. Standing takes about 10% of the 25 kg servos' stall torque, so there's headroom, but check that the hip-pitch servos hold the stance before trusting the gait.
 
 ## Printing
 

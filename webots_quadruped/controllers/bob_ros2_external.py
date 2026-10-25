@@ -56,6 +56,12 @@ LIMIT = math.pi / 2
 LOOK_TIME = 0.4     # s to stand and look after the goal moves (a camera frame plus its latency, and some)
 RELOAD_EVERY = 250   # policy steps (5 s of sim time) between checks for a changed policy file
 COMMAND_TIMEOUT = 1.0   # s of sim time without /cmd_vel before the policy is told to stand
+# A second robot (the chase demo's runner) runs its own bridge with BOB_NS=bob2: its topics are
+# /bob2/..., it walks to the BOB_TARGET marker, and with BOB_KNOWS_GOAL=1 it knows where that is
+# without having to see it (the runner flees to spots it picks, often behind it).
+NS = os.environ.get("BOB_NS", "").strip("/")
+TARGET_DEF = os.environ.get("BOB_TARGET", "TARGET")
+KNOWS_GOAL = os.environ.get("BOB_KNOWS_GOAL") == "1"
 
 
 class PolicyDriver:
@@ -188,9 +194,9 @@ class NavDriver:
         self.bins = None            # latest lidar scan (lidar.N_BINS ranges), set by the bridge
         self.camera = camera.CameraModel(np.random.default_rng())
         self.robot = supervisor.getSelf()
-        self.target = supervisor.getFromDef("TARGET")
+        self.target = supervisor.getFromDef(TARGET_DEF)
         if self.target is None:
-            raise RuntimeError("BOB_NAV needs a 'DEF TARGET' node in the world (rocky_bob.wbt has one)")
+            raise RuntimeError(f"BOB_NAV needs a 'DEF {TARGET_DEF}' node in the world (rocky_bob.wbt has one)")
         self.next_decision = 0.0
         self.look_until = 0.0
         self.moved = False
@@ -226,6 +232,8 @@ class NavDriver:
         np, nav = self.np, self.nav
         rel = self.relative_target()
         self.camera.update(rel, now, self.blocked(rel))
+        if KNOWS_GOAL:
+            self.camera.estimate, self.camera.seen_at = np.asarray(rel, float).copy(), now
         if self.moved:
             self.moved, self.look_until = False, now + LOOK_TIME
         if now < self.look_until and self.camera.reading(now)[1] == 0:
@@ -277,7 +285,7 @@ class NavDriver:
 
 class BobBridge(Node):
     def __init__(self, robot):
-        super().__init__("bob_webots_bridge")
+        super().__init__("bob_webots_bridge", **({"namespace": "/" + NS} if NS else {}))
         self.robot = robot
         self.step_ms = max(1, int(robot.getBasicTimeStep()))
         self.motors = []
@@ -292,9 +300,9 @@ class BobBridge(Node):
             self.motors.append(motor)
             self.sensors.append(sensor)
 
-        self.publisher = self.create_publisher(JointState, "/joint_states", 10)
+        self.publisher = self.create_publisher(JointState, "joint_states", 10)
         # Simulation time, for anything that must not depend on how fast Webots happens to run.
-        self.clock_publisher = self.create_publisher(Clock, "/clock", 10)
+        self.clock_publisher = self.create_publisher(Clock, "clock", 10)
 
         # Optional IMU (Rocky-Bob has one; the older CAD model does not).
         self.imu = robot.getDevice("imu")
@@ -303,14 +311,14 @@ class BobBridge(Node):
         if self.imu is not None and self.gyro is not None:
             self.imu.enable(self.step_ms)
             self.gyro.enable(self.step_ms)
-            self.imu_publisher = self.create_publisher(Imu, "/imu", 10)
+            self.imu_publisher = self.create_publisher(Imu, "imu", 10)
 
         # Optional simulation-only ground truth position, for judging gaits.
         self.gps = robot.getDevice("gps")
         self.gps_publisher = None
         if self.gps is not None:
             self.gps.enable(self.step_ms)
-            self.gps_publisher = self.create_publisher(PointStamped, "/sim/position", 10)
+            self.gps_publisher = self.create_publisher(PointStamped, "sim/position", 10)
 
         # Optional front camera (Rocky-Bob's Pi camera). Webots only renders a camera that a
         # controller has enabled; frames go to /camera/image_raw at ~10 Hz.
@@ -321,15 +329,15 @@ class BobBridge(Node):
             self.camera.enable(period)
             self.camera_period = period / 1000.0
             self.camera_next = 0.0
-            self.camera_publisher = self.create_publisher(Image, "/camera/image_raw", 2)
+            self.camera_publisher = self.create_publisher(Image, "camera/image_raw", 2)
 
         # floor depth sensor in the nose (rl/tof.py): 8 x 8 distances -> floor heights ahead, ~15 Hz
         self.tof = robot.getDevice("tof")
         self.tof_publisher = None
         if self.tof is not None:
             self.tof.enable(self.step_ms * max(1, round(66 / self.step_ms)))
-            self.tof_publisher = self.create_publisher(Float64MultiArray, "/tof/heights", 5)
-            self.tof_points_publisher = self.create_publisher(Float64MultiArray, "/tof/points", 5)
+            self.tof_publisher = self.create_publisher(Float64MultiArray, "tof/heights", 5)
+            self.tof_points_publisher = self.create_publisher(Float64MultiArray, "tof/points", 5)
 
         self.lidar = robot.getDevice("lidar")
         self.scan_publisher = None
@@ -339,7 +347,7 @@ class BobBridge(Node):
             self.lidar.enablePointCloud()   # View > Optional Rendering > Show Lidar Point Cloud draws it in Webots
             self.scan_period = period / 1000.0
             self.scan_next = 0.0
-            self.scan_publisher = self.create_publisher(LaserScan, "/scan", 5)
+            self.scan_publisher = self.create_publisher(LaserScan, "scan", 5)
 
         self.policy = None
         policy_path = os.environ.get("BOB_POLICY", "").strip()
@@ -351,22 +359,33 @@ class BobBridge(Node):
             nav_path = os.environ.get("BOB_NAV", "").strip()
             if nav_path:
                 self.nav = NavDriver(nav_path, robot)
-                self.create_subscription(PointStamped, "/goal", self.goal_callback, 10)
-                self.create_subscription(Float64, "/flip", self.flip_callback, 10)
-                self.create_subscription(PointStamped, "/place", self.place_callback, 10)
-                self.nav_status = self.create_publisher(String, "/nav/status", 10)
-                self.target_pub = self.create_publisher(PointStamped, "/sim/target", 10)
-                self.setup_demo_keys(robot)
+                self.create_subscription(PointStamped, "goal", self.goal_callback, 10)
+                self.create_subscription(Float64, "flip", self.flip_callback, 10)
+                self.create_subscription(PointStamped, "place", self.place_callback, 10)
+                # manual override: /cmd_vel drives him for COMMAND_TIMEOUT s past the last message,
+                # instead of the navigator (the climbing demos walk him straight at a tall step)
+                self.manual_until = -1.0
+                # track: move the target without the 'new target' reset (the chase demo moves it every step)
+                self.create_subscription(PointStamped, "track", self.track_callback, 10)
+                # prize: move the chase demo's green PRIZE marker, if the world has one
+                self.prize = robot.getFromDef("PRIZE")
+                if self.prize is not None:
+                    self.create_subscription(PointStamped, "prize", self.prize_callback, 10)
+                self.create_subscription(Twist, "cmd_vel", self.manual_callback, 10)
+                self.nav_status = self.create_publisher(String, "nav/status", 10)
+                self.target_pub = self.create_publisher(PointStamped, "sim/target", 10)
+                if not NS:   # one bridge handles the keyboard and the labels
+                    self.setup_demo_keys(robot)
                 self.get_logger().info(f"navigation mode: {nav_path} walks to the TARGET marker (camera model)")
             else:
-                self.create_subscription(Twist, "/cmd_vel", self.cmd_vel_callback, 10)
+                self.create_subscription(Twist, "cmd_vel", self.cmd_vel_callback, 10)
             self.get_logger().info(
                 f"Bob Webots bridge ready: 12 actuators driven by {policy_path} in lockstep with sim time "
                 f"(policy every {self.policy.decimation} x {self.step_ms} ms), {self.policy.spec.SERVO_NAME} servo model"
             )
         else:
             self.subscription = self.create_subscription(
-                Float64MultiArray, "/leg_position_controller/commands",
+                Float64MultiArray, "leg_position_controller/commands",
                 self.command_callback, 10
             )
             self.get_logger().info(
@@ -402,6 +421,16 @@ class BobBridge(Node):
     def goal_callback(self, msg):
         self.nav.move_target(msg.point.x, msg.point.y)
 
+    def prize_callback(self, msg):
+        self.prize.getField("translation").setSFVec3f([msg.point.x, msg.point.y, 0.0])
+
+    def track_callback(self, msg):
+        self.nav.target.getField("translation").setSFVec3f([msg.point.x, msg.point.y, 0.0])
+
+    def manual_callback(self, msg):
+        self.policy.set_command(msg, self.robot.getTime())
+        self.manual_until = self.robot.getTime() + COMMAND_TIMEOUT
+
     def cmd_vel_callback(self, msg):
         self.policy.set_command(msg, self.robot.getTime())
 
@@ -418,14 +447,14 @@ class BobBridge(Node):
         self.have_command = True
 
     # ---------------------------------------------------------------- demos from the Webots window
-    DEMO_KEYS = {"1": "tour", "2": "stairs", "3": "flip", "4": "walls", "0": "all"}
+    DEMO_KEYS = {"1": "tour", "2": "stairs", "3": "flip", "4": "walls", "5": "tall", "6": "ledge", "7": "chase", "0": "all"}
 
     def setup_demo_keys(self, robot):
         """Click the 3D view, then press 1-4 (or 0 for all) to run a demo (rl/demo.py), S to stop it."""
         self.keyboard = robot.getKeyboard()
         self.keyboard.enable(self.step_ms)
         self.demo_proc, self.demo_name, self.label_next = None, "", 0.0
-        self.show_label(0, "Demos: click here, then press  1 tour   2 stairs   3 flip   4 walls   0 all   S stop", 0.01, 0.01)
+        self.show_label(0, "Demos: click here, then press  1 tour  2 stairs  3 flip  4 walls  5 tall  6 ledge  7 chase  0 all  S stop", 0.01, 0.01)
 
     def show_label(self, i, text, x, y):
         self.robot.setLabel(i, text, x, y, 0.07, 0xFFFFFF, 0.2, "Arial")
@@ -459,7 +488,11 @@ class BobBridge(Node):
                 q = self.imu.getQuaternion()
                 gravity = self.policy.spec.projected_gravity((q[3], q[0], q[1], q[2]))
                 cmd = self.nav.update(self.robot.getTime(), self.gyro.getValues()[2], gravity)
-                self.policy.command, self.policy.command_time = cmd, self.robot.getTime()
+                manual = self.robot.getTime() < self.manual_until
+                if manual:
+                    self.nav.status = "manual drive (/cmd_vel)"
+                else:
+                    self.policy.command, self.policy.command_time = cmd, self.robot.getTime()
                 if self.policy.steps % 50 == 0:
                     status = "righting himself" if self.policy.mode == "recover" else self.nav.status
                     self.nav_status.publish(String(data=status))

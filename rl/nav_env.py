@@ -58,13 +58,19 @@ GOAL_CLEARANCE = 0.4 # m: goals are at least this far from any obstacle
 # Gentle steering while walking is free: the walker drifts, and without small corrections the
 # target slides out of the camera's view. Only turning faster than this while walking counts as arcing.
 ARC_DEADZONE = 0.15   # rad/s
+# goals="prey" (chase practice): the goal is a runner that wanders, and flees from him once he's
+# within PREY_FLEE, slower than he walks, sliding round obstacles. Catching it (GOAL_RADIUS)
+# counts as reaching a goal, and a new runner appears 1.5-3 m away.
+PREY_SPEED = (0.08, 0.20)   # m/s, a new speed for each runner: easy catches to learn from, hard ones to get better at
+PREY_FLEE = 1.5      # m
 
 
 class RockyBobNavigate(gym.Env):
     def __init__(self, episode_seconds=40.0, randomize=True, terrain=(0.0, 0.6), walker=WALKER, obstacles=False,
                  goals="random"):
         """goals (with obstacles): "random"; "near", 0.3-0.5 m from an obstacle; "hidden", behind
-        one (no line of sight from the robot when it appears); "mixed", a third of each."""
+        one (no line of sight from the robot when it appears); "mixed", a third of each;
+        "prey", a runner that flees from him (PREY_SPEED, PREY_FLEE)."""
         self.goal_mode = goals
         self.walk = RockyBobWalk(randomize=randomize, episode_seconds=1e9, command=(0, 0, 0),
                                  terrain_level=0.0, pushes=randomize)
@@ -147,6 +153,10 @@ class RockyBobNavigate(gym.Env):
         mode = self.goal_mode
         if mode == "mixed":
             mode = ("random", "near", "hidden")[int(self.np_random.integers(3))]
+        if mode == "prey":
+            mode = "random"
+            self.prey_heading = self.np_random.uniform(-np.pi, np.pi)
+            self.prey_speed = self.np_random.uniform(*PREY_SPEED)
         if not self.layout:
             mode = "random"
         for _ in range(200):
@@ -165,6 +175,24 @@ class RockyBobNavigate(gym.Env):
         self.goal = g
         d = self.walk.data
         d.mocap_pos[self.post_mocap] = [g[0], g[1], self.walk.ground(g[0], g[1])]
+
+    def _move_prey(self):
+        """One navigator step of the runner: away from him when he's close, else wandering."""
+        me = self.walk.data.qpos[:2]
+        away = self.goal - me
+        if np.linalg.norm(away) < PREY_FLEE:
+            want = np.arctan2(away[1], away[0]) + self.np_random.normal(0, 0.3)
+        else:
+            want = self.prey_heading + self.np_random.normal(0, 0.4)
+        step = self.prey_speed * NAV_DT
+        for turn in (0.0, 0.5, -0.5, 1.0, -1.0, 1.6, -1.6, 2.3, -2.3):   # slide round what's in the way
+            h = want + turn
+            g = self.goal + step * np.array([np.cos(h), np.sin(h)])
+            if np.all(np.abs(g) < FIELD - 0.3) and (not self.layout or self._clearance(g) >= GOAL_CLEARANCE):
+                self.goal, self.prey_heading = g, h
+                break
+        d = self.walk.data
+        d.mocap_pos[self.post_mocap] = [self.goal[0], self.goal[1], self.walk.ground(self.goal[0], self.goal[1])]
 
     def _goal_body(self):
         d = self.walk.data
@@ -229,6 +257,8 @@ class RockyBobNavigate(gym.Env):
         stuck = len(self.track) > STUCK_WINDOW and moved < STUCK_MOVE and turned < STUCK_TURN
         nearest = float(np.min(self.bins)) if self.bins is not None else np.inf
 
+        if self.goal_mode == "prey":
+            self._move_prey()
         goal_body = self._goal_body()
         dist = float(np.linalg.norm(goal_body))
         bearing = np.arctan2(goal_body[1], goal_body[0])

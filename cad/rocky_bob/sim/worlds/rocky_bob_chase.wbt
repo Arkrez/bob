@@ -1,0 +1,60 @@
+#VRML_SIM R2025a utf8
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "../protos/RockyBob.proto"
+WorldInfo {
+  basicTimeStep 4
+  contactProperties [ ContactProperties { coulombFriction [ 0.9 ] } ]
+}
+Viewpoint { orientation -0.25 0.2 0.95 1.95 position 0.7 -1.9 1.3 follow "Bob" followType "Tracking Shot" }
+TexturedBackground {}
+TexturedBackgroundLight {}
+RectangleArena { floorSize 8 8 wallHeight 0.6 }
+Solid { translation -1.25 1.5 0.3 rotation 0 0 1 0.0000 children [ Shape { appearance PBRAppearance { baseColor 0.75 0.72 0.68 roughness 0.9 metalness 0 } geometry Box { size 2.5 0.06 0.6 } } ] name "wall_west" boundingObject Box { size 2.5 0.06 0.6 } }
+Solid { translation 2.0 -1.25 0.3 rotation 0 0 1 0.0000 children [ Shape { appearance PBRAppearance { baseColor 0.75 0.72 0.68 roughness 0.9 metalness 0 } geometry Box { size 0.06 2.5 0.6 } } ] name "wall_east" boundingObject Box { size 0.06 2.5 0.6 } }
+Solid { translation -1.6 -2.2 0.3 rotation 0 0 1 0.0000 children [ Shape { appearance PBRAppearance { baseColor 0.75 0.72 0.68 roughness 0.9 metalness 0 } geometry Box { size 1.6 0.06 0.6 } } ] name "wall_south" boundingObject Box { size 1.6 0.06 0.6 } }
+Solid { translation 1.8 1.8 0.225 rotation 0 0 1 0.2618 children [ Shape { appearance PBRAppearance { baseColor 0.55 0.35 0.2 roughness 0.9 metalness 0 } geometry Box { size 0.3 0.3 0.45 } } ] name "box_a" boundingObject Box { size 0.3 0.3 0.45 } }
+Solid { translation -2.4 -0.5 0.25 rotation 0 0 1 -0.1745 children [ Shape { appearance PBRAppearance { baseColor 0.55 0.35 0.2 roughness 0.9 metalness 0 } geometry Box { size 0.25 0.4 0.5 } } ] name "box_b" boundingObject Box { size 0.25 0.4 0.5 } }
+Solid { translation 0.6 -2.6 0.075 rotation 0 0 1 0.5236 children [ Shape { appearance PBRAppearance { baseColor 0.55 0.35 0.2 roughness 0.9 metalness 0 } geometry Box { size 0.2 0.2 0.15 } } ] name "box_c" boundingObject Box { size 0.2 0.2 0.15 } }
+Solid { translation -1.2 0.4 0.02 rotation 0 0 1 0.0000 children [ Shape { appearance PBRAppearance { baseColor 0.45 0.45 0.5 roughness 0.9 metalness 0 } geometry Box { size 0.6 0.6 0.04 } } ] name "step_low" boundingObject Box { size 0.6 0.6 0.04 } }
+Solid { translation 2.9 0.9 0.03 rotation 0 0 1 0.0000 children [ Shape { appearance PBRAppearance { baseColor 0.45 0.45 0.5 roughness 0.9 metalness 0 } geometry Box { size 0.5 1.0 0.06 } } ] name "ledge" boundingObject Box { size 0.5 1.0 0.06 } }
+Solid { translation 3.0 -2.6 0.06 rotation 0 0 1 0.6109 children [ Shape { appearance PBRAppearance { baseColor 0.42 0.4 0.37 roughness 0.9 metalness 0 } geometry Box { size 0.22 0.18 0.12 } } ] name "rock_a" boundingObject Box { size 0.22 0.18 0.12 } }
+Solid { translation -3.0 2.8 0.08 rotation 0 0 1 -0.3491 children [ Shape { appearance PBRAppearance { baseColor 0.42 0.4 0.37 roughness 0.9 metalness 0 } geometry Box { size 0.28 0.2 0.16 } } ] name "rock_b" boundingObject Box { size 0.28 0.2 0.16 } }
+Solid { translation 1.2 -1.6 0.045 rotation 0 0 1 1.0472 children [ Shape { appearance PBRAppearance { baseColor 0.42 0.4 0.37 roughness 0.9 metalness 0 } geometry Box { size 0.16 0.14 0.09 } } ] name "rock_c" boundingObject Box { size 0.16 0.14 0.09 } }
+Solid { translation 0.8 3.0 0.0225 rotation 0 0 1 0.0000 children [ Shape { appearance PBRAppearance { baseColor 0.55 0.55 0.6 roughness 0.9 metalness 0 } geometry Box { size 3.16 0.9 0.045 } } ] name "stairs_north_1" boundingObject Box { size 3.16 0.9 0.045 } }
+Solid { translation 0.8 3.0 0.045 rotation 0 0 1 0.0000 children [ Shape { appearance PBRAppearance { baseColor 0.55 0.55 0.6 roughness 0.9 metalness 0 } geometry Box { size 2.52 0.9 0.09 } } ] name "stairs_north_2" boundingObject Box { size 2.52 0.9 0.09 } }
+Solid { translation 0.8 3.0 0.0675 rotation 0 0 1 0.0000 children [ Shape { appearance PBRAppearance { baseColor 0.55 0.55 0.6 roughness 0.9 metalness 0 } geometry Box { size 1.88 0.9 0.135 } } ] name "stairs_north_3" boundingObject Box { size 1.88 0.9 0.135 } }
+Solid { translation 0.8 3.0 0.09 rotation 0 0 1 0.0000 children [ Shape { appearance PBRAppearance { baseColor 0.55 0.55 0.6 roughness 0.9 metalness 0 } geometry Box { size 1.24 0.9 0.18 } } ] name "stairs_north_4" boundingObject Box { size 1.24 0.9 0.18 } }
+Solid { translation 3.35 -1.05 0.015 rotation 0 0 1 0.0000 children [ Shape { appearance PBRAppearance { baseColor 0.55 0.55 0.6 roughness 0.9 metalness 0 } geometry Box { size 1.1 2.3 0.03 } } ] name "stairs_east_1" boundingObject Box { size 1.1 2.3 0.03 } }
+Solid { translation 3.35 -1.05 0.03 rotation 0 0 1 0.0000 children [ Shape { appearance PBRAppearance { baseColor 0.55 0.55 0.6 roughness 0.9 metalness 0 } geometry Box { size 1.1 1.7 0.06 } } ] name "stairs_east_2" boundingObject Box { size 1.1 1.7 0.06 } }
+Solid { translation 3.35 -1.05 0.045 rotation 0 0 1 0.0000 children [ Shape { appearance PBRAppearance { baseColor 0.55 0.55 0.6 roughness 0.9 metalness 0 } geometry Box { size 1.1 1.1 0.09 } } ] name "stairs_east_3" boundingObject Box { size 1.1 1.1 0.09 } }
+Solid { translation -3.4 0.8 0.05 rotation 0 0 1 0.0000 children [ Shape { appearance PBRAppearance { baseColor 0.55 0.55 0.6 roughness 0.9 metalness 0 } geometry Box { size 0.9 3.0000000000000004 0.1 } } ] name "stairs_tall_1" boundingObject Box { size 0.9 3.0000000000000004 0.1 } }
+Solid { translation -3.4 0.8 0.1 rotation 0 0 1 0.0000 children [ Shape { appearance PBRAppearance { baseColor 0.55 0.55 0.6 roughness 0.9 metalness 0 } geometry Box { size 0.9 2.2 0.2 } } ] name "stairs_tall_2" boundingObject Box { size 0.9 2.2 0.2 } }
+Solid { translation -3.4 0.8 0.15000000000000002 rotation 0 0 1 0.0000 children [ Shape { appearance PBRAppearance { baseColor 0.55 0.55 0.6 roughness 0.9 metalness 0 } geometry Box { size 0.9 1.4 0.30000000000000004 } } ] name "stairs_tall_3" boundingObject Box { size 0.9 1.4 0.30000000000000004 } }
+Solid { translation -3.1 -3.1 0.04 rotation 0 0 1 0.0000 children [ Shape { appearance PBRAppearance { baseColor 0.5 0.5 0.56 roughness 0.9 metalness 0 } geometry Box { size 0.9 0.9 0.08 } } ] name "platform_sw" boundingObject Box { size 0.9 0.9 0.08 } }
+Solid { translation 1.5 -3.45 0.15 rotation 0 0 1 0.0000 children [ Shape { appearance PBRAppearance { baseColor 0.5 0.5 0.56 roughness 0.9 metalness 0 } geometry Box { size 1.0 0.7 0.3 } } ] name "ledge_tall" boundingObject Box { size 1.0 0.7 0.3 } }
+DEF TARGET2 Solid {
+  translation -3.4 3.4 0
+  name "target2"
+}
+DEF PRIZE Solid {
+  translation -3.4 3.9 0
+  children [
+    Pose { translation 0 0 0.11 children [ Shape { appearance PBRAppearance { baseColor 0.1 0.8 0.25 roughness 0.5 } geometry Cylinder { height 0.22 radius 0.015 } } ] }
+    Pose { translation 0 0 0.24 children [ Shape { appearance PBRAppearance { baseColor 0.1 0.8 0.25 roughness 0.5 } geometry Sphere { radius 0.035 } } ] }
+  ]
+  name "prize"
+}
+RockyBob { translation -3.4 3.4 0.19 name "Bob2" }
+RockyBob { translation 0 0 0.19 }
+# Camera target: an ArUco-style 15 cm marker on a post (rl/camera.py MARKER_SIZE). Drag it around; with BOB_NAV the robot walks to it.
+DEF TARGET Solid {
+  translation 1 0.4 0
+  children [
+    Pose { translation 0 0 0.125 children [ Shape { appearance PBRAppearance { baseColor 0.9 0.4 0.1 roughness 0.6 } geometry Cylinder { height 0.25 radius 0.012 } } ] }
+    Pose { translation 0 0 0.25 children [ Shape { appearance PBRAppearance { baseColor 0.05 0.05 0.05 roughness 0.8 } geometry Box { size 0.01 0.15 0.15 } } ] }
+    Pose { translation 0 0 0.25 children [ Shape { appearance PBRAppearance { baseColor 1 1 1 roughness 0.8 } geometry Box { size 0.012 0.07 0.07 } } ] }
+  ]
+  name "target"
+}

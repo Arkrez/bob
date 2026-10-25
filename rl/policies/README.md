@@ -4,7 +4,7 @@ Numpy-only (`policy.py`), for `ros_policy_node.py`, `play.py` and `watch.py`. Al
 
 | file | snapshot | notes |
 | --- | --- | --- |
-| `rocky_walk.npz` | round_w0017 131M | Default. The first walker that sees the floor (nose ToF sensor, 99 inputs): in Webots it climbs the 3 cm east staircase to its landing (30-36 s). It turns a little worse than 128M. 4.5 cm risers are still too high for it. |
+| `rocky_walk.npz` | round_w0030 178M | Default. Floor sensor, full servo range. Gets over 88% of the stair test (3-5 cm, 17 s each, 5.6 taps/run), walks 0.30 m/s (top 0.36), no drift. Turns a bit slower (0.76 rad/s) and slides ~12 cm turning on the spot. Not yet over 7-10 cm steps or ledges. |
 | `rocky_walk_128M.npz` | round_w0006 128M | Previous default: blind (35 inputs), climbs 3-4 cm pyramids in MuJoCo by feel. |
 | `rocky_walk_79M.npz` | walk_turn2 79M | Default. Best of a further 30M-step fine-tune, picked by `keep_best.py`: turns at 0.85 rad/s in 7.2 footfalls/rad, runs at 0.32 m/s, barely bounces, and drifts 9 cm (not 35) over a 6 s straight walk. |
 | `rocky_walk_turn48.npz` | walk_turn 48M | First fast-turn walker: 0.73 rad/s, 8.1 footfalls/rad. |

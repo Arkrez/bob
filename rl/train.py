@@ -54,6 +54,9 @@ class TerrainLogger(BaseCallback):
         levels = [i["terrain_level"] for i in self.locals["infos"] if "episode" in i and "terrain_level" in i]
         if levels:
             self.logger.record_mean("curriculum/terrain_level", float(np.mean(levels)))
+        tall = [i["tall_level"] for i in self.locals["infos"] if "episode" in i and "tall_level" in i]
+        if tall:
+            self.logger.record_mean("curriculum/tall_level", float(np.mean(tall)))
         return True
 
 

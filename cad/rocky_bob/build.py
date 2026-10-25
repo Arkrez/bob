@@ -187,9 +187,35 @@ OBSTACLES = [
 # Stairs to climb: (name, centre x, y, along "x" or "y", steps each way, riser m, tread m, landing m, width m).
 # Up one side, a landing, down the other, like the pyramid stairs he trains on (rl/terrain.py).
 # Risers match what the walker trains on (rl/terrain.py: up to 5 cm).
+# stairs_tall (10 cm) and ledge_tall (30 cm) are taller than he can climb yet: he trains on them
+# (rl/terrain.py PRACTICE_KINDS) and the "tall" and "ledge" demos walk him at them (rl/demo.py).
 STAIRS = [("stairs_north", 0.8, 3.0, "x", 4, 0.045, 0.32, 0.6, 0.9),
-          ("stairs_east", 3.35, -1.05, "y", 3, 0.03, 0.30, 0.5, 1.1)]
-PLATFORMS = [("platform_sw", -3.1, -3.1, 0.9, 0.9, 0.08)]   # (name, x, y, size x, size y, height): a step-up
+          ("stairs_east", 3.35, -1.05, "y", 3, 0.03, 0.30, 0.5, 1.1),
+          ("stairs_tall", -3.4, 0.8, "y", 3, 0.10, 0.40, 0.6, 0.9)]
+PLATFORMS = [("platform_sw", -3.1, -3.1, 0.9, 0.9, 0.08),   # (name, x, y, size x, size y, height): a step-up
+             ("ledge_tall", 1.5, -3.45, 1.0, 0.7, 0.30)]
+
+
+# Chase mode only (sim/worlds/rocky_bob_chase.wbt, scripts/start_sim.sh --world chase): a second Bob,
+# parked in the north-west corner, the runner in the chase demo (rl/demo.py chase). The normal world
+# has only Bob, and nothing here is part of how the robot itself behaves.
+# He walks to TARGET2, an invisible waypoint the demo moves (to the prize, or away from Bob), and
+# collects the green PRIZE posts (the demo moves the prize through the main bridge's /prize topic).
+# The prize stays below the lidar's scan plane, so neither Bob steers round it.
+RUNNER_WBT = """DEF TARGET2 Solid {
+  translation -3.4 3.4 0
+  name "target2"
+}
+DEF PRIZE Solid {
+  translation -3.4 3.9 0
+  children [
+    Pose { translation 0 0 0.11 children [ Shape { appearance PBRAppearance { baseColor 0.1 0.8 0.25 roughness 0.5 } geometry Cylinder { height 0.22 radius 0.015 } } ] }
+    Pose { translation 0 0 0.24 children [ Shape { appearance PBRAppearance { baseColor 0.1 0.8 0.25 roughness 0.5 } geometry Sphere { radius 0.035 } } ] }
+  ]
+  name "prize"
+}
+RockyBob { translation -3.4 3.4 0.19 name "Bob2" }
+"""
 
 
 def stair_boxes():
@@ -357,6 +383,8 @@ DEF TARGET Solid {
 }
 """.replace("%FRICTION%", str(spec.FOOT_FRICTION))
     (HERE / "sim/worlds/rocky_bob.wbt").write_text(world.replace("%OBSTACLES%", obstacles_wbt()))
+    # chase mode: the same arena with Bob2 and the prize (rl/demo.py chase)
+    (HERE / "sim/worlds/rocky_bob_chase.wbt").write_text(world.replace("%OBSTACLES%", obstacles_wbt() + RUNNER_WBT))
     # the same arena with nothing in it, for speed tests (rl/webots_eval.py)
     (HERE / "sim/worlds/rocky_bob_open.wbt").write_text(world.replace("%OBSTACLES%", ""))
 
