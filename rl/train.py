@@ -159,6 +159,9 @@ def main():
             z = np.load(args.obs_stats)
             venv.obs_rms.mean, venv.obs_rms.var = z["obs_mean"].astype(np.float64), z["obs_var"].astype(np.float64)
         model = PPO.load(args.resume, env=venv, device="cpu", custom_objects={"n_steps": n_steps})
+        # PPO.load re-applies the seed saved in the checkpoint (to torch, numpy and the envs), so every
+        # round resumed from the same champion replayed exactly the same run: use this run's seed
+        model.set_random_seed(args.seed)
         if args.lr:   # a good policy needs smaller steps: big updates can knock it off its gait for good
             model.learning_rate = args.lr
             model._setup_lr_schedule()

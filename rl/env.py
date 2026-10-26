@@ -40,7 +40,7 @@ SOFT_JOINT_LIMIT = 0.85 * JOINT_LIMIT   # rad; penalised beyond this
 SOFT_TORQUE = 0.75 * STALL_TORQUE      # N m; penalised above 75 % of stall
 FOOT_CLEARANCE = 0.03                  # m of swing-foot height above the local ground
 EASIER_SHARE = 0.5                     # share of training episodes on terrain easier than the robot's level
-STAIR_PRACTICE = 0.4                   # share of training episodes that start walking at a flight of stairs
+STAIR_PRACTICE = 1.0                   # share of training episodes that start walking at a flight of stairs (was 0.4; all of them since round 47)
 # (or, some of the time, at taller steps or a ledge up to 30 cm: terrain.PRACTICE_KINDS)
 TALL_UP, TALL_DOWN = 0.1, 0.05         # tall_level change after getting to the top of tall steps / failing them
 LEDGE_BELLY = (-0.35, 2.6)             # m along his path from a practice ledge's riser: belly contact allowed here
