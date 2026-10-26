@@ -376,6 +376,8 @@ class BobBridge(Node):
                 self.target_pub = self.create_publisher(PointStamped, "sim/target", 10)
                 if not NS:   # one bridge handles the keyboard and the labels
                     self.setup_demo_keys(robot)
+                    # screenshot: save the 3D view to this path on the Webots machine (README images)
+                    self.create_subscription(String, "screenshot", self.screenshot_callback, 2)
                 self.get_logger().info(f"navigation mode: {nav_path} walks to the TARGET marker (camera model)")
             else:
                 self.create_subscription(Twist, "cmd_vel", self.cmd_vel_callback, 10)
@@ -421,6 +423,40 @@ class BobBridge(Node):
     def goal_callback(self, msg):
         self.nav.move_target(msg.point.x, msg.point.y)
 
+    def screenshot_callback(self, msg):
+        """"path" or "path;eye x,y,z;look-at x,y,z": point the 3D view (world coordinates), hide the
+        labels, and save the view a few steps later, once it has been drawn from there."""
+        parts = msg.data.split(";")
+        if len(parts) == 3:
+            np = self.policy.np
+            eye, at = (np.array([float(v) for v in t.split(",")]) for t in parts[1:])
+            d = at - eye
+            yaw, pitch = np.arctan2(d[1], d[0]), np.arctan2(-d[2], np.hypot(d[0], d[1]))
+            cy, sy, cp, sp = np.cos(yaw), np.sin(yaw), np.cos(pitch), np.sin(pitch)
+            R = np.array([[cy, -sy, 0], [sy, cy, 0], [0, 0, 1]]) @ np.array([[cp, 0, sp], [0, 1, 0], [-sp, 0, cp]])
+            angle = np.arccos(np.clip((np.trace(R) - 1) / 2, -1, 1))
+            axis = np.array([R[2, 1] - R[1, 2], R[0, 2] - R[2, 0], R[1, 0] - R[0, 1]])
+            axis = axis / np.linalg.norm(axis) if np.linalg.norm(axis) > 1e-9 else np.array([0.0, 0.0, 1.0])
+            view = self.robot.getRoot().getField("children")
+            for i in range(view.getCount()):
+                node = view.getMFNode(i)
+                if node.getTypeName() == "Viewpoint":
+                    node.getField("follow").setSFString("")
+                    node.getField("position").setSFVec3f(list(map(float, eye)))
+                    node.getField("orientation").setSFRotation([*map(float, axis), float(angle)])
+        for i in (0, 1):
+            self.robot.setLabel(i, "", 0, 0, 0.07, 0xFFFFFF, 1.0, "Arial")
+        self.label_next = self.robot.getTime() + 1.0   # labels come back after the shot
+        self.shot_path, self.shot_in = parts[0], 10
+
+    def take_screenshot(self):
+        if getattr(self, "shot_path", None):
+            self.shot_in -= 1
+            if self.shot_in <= 0:
+                self.robot.exportImage(self.shot_path, 95)
+                self.get_logger().info(f"saved the 3D view to {self.shot_path}")
+                self.shot_path = None
+
     def prize_callback(self, msg):
         self.prize.getField("translation").setSFVec3f([msg.point.x, msg.point.y, 0.0])
 
@@ -448,13 +484,14 @@ class BobBridge(Node):
 
     # ---------------------------------------------------------------- demos from the Webots window
     DEMO_KEYS = {"1": "tour", "2": "stairs", "3": "flip", "4": "walls", "5": "tall", "6": "ledge", "7": "chase", "0": "all"}
+    KEY_GUIDE = "Demos: click here, then press  1 tour  2 stairs  3 flip  4 walls  5 tall  6 ledge  7 chase  0 all  S stop"
 
     def setup_demo_keys(self, robot):
         """Click the 3D view, then press 1-4 (or 0 for all) to run a demo (rl/demo.py), S to stop it."""
         self.keyboard = robot.getKeyboard()
         self.keyboard.enable(self.step_ms)
         self.demo_proc, self.demo_name, self.label_next = None, "", 0.0
-        self.show_label(0, "Demos: click here, then press  1 tour  2 stairs  3 flip  4 walls  5 tall  6 ledge  7 chase  0 all  S stop", 0.01, 0.01)
+        self.show_label(0, self.KEY_GUIDE, 0.01, 0.01)
 
     def show_label(self, i, text, x, y):
         self.robot.setLabel(i, text, x, y, 0.07, 0xFFFFFF, 0.2, "Arial")
@@ -479,6 +516,7 @@ class BobBridge(Node):
                 self.demo_name = ""
             now = f"demo: {self.demo_name}   " if self.demo_name else ""
             status = "righting himself" if self.policy is not None and self.policy.mode == "recover" else self.nav.status
+            self.show_label(0, self.KEY_GUIDE, 0.01, 0.01)
             self.show_label(1, f"{now}{status.split(';')[0]}", 0.01, 0.06)
 
     def update(self):
@@ -502,6 +540,7 @@ class BobBridge(Node):
                     self.target_pub.publish(t)
                 if hasattr(self, "keyboard"):
                     self.poll_demo_keys()
+                    self.take_screenshot()
             tau = self.policy.torques(positions, self.imu.getQuaternion(), self.gyro.getValues(),
                                       self.robot.getTime())
             for motor, t in zip(self.motors, tau):

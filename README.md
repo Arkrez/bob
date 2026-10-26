@@ -1,42 +1,74 @@
-# Bob — ROS 2 / Webots quadruped
+# Bob
 
-Bob is a motorcycle-chain maintenance robot in development, using a Raspberry Pi 5, a Pimoroni Servo 2040, HobbyPark 25 kg coreless servos, and ROS 2 Humble. This repository contains the controller software and the **current CAD-derived Bob model**.
+Bob is a general-purpose autonomous robot: one **central identity** (his skills, memory and way of getting things done) that can be loaded into different robot bodies to complete tasks. **Rocky-Bob** is the first body, a four-legged walker. This repository holds that body, its simulators and the learned skills that drive it, built on ROS 2 Humble, MuJoCo and Webots.
+
+![Rocky-Bob in MuJoCo](docs/images/mujoco_standing.png)
+
+## Rocky-Bob
+
+A low-poly boulder on four 3-joint legs, styled after Rocky from *Project Hail Mary*, with a lidar "top hat" and a mustache to match. The top lifts off like a crab's shell to reach the electronics.
+
+| Part | What it is |
+| --- | --- |
+| Brain | Raspberry Pi 5 |
+| Servo driver | Pimoroni Servo 2040 |
+| Joints | 12 HobbyPark 25 kg coreless servos (3 per leg) |
+| Eyes | Raspberry Pi Camera Module 3 (nose), RPLIDAR C1 360° lidar (top), SparkFun VL53L5CX 8x8 ToF floor sensor (nose, tilted down) |
+| Still to add | An IMU (e.g. BNO085; the sim already assumes one) and foot contact sensors (FSR 402s). The servos don't report their angle, so the walker will need to run open-loop or get feedback servos. |
+
+![Printed parts](docs/images/cad_parts.png)
+
+The CAD is in `cad/rocky_bob/` (CadQuery, `build.py` regenerates the STL/STEP files, the URDF and the Webots robot). See `cad/rocky_bob/README.md`.
+
+### What he can do (in simulation)
+
+- **Walk, turn and run** with a learned walking policy: about 0.3 m/s, turning on the spot at about 0.8 rad/s.
+- **Climb stairs** of 2-5 cm (88% of the stair test). He's training on 6-10 cm steps and 12-30 cm ledges, but can't do those yet.
+- **Get back up** after falling on his back or side (88% of falls), gently on the lidar.
+- **Navigate** to a target he spots with his camera, round walls and boxes with the lidar, searching when it's out of sight.
+- **Chase mode**: a second Bob collects prizes while the first hunts him.
+
+| Webots arena | Climbing the 3 cm stairs | At the 10 cm stairs (still learning) |
+| --- | --- | --- |
+| ![Webots arena](docs/images/webots_arena.jpg) | ![Stairs](docs/images/webots_stairs.jpg) | ![Tall stairs](docs/images/webots_tall_stairs.jpg) |
+
+The skills are trained with reinforcement learning (PPO) in MuJoCo, on rough terrain, stairs and ledges like this:
+
+![MuJoCo training terrain](docs/images/mujoco_terrain.png)
+
+How the training works, the policies and their scores are in [`rl/README.md`](rl/README.md). Nothing has run on the real robot yet.
 
 ## Quick start: simulation
 
-You need Docker Desktop and Webots R2025a on the Mac. Then, from the repo root:
+You need Docker Desktop and Webots R2025a. Then, from the repo root:
 
 ```bash
-scripts/start_sim.sh
+scripts/start_sim.sh --nav planner
 ```
 
-The script does four things:
+The script starts Docker if needed, opens Webots with the Rocky-Bob world, builds and starts the `bob-sim` ROS 2 container (the first run takes a while), and connects the bridge to the 12 motors. With `--nav planner` Bob walks to the orange target post: drag it around in Webots.
 
-1. Starts Docker if it isn't running.
-2. Opens Webots with the Rocky-Bob world.
-3. Builds and starts the `bob-sim` container. The first run takes a while.
-4. Connects the ROS 2 bridge to the 12 motors.
+**Demos:** click the Webots 3D view and press **1** tour, **2** stairs, **3** flip, **4** walls, **5** tall stairs, **6** ledge, **0** all, **S** stop. Or run `scripts/demo.sh`.
 
-Options:
+Other options:
 
-- `--world cad` loads the older CAD model instead of Rocky-Bob.
-- `--demo` also runs the joint-motion smoke test.
-- `--policy rl/policies/rocky_walk.npz` walks the robot with the trained policy. Drive it with `/cmd_vel`; see `rl/README.md`.
-- The Rocky-Bob world has interior walls, boxes too tall to step over, low steps and rocks. Bob can't sense obstacles yet (his camera only finds the target), so he can walk into them. For an empty arena, use `--world cad/rocky_bob/sim/worlds/rocky_bob_open.wbt`.
-- `--nav scripted` makes it find the orange target post with a simulated Pi camera, turn to face it, and walk or run to it. Drag the post in Webots to move it. `--nav rl/policies/rocky_nav.npz` uses the trained navigator instead.
+- `--world chase` opens chase mode (a second Bob), then press **7**.
+- `--policy rl/policies/rocky_walk.npz` runs just the walker: drive it with `/cmd_vel`.
+- `--world cad` loads the older CAD-derived Bob model.
 - `--stop` shuts the container down.
 
-To run ROS commands inside the container, use `scripts/sim_ros.sh`, for example `scripts/sim_ros.sh ros2 topic echo /joint_states`. In Claude Code, `/startSim` does the same as `scripts/start_sim.sh`.
+ROS commands run inside the container with `scripts/sim_ros.sh`, for example `scripts/sim_ros.sh ros2 topic echo /nav/status`. To train more on this machine: `scripts/train_more.sh --hours 3` (`--status` to check, `--stop` to finish early).
 
-The Docker setup lives in `docker/`. The colcon build is kept in a Docker volume, so the repo's `build/` and `install/` folders are left alone. The manual steps are further down.
+The Docker setup lives in `docker/`. The colcon build is kept in a Docker volume, so the repo's `build/` and `install/` folders are left alone.
 
+Images: `rl/render_images.py` redraws the CAD and MuJoCo pictures. The Webots ones come from the bridge's `/screenshot` topic (`path;eye x,y,z;look-at x,y,z`).
 
 ## Running on Windows
 
 Everything runs on Windows 10/11 too: Webots and MuJoCo natively, ROS 2 in Docker Desktop. Docker runs the x86 sim image natively there, where the Mac emulates it. In PowerShell:
 
 ```powershell
-git clone -b feat/rocky-bob https://github.com/Arkrez/bob.git
+git clone https://github.com/Arkrez/bob.git
 cd bob
 powershell -ExecutionPolicy Bypass -File scripts\setup_windows.ps1
 ```
@@ -56,7 +88,11 @@ Then use the PowerShell twins of the Mac scripts (run each with `powershell -Exe
 
 On a fresh clone, training starts from the walkers in `rl/policies/`. The training state (`rl/runs/`, champions and checkpoints) stays on the machine that made it.
 
-## Current robot model
+## The older CAD model
+
+The sections below are about the first Bob CAD model (`webots_quadruped/`, `src/`), from before Rocky-Bob. Its ROS 2 controller drives the motors by joint angle; Rocky-Bob's learned policies use the bridge in `webots_quadruped/controllers/bob_ros2_external.py` directly.
+
+### Files
 
 - `webots_quadruped/protos/Bob.proto`: Webots PROTO; the model references `../meshes/*.stl` relative to the PROTO.
 - `webots_quadruped/meshes/`: 17 meshes for the current Bob chassis and four legs.
@@ -65,11 +101,11 @@ On a fresh clone, training starts from the walkers in `rl/policies/`. The traini
 - `src/bob_description/urdf/robot.urdf`: expanded URDF, usable without Xacro processing.
 - `src/bob_description/meshes/`: same mesh blobs packaged for `package://bob_description/meshes/...` lookup.
 
-### Webots
+#### Webots
 
 Open `webots_quadruped/worlds/bob.wbt` in Webots. The `Bob.proto` file uses an external controller (`<extern>`), which must be connected for motor control. Webots resolves the STL mesh URLs relative to `webots_quadruped/protos/Bob.proto`.
 
-### ROS 2
+#### ROS 2
 
 From the repository root inside a ROS 2 Humble environment:
 
@@ -83,15 +119,11 @@ xacro src/bob_description/urdf/robot.xacro > /tmp/bob.urdf
 
 The existing locomotion and servo bridge code remains under `src/quadruped_control/` for compatibility with existing commands. **Its older leg ordering/joint nomenclature and IK axes are not yet validated against the new 12-joint CAD model.** Do not command the physical robot using these new model coordinates until they have been checked.
 
-### Important CAD assumptions
+#### Important CAD assumptions
 
 Joint anchors are approximated from STEP geometry; hip joint axes are Z and the two downstream axes are Y. Limits are placeholder ±90 degrees; masses, collision geometry, and motor torques are provisional. The CAD rest pose may not be a standing pose. Confirm motion, collisions, inertia and hardware servo mapping before locomotion tests.
 
-## Project goal
-
-Bob will eventually walk around a motorcycle, visually locate its chain and lubricate it using a carried mechanism. The Raspberry Pi handles high-level control, the Servo 2040 drives the 25 kg servos, and ROS 2 coordinates perception, locomotion, and hardware communication.
-
-## ROS 2 -> Webots direct motor bridge (Bob CAD)
+### ROS 2 -> Webots direct motor bridge (Bob CAD)
 
 The existing ROS 2 controller publishes twelve angles (radians) on
 `/leg_position_controller/commands`, with joint order `J1,J3,J4` for
@@ -102,7 +134,7 @@ Motor positions are published to `/joint_states`.
 The Webots and URDF joint names are `joint1_leg0`, `joint3_leg0`,
 `joint4_leg0` through leg 3.
 
-### On a Mac with Webots GUI and ROS 2 Humble in Docker
+#### On a Mac with Webots GUI and ROS 2 Humble in Docker
 
 1. Open `webots_quadruped/worlds/bob.wbt` in Webots and run the simulation.
 2. In the ROS 2 container, mount the Bob repo to `/workspace`.
@@ -158,7 +190,7 @@ The Webots and URDF joint names are `joint1_leg0`, `joint3_leg0`,
    python3 /workspace/webots_quadruped/scripts/joint_motion_demo.py
    ```
 
-### Calibration and safety
+#### Calibration and safety
 
 The previous API remains: `/set_angles` expects
 `leg,J1,J3,J4` in degrees and `/ik_target` uses inches in the body
@@ -174,7 +206,7 @@ one joint at a time. The external bridge deliberately bypasses
 `controller_manager` / `ros2_control` while keeping the existing
 position-command topic.
 
-### Troubleshooting
+#### Troubleshooting
 
 If the controller reports no subscriber on
 `/leg_position_controller/commands`, the Webots external bridge is not
