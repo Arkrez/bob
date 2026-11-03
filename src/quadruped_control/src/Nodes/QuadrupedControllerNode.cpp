@@ -4,6 +4,11 @@
 #include <cstdio>
 #include <exception>
 #include <limits>
+#include <stdexcept>
+
+#include <ament_index_cpp/get_package_share_directory.hpp>
+#include <kdl_parser/kdl_parser.hpp>
+#include <kdl/tree.hpp>
 #include <sstream>
 #include <string>
 
@@ -26,14 +31,8 @@ constexpr double PI = 3.14159265358979323846;
 constexpr double RAD_TO_DEG = 180.0 / PI;
 constexpr double DEG_TO_RAD = PI / 180.0;
 
-// Bob CAD anchor positions are metres; the existing IK topic uses inches.
+// Legacy ROS topic XYZ coordinates are inches; URDF and KDL use metres.
 constexpr double METERS_TO_INCHES = 39.37007874015748;
-constexpr double HIP_ANCHORS_M[4][3] = {
-    {-0.137775, -0.086000, 0.111950},
-    {-0.139700,  0.140000, 0.111950},
-    {-0.010300,  0.140000, 0.111950},
-    {-0.010300, -0.086000, 0.111950}
-};
 
 constexpr double JOINT_MIN_DEG = -90.0;
 constexpr double JOINT_MAX_DEG =  90.0;
@@ -41,92 +40,56 @@ constexpr double JOINT_MAX_DEG =  90.0;
 constexpr double EXACT_CARTESIAN_TOLERANCE_IN = 0.001;
 constexpr double SCORE_TIE_EPSILON = 1e-12;
 
-KDL::Vector getHipAnchor(int leg)
+// Read joint origins, axes and link transforms from the installed CAD-derived URDF.
+// Only the final joint-to-foot displacement is configurable, because the URDF
+// currently ends at legN_joint3_link rather than a dedicated foot-tip frame.
+KDL::Chain getLegChain(int leg, const double offsets[4][4][3])
 {
-    if (leg < 0 || leg >= 4)
-        return KDL::Vector(0.0, 0.0, 0.0);
-    return KDL::Vector(
-        HIP_ANCHORS_M[leg][0] * METERS_TO_INCHES,
-        HIP_ANCHORS_M[leg][1] * METERS_TO_INCHES,
-        HIP_ANCHORS_M[leg][2] * METERS_TO_INCHES
-    );
-}
+    static const KDL::Tree tree = [] {
+        KDL::Tree parsed;
+        const std::string path =
+            ament_index_cpp::get_package_share_directory("bob_description") +
+            "/urdf/robot.urdf";
+        if (!kdl_parser::treeFromFile(path, parsed)) {
+            throw std::runtime_error("Unable to parse robot URDF at " + path);
+        }
+        return parsed;
+    }();
 
-KDL::Chain getLegChain(
-    int leg,
-    const double offsets[4][4][3])
-{
+    if (leg < 0 || leg >= 4) {
+        throw std::out_of_range("Invalid leg number for IK");
+    }
+
     KDL::Chain chain;
+    const std::string tip = "leg" + std::to_string(leg) + "_joint3_link";
+    if (!tree.getChain("base_link", tip, chain) || chain.getNrOfJoints() != 3) {
+        throw std::runtime_error("Expected three movable joints from base_link to " + tip);
+    }
 
-    // Body frame -> this leg's body-corner J1 pivot.
-    chain.addSegment(
-        KDL::Segment(
-            "body_to_hip",
-            KDL::Joint(
-                "body_to_hip_fixed",
-                KDL::Joint::None
-            ),
-            KDL::Frame(
-                getHipAnchor(leg)
-            )
-        )
-    );
+    const std::string expected[] = {
+        "joint1_leg" + std::to_string(leg),
+        "joint3_leg" + std::to_string(leg),
+        "joint4_leg" + std::to_string(leg)
+    };
+    unsigned int index = 0;
+    for (unsigned int i = 0; i < chain.getNrOfSegments(); ++i) {
+        const auto& joint = chain.getSegment(i).getJoint();
+        if (joint.getType() == KDL::Joint::None) continue;
+        if (index >= 3 || joint.getName() != expected[index++]) {
+            throw std::runtime_error("Unexpected URDF joint order for " + tip);
+        }
+    }
 
-    // J1: hip yaw.
-    chain.addSegment(
-        KDL::Segment(
-            "link1",
-            KDL::Joint(
-                "joint1",
-                KDL::Joint::RotZ
-            ),
-            KDL::Frame(
-                KDL::Vector(
-                    offsets[leg][0][0],
-                    offsets[leg][0][1],
-                    offsets[leg][0][2]
-                )
-            )
-        )
-    );
-
-    // J3: shoulder pitch.
-    // Bob's STEP-derived joints use the Y axis for J3/J4.
-    chain.addSegment(
-        KDL::Segment(
-            "link2",
-            KDL::Joint(
-                "joint3",
-                KDL::Joint::RotY
-            ),
-            KDL::Frame(
-                KDL::Vector(
-                    offsets[leg][2][0],
-                    offsets[leg][2][1],
-                    offsets[leg][2][2]
-                )
-            )
-        )
-    );
-
-    // J4: knee pitch, relative to J3.
-    chain.addSegment(
-        KDL::Segment(
-            "link3",
-            KDL::Joint(
-                "joint4",
-                KDL::Joint::RotY
-            ),
-            KDL::Frame(
-                KDL::Vector(
-                    offsets[leg][3][0],
-                    offsets[leg][3][1],
-                    offsets[leg][3][2]
-                )
-            )
-        )
-    );
-
+    // Explicit approximation until a true CAD foot-tip frame is exported.
+    chain.addSegment(KDL::Segment(
+        "leg" + std::to_string(leg) + "_ik_foot_tip",
+        KDL::Joint(KDL::Joint::None),
+        KDL::Frame(KDL::Vector(
+            offsets[leg][3][0] / METERS_TO_INCHES,
+            offsets[leg][3][1] / METERS_TO_INCHES,
+            offsets[leg][3][2] / METERS_TO_INCHES
+        ))
+    ));
     return chain;
 }
 
@@ -231,7 +194,7 @@ bool computeFK(
         return false;
     }
 
-    position = result.p;
+    position = result.p * METERS_TO_INCHES;
 
     return
         isFinite(position.x()) &&
@@ -687,6 +650,13 @@ QuadrupedControllerNode::QuadrupedControllerNode()
                         get_logger(),
                         "Joint offset must contain finite numbers"
                     );
+                    return;
+                }
+
+                if (joint != 3) {
+                    RCLCPP_WARN(get_logger(),
+                        "J1/J3 offsets now come from bob_description URDF; "
+                        "only joint index 3 (foot-tip approximation) can be overridden");
                     return;
                 }
 
@@ -1558,17 +1528,17 @@ JointAngles QuadrupedControllerNode::solveIK(
     if (
         leg < 0 ||
         leg >= 4 ||
-        !finite(x) ||
-        !finite(y) ||
-        !finite(z))
+        !isFinite(x) ||
+        !isFinite(y) ||
+        !isFinite(z))
     {
         return result;
     }
 
     const KDL::Vector requested(
-        x,
-        y,
-        z
+        x / METERS_TO_INCHES,
+        y / METERS_TO_INCHES,
+        z / METERS_TO_INCHES
     );
 
     KDL::Chain chain =
@@ -1717,9 +1687,9 @@ JointAngles QuadrupedControllerNode::solveIK(
                     error.Norm();
 
                 if (
-                    !finite(cartesianError) ||
+                    !isFinite(cartesianError) ||
                     cartesianError >
-                        EXACT_CARTESIAN_TOLERANCE_IN)
+                        EXACT_CARTESIAN_TOLERANCE_IN / METERS_TO_INCHES)
                 {
                     continue;
                 }
@@ -1783,20 +1753,17 @@ JointAngles QuadrupedControllerNode::solveIK(
         result.exact =
             true;
 
-        result.achievedX =
-            exactBestPosition.x();
+        result.achievedX = exactBestPosition.x() * METERS_TO_INCHES;
 
-        result.achievedY =
-            exactBestPosition.y();
+        result.achievedY = exactBestPosition.y() * METERS_TO_INCHES;
 
-        result.achievedZ =
-            exactBestPosition.z();
+        result.achievedZ = exactBestPosition.z() * METERS_TO_INCHES;
 
         result.targetError =
             (
                 exactBestPosition -
                 requested
-            ).Norm();
+            ).Norm() * METERS_TO_INCHES;
 
         return result;
     }
@@ -2062,19 +2029,16 @@ JointAngles QuadrupedControllerNode::solveIK(
     result.reachable =
         true;
 
-    result.achievedX =
-        best.position.x();
+    result.achievedX = best.position.x() * METERS_TO_INCHES;
 
-    result.achievedY =
-        best.position.y();
+    result.achievedY = best.position.y() * METERS_TO_INCHES;
 
-    result.achievedZ =
-        best.position.z();
+    result.achievedZ = best.position.z() * METERS_TO_INCHES;
 
     result.targetError =
         std::sqrt(
             best.cartesianErrorSquared
-        );
+        ) * METERS_TO_INCHES;
 
     result.exact =
         result.targetError <=
