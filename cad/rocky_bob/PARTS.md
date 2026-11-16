@@ -1,7 +1,7 @@
 # Rocky-Bob parts list
 
 Everything to build Rocky-Bob beyond the Raspberry Pi 5 and Servo 2040. Added to the Amazon cart on
-2026-11-15: 42 items, $937.08 before tax, including the servos, FSRs and lidar. Prices and stock change.
+2026-11-15: 41 items, $873.68 before tax, including the servos, FSRs and lidar. Prices and stock change.
 
 ## Already chosen (ordered separately)
 
@@ -36,6 +36,8 @@ Everything to build Rocky-Bob beyond the Raspberry Pi 5 and Servo 2040. Added to
 | LiPo voltage alarm, 4 pack | 1 | Beeps before the battery runs too low | [B01FHIMU0M](https://www.amazon.com/dp/B01FHIMU0M) |
 | SPARKHOBBY UBEC 10A (6 / 7.4 / 8.4 V) | 1 | Battery to servos, set to 6.0 V | [B0DK31PYFZ](https://www.amazon.com/dp/B0DK31PYFZ) |
 | eleUniverse 5 V 5 A PD converter for Pi 5 | 1 | Battery to the Pi, with the USB-C PD handshake the Pi 5 wants | [B0FR8VRWFJ](https://www.amazon.com/dp/B0FR8VRWFJ) |
+| EAHOSUCC DC5521 male plug pigtail, 18 AWG, 1 ft | 1 | Battery wiring into the converter's barrel-jack input | [B0DGQRY5DK](https://www.amazon.com/dp/B0DGQRY5DK) |
+| SUMPK 100 W (5 A, e-marked) USB-C to USB-C cable, 6 in, 2 pack | 1 | Converter to the Pi 5. A 5 A cable lets the Pi give its USB ports full current for the lidar | [B0HJR2JLB2](https://www.amazon.com/dp/B0HJR2JLB2) |
 | XT60 inline power switch | 1 | Main on/off | [B0D5D2H2P4](https://www.amazon.com/dp/B0D5D2H2P4) |
 | 14 AWG inline blade fuse holders, with fuses | 1 | Use a 20 A fuse right after the battery | [B07FQCBSJ5](https://www.amazon.com/dp/B07FQCBSJ5) |
 | ZHOFONET XT60 pigtails, 14 AWG | 1 | Wiring the switch, fuse and regulators | [B09M6KQWBL](https://www.amazon.com/dp/B09M6KQWBL) |
