@@ -31,16 +31,24 @@ python build.py
 
 ## Inside
 
+Everything in [PARTS.md](PARTS.md) has a place, checked by `python fit_check.py` (see PARTS.md for the
+layout and the wiring).
+
 - **Front half (+X):** electronics.
-  - Raspberry Pi 5 on four standoffs, with its ports facing the side wall.
-  - Pimoroni Servo 2040 on four standoffs.
+  - Raspberry Pi 5 with its active cooler, flat on four standoffs. Its USB ports face the side wall (47 mm
+    of room for the plugs), its USB-C power socket faces the divider and plugs in through the notch.
+  - Pimoroni Servo 2040 standing upright on four standoffs on the front face of the divider, above the Pi,
+    servo headers facing the nose.
+  - BNO085 IMU on a small shelf on the divider beside the Servo 2040, flat, x forward.
   - A Raspberry Pi Camera Module 3 behind a flat window on the nose, 70 mm up. It has a 14 mm lens hole and four M2 standoffs on the board's 21 × 12.5 mm pattern. Check the hole and lens positions against your board; the values are in `body.py` (`CAM_*`). The ribbon runs back to the Pi's camera connector.
-  - Both boards use **M2.5** screws, not M3, because their holes are 2.7 mm. The standoffs have 2.2 mm pilot holes.
-- **Divider:** a wall splits the two halves. A 40 × 22 mm notch at its base lets cables through.
-- **Back half (−X):** power-supply bay.
-  - Four L-shaped corner guides and two loops for a 20 mm velcro strap.
-  - A 12 mm hole in the back wall for a panel-mount switch.
-  - The PSU is a placeholder (80 × 60 × 40 mm, 250 g). When you have the real one, set `PSU_L`, `PSU_W`, `PSU_H` and `PSU_MASS` in `body.py` and re-run `build.py`. The guides, strap loops, assembly and sim mass all update.
+  - The Mini ToF Imager behind a window in the chamfer under the nose, on two standoffs.
+  - The boards use **M2.5** screws, not M3, because their holes are 2.7 mm. The standoffs have 2.2 mm pilot holes.
+- **Divider:** a wall splits the two halves. A 54 × 22 mm notch at its base lets cables through.
+- **Back half (−X):** power bay.
+  - The 3S battery (75 × 34 × 26.5 mm) between four L-shaped corner guides, under a 20 mm velcro strap.
+  - The Pi 5 converter on edge against the back of the divider, and the UBEC on the floor beside the battery.
+  - A 30 × 22 mm hole in the back wall for the main rocker switch.
+  - Change a part's size or position in `body.py`, then re-run `fit_check.py` and `build.py`. The guides, strap loops, assembly and sim mass all update.
 
 ## Legs
 

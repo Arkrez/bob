@@ -58,10 +58,23 @@ Everything to build Rocky-Bob beyond the Raspberry Pi 5 and Servo 2040. Added to
 ## Power wiring
 
 ```
-3S LiPo -> 20 A fuse -> switch -> +-- Hobbywing UBEC (6.0 V) --> Servo 2040 screw terminals --> 12 servos
-                                  +-- 5 V 5 A PD converter ----> Pi 5 USB-C --> lidar, camera, IMU, ToF
+3S LiPo -> 20 A fuse -> rocker switch -> +-- SPARKHOBBY UBEC (6.0 V) --> Servo 2040 screw terminals --> 12 servos
+                                         +-- DC5521 pigtail -> Pi 5 converter -> 5 A USB-C cable -> Pi 5 USB-C
 Pi 5 USB-A --> Servo 2040 USB-C (data, and the board's logic power)
+Pi 5 USB-A --> lidar USB adapter        Pi GPIO I2C --> IMU, ToF (Qwiic)        Pi camera port --> camera
 ```
+
+How to join it, with the parts in the cart:
+1. **Battery to fuse:** solder an XT60 pigtail (the half that mates with the battery) to one side of the fuse holder.
+2. **Fuse to switch:** open the inline switch box, take out the rocker with its leads, and cut the leads to about
+   10 cm. Solder the fuse holder's other side to the rocker's input lead. The empty box isn't used.
+3. **Switch to both regulators:** splice the rocker's output lead to two branches: the UBEC's input wires and the
+   DC5521 pigtail's wires. Solder them and cover the joint with heat-shrink. Check the polarity: the DC5521 pigtail's
+   centre pin is +.
+4. **UBEC to Servo 2040:** cut the plug off the UBEC's output lead, strip it, and screw it into the Servo 2040's
+   terminals.
+
+You'll also need solder, heat-shrink, double-sided foam tape and a few zip ties. They aren't in the cart.
 
 - **Why 3S, not 2S:** the Pi 5 converters need at least 9 V in. A 2S pack (6.4–8.4 V) is too low.
 - **Servo voltage:** the HobbyPark listing doesn't say its voltage range, so the UBEC starts at 6.0 V, which nearly all
@@ -70,11 +83,46 @@ Pi 5 USB-A --> Servo 2040 USB-C (data, and the board's logic power)
   USB, which the Pi provides.
 - **Current:** the UBEC gives 10 A continuous, 20 A peak, which matches the Servo 2040's 10 A terminal limit. Standing and
   walking should fit. If he browns out on hard moves, split the servos across a second regulator.
+- **Pi converter:** slide its "power up the MCU" switch to on. The 5 A USB-C cable matters: on a 3 A cable the Pi 5
+  limits its USB ports to 600 mA, which the lidar can exceed.
 - **Battery alarm:** set it to 3.4 V per cell, so the Pi converter still has enough voltage when it beeps.
-- **Battery bay:** the Zeee pack (75 × 34 × 26.5 mm, 137 g) fits inside the CAD's placeholder bay (80 × 60 × 40 mm,
-  250 g). Set `PSU_L`, `PSU_W`, `PSU_H`, `PSU_MASS` in `body.py` to the real pack and re-run `build.py` for a snug fit and
-  the right sim mass.
 - **Run time:** 2200 mAh is on the small side for 12 big servos; expect roughly 15–25 minutes of walking per pack. The
   second pack in the 2 pack lets you swap.
-- **ToF mount:** the Mini ToF Imager is a 0.5 × 1 in board, not the 1 × 1 in board the nose mount was drawn for. The
-  window and standoffs in `body.py` need updating before printing the nose.
+
+## Where everything goes
+
+`python fit_check.py` places every part, plus room for its plugs, leads and fan, inside the printed rock and
+reports any clash. As of this layout: **everything fits, no clashes**, and all the short cables reach.
+
+| Part | Where | Held by |
+| --- | --- | --- |
+| Pi 5 + active cooler | Front half, flat. USB ports face the -Y side wall, with 47 mm for the plugs. USB-C power socket faces the divider | 4 × M2.5 on standoffs |
+| Servo 2040 | Upright on the front face of the divider, above the Pi. Servo headers face the nose, USB-C at the -Y end, near the bottom; screw terminals at the +Y end | 4 × M2.5 on sideways standoffs |
+| BNO085 IMU | Shelf on the divider beside the Servo 2040, 50 mm up, flat, x forward | Foam tape |
+| Camera | Nose window | 4 × M2 |
+| Mini ToF Imager | Chamfer under the nose, long side horizontal | 2 × M2.5 (hole positions: verify) |
+| Battery | Back half, middle, lead out the back end | Corner guides + velcro strap |
+| Pi 5 converter | On edge against the back of the divider, fan toward the battery, USB-C output just above the cable notch | Foam tape |
+| UBEC | Back half floor, -Y side of the battery | Foam tape |
+| Rocker switch | Back wall, 30 × 22 mm cutout (measure your rocker first, `SWITCH_CUT`) | Snaps in |
+| Fuse holder, splice | Along the back wall above the battery | Zip ties |
+| Lidar USB adapter | Back face of the divider, +Y of the converter, high up | Foam tape |
+
+Cable routes:
+- **Pi to Servo 2040 (6 in USB):** out of the Pi's USB port toward the side wall, up and back to the Servo 2040's
+  USB-C. About 75 mm of route for 96 mm of cable.
+- **Converter to Pi (6 in USB-C):** from the converter's output down through the divider notch into the Pi's USB-C.
+- **Lidar:** its cable drops from the lid through the slot behind the lidar to the USB adapter. Leave enough slack to lift
+  the lid off. The adapter's USB cable goes over the divider top to the Pi's second USB port. Coil any extra length.
+- **Servo leads (30 cm extensions):** front legs go straight to the Servo 2040; back legs go over the divider top.
+- **FSR and IMU leads:** FSRs to the Servo 2040's sensor pads (top edge), with a 10 kΩ resistor each. IMU and ToF to the
+  Pi's I2C pins.
+- **Camera ribbon (200 mm):** nose to the Pi's camera socket, about half its length.
+
+Still to check with the parts in hand (marked VERIFY in `body.py`):
+- **Rocker:** the cutout size for the rocker.
+- **Mini ToF:** its two hole positions.
+- **Servo 2040:** its USB-C height on the board.
+- **Lidar adapter:** its size.
+
+The rock is sealed and holds two fans (the Pi cooler and the converter), so watch the Pi's temperature on long runs.

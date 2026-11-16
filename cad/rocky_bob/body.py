@@ -58,16 +58,17 @@ LIDAR_SCAN_Z = LIDAR_TOP + 28.0     # approx. height of the laser's scan plane (
 LIDAR_CABLE_SLOT = (16.0, 8.0)      # x, y of the cable slot, at the back of the pocket
 
 # ---------------------------------------------------------------- floor depth sensor (bottom of the nose)
-# SparkFun Qwiic ToF Imager, VL53L5CX (SEN-18642; amazon.com/dp/B09M97318D): 8x8 zones, 63 deg diagonal
+# SparkFun Qwiic Mini ToF Imager, VL53L5CX (SEN-19013; amazon.com/dp/B09YWSLVV9): 8x8 zones, 63 deg diagonal
 # field of view (~45 x 45 deg), up to 4 m. The 2D lidar only sees a slice ~36 cm up, so steps, kerbs and
 # ledges are invisible to it; this looks forward-down at the floor 0.25-2 m ahead instead. It sits behind
 # a small window in a chamfer along the bottom of the nose, tilted TOF_TILT down, below the mustache.
-# The board is 1 x 1 in; its 4 corner holes are modelled at SparkFun's usual 0.8 in square: VERIFY.
+# The Mini board is 1 x 0.5 in, mounted long side horizontal; its Qwiic sockets point back into the rock.
+# Its two holes are modelled 0.1 in in from each short end, on the centreline: VERIFY on the board.
 TOF_TILT = 24.0                     # deg below horizontal the sensor looks
 TOF_CENTRE = (103.5, 16.0)          # (x, z) the chamfer plane passes through, mm
 TOF_Z = 13.0                        # sensor height above the rock's base, on the chamfer, mm
-TOF_BOARD = 25.4                    # mm square
-TOF_HOLES = [(sx * 10.16, sy * 10.16) for sx in (-1, 1) for sy in (-1, 1)]   # board frame, mm (VERIFY)
+TOF_BOARD = (25.4, 12.7)            # across (y), up the chamfer, mm
+TOF_HOLES = [(sx * 10.16, 0.0) for sx in (-1, 1)]   # board frame, mm (VERIFY)
 TOF_WINDOW = 6.0                    # window radius: clears the 63 deg cone through the 3 mm wall
 TOF_STANDOFF = 3.0
 TOF_MASS = 0.003
@@ -102,26 +103,57 @@ STACHE_R = [4.0, 5.2, 5.0, 4.2, 3.4, 2.8, 2.3, 1.9, 1.6, 1.4, 1.2]
 M25_PILOT = 2.2                     # both boards use M2.5 holes; M3 won't fit them
 STANDOFF_H, STANDOFF_R = 6.0, 3.0
 # Raspberry Pi 5: 85 x 56 board, holes 3.5 mm in, 58 x 49 pattern. Long side along Y,
-# ports face -Y.
-PI_X0, PI_Y0 = 8.0, -68.0
+# USB/Ethernet face -Y (side wall), the USB-C power and HDMI edge faces the divider, GPIO faces the nose.
+# PI_Y0 leaves ~45 mm from the USB ports to the side wall for the plugs (fit_check.py checks it).
+PI_X0, PI_Y0 = 8.0, -54.0
 PI_W, PI_L = 56.0, 85.0
 PI_HOLES = [(PI_X0 + x, PI_Y0 + PI_L - y) for x in (3.5, 52.5) for y in (3.5, 61.5)]
-PI_HEIGHT = 18.0                    # tallest component above the PCB (USB/Ethernet)
-# Pimoroni Servo 2040: 62 x 42, M2.5 holes 2.7 mm in from each edge.
-S2040_X0, S2040_Y0 = 8.0, 24.0
-S2040_W, S2040_L = 62.0, 42.0
-S2040_HOLES = [(S2040_X0 + x, S2040_Y0 + y) for x in (2.7, 59.3) for y in (2.7, 39.3)]
+PI_HEIGHT = 18.0                    # tallest component above the PCB (USB/Ethernet; the active cooler is lower)
+PI_USBC_Y = PI_Y0 + PI_L - 11.2     # USB-C power socket, on the divider edge: its plug goes through the notch
+# Pimoroni Servo 2040: 62 x 42, M2.5 holes 2.7 mm in from each edge. It stands upright on the front face of
+# the divider, above the Pi: long side along Y, servo headers facing the nose, the edge with the sensor pads
+# and Qw/ST socket up, so the USB-C at the -Y end sits low, near the Pi's USB ports (its 6 in cable loops up
+# to it), screw terminals at the +Y end. Lying flat there was no spot where its USB-C plug cleared the wall.
+S2040_Y0, S2040_Z0 = -30.0, 34.0         # -Y end and bottom edge of the board
+S2040_W, S2040_L = 42.0, 62.0            # height (z), length (y)
+S2040_HOLES = [(S2040_Y0 + y, S2040_Z0 + z) for y in (2.7, 59.3) for z in (2.7, 39.3)]   # (y, z)
 S2040_HEIGHT = 10.0
+S2040_USBC_Z = S2040_Z0 + 12.0          # USB-C socket height, ~12 mm from the servo-header edge (VERIFY)
 PCB_T = 1.6
 
 # ---------------------------------------------------------------- power bay (back half)
-# Placeholder until the real supply is chosen: set these and re-run build.py.
-PSU_L, PSU_W, PSU_H = 80.0, 60.0, 40.0   # along X, Y, Z
-PSU_CX = -55.0
-PSU_MASS = 0.25                          # kg, for the simulation
+# Battery: Zeee 3S 2200 mAh shorty, 75 x 34 x 26.5 mm, 137 g, lead out of the back end toward the switch.
+# It sits in the corner guides under a velcro strap; the lid comes off to swap it.
+PSU_L, PSU_W, PSU_H = 75.0, 34.0, 26.5   # along X, Y, Z
+PSU_CX = -61.5
+PSU_MASS = 0.137                         # kg, for the simulation
+# Pi 5 converter (eleUniverse PI5-5V5APD, 59 x 44 x 22 mm with its fan) stands on edge against the back
+# face of the divider, base plate to the wall, fan facing the battery: outputs at the +Y end, just above the
+# cable notch, DC5521 input at the -Y end. UBEC (45 x 20 x 16 mm) lies on the floor on the -Y side. Both
+# stick on with foam tape; fit_check.py checks their room and their plugs' room.
+CONV_BOX = (-23.5, -1.5, -50.0, 9.0, 32.0, 76.0)    # x0, x1, y0, y1, z0, z1
+CONV_MASS = 0.035
+UBEC_BOX = (-65.0, -20.0, -52.0, -32.0, WALL, WALL + 16.2)
+UBEC_MASS = 0.025
 GUIDE_H, GUIDE_T, GUIDE_LEN = 8.0, 2.0, 10.0
 STRAP_W = 20.0                           # velcro strap width
-SWITCH_D, SWITCH_Z = 12.0, 55.0          # panel-mount switch through the back wall
+# Main switch: the rocker taken out of the inline XT60 switch box (B0D5D2H2P4; the box is 70 x 40 x 40 mm and
+# won't fit). It snaps into a rectangular hole in the back wall. 30 x 22 mm is the usual cutout for that size
+# of rocker: measure yours and set SWITCH_CUT before printing.
+SWITCH_CUT, SWITCH_Z = (30.0, 22.0), 55.0   # width (y), height (z); centre height
+
+# ---------------------------------------------------------------- IMU (BNO085) shelf on the divider
+# A small shelf on the front face of the divider, near the simulator's IMU spot (0, 0, 50 mm), above the Pi.
+# The board sits flat on it with foam tape, x forward, so its axes line up with the body.
+IMU_Z = 50.0                             # shelf top
+IMU_Y = 55.0                             # shelf centre, beside the Servo 2040
+IMU_SHELF = (28.0, 30.0)                 # depth (x, from the divider), width (y)
+IMU_BOARD = (25.0, 20.0, 4.0)
+IMU_MASS = 0.004
+
+# Cable pass-through at the foot of the divider: the Pi's USB-C power plug, back-leg servo leads, FSR leads
+# and the UBEC's output all go through it.
+NOTCH_Y, NOTCH_H = (-20.0, 34.0), 22.0
 
 # ---------------------------------------------------------------- Pi camera (front)
 # Raspberry Pi Camera Module 3 behind a flat window on the nose of the rock, looking forward.
@@ -139,7 +171,8 @@ M2_PILOT = 1.6
 
 PRINT_DENSITY = leg.PRINT_DENSITY
 ELECTRONICS_MASS = {"pi5": 0.046, "servo2040": 0.015, "psu": PSU_MASS, "pi_camera": 0.004,
-                    "lidar": LIDAR_MASS, "tof": TOF_MASS}
+                    "lidar": LIDAR_MASS, "tof": TOF_MASS, "pi_power": CONV_MASS, "ubec": UBEC_MASS,
+                    "imu": IMU_MASS}
 
 
 # ================================================================ geometry
@@ -245,10 +278,10 @@ def frustum(r0, r1, z0, z1):
 
 
 def tof_board():
-    """The SparkFun board (25.4 mm square, 1.6 mm) behind the chamfer window, with the sensor on it."""
+    """The SparkFun Mini board (25.4 x 12.7 mm, 1.6 mm) behind the chamfer window, with the sensor on it."""
     tp, tn = tof_point()
     t = math.radians(TOF_TILT)
-    board = box(-0.8, 0.8, -TOF_BOARD / 2, TOF_BOARD / 2, -TOF_BOARD / 2, TOF_BOARD / 2)
+    board = box(-0.8, 0.8, -TOF_BOARD[0] / 2, TOF_BOARD[0] / 2, -TOF_BOARD[1] / 2, TOF_BOARD[1] / 2)
     chip = box(0.8, 2.3, -3.2, 3.2, -1.5, 1.5)
     face = tp - tn * (WALL + TOF_STANDOFF + 0.8)
     return fuse(board, chip).rotate((0, 0, 0), (0, 1, 0), math.degrees(t)).translate(face.toTuple())
@@ -303,12 +336,17 @@ def build():
         post_pockets.append(cyl(MAGNET_D / 2 + 0.1, (x, y, z_top - MAGNET_H - 0.2), (x, y, z_top + 1)))
 
     divider = box(-1.5, 1.5, -400, 400, WALL - 0.5, Z_SPLIT - 4).intersect(inside)
-    divider_notch = box(-5, 5, -20, 20, WALL, WALL + 22)
+    divider_notch = box(-5, 5, *NOTCH_Y, WALL, WALL + NOTCH_H)
+    shelf = fuse(box(1.0, 1.5 + IMU_SHELF[0], IMU_Y - IMU_SHELF[1] / 2, IMU_Y + IMU_SHELF[1] / 2, IMU_Z - 3, IMU_Z),
+                 box(1.0, 1.5 + IMU_SHELF[0] * 0.6, IMU_Y - 1.2, IMU_Y + 1.2, IMU_Z - 15, IMU_Z - 3))   # rib
 
     standoffs, pilots = [], []
-    for x, y in PI_HOLES + S2040_HOLES:
+    for x, y in PI_HOLES:
         standoffs.append(cyl(STANDOFF_R, (x, y, WALL - 0.5), (x, y, WALL + STANDOFF_H)))
         pilots.append(cyl(M25_PILOT / 2, (x, y, WALL), (x, y, WALL + STANDOFF_H + 1)))
+    for y, z in S2040_HOLES:   # sideways, out of the divider's front face
+        standoffs.append(cyl(STANDOFF_R, (1.0, y, z), (1.5 + STANDOFF_H, y, z)))
+        pilots.append(cyl(M25_PILOT / 2, (0.0, y, z), (1.5 + STANDOFF_H + 1, y, z)))
 
     # power bay: corner guides and two strap loops
     gx, gy = PSU_L / 2 + 0.5, PSU_W / 2 + 0.5
@@ -340,7 +378,8 @@ def build():
         (y0, y1), (z0, z1) = leg.HIP_WIRE_SLOT
         pad_cut.append(box(px - 20, px + 1, y0, y1, z0, z1).moved(loc))
 
-    switch = cyl(SWITCH_D / 2, (-300, 0, SWITCH_Z), (PSU_CX - PSU_L / 2 - 2, 0, SWITCH_Z))
+    sw, sh = SWITCH_CUT
+    switch = box(-300, -100, -sw / 2, sw / 2, SWITCH_Z - sh / 2, SWITCH_Z + sh / 2)
 
     # camera: lens hole through the window, M2 standoffs from the inside of the window to the board
     inner = CAM_D - WALL
@@ -363,7 +402,7 @@ def build():
         tof_add.append(cyl(2.25, (c + tn * 0.5).toTuple(), (c - tn * TOF_STANDOFF).toTuple()))
         tof_cut.append(cyl(M25_PILOT / 2, (c + tn * 0.2).toTuple(), (c - tn * (TOF_STANDOFF + 1)).toTuple()))
 
-    base = fuse(base, lip, *posts, divider, *standoffs, *guides, *loops, *pad_add, *camera_add, *tof_add)
+    base = fuse(base, lip, *posts, divider, shelf, *standoffs, *guides, *loops, *pad_add, *camera_add, *tof_add)
     base = cut(base, *post_pockets, divider_notch, *pilots, *loop_holes, *pad_cut, switch, *camera_cut, *tof_cut)
 
     # ---------------------------------------------------------------- lid
@@ -394,10 +433,15 @@ def build():
     pcb_z = WALL + STANDOFF_H
     pi5 = fuse(box(PI_X0, PI_X0 + PI_W, PI_Y0, PI_Y0 + PI_L, pcb_z, pcb_z + PCB_T),
                box(PI_X0 + 2, PI_X0 + PI_W - 2, PI_Y0 - 2, PI_Y0 + 60, pcb_z + PCB_T, pcb_z + PCB_T + PI_HEIGHT))
-    s2040 = fuse(box(S2040_X0, S2040_X0 + S2040_W, S2040_Y0, S2040_Y0 + S2040_L, pcb_z, pcb_z + PCB_T),
-                 box(S2040_X0 + 6, S2040_X0 + S2040_W - 6, S2040_Y0 + 6, S2040_Y0 + S2040_L - 6,
-                     pcb_z + PCB_T, pcb_z + PCB_T + S2040_HEIGHT))
+    sx = 1.5 + STANDOFF_H
+    s2040 = fuse(box(sx, sx + PCB_T, S2040_Y0, S2040_Y0 + S2040_L, S2040_Z0, S2040_Z0 + S2040_W),
+                 box(sx + PCB_T, sx + PCB_T + S2040_HEIGHT, S2040_Y0 + 6, S2040_Y0 + S2040_L - 6,
+                     S2040_Z0 + 6, S2040_Z0 + S2040_W - 6))
     psu = box(PSU_CX - PSU_L / 2, PSU_CX + PSU_L / 2, -PSU_W / 2, PSU_W / 2, WALL, WALL + PSU_H)
+    pi_power = box(*CONV_BOX)
+    ubec = box(*UBEC_BOX)
+    imu = box(1.5 + (IMU_SHELF[0] - IMU_BOARD[0]) / 2, 1.5 + (IMU_SHELF[0] + IMU_BOARD[0]) / 2,
+              IMU_Y - IMU_BOARD[1] / 2, IMU_Y + IMU_BOARD[1] / 2, IMU_Z, IMU_Z + IMU_BOARD[2])
 
     return {
         # name: (shape, colour, kind) kind: printed | electronics
@@ -406,6 +450,9 @@ def build():
         "pi5": (pi5, "pcb_green", "electronics"),
         "servo2040": (s2040, "pcb_black", "electronics"),
         "psu": (psu, "psu", "electronics"),
+        "pi_power": (pi_power, "pcb_black", "electronics"),
+        "ubec": (ubec, "psu", "electronics"),
+        "imu": (imu, "pcb_black", "electronics"),
         "pi_camera": (fuse(box(board_x - 1, board_x, -CAM_BOARD[0] / 2, CAM_BOARD[0] / 2,
                                CAM_Z + CAM_LENS_FROM_TOP - CAM_BOARD[1], CAM_Z + CAM_LENS_FROM_TOP),
                            box(board_x, inner - 0.2, -4, 4, CAM_Z - 4, CAM_Z + 4)), "pcb_green", "electronics"),
