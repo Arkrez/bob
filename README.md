@@ -38,6 +38,13 @@ The skills are trained with reinforcement learning (PPO) in MuJoCo, on rough ter
 
 How the training works, the policies and their scores are in [`rl/README.md`](rl/README.md). Nothing has run on the real robot yet.
 
+## Bob's vision
+
+Recognition belongs to Bob rather than to one body, so it lives in [`vision/`](vision/README.md): any
+body with a camera hands it frames. So far he spots **motorcycles** and guesses their **brand**,
+including how likely each one is to be a **Kawasaki** (right about 3 times in 4 so far). Finding the chain
+and sprockets comes next, trained on photos of real bikes.
+
 ## Quick start: simulation
 
 You need Docker Desktop and Webots R2025a. Then, from the repo root:

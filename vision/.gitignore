@@ -1,0 +1,7 @@
+data/
+.venv/
+runs/
+*.log
+models/yolo11s-cls.pt
+models/yolo11m-cls.pt
+models/yolov8x-worldv2.pt
