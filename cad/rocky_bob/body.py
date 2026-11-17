@@ -62,13 +62,16 @@ LIDAR_CABLE_SLOT = (16.0, 8.0)      # x, y of the cable slot, at the back of the
 # field of view (~45 x 45 deg), up to 4 m. The 2D lidar only sees a slice ~36 cm up, so steps, kerbs and
 # ledges are invisible to it; this looks forward-down at the floor 0.25-2 m ahead instead. It sits behind
 # a small window in a chamfer along the bottom of the nose, tilted TOF_TILT down, below the mustache.
-# The Mini board is 1 x 0.5 in, mounted long side horizontal; its Qwiic sockets point back into the rock.
-# Its two holes are modelled 0.1 in in from each short end, on the centreline: VERIFY on the board.
+# The Mini board is 1 x 0.5 in, mounted long side horizontal. Per SparkFun's board file
+# (github.com/sparkfun/SparkFun_Qwiic_ToF_Imager_VL53L5CX-Mini): the sensor is on the back, facing the window,
+# 0.1 in above the board's middle; the Qwiic sockets stand on the front, pointing back into the rock; two
+# 3.3 mm (M3) holes sit 0.1 in in from the corners of one long edge. It mounts with that edge up.
 TOF_TILT = 24.0                     # deg below horizontal the sensor looks
 TOF_CENTRE = (103.5, 16.0)          # (x, z) the chamfer plane passes through, mm
 TOF_Z = 13.0                        # sensor height above the rock's base, on the chamfer, mm
 TOF_BOARD = (25.4, 12.7)            # across (y), up the chamfer, mm
-TOF_HOLES = [(sx * 10.16, 0.0) for sx in (-1, 1)]   # board frame, mm (VERIFY)
+TOF_HOLES = [(sx * 10.16, 6.35) for sx in (-1, 1)]  # (across, up the chamfer) from the sensor, mm
+TOF_BOARD_UP = 2.54                 # board centre above the sensor, up the chamfer, mm
 TOF_WINDOW = 6.0                    # window radius: clears the 63 deg cone through the 3 mm wall
 TOF_STANDOFF = 3.0
 TOF_MASS = 0.003
@@ -112,13 +115,13 @@ PI_HEIGHT = 18.0                    # tallest component above the PCB (USB/Ether
 PI_USBC_Y = PI_Y0 + PI_L - 11.2     # USB-C power socket, on the divider edge: its plug goes through the notch
 # Pimoroni Servo 2040: 62 x 42, M2.5 holes 2.7 mm in from each edge. It stands upright on the front face of
 # the divider, above the Pi: long side along Y, servo headers facing the nose, the edge with the sensor pads
-# and Qw/ST socket up, so the USB-C at the -Y end sits low, near the Pi's USB ports (its 6 in cable loops up
-# to it), screw terminals at the +Y end. Lying flat there was no spot where its USB-C plug cleared the wall.
+# and Qw/ST socket up, USB-C at the -Y end (its 6 in cable loops up to it from the Pi's USB ports), screw
+# terminals and the six 3-pin sensor headers (for the FSRs) at the +Y end. Lying flat there was no spot where its USB-C plug cleared the wall.
 S2040_Y0, S2040_Z0 = -30.0, 34.0         # -Y end and bottom edge of the board
 S2040_W, S2040_L = 42.0, 62.0            # height (z), length (y)
 S2040_HOLES = [(S2040_Y0 + y, S2040_Z0 + z) for y in (2.7, 59.3) for z in (2.7, 39.3)]   # (y, z)
 S2040_HEIGHT = 10.0
-S2040_USBC_Z = S2040_Z0 + 12.0          # USB-C socket height, ~12 mm from the servo-header edge (VERIFY)
+S2040_USBC_Z = S2040_Z0 + S2040_W / 2   # USB-C socket height: centred on the short edge (Pimoroni's photo)
 PCB_T = 1.6
 
 # ---------------------------------------------------------------- power bay (back half)
@@ -141,6 +144,9 @@ STRAP_W = 20.0                           # velcro strap width
 # won't fit). It snaps into a rectangular hole in the back wall. 30 x 22 mm is the usual cutout for that size
 # of rocker: measure yours and set SWITCH_CUT before printing.
 SWITCH_CUT, SWITCH_Z = (30.0, 22.0), 55.0   # width (y), height (z); centre height
+# Print stl/switch_gauge.stl first (3 mm, like the wall): cutouts left to right are SWITCH_GAUGE's sizes,
+# with 1 to 3 notches on the top edge. Set SWITCH_CUT to the one the rocker snaps into firmly.
+SWITCH_GAUGE = [(29.0, 21.0), (30.0, 22.0), (31.0, 25.0)]
 
 # ---------------------------------------------------------------- IMU (BNO085) shelf on the divider
 # A small shelf on the front face of the divider, near the simulator's IMU spot (0, 0, 50 mm), above the Pi.
@@ -281,7 +287,8 @@ def tof_board():
     """The SparkFun Mini board (25.4 x 12.7 mm, 1.6 mm) behind the chamfer window, with the sensor on it."""
     tp, tn = tof_point()
     t = math.radians(TOF_TILT)
-    board = box(-0.8, 0.8, -TOF_BOARD[0] / 2, TOF_BOARD[0] / 2, -TOF_BOARD[1] / 2, TOF_BOARD[1] / 2)
+    board = box(-0.8, 0.8, -TOF_BOARD[0] / 2, TOF_BOARD[0] / 2,
+                TOF_BOARD_UP - TOF_BOARD[1] / 2, TOF_BOARD_UP + TOF_BOARD[1] / 2)
     chip = box(0.8, 2.3, -3.2, 3.2, -1.5, 1.5)
     face = tp - tn * (WALL + TOF_STANDOFF + 0.8)
     return fuse(board, chip).rotate((0, 0, 0), (0, 1, 0), math.degrees(t)).translate(face.toTuple())
@@ -299,6 +306,21 @@ def mustache():
             sk = sk.push([(side * y * STACHE_SCALE, z * STACHE_SCALE)]).circle(rr * STACHE_SCALE).reset()
     blank = cq.Workplane("YZ", origin=(CAM_D - 30, 0, STACHE_Z)).placeSketch(sk.clean()).extrude(60).val()
     return cut(blank.intersect(shell_at(-STACHE_T)), shell_at(-0.05))
+
+
+def switch_gauge():
+    """A 3 mm test plate with the candidate rocker cutouts, to find SWITCH_CUT before printing the rock."""
+    pitch = 42.0
+    w = pitch * len(SWITCH_GAUGE)
+    plate = box(0, w, 0, 38, 0, WALL)
+    holes = []
+    for i, (cw, ch) in enumerate(SWITCH_GAUGE):
+        cx = pitch * (i + 0.5)
+        holes.append(box(cx - cw / 2, cx + cw / 2, 19 - ch / 2, 19 + ch / 2, -1, WALL + 1))
+        for k in range(i + 1):   # 1-3 notches name the size
+            nx = cx + (k - i / 2) * 4
+            holes.append(box(nx - 1, nx + 1, 35, 39, -1, WALL + 1))
+    return cut(plate, *holes)
 
 
 def magnet_spots():
@@ -399,8 +421,8 @@ def build():
     tof_add = []
     for a, b in TOF_HOLES:
         c = inner_tof + side * a + up * b
-        tof_add.append(cyl(2.25, (c + tn * 0.5).toTuple(), (c - tn * TOF_STANDOFF).toTuple()))
-        tof_cut.append(cyl(M25_PILOT / 2, (c + tn * 0.2).toTuple(), (c - tn * (TOF_STANDOFF + 1)).toTuple()))
+        tof_add.append(cyl(3.0, (c + tn * 0.5).toTuple(), (c - tn * TOF_STANDOFF).toTuple()))
+        tof_cut.append(cyl(leg.M3_PILOT / 2, (c + tn * 0.2).toTuple(), (c - tn * (TOF_STANDOFF + 1)).toTuple()))
 
     base = fuse(base, lip, *posts, divider, shelf, *standoffs, *guides, *loops, *pad_add, *camera_add, *tof_add)
     base = cut(base, *post_pockets, divider_notch, *pilots, *loop_holes, *pad_cut, switch, *camera_cut, *tof_cut)

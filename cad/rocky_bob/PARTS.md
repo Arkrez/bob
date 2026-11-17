@@ -1,7 +1,7 @@
 # Rocky-Bob parts list
 
 Everything to build Rocky-Bob beyond the Raspberry Pi 5 and Servo 2040. Added to the Amazon cart on
-2026-11-15: 41 items, $873.68 before tax, including the servos, FSRs and lidar. Prices and stock change.
+2026-11-17: 43 items, $954.26 before tax (with the tools below), including the servos, FSRs and lidar. Prices and stock change.
 
 ## Already chosen (ordered separately)
 
@@ -55,6 +55,15 @@ Everything to build Rocky-Bob beyond the Raspberry Pi 5 and Servo 2040. Added to
 | ELEGOO PETG, grey, 1 kg | 1 | Shell and legs (skip if you have filament) | [B0D421WLJ4](https://www.amazon.com/dp/B0D421WLJ4) |
 | OVERTURE TPU 95A, black, 1 kg | 1 | Feet, so they grip and press evenly on the FSRs | [B08BC654PS](https://www.amazon.com/dp/B08BC654PS) |
 
+### Tools and supplies
+
+| Part | Qty | Why | Listing |
+| --- | --- | --- | --- |
+| YIHUA 939D+ soldering station, 75 W, with tips, stand and lead-free solder | 1 | Temperature dial and display; 75 W heats the 14 AWG XT60 joints quickly. Use the widest chisel tip for those | [B07YSCBZ4F](https://www.amazon.com/dp/B07YSCBZ4F) |
+| Helping hands, 4 flexible arms, heavy base | 1 | Holds the wires and connectors while you solder | [B07MDKXNPC](https://www.amazon.com/dp/B07MDKXNPC) |
+| Scotch-Mount double-sided mounting tape, 1 in × 125 in | 1 | Converter, UBEC, IMU and lidar adapter | [B0007P5G8Y](https://www.amazon.com/dp/B0007P5G8Y) |
+| Zip ties, 4 in, 200 pack | 1 | Fuse holder, splice and cable runs | [B0BC1VH4XB](https://www.amazon.com/dp/B0BC1VH4XB) |
+
 ## Power wiring
 
 ```
@@ -74,7 +83,7 @@ How to join it, with the parts in the cart:
 4. **UBEC to Servo 2040:** cut the plug off the UBEC's output lead, strip it, and screw it into the Servo 2040's
    terminals.
 
-You'll also need solder, heat-shrink, double-sided foam tape and a few zip ties. They aren't in the cart.
+You'll also need heat-shrink tubing for the splices. It isn't in the cart.
 
 - **Why 3S, not 2S:** the Pi 5 converters need at least 9 V in. A 2S pack (6.4–8.4 V) is too low.
 - **Servo voltage:** the HobbyPark listing doesn't say its voltage range, so the UBEC starts at 6.0 V, which nearly all
@@ -97,32 +106,37 @@ reports any clash. As of this layout: **everything fits, no clashes**, and all t
 | Part | Where | Held by |
 | --- | --- | --- |
 | Pi 5 + active cooler | Front half, flat. USB ports face the -Y side wall, with 47 mm for the plugs. USB-C power socket faces the divider | 4 × M2.5 on standoffs |
-| Servo 2040 | Upright on the front face of the divider, above the Pi. Servo headers face the nose, USB-C at the -Y end, near the bottom; screw terminals at the +Y end | 4 × M2.5 on sideways standoffs |
+| Servo 2040 | Upright on the front face of the divider, above the Pi. Servo headers face the nose; USB-C at the -Y end; screw terminals and sensor headers at the +Y end | 4 × M2.5 on sideways standoffs |
 | BNO085 IMU | Shelf on the divider beside the Servo 2040, 50 mm up, flat, x forward | Foam tape |
 | Camera | Nose window | 4 × M2 |
-| Mini ToF Imager | Chamfer under the nose, long side horizontal | 2 × M2.5 (hole positions: verify) |
+| Mini ToF Imager | Chamfer under the nose, long side horizontal, mounting-hole edge up, sensor facing the window | 2 × M3 (the board's holes are 3.3 mm) |
 | Battery | Back half, middle, lead out the back end | Corner guides + velcro strap |
 | Pi 5 converter | On edge against the back of the divider, fan toward the battery, USB-C output just above the cable notch | Foam tape |
 | UBEC | Back half floor, -Y side of the battery | Foam tape |
-| Rocker switch | Back wall, 30 × 22 mm cutout (measure your rocker first, `SWITCH_CUT`) | Snaps in |
+| Rocker switch | Back wall, 30 × 22 mm cutout (test with `stl/switch_gauge.stl` first) | Snaps in |
 | Fuse holder, splice | Along the back wall above the battery | Zip ties |
 | Lidar USB adapter | Back face of the divider, +Y of the converter, high up | Foam tape |
 
 Cable routes:
 - **Pi to Servo 2040 (6 in USB):** out of the Pi's USB port toward the side wall, up and back to the Servo 2040's
-  USB-C. About 75 mm of route for 96 mm of cable.
+  USB-C. About 82 mm of route for 96 mm of cable.
 - **Converter to Pi (6 in USB-C):** from the converter's output down through the divider notch into the Pi's USB-C.
 - **Lidar:** its cable drops from the lid through the slot behind the lidar to the USB adapter. Leave enough slack to lift
   the lid off. The adapter's USB cable goes over the divider top to the Pi's second USB port. Coil any extra length.
 - **Servo leads (30 cm extensions):** front legs go straight to the Servo 2040; back legs go over the divider top.
-- **FSR and IMU leads:** FSRs to the Servo 2040's sensor pads (top edge), with a 10 kΩ resistor each. IMU and ToF to the
-  Pi's I2C pins.
+- **FSR and IMU leads:** FSRs to the Servo 2040's 3-pin sensor headers (next to the screw terminals), with a 10 kΩ
+  resistor each. IMU and ToF to the Pi's I2C pins.
 - **Camera ribbon (200 mm):** nose to the Pi's camera socket, about half its length.
 
-Still to check with the parts in hand (marked VERIFY in `body.py`):
-- **Rocker:** the cutout size for the rocker.
-- **Mini ToF:** its two hole positions.
-- **Servo 2040:** its USB-C height on the board.
-- **Lidar adapter:** its size.
+Checked against the makers' own files:
+- **Mini ToF Imager:** board, holes and sensor position from SparkFun's board file.
+- **Servo 2040:** USB-C position from Pimoroni's top-down photo. It's centred on the short edge.
+
+Before printing the rock:
+- **Rocker switch:** print `stl/switch_gauge.stl` (a 3 mm plate, a few minutes to print). It has 29 × 21, 30 × 22 and
+  31 × 25 mm cutouts, marked with 1, 2 and 3 notches. Snap the rocker from the switch box into each, and set
+  `SWITCH_CUT` in `body.py` to the one it clicks into firmly. 30 × 22 is set now.
+- **Lidar USB adapter:** Slamtec doesn't publish its size. A 40 × 28 mm patch is kept clear for it, which is more than
+  this kind of small board needs.
 
 The rock is sealed and holds two fans (the Pi cooler and the converter), so watch the Pi's temperature on long runs.

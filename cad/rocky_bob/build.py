@@ -410,6 +410,7 @@ def main():
         cq.exporters.export(shape.scale(0.001), str(HERE / f"sim/meshes/{name}.stl"),
                             tolerance=0.0002, angularTolerance=0.3)
 
+    cq.exporters.export(body.switch_gauge(), str(HERE / "stl/switch_gauge.stl"), tolerance=0.05, angularTolerance=0.1)
     assembly(body_parts, leg_parts, (0, 0, 0)).export(str(HERE / "step/rocky_bob_assembly.step"))
     assembly(body_parts, leg_parts, STANDING).export(str(HERE / "step/rocky_bob_standing.step"))
 
