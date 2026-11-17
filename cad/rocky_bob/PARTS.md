@@ -1,7 +1,7 @@
 # Rocky-Bob parts list
 
 Everything to build Rocky-Bob beyond the Raspberry Pi 5 and Servo 2040. Added to the Amazon cart on
-2026-11-17: 43 items, $954.26 before tax (with the tools below), including the servos, FSRs and lidar. Prices and stock change.
+2026-11-17: 44 items, $968.25 before tax (with the tools below), including the servos, FSRs and lidar. Prices and stock change.
 
 ## Already chosen (ordered separately)
 
@@ -63,6 +63,7 @@ Everything to build Rocky-Bob beyond the Raspberry Pi 5 and Servo 2040. Added to
 | Helping hands, 4 flexible arms, heavy base | 1 | Holds the wires and connectors while you solder | [B07MDKXNPC](https://www.amazon.com/dp/B07MDKXNPC) |
 | Scotch-Mount double-sided mounting tape, 1 in × 125 in | 1 | Converter, UBEC, IMU and lidar adapter | [B0007P5G8Y](https://www.amazon.com/dp/B0007P5G8Y) |
 | Zip ties, 4 in, 200 pack | 1 | Fuse holder, splice and cable runs | [B0BC1VH4XB](https://www.amazon.com/dp/B0BC1VH4XB) |
+| Heat-shrink tubing kit, 3:1 adhesive lined, 400 pieces | 1 | Covers the solder joints and splices. Shrink it with a heat gun, hair dryer on high, or a lighter held back from it | [B0BVVMCY86](https://www.amazon.com/dp/B0BVVMCY86) |
 
 ## Power wiring
 
@@ -82,8 +83,6 @@ How to join it, with the parts in the cart:
    centre pin is +.
 4. **UBEC to Servo 2040:** cut the plug off the UBEC's output lead, strip it, and screw it into the Servo 2040's
    terminals.
-
-You'll also need heat-shrink tubing for the splices. It isn't in the cart.
 
 - **Why 3S, not 2S:** the Pi 5 converters need at least 9 V in. A 2S pack (6.4–8.4 V) is too low.
 - **Servo voltage:** the HobbyPark listing doesn't say its voltage range, so the UBEC starts at 6.0 V, which nearly all
