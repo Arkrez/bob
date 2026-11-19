@@ -1,7 +1,7 @@
 # Rocky-Bob parts list
 
 Everything to build Rocky-Bob beyond the Raspberry Pi 5 and Servo 2040. Added to the Amazon cart on
-2026-11-17: 44 items, $968.25 before tax (with the tools below), including the servos, FSRs and lidar. Prices and stock change.
+2026-11-19: 44 items, $970.54 before tax (with the tools below), including the servos, FSRs and lidar. Prices and stock change.
 
 ## Already chosen (ordered separately)
 
@@ -20,7 +20,7 @@ Everything to build Rocky-Bob beyond the Raspberry Pi 5 and Servo 2040. Added to
 | --- | --- | --- | --- |
 | EC Buying BNO085 9-axis IMU | 1 | The walking policy balances with it | [B0CDGZMLPP](https://www.amazon.com/dp/B0CDGZMLPP) |
 | Raspberry Pi Camera Module 3 (sold by All n' Home, shipped by Amazon) | 1 | Nose camera | [B0BRY6MVXL](https://www.amazon.com/dp/B0BRY6MVXL) |
-| Waveshare Pi 5 camera cable, 22 to 15 pin, 200 mm | 1 | The Pi 5's camera socket is smaller than the camera's cable | [B0DN6X9JK5](https://www.amazon.com/dp/B0DN6X9JK5) |
+| Pi 5 camera cable, 22 to 15 pin, 200 mm (the Waveshare one sold out) | 1 | The Pi 5's camera socket is smaller than the camera's cable | [B0CWNYDXVL](https://www.amazon.com/dp/B0CWNYDXVL) |
 | SparkFun Qwiic cable, female jumper | 1 | ToF imager to the Pi's I2C pins | [B0992PHLBC](https://www.amazon.com/dp/B0992PHLBC) |
 | FSR402 0.5 in | 1 | 4th foot (the Cunyuer listing had only 3) | [B095XG9K4P](https://www.amazon.com/dp/B095XG9K4P) |
 | 10 kΩ 1/4 W resistors, 100 | 1 | One per FSR, as a divider into the Servo 2040's sensor inputs | [B07C93JL54](https://www.amazon.com/dp/B07C93JL54) |
