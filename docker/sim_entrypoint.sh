@@ -19,6 +19,12 @@ colcon --log-base /colcon/log build --symlink-install \
     --cmake-args -DBUILD_TESTING=OFF -DCMAKE_BUILD_TYPE=Release
 source /colcon/install/setup.bash
 
+# Foxglove: every ROS topic over a websocket. In Foxglove, Open connection -> Foxglove WebSocket ->
+# ws://localhost:8766 (8765 is the lidar scan viewer). Mac-localhost only, like the dashboard.
+echo "[bob-sim] starting foxglove_bridge on port 8766"
+ros2 run foxglove_bridge foxglove_bridge --ros-args -p port:=8766 -p address:=0.0.0.0 >/colcon/foxglove.log 2>&1 &
+foxglove_pid=$!
+
 echo "[bob-sim] starting quadruped controller (enable_servo_bridge:=false)"
 ros2 run quadruped_control quadruped --ros-args -p enable_servo_bridge:=false &
 controller_pid=$!
@@ -42,8 +48,8 @@ if [[ -n "${BOB2:-}" ]]; then   # the chase demo's runner: its own bridge, topic
     bridge2_pid=$!
 fi
 
-trap 'kill "$controller_pid" "$bridge_pid" ${bridge2_pid:-} 2>/dev/null; exit 0' INT TERM
+trap 'kill "$controller_pid" "$bridge_pid" "$foxglove_pid" ${bridge2_pid:-} 2>/dev/null; exit 0' INT TERM
 wait -n "$controller_pid" "$bridge_pid"
 echo "[bob-sim] a process exited; shutting down"
-kill "$controller_pid" "$bridge_pid" ${bridge2_pid:-} 2>/dev/null || true
+kill "$controller_pid" "$bridge_pid" "$foxglove_pid" ${bridge2_pid:-} 2>/dev/null || true
 exit 1

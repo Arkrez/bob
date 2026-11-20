@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         python3-colcon-common-extensions \
         python3-pip \
         ros-humble-cv-bridge \
+        ros-humble-foxglove-bridge \
         ros-humble-orocos-kdl-vendor \
         ros-humble-xacro \
     && rm -rf /var/lib/apt/lists/*

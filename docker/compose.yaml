@@ -18,6 +18,7 @@ services:
     ports:
       - "8765:8765"   # rl/scan_viewer.py: live lidar point cloud, http://localhost:8765
       - "127.0.0.1:8642:8642"   # colcon-dashboard: the colcon build, live, http://localhost:8642
+      - "127.0.0.1:8766:8766"   # foxglove_bridge: open Foxglove, connect to ws://localhost:8766
     environment:
       ROS_DOMAIN_ID: "0"
       WEBOTS_HOST: host.docker.internal
