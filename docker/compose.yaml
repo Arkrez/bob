@@ -17,6 +17,7 @@ services:
       - "host.docker.internal:host-gateway"
     ports:
       - "8765:8765"   # rl/scan_viewer.py: live lidar point cloud, http://localhost:8765
+      - "127.0.0.1:8642:8642"   # colcon-dashboard: the colcon build, live, http://localhost:8642
     environment:
       ROS_DOMAIN_ID: "0"
       WEBOTS_HOST: host.docker.internal

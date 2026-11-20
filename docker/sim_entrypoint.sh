@@ -6,6 +6,12 @@ set -eo pipefail
 source /opt/ros/humble/setup.bash
 cd /workspace
 
+# Live build dashboard on http://localhost:8642. It only reads colcon's logs. It binds to 0.0.0.0 so the
+# Mac can reach it through the published port; compose publishes it on the Mac's localhost only.
+if command -v colcon-dashboard >/dev/null; then
+    nohup colcon-dashboard /workspace --host 0.0.0.0 --port 8642 --log-base /colcon/log >/colcon/dashboard.log 2>&1 &
+fi
+
 echo "[bob-sim] building bob_description + quadruped_control"
 colcon --log-base /colcon/log build --symlink-install \
     --packages-select bob_description quadruped_control \
