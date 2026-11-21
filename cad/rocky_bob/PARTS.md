@@ -1,7 +1,7 @@
 # Rocky-Bob parts list
 
 Everything to build Rocky-Bob beyond the Raspberry Pi 5 and Servo 2040. Added to the Amazon cart on
-2026-11-19, rechecked 2026-11-21: 44 items, $1,004.12 before tax (with the tools below; the UBEC is out of the cart, see its row), including the servos, FSRs and lidar. Prices and stock change.
+2026-11-19, rechecked 2026-11-21: 45 items, $1,040.15 before tax (with the tools below), including the servos, FSRs and lidar. Prices and stock change.
 
 ## Already chosen (ordered separately)
 
@@ -34,7 +34,7 @@ Everything to build Rocky-Bob beyond the Raspberry Pi 5 and Servo 2040. Added to
 | ISDT 608AC balance charger | 1 | Charges it (plugs into the wall) | [B0B4DBZ9DK](https://www.amazon.com/dp/B0B4DBZ9DK) |
 | LiPo safe bag | 1 | Charge and store the battery in it | [B01GCHBQJS](https://www.amazon.com/dp/B01GCHBQJS) |
 | LiPo voltage alarm, 4 pack | 1 | Beeps before the battery runs too low | [B01FHIMU0M](https://www.amazon.com/dp/B01FHIMU0M) |
-| SPARKHOBBY UBEC 10A (6 / 7.4 / 8.4 V) | 1 | Battery to servos, set to 6.0 V. **Not in the cart:** unavailable at its old price on 2026-11-21; a replacement is still to be picked | [B0DK31PYFZ](https://www.amazon.com/dp/B0DK31PYFZ) |
+| UBEC 10A (6 / 7.4 / 8.4 V), MOUDOAUER listing: the same 45 × 20 × 16.2 mm module as the sold-out SPARKHOBBY. Ships from the EU seller | 1 | Battery to servos, set to 6.0 V | [B0C2XTQRB6](https://www.amazon.com/dp/B0C2XTQRB6) |
 | eleUniverse 5 V 5 A PD converter for Pi 5 | 1 | Battery to the Pi, with the USB-C PD handshake the Pi 5 wants | [B0FR8VRWFJ](https://www.amazon.com/dp/B0FR8VRWFJ) |
 | EAHOSUCC DC5521 male plug pigtail, 18 AWG, 1 ft | 1 | Battery wiring into the converter's barrel-jack input | [B0DGQRY5DK](https://www.amazon.com/dp/B0DGQRY5DK) |
 | SUMPK 100 W (5 A, e-marked) USB-C to USB-C cable, 6 in, 2 pack | 1 | Converter to the Pi 5. A 5 A cable lets the Pi give its USB ports full current for the lidar | [B0HJR2JLB2](https://www.amazon.com/dp/B0HJR2JLB2) |
@@ -69,7 +69,7 @@ Everything to build Rocky-Bob beyond the Raspberry Pi 5 and Servo 2040. Added to
 ## Power wiring
 
 ```
-3S LiPo -> 20 A fuse -> rocker switch -> +-- SPARKHOBBY UBEC (6.0 V) --> Servo 2040 screw terminals --> 12 servos
+3S LiPo -> 20 A fuse -> rocker switch -> +-- 10A UBEC (6.0 V) ----- --> Servo 2040 screw terminals --> 12 servos
                                          +-- DC5521 pigtail -> Pi 5 converter -> 5 A USB-C cable -> Pi 5 USB-C
 Pi 5 USB-A --> Servo 2040 USB-C (data, and the board's logic power)
 Pi 5 USB-A --> lidar USB adapter        Pi GPIO I2C --> IMU, ToF (Qwiic)        Pi camera port --> camera
