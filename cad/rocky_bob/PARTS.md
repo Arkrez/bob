@@ -1,6 +1,6 @@
 # Rocky-Bob parts list
 
-Everything to build Rocky-Bob beyond the Raspberry Pi 5 and Servo 2040. Added to the Amazon cart on
+Everything to build Rocky-Bob beyond the Raspberry Pi 5 and Servo 2040. Ordered from Amazon on 2026-11-21 (order 106-7972311-0237055, $1,146.33 with tax; last items due about Dec 15). Added to the cart on
 2026-11-19, rechecked 2026-11-21: 45 items, $1,040.15 before tax (with the tools below), including the servos, FSRs and lidar. Prices and stock change.
 
 ## Already chosen (ordered separately)
