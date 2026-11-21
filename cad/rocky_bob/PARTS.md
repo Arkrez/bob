@@ -69,7 +69,7 @@ Everything to build Rocky-Bob beyond the Raspberry Pi 5 and Servo 2040. Added to
 ## Power wiring
 
 ```
-3S LiPo -> 20 A fuse -> rocker switch -> +-- 10A UBEC (6.0 V) ----- --> Servo 2040 screw terminals --> 12 servos
+3S LiPo -> 20 A fuse -> rocker switch -> +-- 10A UBEC (6.0 V) --------> Servo 2040 screw terminals --> 12 servos
                                          +-- DC5521 pigtail -> Pi 5 converter -> 5 A USB-C cable -> Pi 5 USB-C
 Pi 5 USB-A --> Servo 2040 USB-C (data, and the board's logic power)
 Pi 5 USB-A --> lidar USB adapter        Pi GPIO I2C --> IMU, ToF (Qwiic)        Pi camera port --> camera
