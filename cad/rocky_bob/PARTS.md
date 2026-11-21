@@ -1,14 +1,14 @@
 # Rocky-Bob parts list
 
 Everything to build Rocky-Bob beyond the Raspberry Pi 5 and Servo 2040. Added to the Amazon cart on
-2026-11-19: 44 items, $970.54 before tax (with the tools below), including the servos, FSRs and lidar. Prices and stock change.
+2026-11-19, rechecked 2026-11-21: 44 items, $1,004.12 before tax (with the tools below; the UBEC is out of the cart, see its row), including the servos, FSRs and lidar. Prices and stock change.
 
 ## Already chosen (ordered separately)
 
 | Part | Qty | Listing |
 | --- | --- | --- |
 | HobbyPark 25 kg coreless servo (sold singly) | 12 | [B0DTP3QBZM](https://www.amazon.com/dp/B0DTP3QBZM) |
-| Cunyuer FSR402 foot sensor | 3 (the 4th is below) | [B0F2HG8BCT](https://www.amazon.com/dp/B0F2HG8BCT) |
+| Cunyuer FSR402 foot sensor (the seller had only 1 left) | 1 | [B0F2HG8BCT](https://www.amazon.com/dp/B0F2HG8BCT) |
 | SparkFun Qwiic **Mini** ToF Imager, VL53L5CX (the full-size board sold out) | 1 | [B09YWSLVV9](https://www.amazon.com/dp/B09YWSLVV9) |
 | SLAMTEC RPLIDAR C1 | 1 | [B0DDKZV8HZ](https://www.amazon.com/dp/B0DDKZV8HZ) |
 
@@ -21,8 +21,8 @@ Everything to build Rocky-Bob beyond the Raspberry Pi 5 and Servo 2040. Added to
 | EC Buying BNO085 9-axis IMU | 1 | The walking policy balances with it | [B0CDGZMLPP](https://www.amazon.com/dp/B0CDGZMLPP) |
 | Raspberry Pi Camera Module 3 (sold by All n' Home, shipped by Amazon) | 1 | Nose camera | [B0BRY6MVXL](https://www.amazon.com/dp/B0BRY6MVXL) |
 | Pi 5 camera cable, 22 to 15 pin, 200 mm (the Waveshare one sold out) | 1 | The Pi 5's camera socket is smaller than the camera's cable | [B0CWNYDXVL](https://www.amazon.com/dp/B0CWNYDXVL) |
-| SparkFun Qwiic cable, female jumper | 1 | ToF imager to the Pi's I2C pins | [B0992PHLBC](https://www.amazon.com/dp/B0992PHLBC) |
-| FSR402 0.5 in | 1 | 4th foot (the Cunyuer listing had only 3) | [B095XG9K4P](https://www.amazon.com/dp/B095XG9K4P) |
+| Qwiic / STEMMA QT cable kit, 12 cables incl. female jumper (the SparkFun single went unavailable) | 1 | ToF imager to the Pi's I2C pins | [B08HQ1VSVL](https://www.amazon.com/dp/B08HQ1VSVL) |
+| FSR402 force sensor, 3 pack (the 0.5 in single listing went unavailable) | 1 | The other 3 feet | [B0DHGPGBBJ](https://www.amazon.com/dp/B0DHGPGBBJ) |
 | 10 kΩ 1/4 W resistors, 100 | 1 | One per FSR, as a divider into the Servo 2040's sensor inputs | [B07C93JL54](https://www.amazon.com/dp/B07C93JL54) |
 | ELEGOO Dupont jumper wires, 120 | 1 | IMU to the Pi, FSRs to the Servo 2040 | [B01EV70C78](https://www.amazon.com/dp/B01EV70C78) |
 
@@ -34,7 +34,7 @@ Everything to build Rocky-Bob beyond the Raspberry Pi 5 and Servo 2040. Added to
 | ISDT 608AC balance charger | 1 | Charges it (plugs into the wall) | [B0B4DBZ9DK](https://www.amazon.com/dp/B0B4DBZ9DK) |
 | LiPo safe bag | 1 | Charge and store the battery in it | [B01GCHBQJS](https://www.amazon.com/dp/B01GCHBQJS) |
 | LiPo voltage alarm, 4 pack | 1 | Beeps before the battery runs too low | [B01FHIMU0M](https://www.amazon.com/dp/B01FHIMU0M) |
-| SPARKHOBBY UBEC 10A (6 / 7.4 / 8.4 V) | 1 | Battery to servos, set to 6.0 V | [B0DK31PYFZ](https://www.amazon.com/dp/B0DK31PYFZ) |
+| SPARKHOBBY UBEC 10A (6 / 7.4 / 8.4 V) | 1 | Battery to servos, set to 6.0 V. **Not in the cart:** unavailable at its old price on 2026-11-21; a replacement is still to be picked | [B0DK31PYFZ](https://www.amazon.com/dp/B0DK31PYFZ) |
 | eleUniverse 5 V 5 A PD converter for Pi 5 | 1 | Battery to the Pi, with the USB-C PD handshake the Pi 5 wants | [B0FR8VRWFJ](https://www.amazon.com/dp/B0FR8VRWFJ) |
 | EAHOSUCC DC5521 male plug pigtail, 18 AWG, 1 ft | 1 | Battery wiring into the converter's barrel-jack input | [B0DGQRY5DK](https://www.amazon.com/dp/B0DGQRY5DK) |
 | SUMPK 100 W (5 A, e-marked) USB-C to USB-C cable, 6 in, 2 pack | 1 | Converter to the Pi 5. A 5 A cable lets the Pi give its USB ports full current for the lidar | [B0HJR2JLB2](https://www.amazon.com/dp/B0HJR2JLB2) |
@@ -64,6 +64,7 @@ Everything to build Rocky-Bob beyond the Raspberry Pi 5 and Servo 2040. Added to
 | Scotch-Mount double-sided mounting tape, 1 in × 125 in | 1 | Converter, UBEC, IMU and lidar adapter | [B0007P5G8Y](https://www.amazon.com/dp/B0007P5G8Y) |
 | Zip ties, 4 in, 200 pack | 1 | Fuse holder, splice and cable runs | [B0BC1VH4XB](https://www.amazon.com/dp/B0BC1VH4XB) |
 | Heat-shrink tubing kit, 3:1 adhesive lined, 400 pieces | 1 | Covers the solder joints and splices. Shrink it with a heat gun, hair dryer on high, or a lighter held back from it | [B0BVVMCY86](https://www.amazon.com/dp/B0BVVMCY86) |
+| Fanttik E2 Ultra electric screwdriver, 5 torque settings, 50 bits | 1 | Use the lowest torque setting that seats the screw, so it doesn't strip the PETG; finish by hand. Check the bits include hex 1.5 / 2 / 2.5 mm (M2 / M2.5 / M3 socket heads); the screw kit's hex keys cover any that are missing | [B0DSVKLNQR](https://www.amazon.com/dp/B0DSVKLNQR) |
 
 ## Power wiring
 
