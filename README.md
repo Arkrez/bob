@@ -13,8 +13,25 @@ A low-poly boulder on four 3-joint legs, styled after Rocky from *Project Hail M
 | Brain | Raspberry Pi 5 |
 | Servo driver | Pimoroni Servo 2040 |
 | Joints | 12 HobbyPark 25 kg coreless servos (3 per leg) |
-| Eyes | Raspberry Pi Camera Module 3 (nose), RPLIDAR C1 360° lidar (top), SparkFun VL53L5CX 8x8 ToF floor sensor (nose, tilted down) |
-| Still to add | An IMU (e.g. BNO085; the sim already assumes one) and foot contact sensors (FSR 402s). The servos don't report their angle, so the walker will need to run open-loop or get feedback servos. |
+| Sensors | Camera, lidar, floor ToF imager, IMU, four foot force sensors; see [Sensors](#sensors) |
+
+## Sensors
+
+Everything Bob can sense on the real robot. All of it is ordered (`cad/rocky_bob/PARTS.md`).
+
+| Sensor | Part | Where | Connects to | What uses it | In the sim |
+| --- | --- | --- | --- | --- | --- |
+| Camera | Raspberry Pi Camera Module 3 | Nose, behind a flat window, 70 mm up | Pi 5 camera port (22-to-15 pin cable) | Finding targets (`rl/camera_target_node.py`), motorcycle spotting (`vision/`) | MuJoCo camera model (`rl/camera.py`), Webots camera |
+| Lidar | Slamtec RPLIDAR C1, 360° | Top of the lid ("top hat"), scan plane ~36 cm off the floor when standing | Pi 5 USB, through its USB adapter | Navigator obstacle avoidance and safety layer | MuJoCo `lidar` site, Webots `Lidar` |
+| Floor depth | SparkFun Qwiic Mini ToF Imager, VL53L5CX, 8 × 8 zones | Chamfer under the nose, tilted 24° down | Pi 5 I²C (Qwiic cable) | Planner step and ledge detection; one experimental walker | MuJoCo 64 rays (`rl/tof.py`), Webots `RangeFinder` |
+| IMU | BNO085, 9-axis (gyro, accelerometer, magnetometer) | Shelf on the divider beside the Servo 2040 | Pi 5 I²C | Walking policy balance (gravity direction and gyro); undoing body tilt for the floor sensor | MuJoCo `imu` site: orientation, gyro, accelerometer |
+| Foot force | FSR402, one under each TPU foot (4) | Feet | Servo 2040 sensor headers, each through a 10 kΩ divider | Nothing yet | Webots `legN_foot` touch sensors only; not in MuJoCo or any policy |
+| Servo power | Servo 2040's built-in current and voltage monitoring | Servo 2040 | Built in | Nothing yet | Not simulated |
+
+**What he can't sense:**
+
+- **Joint angles.** The 25 kg PWM servos take a target angle but never report where they are. The sim's walking policy reads all 12 joint angles anyway, so on the real robot `rl/ros_policy_node.py --open-loop` feeds back its own last commands instead. Getting real angles means feedback servos or a sensor per joint.
+- **Battery level.** The LiPo voltage alarm only beeps; nothing reports it to the Pi.
 
 ![Printed parts](docs/images/cad_parts.png)
 

@@ -81,9 +81,9 @@ A Slamtec **RPLIDAR C1** (55.6 × 55.6 × 41.3 mm, 110 g) stands on a hollow pli
 
 ## Floor sensor
 
-A SparkFun Qwiic ToF Imager, VL53L5CX (SEN-18642; [Amazon](https://www.amazon.com/SparkFun-VL53L5CX-Multizone-Measurements-Recognition-Laser-Assisted/dp/B09M97318D)), looks at the floor ahead so Bob can see steps the lidar can't. It sits behind a 6 mm window in a 24° chamfer along the bottom of the nose, under the mustache, so his look barely changes. The 1 × 1 in board mounts flat on four M2.5 standoffs behind the window, and its Qwiic cable runs back to the Pi.
+A SparkFun Qwiic **Mini** ToF Imager, VL53L5CX (SEN-19013; [Amazon](https://www.amazon.com/dp/B09YWSLVV9)), looks at the floor ahead so Bob can see steps the lidar can't. It sits behind a 6 mm window in a 24° chamfer along the bottom of the nose, under the mustache, so his look barely changes. The 1 × 0.5 in board mounts long side horizontal on two standoffs, through the two M3 holes along one long edge, with that edge up. The sensor is on the back of the board, facing the window, and its Qwiic cable runs back to the Pi.
 
-The board's hole spacing and the chip position aren't in the listing. They're modelled as SparkFun's usual 0.8 in square with the chip centred (`TOF_HOLES` in `body.py`): verify on the part. The board's lower edge clears the inside of the floor by about 1 mm.
+The positions come from SparkFun's board file for the Mini (`TOF_*` in `body.py`): check them against the part.
 
 ## Mustache
 

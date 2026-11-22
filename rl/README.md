@@ -413,9 +413,9 @@ A 2D lidar only sees what crosses its scan plane, about 36 cm off the floor. In 
 
 ## Floor sensor (stairs)
 
-The lidar only sees a slice about 36 cm up, so steps, kerbs and ledges are invisible to it. A **SparkFun Qwiic ToF Imager, VL53L5CX** ([SEN-18642 on Amazon](https://www.amazon.com/SparkFun-VL53L5CX-Multizone-Measurements-Recognition-Laser-Assisted/dp/B09M97318D)) in the nose looks at the floor instead. It reads an 8 × 8 grid of distances over about 45° × 45°, up to 4 m, at 15 Hz. It sits behind a small window in a chamfer under the mustache, tilted 24° down, covering the floor from about 0.3 m to 3 m ahead (`cad/rocky_bob/body.py`: `TOF_*`).
+The lidar only sees a slice about 36 cm up, so steps, kerbs and ledges are invisible to it. A **SparkFun Qwiic Mini ToF Imager, VL53L5CX** ([SEN-19013 on Amazon](https://www.amazon.com/dp/B09YWSLVV9)) in the nose looks at the floor instead. It reads an 8 × 8 grid of distances over about 45° × 45°, up to 4 m, at 15 Hz. It sits behind a small window in a chamfer under the mustache, tilted 24° down, covering the floor from about 0.3 m to 3 m ahead (`cad/rocky_bob/body.py`: `TOF_*`).
 
-**Wiring:** it runs at 3.3 V on the Pi 5's I²C (address 0x29), through a Qwiic-to-Pi cable (e.g. SparkFun PRT-14425). Pimoroni's `vl53l5cx-python` works with it.
+**Wiring:** it runs at 3.3 V on the Pi 5's I²C (address 0x29), through the Qwiic-to-female-jumper cable from the Qwiic kit in `cad/rocky_bob/PARTS.md`. Pimoroni's `vl53l5cx-python` works with it.
 
 `tof.py` turns the 64 distances into the floor height where each zone lands, relative to the floor he's standing on, using the IMU's gravity to undo body tilt. Flat floor reads ~0, a 4 cm step +0.04, a drop −0.04. MuJoCo casts the 64 rays from a `tof` site. Webots has an 8 × 8 `RangeFinder` at the same spot. Webots reports depth along the sensor's axis, so `tof.from_depth` converts it to true distances. In Webots the bridge publishes `/tof/heights`.
 
