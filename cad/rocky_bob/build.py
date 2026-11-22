@@ -69,14 +69,15 @@ def props(items):
 
 
 def leg_link_props(leg_parts, lk):
-    return props([(s, leg.PRINT_DENSITY if printed else None, None if printed else leg.SERVO_MASS)
+    return props([(s, leg.PRINT_DENSITY if printed else None, None if printed else leg.SERVO_MASS + leg.SERVO_HARDWARE)
                   for name, (l, s, _, printed) in leg_parts.items() if l == lk and not name.startswith("horn")])
 
 
 def body_props(body_parts):
     return props([(s, body.PRINT_DENSITY if kind == "printed" else None,
                    None if kind == "printed" else body.ELECTRONICS_MASS[name])
-                  for name, (s, _, kind) in body_parts.items()])
+                  for name, (s, _, kind) in body_parts.items()] +
+                 [(body.box(*b), None, kg) for kg, b in body.ESTIMATED_MASS.values()])
 
 
 # ================================================================ collision primitives (m, link frame)

@@ -33,6 +33,7 @@ HORN_FACE_ABOVE_CASE = 8.0   # case top -> outer face of the 25T round horn
 HORN_D, HORN_T = 24.0, 2.0
 HORN_BCD = 14.0              # bolt circle of the horn's M3 holes - measure yours
 SERVO_MASS = 0.062           # kg
+SERVO_HARDWARE = 0.004       # kg per servo: its mounting screws and nuts, and the horn screw (ESTIMATE)
 
 # Joint stack along the servo axis: horn face at +G_HORN, idler boss face at -G_IDLER.
 G_HORN = 23.5

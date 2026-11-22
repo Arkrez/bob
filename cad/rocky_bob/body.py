@@ -180,6 +180,20 @@ ELECTRONICS_MASS = {"pi5": 0.046, "servo2040": 0.015, "psu": PSU_MASS, "pi_camer
                     "lidar": LIDAR_MASS, "tof": TOF_MASS, "pi_power": CONV_MASS, "ubec": UBEC_MASS,
                     "imu": IMU_MASS}
 
+# Mass with no part of its own in the model: wiring, the Pi's cooler, the lidar's USB adapter, screws.
+# ESTIMATES until the parts are weighed. Each is spread over the box where it ends up, so it counts
+# toward the weight and the balance only (it isn't drawn, exported or fit-checked).
+#   name: (kg, (x0, x1, y0, y1, z0, z1) mm)
+ESTIMATED_MASS = {
+    "power wiring": (0.060, (-100, -20, -30, 30, WALL, 40)),     # 14 AWG, XT60s, fuse holder, rocker, DC pigtail
+    "servo leads": (0.050, (-40, 60, -60, 60, 10, 60)),          # 12 x 30 cm extensions, out to the leg pads
+    "signal cables": (0.030, (-20, 60, -60, 40, 10, 50)),        # 2 short USB cables, jumpers, Qwiic, camera ribbon
+    "pi cooler": (0.020, (PI_X0 + 5, PI_X0 + PI_W - 5, PI_Y0 + 5, PI_Y0 + PI_L - 5,
+                          WALL + STANDOFF_H + PCB_T, WALL + STANDOFF_H + PCB_T + 10)),
+    "lidar USB adapter": (0.008, (-12, -1.5, 15, 55, 52, 80)),
+    "body screws": (0.030, (-80, 80, -80, 80, WALL, 70)),         # M2-M3 screws, nuts, standoffs, leg-pad nylocs
+}
+
 
 # ================================================================ geometry
 def unit(deg):
