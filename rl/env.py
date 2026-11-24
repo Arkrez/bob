@@ -302,7 +302,8 @@ class RockyBobWalk(gym.Env):
         floor = None
         if self.floor_sensor:
             if self.tof is None:
-                self.tof = tof.ToFModel(self.model, self.np_random)
+                rays = tof.HeightfieldRays(*self.field_shape, *self.field_half, self.field_max)
+                self.tof = tof.ToFModel(self.model, self.np_random, terrain=rays, field=lambda: self.field)
             g = projected_gravity(self._sense("orientation", 4))
             floor = tof.heights(self.tof.update(self.data, self.t), g)
             self.floor_heights = floor
