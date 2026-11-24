@@ -47,6 +47,8 @@ HISTORY = 10
 PY = sys.executable
 
 WALK_STEPS = 10e6
+# batch_env.py: ~1.5x faster than vec.py workers at the same robot count (rl/README.md, Training speed)
+WALK_TRAIN_ARGS = ["--batched", "--robots", "96"]
 WALK_LR, WALK_KL = 3e-5, 0.005  # 1e-4 learned the floor sensor in 1M steps, then collapsed; keep it gentle
 RESET_AFTER = 4         # rounds without a new champion before training restarts from the champion
 NAV_EVERY = 2
@@ -144,7 +146,8 @@ def walker_round(state, k):
     with open(RUNS / f"{name}_train.log", "w") as out:
         train = subprocess.Popen([PY, "train.py", "--name", name, "--resume", str(run / "start.zip"),
                                   "--steps", str(WALK_STEPS), "--lr", str(WALK_LR), "--target-kl", str(WALK_KL),
-                                  "--penalty-start", "1.0", "--seed", str(k)], cwd=HERE, stdout=out, stderr=subprocess.STDOUT)
+                                  "--penalty-start", "1.0", "--seed", str(k), *WALK_TRAIN_ARGS],
+                                 cwd=HERE, stdout=out, stderr=subprocess.STDOUT)
     time.sleep(5)
     with open(RUNS / f"{name}_best.log", "w") as out:
         watch = subprocess.Popen([PY, "keep_best.py", str(run), "--baseline", champ["npz"]], cwd=HERE,
