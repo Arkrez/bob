@@ -325,12 +325,23 @@ Measured on an M2 Max (8 performance and 4 efficiency cores):
 | full PPO training, 12 processes, 2 ms (walk_steady) | 6,900 |
 | full PPO training, 12 workers × 4 robots, 4 ms | 7,300–7,900 |
 
+Measured again in November 2026, with the floor sensor on and another app using some of the CPU, so
+compare these with each other rather than with the rows above:
+
+| full PPO training, 500k steps | 48 robots | 96 robots | 144 robots |
+| --- | --- | --- | --- |
+| `vec.py` worker processes (8 workers) | 6,262 | 7,620 | |
+| `--batched`, everything in one process | 5,263 | 5,924 | |
+| `--batched` (6 processes × 2 physics threads) | 7,885 | 11,239 | 12,286 |
+
 **What changed:**
 - **4 ms physics step** (`spec.PHYSICS_DT`): the walker performs the same as at 2 ms, physics cost halves, and it now matches Webots.
 - **Vectorised rewards:** contacts, terrain heights and body rotation are each computed once per step, with array operations instead of Python loops.
 - **Batched workers** (`vec.py`): each worker process steps 4 robots and sends one message, instead of one robot per process.
+- **Floor sensor rays** (`tof.HeightfieldRays`): cast against the terrain's own height grid instead of through MuJoCo, using MuJoCo's two triangles per cell, so the surface is identical. That made one robot ~30% faster (MuJoCo's ray test was ~20% of a step). Readings differ by over 1 cm in 0.12% of zones (rays grazing a step's corner), and `keep_best.py` scores the walker the same either way. Anything else within the sensor's 4 m range (the navigator's walls, boxes and post) still goes through MuJoCo.
+- **`train.py --batched`** (`batch_env.py`): each process holds a batch of robots, steps their physics on a thread pool (MuJoCo releases Python's lock while it steps) and computes every reward, contact and observation for the whole batch at once with numpy. Each robot keeps its own `RockyBobWalk` for resets, randomisation, terrain and the curriculum. `test_batch_env.py` steps every robot beside a copy of `RockyBobWalk` and checks each reward term matches exactly (it did, over 9,000 robot-steps with resets and 28 falls). Sensor noise comes from one shared generator instead of each robot's, so observations match apart from the noise.
 
-**What limits it now:** the single main process that gathers every result and runs PPO. Adding workers stops helping after about 8, and the Webots demo plus Docker take about 2 cores when they're running. Close Webots while training. PyTorch on the Apple GPU is slower than the CPU for networks this small.
+**What limits it now:** with `vec.py`, every control step waits for the slowest worker, and on the M2 Max some land on the efficiency cores (8 workers beat 12). A single `--batched` process is limited by its own Python work on one core, which is why it needs several processes. More robots per step spread that fixed cost further: 96 or 144 robots keep the same ~24.6k samples per update, in shorter stretches per robot (256 or 170 steps instead of 512). The Webots demo plus Docker take about 2 cores when they're running, so close Webots while training. PyTorch on the Apple GPU is slower than the CPU for networks this small.
 
 **For a much bigger speed-up,** the simulation has to stop going through Python every step. Options:
 - **MuJoCo Playground / MJX:** MuJoCo in JAX on an NVIDIA GPU. Thousands of robots run in parallel, typically 100× or more faster. This means porting the env and rewards to JAX; the MJCF model can be reused as is. It's best on a Linux machine or cloud GPU, because JAX on Apple Silicon is experimental.

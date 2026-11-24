@@ -50,6 +50,16 @@ def heights(dist, gravity):
     return np.clip(np.where(ok, h, 0.0), -CLIP, CLIP)   # no return: assume floor
 
 
+def heights_batch(dist, gravity):
+    """heights() for many robots: dist (N, 64), gravity (N, 3) -> (N, 64)."""
+    d = np.asarray(dist, dtype=float)
+    up = -np.asarray(gravity, dtype=float)
+    up = up / (np.linalg.norm(up, axis=1, keepdims=True) + 1e-9)
+    ok = np.isfinite(d) & (d > MIN_RANGE) & (d < MAX_RANGE)
+    h = HEIGHT + (up @ POS)[:, None] + np.where(ok, d, 0.0) * (up @ DIRS.T)
+    return np.clip(np.where(ok, h, 0.0), -CLIP, CLIP)
+
+
 def encode(dist):
     """Distances for an observation: "no return" (inf) as 0, everything clipped to MAX_RANGE."""
     d = np.asarray(dist, dtype=float)

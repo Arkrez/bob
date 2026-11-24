@@ -3,6 +3,7 @@
     .venv/bin/python train.py                      # 30M steps, all CPU cores
     .venv/bin/python train.py --steps 2e6 --name quick
     .venv/bin/python train.py --resume runs/walk/latest.zip
+    .venv/bin/python train.py --batched --robots 96   # batch_env.py: ~1.5x faster at the same robot count
 
 Watch progress:  .venv/bin/tensorboard --logdir runs
 Each run writes runs/<name>/: checkpoints, latest.zip, vecnormalize.pkl, policy.npz
@@ -26,6 +27,7 @@ from stable_baselines3.common.vec_env import VecNormalize
 
 from env import RockyBobWalk
 from recover_env import RockyBobRecover
+from batch_env import BatchedWalk, ProcessBatches
 from vec import BatchedSubprocVecEnv
 
 HERE = pathlib.Path(__file__).resolve().parent
@@ -124,6 +126,13 @@ def main():
     p.add_argument("--envs", type=int, default=os.cpu_count(), help="worker processes")
     p.add_argument("--per-worker", type=int, default=4,
                    help="robots per worker process (batching cuts the per-step messaging overhead)")
+    p.add_argument("--batched", action="store_true",
+                   help="walk only: all robots in this process, physics on a thread pool, rewards as array math "
+                        "(batch_env.py; same rewards, faster)")
+    p.add_argument("--robots", type=int, help="with --batched: how many robots (default --envs x --per-worker)")
+    p.add_argument("--threads", type=int, default=2, help="with --batched: physics threads (per process)")
+    p.add_argument("--processes", type=int, default=6,
+                   help="with --batched: split the robots over this many processes, each a batch of its own")
     p.add_argument("--name", default="walk")
     p.add_argument("--task", choices=("walk", "recover"), default="walk",
                    help="walk (env.py), or recover: self-righting after a fall (recover_env.py)")
@@ -145,8 +154,13 @@ def main():
         if args.task == "recover":
             return lambda: Monitor(RockyBobRecover())
         return lambda: Monitor(RockyBobWalk(stream=(rank == 0)))
-    robots = args.envs * args.per_worker
-    venv = BatchedSubprocVecEnv([make(i) for i in range(robots)], workers=args.envs)
+    if args.batched and args.task == "walk":
+        robots = args.robots or args.envs * args.per_worker
+        venv = (ProcessBatches(robots, workers=args.processes, threads=args.threads, stream=True) if args.processes > 1
+                else BatchedWalk(robots, threads=args.threads, stream=True))
+    else:
+        robots = args.envs * args.per_worker
+        venv = BatchedSubprocVecEnv([make(i) for i in range(robots)], workers=args.envs)
     venv.seed(args.seed)
     n_steps = max(64, 24576 // robots)   # keep ~24.6k samples per update whatever the robot count
 
